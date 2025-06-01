@@ -1,21 +1,17 @@
 import { Player } from "@remotion/player";
 import { ComponentType, FC } from "react";
-
-const DEFAULT_COMP_WIDTH = 1920;
-const DEFAULT_COMP_HEIGHT = 1080;
-const DEFAULT_FPS = 60;
-const DEFAULT_DURATION_IN_FRAMES = 300; // 10 seconds at 30 FPS
+import { CompositionMetadata } from "@/_type";
 
 type RemotionPlayerProps = {
   composition: ComponentType | null;
-  inputProps?: Record<string, unknown>;
+  metadata: CompositionMetadata | null;
 };
 
 export const RemotionPlayer: FC<RemotionPlayerProps> = ({
-  inputProps,
   composition,
+  metadata,
 }) => {
-  if (!composition) {
+  if (!composition || !metadata) {
     return (
       <div className="w-full flex-1 flex items-center justify-center">
         <p className="text-neutral-500 font-medium">No composition loaded</p>
@@ -29,13 +25,13 @@ export const RemotionPlayer: FC<RemotionPlayerProps> = ({
         controls
         alwaysShowControls
         component={composition}
-        durationInFrames={Math.floor(DEFAULT_DURATION_IN_FRAMES) + 1}
-        outFrame={Math.max(1, Math.floor(DEFAULT_DURATION_IN_FRAMES) - 1)}
-        compositionHeight={DEFAULT_COMP_HEIGHT}
-        compositionWidth={DEFAULT_COMP_WIDTH}
-        fps={DEFAULT_FPS}
+        durationInFrames={Math.floor(metadata.duration_in_frames) + 1}
+        outFrame={Math.max(1, Math.floor(metadata.duration_in_frames) - 1)}
+        compositionHeight={metadata.comp_height}
+        compositionWidth={metadata.comp_with}
+        fps={metadata.fps}
         style={{ width: "100%", height: "100%" }}
-        inputProps={inputProps}
+        inputProps={{}}
         browserMediaControlsBehavior={{ mode: "register-media-session" }}
         spaceKeyToPlayOrPause={false}
         loop
