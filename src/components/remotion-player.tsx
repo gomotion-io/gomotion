@@ -1,6 +1,6 @@
+import { CompositionMetadata } from "@/_type";
 import { Player } from "@remotion/player";
 import { ComponentType, FC } from "react";
-import { CompositionMetadata } from "@/_type";
 
 type RemotionPlayerProps = {
   preparing: boolean;
@@ -37,13 +37,13 @@ export const RemotionPlayer: FC<RemotionPlayerProps> = ({
         component={composition}
         durationInFrames={Math.floor(metadata.duration_in_frames) + 1}
         outFrame={Math.max(1, Math.floor(metadata.duration_in_frames) - 1)}
-        compositionHeight={metadata.comp_height}
-        compositionWidth={metadata.comp_with}
+        compositionHeight={metadata.height}
+        compositionWidth={metadata.width}
         fps={metadata.fps}
         style={{ width: "100%", height: "100%" }}
         inputProps={{}}
         browserMediaControlsBehavior={{ mode: "register-media-session" }}
-        spaceKeyToPlayOrPause={false}
+        spaceKeyToPlayOrPause
         loop
       />
     </div>

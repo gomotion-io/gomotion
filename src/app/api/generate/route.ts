@@ -1,13 +1,12 @@
 import { NextRequest } from "next/server";
-import { hello_example } from "@/app/api/generate/example";
+import { fireship_reel_example } from "./example";
 
 export async function POST(request: NextRequest) {
   const { prompt } = await request.json();
 
-  const safePrompt =
-    (prompt as string | undefined)?.replace(/`/g, "'") ?? "Hello, Remotion!";
+  console.log("Prompt:", prompt);
 
-  const { tsx, metadata } = hello_example(safePrompt);
+  const { tsx, metadata } = fireship_reel_example();
 
   return Response.json({ tsx, metadata });
 }

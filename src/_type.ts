@@ -1,6 +1,6 @@
 export type CompositionMetadata = {
-  comp_with: number;
-  comp_height: number;
+  width: number;
+  height: number;
   fps: number;
   duration_in_frames: number;
 };
