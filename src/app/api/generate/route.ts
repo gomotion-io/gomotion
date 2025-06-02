@@ -1,10 +1,23 @@
+import { RemotionAgent } from "@/lib/ai/agent";
+import { DEFAULT_CONFIG } from "@/lib/ai/config";
 import { NextRequest } from "next/server";
 
 export async function POST(request: NextRequest) {
   const { prompt } = await request.json();
 
+  const agent = new RemotionAgent({
+    ...DEFAULT_CONFIG, 
+    openaiApiKey: process.env.OPENAI_API_KEY??""
+  });
+
   const safePrompt =
     (prompt as string | undefined)?.replace(/`/g, "'") ?? "Hello, Remotion!";
+
+    // const result = await agent.generateRemotionCode(
+    //   safePrompt,
+    // );
+
+    // console.log(result)
 
   /* ----------------- sample ----------------- */
   const tsx = `import React from 'react';
@@ -21,7 +34,7 @@ export default GeneratedComp;`;
   /* -----------------  ----------------- */
 
   return Response.json({
-    tsx,
+    tsx,//:result.finalCode,
     metadata: {
       comp_with: 1920,
       comp_height: 1080,
@@ -30,3 +43,6 @@ export default GeneratedComp;`;
     },
   });
 }
+
+
+

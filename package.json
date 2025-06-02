@@ -10,19 +10,26 @@
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",
+    "@langchain/community": "^0.3.45",
+    "@langchain/core": "^0.3.57",
+    "@langchain/langgraph": "^0.2.74",
+    "@langchain/openai": "^0.5.11",
     "@radix-ui/react-slot": "^1.2.3",
     "@remotion/player": "^4.0.311",
+    "cheerio": "^1.0.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "esbuild": "^0.25.5",
     "esbuild-wasm": "^0.19.12",
+    "langchain": "^0.3.27",
     "lucide-react": "^0.511.0",
     "next": "15.3.3",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "remotion": "^4.0.311",
     "tailwind-merge": "^3.3.0",
-    "usehooks-ts": "^3.1.1"
+    "usehooks-ts": "^3.1.1",
+    "uuid": "^9.0.1"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
