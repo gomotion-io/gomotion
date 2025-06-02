@@ -105,7 +105,7 @@ const React = window.React;
 const Remotion = window.Remotion;
 
 // Extract commonly used Remotion functions for convenience
-const { useCurrentFrame, interpolate, spring, useVideoConfig, Sequence, Img, AbsoluteFill, Video } = window.Remotion;
+const { useCurrentFrame, interpolate, spring, useVideoConfig, Sequence, Easing, Img, AbsoluteFill, Video } = window.Remotion;
 `;
 
   return (

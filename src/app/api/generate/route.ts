@@ -36,8 +36,8 @@ export default GeneratedComp;`;
   return Response.json({
     tsx :result.finalCode,
     metadata: {
-      comp_with: 1920,
-      comp_height: 1080,
+      width: 1920,
+      height: 1080,
       fps: 60,
       duration_in_frames: 300,
     },

@@ -3,7 +3,7 @@ import { RemotionAgentConfig } from './types';
 
 export const DEFAULT_CONFIG: Omit<RemotionAgentConfig, 'openaiApiKey'> = {
   llm: {
-    modelName: "gpt-4-turbo-preview", // Consider GPT-4 for quality
+    modelName: "gpt-4.1", // Consider GPT-4 for quality
     temperature: 0.1,
     maxTokens: 4000,
   },
