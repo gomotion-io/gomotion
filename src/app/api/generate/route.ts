@@ -13,9 +13,9 @@ export async function POST(request: NextRequest) {
   const safePrompt =
     (prompt as string | undefined)?.replace(/`/g, "'") ?? "Hello, Remotion!";
 
-    // const result = await agent.generateRemotionCode(
-    //   safePrompt,
-    // );
+    const result = await agent.generateRemotionCode(
+      safePrompt,
+    );
 
     // console.log(result)
 
@@ -34,7 +34,7 @@ export default GeneratedComp;`;
   /* -----------------  ----------------- */
 
   return Response.json({
-    tsx,//:result.finalCode,
+    tsx :result.finalCode,
     metadata: {
       comp_with: 1920,
       comp_height: 1080,

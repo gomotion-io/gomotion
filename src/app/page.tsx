@@ -12,7 +12,7 @@ export default function Home() {
   const [metadata, setMetadata] = useState<CompositionMetadata | null>(null);
   const [loading, setLoading] = useState(false);
 
-  const { generateRemotionComponent } = useGeneration();
+  const { preparing, generateRemotionComponent } = useGeneration();
 
   const handleInputChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
     setInput(event.target.value);
@@ -35,7 +35,11 @@ export default function Home() {
 
   return (
     <div className="max-w-3xl mx-auto flex flex-col min-w-0 h-dvh items-center p-5 gap-5">
-      <RemotionPlayer composition={composition} metadata={metadata} />
+      <RemotionPlayer
+        composition={composition}
+        metadata={metadata}
+        preparing={preparing}
+      />
       <PromptInput
         input={input}
         onChange={handleInputChange}
