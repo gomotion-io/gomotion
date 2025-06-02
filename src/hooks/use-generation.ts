@@ -1,6 +1,18 @@
 "use client";
 import * as esbuild from "esbuild-wasm";
+import * as React from "react";
 import { ComponentType, useCallback, useEffect, useState } from "react";
+import * as ReactDOM from "react-dom";
+import * as Remotion from "remotion";
+
+// Extend window type to include our global libraries
+declare global {
+  interface Window {
+    React: typeof React;
+    ReactDOM: typeof ReactDOM;
+    Remotion: typeof Remotion;
+  }
+}
 
 let esbuildInitPromise: Promise<void> | null = null;
 let esbuildInitialized = false;
@@ -47,11 +59,18 @@ export const useGeneration = () => {
 
       await ensureEsbuildInitialized();
 
+      // Make React and Remotion available globally for the dynamic component
+      window.React = React;
+      window.ReactDOM = ReactDOM;
+      window.Remotion = Remotion;
+
       // Compile the TSX string to ESM JS
       const { code } = await esbuild.transform(tsx, {
         loader: "tsx",
         format: "esm",
         jsx: "transform",
+        jsxFactory: "React.createElement",
+        jsxFragment: "React.Fragment",
       });
 
       const jsBlob = new Blob([getPatchedCode(code)], {
@@ -59,12 +78,16 @@ export const useGeneration = () => {
       });
       const blobUrl = URL.createObjectURL(jsBlob);
       const imported = await import(/* webpackIgnore: true */ blobUrl);
+
+      // Clean up the blob URL to prevent memory leaks
+      URL.revokeObjectURL(blobUrl);
+
       return {
         composition: imported.default as ComponentType,
         metadata,
       };
     },
-    [],
+    []
   );
 
   return {
@@ -73,23 +96,26 @@ export const useGeneration = () => {
   };
 };
 
-// Replace bare module specifiers with CDN URLs so the browser can resolve
-// them when the module is imported from the Blob URL.
+// Replace bare module specifiers with global references
 const getPatchedCode = (code: string) => {
+  // Create inline module definitions at the top of the code
+  const moduleDefinitions = `
+// Make React and Remotion available as globals
+const React = window.React;
+const Remotion = window.Remotion;
+
+// Extract commonly used Remotion functions for convenience
+const { useCurrentFrame, interpolate, spring, useVideoConfig, Sequence } = window.Remotion;
+`;
+
   return (
+    moduleDefinitions +
+    "\n" +
     code
-      // React automatic runtime files
+      // Remove all import statements since we're using globals
       .replace(
-        /from\s+['"]react\/jsx-runtime['"]/g,
-        'from "https://esm.sh/react@19/jsx-runtime"',
-      )
-      // Classic React default import
-      .replace(/from\s+['"]react['"]/g, 'from "https://esm.sh/react@19"')
-      // Remotion packages that may appear
-      .replace(/from\s+['"]remotion['"]/g, 'from "https://esm.sh/remotion@4"')
-      .replace(
-        /from\s+['"]@remotion\/animation['"]/g,
-        'from "https://esm.sh/@remotion/animation@4"',
+        /import\s+(?:\*\s+as\s+\w+|\{[^}]*\}|\w+)\s+from\s+['"][^'"]*['"];?\s*/g,
+        "// Import handled globally\n"
       )
   );
 };
