@@ -5,6 +5,7 @@ import { RemotionPlayer } from "@/components/remotion-player";
 import { useGeneration } from "@/hooks/use-generation";
 import { ChangeEvent, ComponentType, useState } from "react";
 import { CompositionMetadata } from "@/_type";
+import { Header } from "@/components/header";
 
 export default function Home() {
   const [input, setInput] = useState("");
@@ -34,18 +35,23 @@ export default function Home() {
   };
 
   return (
-    <div className="max-w-3xl mx-auto flex flex-col min-w-0 h-dvh items-center p-5 gap-5">
-      <RemotionPlayer
-        composition={composition}
-        metadata={metadata}
-        preparing={preparing}
-      />
-      <PromptInput
-        input={input}
-        onChange={handleInputChange}
-        onSubmit={handleSubmit}
-        loading={loading}
-      />
+    <div className="flex flex-col min-w-0 h-dvh items-center px-5 gap-5 pb-5">
+      <Header />
+      <div className="w-full flex-1 flex items-center justify-center mx-auto max-w-3xl">
+        <RemotionPlayer
+          composition={composition}
+          metadata={metadata}
+          preparing={preparing}
+        />
+      </div>
+      <div className="mx-auto max-w-3xl w-full">
+        <PromptInput
+          input={input}
+          onChange={handleInputChange}
+          onSubmit={handleSubmit}
+          loading={loading}
+        />
+      </div>
     </div>
   );
 }
