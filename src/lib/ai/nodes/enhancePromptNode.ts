@@ -2,7 +2,7 @@
 import { RemotionAgentState, AnimationParameters } from '../state';
 import { ChatOpenAI } from '@langchain/openai';
 import { getEnhancePromptTemplate } from '../prompts';
-import { HumanMessage, AIMessage } from '@langchain/core/messages';
+import {  AIMessage } from '@langchain/core/messages';
 import { RemotionAgentConfig } from '../types';
 
 // Helper function to parse animation parameters from the enhanced prompt

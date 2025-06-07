@@ -1,0 +1,12 @@
+flask[async]
+python-dotenv
+langchain
+langchain-openai
+langchain-google-genai
+langgraph
+uuid
+hypercorn
+# For ElevenLabs (when you integrate it)
+# elevenlabs
+# For Pexels (when you integrate it)
+# pexels-api 

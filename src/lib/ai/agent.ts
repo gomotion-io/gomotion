@@ -10,10 +10,10 @@ import { ragUtil } from "./tools/ragSetup";
 
 // Import node functions
 import { enhancePromptNode } from "./nodes/enhancePromptNode";
-import { retrieveDocsNode } from "./nodes/retrieveDocsNode";
+// import { retrieveDocsNode } from "./nodes/retrieveDocsNode";
 import { generateCodeNode } from "./nodes/generateCodeNode";
-import { validateCodeNode } from "./nodes/validateCodeNode";
-import { handleFailureNode } from "./nodes/handleFailureNode";
+// import { validateCodeNode } from "./nodes/validateCodeNode";
+// import { handleFailureNode } from "./nodes/handleFailureNode";
 import { HumanMessage } from "@langchain/core/messages";
 
 export class RemotionAgent {

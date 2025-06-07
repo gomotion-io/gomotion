@@ -1,47 +1,24 @@
-import { RemotionAgent } from "@/lib/ai/agent";
-import { DEFAULT_CONFIG } from "@/lib/ai/config";
 import { NextRequest } from "next/server";
 
 export async function POST(request: NextRequest) {
-  const { prompt } = await request.json();
+  const { prompt, llm_provider, llm_model } = await request.json();
 
-  const agent = new RemotionAgent({
-    ...DEFAULT_CONFIG, 
-    openaiApiKey: process.env.OPENAI_API_KEY??""
-  });
+  const safePrompt = (prompt as string | undefined)?.replace(/`/g, "'") ?? "Hello, Remotion!";
 
-  const safePrompt =
-    (prompt as string | undefined)?.replace(/`/g, "'") ?? "Hello, Remotion!";
-
-    const result = await agent.generateRemotionCode(
-      safePrompt,
-    );
-
-    // console.log(result)
-
-  /* ----------------- sample ----------------- */
-  const tsx = `import React from 'react';
-
-export const GeneratedComp: React.FC = () => {
-  return (
-    <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: 'white', fontSize: 100, fontFamily: 'sans-serif' }}>
-      <span style={{color: 'red'}}>${safePrompt}</span>
-    </div>
-  );
-};
-
-export default GeneratedComp;`;
-  /* -----------------  ----------------- */
-
-  return Response.json({
-    tsx :result.finalCode,
-    metadata: {
-      comp_with: 1920,
-      comp_height: 1080,
-      fps: 60,
-      duration_in_frames: 300,
+  const response = await fetch('http://localhost:5000/api/generate', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
     },
+    body: JSON.stringify({
+      prompt: safePrompt,
+      llm_provider: llm_provider || "google",
+      llm_model: llm_model || "gemini-2.5-pro-preview-05-06"
+    }),
   });
+
+  const data = await response.json();
+  return Response.json(data);
 }
 
 
