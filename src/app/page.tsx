@@ -37,14 +37,12 @@ export default function Home() {
   return (
     <div className="flex flex-col min-w-0 h-dvh items-center px-5 gap-5 pb-5">
       <Header />
-      <div className="w-full flex-1 flex items-center justify-center mx-auto max-w-3xl">
+      <div className="max-w-3xl w-full mx-auto flex flex-col min-w-0 h-dvh items-center p-5 gap-5">
         <RemotionPlayer
           composition={composition}
           metadata={metadata}
           preparing={preparing}
         />
-      </div>
-      <div className="mx-auto max-w-3xl w-full">
         <PromptInput
           input={input}
           onChange={handleInputChange}
