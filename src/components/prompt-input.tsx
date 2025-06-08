@@ -17,7 +17,6 @@ export const PromptInput = () => {
   const prompt = usePromptParamsStore((state) => state.prompt);
 
   const handleSubmit = useCallback(async () => {
-    if (!prompt.trim()) return;
     await generateComp({ prompt });
   }, [generateComp, prompt]);
 
@@ -49,7 +48,11 @@ export const PromptInput = () => {
             <StopIcon className="w-5 h-5" />
           </Button>
         ) : (
-          <Button className="rounded-full w-14" onClick={handleSubmit}>
+          <Button
+            disabled={!prompt.trim()}
+            className="rounded-full w-14"
+            onClick={handleSubmit}
+          >
             <ArrowUpIcon className="w-5 h-5" />
           </Button>
         )}

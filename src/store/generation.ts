@@ -52,6 +52,7 @@ export const useGenerationStore = create<GenerationState>((set) => ({
 
   generateComp: async ({ prompt }) => {
     const { llm_provider, llm_model } = usePromptParamsStore.getState();
+
     try {
       set({ loading: true });
 
@@ -95,7 +96,6 @@ export const useGenerationStore = create<GenerationState>((set) => ({
         metadata: metadata as CompositionMetadata,
       });
     } catch (error) {
-      // eslint-disable-next-line no-console
       console.error(error);
     } finally {
       set({ loading: false });
