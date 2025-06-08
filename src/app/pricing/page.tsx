@@ -67,7 +67,7 @@ const Pricing = () => {
   const [isYearly] = useState(false);
 
   return (
-    <div>
+    <div className="min-h-screen">
       <Header />
       <div className="mx-auto px-2">
         <div className="mx-auto max-w-lg sm:max-w-3xl space-y-4 pt-6 pb-3 text-center flex flex-col items-center">
@@ -90,7 +90,7 @@ const Pricing = () => {
               key={index}
               className={clsx(
                 "flex flex-col shadow-none bg-opacity-10",
-                option.highlight && "border-neutral-200 scale-110"
+                option.highlight && "border-neutral-200 scale-110",
               )}
             >
               <CardHeader>

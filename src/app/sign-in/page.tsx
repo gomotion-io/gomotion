@@ -42,7 +42,7 @@ const SignIn = () => {
   });
 
   return (
-    <div className="h-screen w-full flex flex-col items-center pt-36 gap-10 px-5">
+    <div className="min-h-screen w-full flex flex-col items-center pt-36 gap-10 px-5">
       <div className="flex flex-col items-center justify-center">
         <Link href="/" className="mb-4">
           <Image src="/gomotion.png" alt="gomotion" width={40} height={40} />
