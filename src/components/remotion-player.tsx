@@ -30,7 +30,7 @@ export const RemotionPlayer: FC<RemotionPlayerProps> = ({
   }
 
   return (
-    <div className=" w-full flex-1">
+    <div className="w-full flex-1">
       <Player
         controls
         alwaysShowControls
