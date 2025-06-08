@@ -16,6 +16,7 @@
     "@langchain/core": "^0.3.57",
     "@langchain/langgraph": "^0.2.74",
     "@langchain/openai": "^0.5.11",
+    "@radix-ui/react-dropdown-menu": "^2.1.15",
     "@radix-ui/react-label": "^2.1.7",
     "@radix-ui/react-slot": "^1.2.3",
     "@radix-ui/react-switch": "^1.2.5",

@@ -4,8 +4,8 @@ import * as React from "react";
 import { ComponentType, useCallback, useEffect, useState } from "react";
 import * as ReactDOM from "react-dom";
 import * as Remotion from "remotion";
+import { CompositionMetadata } from "@/_type";
 
-// Extend window type to include our global libraries
 declare global {
   interface Window {
     React: typeof React;
@@ -36,6 +36,9 @@ const ensureEsbuildInitialized = () => {
 
 export const useGeneration = () => {
   const [preparing, setPreparing] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [composition, setComposition] = useState<ComponentType | null>(null);
+  const [metadata, setMetadata] = useState<CompositionMetadata | null>(null);
 
   useEffect(() => {
     (async () => {
@@ -46,52 +49,61 @@ export const useGeneration = () => {
   }, []);
 
   const generateRemotionComponent = useCallback(
-    async ({ prompt }: { prompt: string }) => {
-      const res = await fetch("/api/generate", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ prompt }),
-      });
+    async ({ prompt }: { prompt: string }): Promise<void> => {
+      try {
+        setLoading(true);
 
-      const { tsx, metadata } = await res.json();
+        const res = await fetch("/api/generate", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ prompt }),
+        });
 
-      await ensureEsbuildInitialized();
+        const { tsx, metadata } = await res.json();
 
-      // Make React and Remotion available globally for the dynamic component
-      window.React = React;
-      window.ReactDOM = ReactDOM;
-      window.Remotion = Remotion;
+        await ensureEsbuildInitialized();
 
-      // Compile the TSX string to ESM JS
-      const { code } = await esbuild.transform(tsx, {
-        loader: "tsx",
-        format: "esm",
-        jsx: "transform",
-        jsxFactory: "React.createElement",
-        jsxFragment: "React.Fragment",
-      });
+        // Make React and Remotion available globally for the dynamic component
+        window.React = React;
+        window.ReactDOM = ReactDOM;
+        window.Remotion = Remotion;
 
-      const jsBlob = new Blob([getPatchedCode(code)], {
-        type: "text/javascript",
-      });
-      const blobUrl = URL.createObjectURL(jsBlob);
-      const imported = await import(/* webpackIgnore: true */ blobUrl);
+        // Compile the TSX string to ESM JS
+        const { code } = await esbuild.transform(tsx, {
+          loader: "tsx",
+          format: "esm",
+          jsx: "transform",
+          jsxFactory: "React.createElement",
+          jsxFragment: "React.Fragment",
+        });
 
-      // Clean up the blob URL to prevent memory leaks
-      URL.revokeObjectURL(blobUrl);
+        const jsBlob = new Blob([getPatchedCode(code)], {
+          type: "text/javascript",
+        });
+        const blobUrl = URL.createObjectURL(jsBlob);
+        const imported = await import(/* webpackIgnore: true */ blobUrl);
 
-      return {
-        composition: imported.default as ComponentType,
-        metadata,
-      };
+        // Clean up the blob URL to prevent memory leaks
+        URL.revokeObjectURL(blobUrl);
+
+        setComposition(() => imported.default as ComponentType);
+        setMetadata(() => metadata);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
     },
-    []
+    [],
   );
 
   return {
     preparing,
+    loading,
+    composition,
+    metadata,
     generateRemotionComponent,
   };
 };
@@ -115,7 +127,7 @@ const { useCurrentFrame, interpolate, spring, useVideoConfig, Sequence, Easing, 
       // Remove all import statements since we're using globals
       .replace(
         /import\s+(?:\*\s+as\s+\w+|\{[^}]*\}|\w+)\s+from\s+['"][^'"]*['"];?\s*/g,
-        "// Import handled globally\n"
+        "// Import handled globally\n",
       )
   );
 };
