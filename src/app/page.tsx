@@ -1,45 +1,25 @@
 "use client";
 
+import { Header } from "@/components/header";
 import { PromptInput } from "@/components/prompt-input";
 import { RemotionPlayer } from "@/components/remotion-player";
-import { useGeneration } from "@/hooks/use-generation";
-import { ChangeEvent, useCallback, useState } from "react";
-import { Header } from "@/components/header";
+import { useGenerationStore } from "@/store/generation";
+import { useEffect } from "react";
 
 export default function Home() {
-  const [input, setInput] = useState("");
-  const {
-    preparing,
-    loading,
-    composition,
-    metadata,
-    generateRemotionComponent,
-  } = useGeneration();
+  const ensureReady = useGenerationStore((state) => state._ensureEsbuildReady);
 
-  const handleInputChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
-    setInput(event.target.value);
-  };
-
-  const handleSubmit = useCallback(async () => {
-    if (!input.trim()) return;
-    await generateRemotionComponent({ prompt: input });
-  }, [generateRemotionComponent, input]);
+  useEffect(() => {
+    ensureReady();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div className="flex flex-col min-w-0 h-dvh items-center px-5 gap-5 pb-5">
       <Header />
       <div className="max-w-3xl w-full mx-auto flex flex-col min-w-0 h-dvh items-center p-5 gap-5">
-        <RemotionPlayer
-          composition={composition}
-          metadata={metadata}
-          preparing={preparing}
-        />
-        <PromptInput
-          input={input}
-          onChange={handleInputChange}
-          onSubmit={handleSubmit}
-          loading={loading}
-        />
+        <RemotionPlayer />
+        <PromptInput />
       </div>
     </div>
   );
