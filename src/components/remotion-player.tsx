@@ -1,18 +1,11 @@
-import { CompositionMetadata } from "@/_type";
 import { Player } from "@remotion/player";
-import { ComponentType, FC } from "react";
+import { useGenerationStore } from "@/store/generation";
 
-type RemotionPlayerProps = {
-  preparing: boolean;
-  composition: ComponentType | null;
-  metadata: CompositionMetadata | null;
-};
+export const RemotionPlayer = () => {
+  const preparing = useGenerationStore((state) => state.preparing);
+  const composition = useGenerationStore((state) => state.composition);
+  const metadata = useGenerationStore((state) => state.metadata);
 
-export const RemotionPlayer: FC<RemotionPlayerProps> = ({
-  preparing,
-  composition,
-  metadata,
-}) => {
   if (preparing) {
     return (
       <div className="w-full flex-1 flex items-center justify-center">
