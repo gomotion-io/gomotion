@@ -3,36 +3,27 @@
 import { PromptInput } from "@/components/prompt-input";
 import { RemotionPlayer } from "@/components/remotion-player";
 import { useGeneration } from "@/hooks/use-generation";
-import { ChangeEvent, ComponentType, useState } from "react";
-import { CompositionMetadata } from "@/_type";
+import { ChangeEvent, useCallback, useState } from "react";
 import { Header } from "@/components/header";
 
 export default function Home() {
   const [input, setInput] = useState("");
-  const [composition, setComposition] = useState<ComponentType | null>(null);
-  const [metadata, setMetadata] = useState<CompositionMetadata | null>(null);
-  const [loading, setLoading] = useState(false);
-
-  const { preparing, generateRemotionComponent } = useGeneration();
+  const {
+    preparing,
+    loading,
+    composition,
+    metadata,
+    generateRemotionComponent,
+  } = useGeneration();
 
   const handleInputChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
     setInput(event.target.value);
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = useCallback(async () => {
     if (!input.trim()) return;
-
-    try {
-      setLoading(true);
-      const result = await generateRemotionComponent({ prompt: input });
-      setComposition(() => result.composition);
-      setMetadata(() => result.metadata);
-    } catch (err) {
-      console.error(err);
-    } finally {
-      setLoading(false);
-    }
-  };
+    await generateRemotionComponent({ prompt: input });
+  }, [generateRemotionComponent, input]);
 
   return (
     <div className="flex flex-col min-w-0 h-dvh items-center px-5 gap-5 pb-5">

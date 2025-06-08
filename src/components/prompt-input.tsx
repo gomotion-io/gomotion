@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { ArrowUpIcon, StopIcon } from "@heroicons/react/16/solid";
 import { ChangeEvent, FC, useRef } from "react";
+import { ModelSelection } from "@/components/model-selection";
 
 type PromptInputProps = {
   onSubmit: () => void;
@@ -24,10 +25,10 @@ export const PromptInput: FC<PromptInputProps> = ({
     <div className="relative w-full flex flex-col gap-4">
       <Textarea
         ref={textareaRef}
-        placeholder="Send a message..."
+        placeholder="Describe your video..."
         value={input}
         onChange={onChange}
-        className="min-h-[24px] max-h-[calc(75dvh)] overflow-hidden resize-none rounded-2xl !text-base backdrop-blur-md pb-10 dark:border-zinc-700"
+        className="min-h-[95px] text-sm max-h-[calc(75dvh)] overflow-hidden resize-none rounded-3xl font-medium backdrop-blur-md pl-5 pt-4 pb-10"
         rows={2}
         autoFocus
         onKeyDown={(event) => {
@@ -41,20 +42,14 @@ export const PromptInput: FC<PromptInputProps> = ({
           }
         }}
       />
-      <div className="absolute bottom-0 right-0 p-2 w-fit flex flex-row justify-end">
+      <div className="absolute bottom-0 right-0 p-2 w-fit flex flex-row justify-end gap-2 items-center">
+        <ModelSelection />
         {loading ? (
-          <Button
-            className="rounded-full p-1.5 h-fit border dark:border-zinc-600"
-            onClick={() => {}}
-          >
+          <Button className="rounded-full w-14" onClick={() => {}}>
             <StopIcon className="w-5 h-5" />
           </Button>
         ) : (
-          <Button
-            data-testid="send-button"
-            className="rounded-full p-1.5 h-fit border dark:border-zinc-600"
-            onClick={onSubmit}
-          >
+          <Button className="rounded-full w-14" onClick={onSubmit}>
             <ArrowUpIcon className="w-5 h-5" />
           </Button>
         )}

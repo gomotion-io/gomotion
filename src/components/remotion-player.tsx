@@ -24,7 +24,7 @@ export const RemotionPlayer: FC<RemotionPlayerProps> = ({
   if (!composition || !metadata) {
     return (
       <div className="w-full flex-1 flex items-center justify-center">
-        <p className="text-neutral-500 font-medium">No composition loaded</p>
+        <p className="text-neutral-500">No composition loaded</p>
       </div>
     );
   }
