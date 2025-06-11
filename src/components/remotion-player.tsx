@@ -3,20 +3,9 @@ import { useGenerationStore } from "@/store/generation";
 import { Loader } from "@/components/loader";
 
 export const RemotionPlayer = () => {
-  const preparing = useGenerationStore((state) => state.preparing);
   const loading = useGenerationStore((state) => state.loading);
   const composition = useGenerationStore((state) => state.composition);
   const metadata = useGenerationStore((state) => state.metadata);
-
-  if (preparing) {
-    return (
-      <div className="w-full flex-1 flex items-center justify-center">
-        <div className="text-neutral-500 flex items-center ">
-          <Loader /> <div>Preparing...</div>
-        </div>
-      </div>
-    );
-  }
 
   if (loading) {
     return (
