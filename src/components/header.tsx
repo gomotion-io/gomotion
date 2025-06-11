@@ -5,7 +5,7 @@ import Link from "next/link";
 
 export const Header = () => {
   return (
-    <div className="flex items-center justify-between h-16 w-full mx-auto max-w-3xl">
+    <div className="flex items-center justify-between h-20 w-full">
       <Link href="/">
         <div className="flex gap-2">
           <Image src="/gomotion.png" alt="gomotion" width={20} height={20} />
@@ -14,7 +14,7 @@ export const Header = () => {
       </Link>
       <div className="flex items-center">
         <Link href="/pricing">
-          <Button variant="link">Start your free trial</Button>
+          <Button variant="link">Start for free</Button>
         </Link>
 
         <Link href="/sign-in">
