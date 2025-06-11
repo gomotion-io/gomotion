@@ -10,7 +10,6 @@ import {
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
@@ -29,9 +28,7 @@ const SignIn = () => {
   const [loading] = useState(false);
   const [error] = useState<string | null>(null);
 
-  const signIn = (data: LicenseFormData) => {
-    console.log(data);
-  };
+  const signIn = async ({ email, licenseKey }: LicenseFormData) => {};
 
   const form = useForm<LicenseFormData>({
     resolver: zodResolver(LicenseFormSchema),
@@ -64,7 +61,6 @@ const SignIn = () => {
             name="email"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Email</FormLabel>
                 <FormControl>
                   <Input placeholder="owner@mail.com" {...field} />
                 </FormControl>
@@ -73,25 +69,9 @@ const SignIn = () => {
             )}
           />
 
-          <FormField
-            control={form.control}
-            name="licenseKey"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>License key</FormLabel>
-                <FormControl>
-                  <Input
-                    placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <Button type="submit" className="w-full mt-5 gap-4">
-            Sign in {loading && <Spinner className="text-stone-950" />}
+          <Button type="submit" className="w-full mt-1 gap-4">
+            Sign in with email
+            {loading && <Spinner className="text-stone-950" />}
           </Button>
 
           {error && <div className="text-sm text-red-500">{error}</div>}
