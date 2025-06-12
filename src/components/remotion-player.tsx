@@ -1,3 +1,5 @@
+"use client";
+
 import { Player } from "@remotion/player";
 import { useGenerationStore } from "@/store/generation";
 import { Loader } from "@/components/loader";

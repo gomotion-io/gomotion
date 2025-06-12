@@ -1,5 +1,4 @@
 import { NextRequest } from "next/server";
-import {particle_burst_example} from "@/app/api/generate/example";
 
 export async function POST(request: NextRequest) {
   const { prompt, llm_provider, llm_model } = await request.json();
@@ -20,5 +19,6 @@ export async function POST(request: NextRequest) {
   });
 
   const data = await response.json();
-  return Response.json(particle_burst_example());
+  console.log(data);
+  return Response.json(data);
 }

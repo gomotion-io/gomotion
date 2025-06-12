@@ -1,29 +1,37 @@
 "use client";
 
-import { SignOutButton } from "@/components/sign-out-button";
 import { Button } from "@/components/ui/button";
+import { createClient } from "@/supabase/client";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
+import { Spinner } from "@/components/spinner";
+import { User } from "@supabase/auth-js";
+import { Profile } from "@/components/profile";
 
 export const Header = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+  const [user, setUser] = useState<User | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const supabase = createClient();
 
   useEffect(() => {
-    const fetchSession = async () => {
+    (async () => {
       try {
-        const res = await fetch("/api/auth/session");
-        if (!res.ok) return;
-        const json = await res.json();
-        if (json?.data) {
-          setIsLoggedIn(Boolean(json.data));
+        const {
+          data: { user },
+        } = await supabase.auth.getUser();
+
+        if (user) {
+          setUser(user);
         }
-      } catch (err) {
-        console.error("Failed to fetch session", err);
+      } catch (error) {
+        console.error("Error checking auth status:", error);
+        setUser(null);
+      } finally {
+        setIsLoading(false);
       }
-    };
-    fetchSession();
-  }, []);
+    })();
+  }, [supabase.auth]);
 
   return (
     <div className="flex items-center justify-between h-20 w-full">
@@ -34,8 +42,12 @@ export const Header = () => {
         </div>
       </Link>
       <div className="flex items-center">
-        {isLoggedIn ? (
-          <SignOutButton />
+        {isLoading ? (
+          <div className="flex items-center gap-2">
+            <Spinner className="text-stone-100" />
+          </div>
+        ) : user ? (
+          <Profile user={user} />
         ) : (
           <>
             <Link href="/pricing">

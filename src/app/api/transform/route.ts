@@ -20,11 +20,7 @@ export async function POST(request: NextRequest) {
       jsxFragment: "React.Fragment",
     });
 
-    // Patch the transformed code so that React and Remotion are expected
-    // to be provided globally by the client (window.React / window.Remotion).
-    const patchedCode = getPatchedCode(result.code);
-
-    return Response.json({ code: patchedCode });
+    return Response.json({ code: result.code });
   } catch (error) {
     console.error("Esbuild transform error:", error);
     return Response.json(
@@ -33,23 +29,3 @@ export async function POST(request: NextRequest) {
     );
   }
 }
-
-const getPatchedCode = (code: string) => {
-  const moduleDefinitions = `
-// Make React and Remotion available as globals
-const React = window.React;
-const Remotion = window.Remotion;
-
-// Extract commonly used Remotion functions for convenience
-const { useCurrentFrame, interpolate, spring, useVideoConfig, Sequence, Easing, Img, AbsoluteFill, Video } = window.Remotion;
-`;
-
-  return (
-    moduleDefinitions +
-    "\n" +
-    code.replace(
-      /import\s+(?:\*\s+as\s+\w+|\{[^}]*\}|\w+)\s+from\s+['"][^'"]*['"];?\s*/g,
-      "// Import handled globally\n",
-    )
-  );
-};

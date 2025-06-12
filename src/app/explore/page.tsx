@@ -1,10 +1,18 @@
-"use client";
-
 import { Header } from "@/components/header";
 import { PromptInput } from "@/components/prompt-input";
 import { RemotionPlayer } from "@/components/remotion-player";
+import { redirect } from "next/navigation";
+import { createClient } from "@/supabase/server";
 
-export default function Home() {
+export default async function Home() {
+  const supabase = await createClient();
+
+  const { data, error } = await supabase.auth.getUser();
+
+  if (error || !data?.user) {
+    redirect("/sign-in");
+  }
+
   return (
     <div className="flex flex-col min-w-0 h-dvh items-center gap-5">
       <Header />
