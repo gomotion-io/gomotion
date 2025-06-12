@@ -71,7 +71,7 @@ const Pricing = () => {
       <Header />
       <div className="mx-auto px-2">
         <div className="mx-auto max-w-lg sm:max-w-3xl space-y-4 pt-6 pb-3 text-center flex flex-col items-center">
-          <h4 className="mx-auto mb-2 text-balance text-[42px] font-medium">
+          <h4 className="mx-auto mb-2 text-balance text-[42px] font-semibold">
             Pricing
           </h4>
           <p className="text-center max-w-lg text-lg leading-8 text-muted-foreground mb-7">
