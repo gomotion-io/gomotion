@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "supabase-gen": "npx supabase gen types typescript --project-id uftbovflyenqlyxvpybv --schema public > src/supabase/generated/database.types.ts"
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",
@@ -22,6 +23,8 @@
     "@radix-ui/react-slot": "^1.2.3",
     "@radix-ui/react-switch": "^1.2.5",
     "@remotion/player": "^4.0.311",
+    "@supabase/ssr": "^0.6.1",
+    "@supabase/supabase-js": "^2.50.0",
     "axios": "^1.9.0",
     "cheerio": "^1.0.0",
     "class-variance-authority": "^0.7.1",

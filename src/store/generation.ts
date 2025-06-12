@@ -2,7 +2,7 @@ import { CompositionMetadata } from "@/_type";
 import { usePromptParamsStore } from "@/store/prompt-params";
 import * as React from "react";
 import * as ReactDOM from "react-dom";
-import * as Remotion from "remotion";
+import * as R from "remotion";
 import { create } from "zustand";
 
 export type GenerationState = {
@@ -38,7 +38,7 @@ export const useGenerationStore = create<GenerationState>((set) => ({
       window.React = React;
       window.ReactDOM = ReactDOM;
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      (window as any).Remotion = Remotion;
+      (window as any).Remotion = R;
 
       // Transform TSX using the API route
       const transformRes = await fetch("/api/transform", {
