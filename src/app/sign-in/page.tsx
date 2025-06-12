@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -16,25 +16,44 @@ import { Input } from "@/components/ui/input";
 import Image from "next/image";
 import Link from "next/link";
 import { Spinner } from "@/components/spinner";
+import { getEnvUrl } from "@/lib/utils";
+import { useRouter } from "next/navigation";
+import { createClient } from "@/supabase/client";
 
 const LicenseFormSchema = z.object({
   email: z.string().email(),
-  licenseKey: z.string(),
 });
 
 export type LicenseFormData = z.infer<typeof LicenseFormSchema>;
 
 const SignIn = () => {
-  const [loading] = useState(false);
+  const supabase = createClient();
+  const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
   const [error] = useState<string | null>(null);
 
-  const signIn = async ({ email, licenseKey }: LicenseFormData) => {};
+  const signIn = useCallback(
+    async ({ email }: LicenseFormData) => {
+      setIsLoading(true);
+      const { data, error } = await supabase.auth.signInWithOtp({
+        email,
+        options: {
+          shouldCreateUser: true,
+          emailRedirectTo: getEnvUrl(),
+        },
+      });
+      if (!error && !data.user) {
+        router.push(`/mail-sent`);
+      }
+      setIsLoading(false);
+    },
+    [router, supabase.auth],
+  );
 
   const form = useForm<LicenseFormData>({
     resolver: zodResolver(LicenseFormSchema),
     defaultValues: {
       email: "",
-      licenseKey: "",
     },
   });
 
@@ -69,9 +88,13 @@ const SignIn = () => {
             )}
           />
 
-          <Button type="submit" className="w-full mt-1 gap-4">
+          <Button
+            type="submit"
+            className="w-full mt-1 gap-4"
+            disabled={isLoading}
+          >
             Sign in with email
-            {loading && <Spinner className="text-stone-950" />}
+            {isLoading && <Spinner className="text-stone-950" />}
           </Button>
 
           {error && <div className="text-sm text-red-500">{error}</div>}
