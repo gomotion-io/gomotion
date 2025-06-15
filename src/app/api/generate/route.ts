@@ -1,5 +1,4 @@
 import { NextRequest } from "next/server";
-import { particle_burst_example } from "@/app/api/generate/example";
 
 export async function POST(request: NextRequest) {
   try {
@@ -27,7 +26,7 @@ export async function POST(request: NextRequest) {
     console.error("Error generating response:", error);
     return Response.json(
       { error: "Failed to generate response" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
