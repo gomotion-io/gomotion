@@ -8,6 +8,7 @@ import React, { useEffect, useState } from "react";
 import { Spinner } from "@/components/spinner";
 import { User } from "@supabase/auth-js";
 import { Profile } from "@/components/profile";
+import { foundersGroteskBold } from "@/fonts";
 
 export const Header = () => {
   const [user, setUser] = useState<User | null>(null);
@@ -36,9 +37,13 @@ export const Header = () => {
   return (
     <div className="flex items-center justify-between h-20 w-full">
       <Link href="/">
-        <div className="flex gap-2">
-          <Image src="/gomotion.png" alt="gomotion" width={20} height={20} />
-          <div className="font-bold">Gomotion</div>
+        <div className="flex items-center gap-2">
+          <div>
+            <Image src="/gomotion.png" alt="gomotion" width={20} height={20} />
+          </div>
+          <div className={`${foundersGroteskBold.className} text-[18px]`}>
+            GOMOTION
+          </div>
         </div>
       </Link>
       <div className="flex items-center">
@@ -55,6 +60,9 @@ export const Header = () => {
             </Link>
             <Link href="/sign-in">
               <Button variant="link">Sign In</Button>
+            </Link>
+            <Link href="/register">
+              <Button variant="link">Register</Button>
             </Link>
           </>
         )}

@@ -1,8 +1,9 @@
 import { Header } from "@/components/header";
 import { PromptInput } from "@/components/prompt-input";
 import { RemotionPlayer } from "@/components/remotion-player";
-import { redirect } from "next/navigation";
 import { createClient } from "@/supabase/server";
+import type { Metadata } from "next";
+import { redirect } from "next/navigation";
 
 export default async function Home() {
   const supabase = await createClient();
@@ -23,3 +24,9 @@ export default async function Home() {
     </div>
   );
 }
+
+export const metadata: Metadata = {
+  title: "Explore",
+  description:
+    "Experiment with Gomotion's AI-powered animation generator. Craft prompts, preview results and fine-tune your motion-graphics videos in real time.",
+};
