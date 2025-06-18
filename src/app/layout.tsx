@@ -1,3 +1,4 @@
+import { foundersGroteskBold } from "@/fonts";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
@@ -25,9 +26,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased relative`}
+        className={`${geistSans.variable} ${geistMono.variable} ${foundersGroteskBold.variable} antialiased relative`}
       >
-        <div className='mx-auto max-w-7xl px-5'>{children}</div>
+        <div className="px-5 sm:px-10">{children}</div>
       </body>
     </html>
   );

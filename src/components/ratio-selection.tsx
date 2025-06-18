@@ -8,8 +8,7 @@ import {
   DropdownMenuRadioItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { MODEL_PROVIDERS } from "@/constant";
-import { usePromptParamsStore } from "@/store/prompt-params";
+import { AspectRatio, usePromptParamsStore } from "@/store/prompt-params";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import {
   Tooltip,
@@ -17,11 +16,13 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 
-export const ModelSelection = () => {
-  const model = usePromptParamsStore((state) => state.llm_model);
-  const setModelProvider = usePromptParamsStore(
-    (state) => state.setModelProvider,
-  );
+export const RatioSelection = () => {
+  const aspectRatio = usePromptParamsStore((state) => state.aspectRatio);
+  const setAspectRatio = usePromptParamsStore((state) => state.setAspectRatio);
+
+  const displayLabel =
+    Object.entries(AspectRatio).find(([, v]) => v === aspectRatio)?.[0] ||
+    aspectRatio;
 
   return (
     <Tooltip>
@@ -29,37 +30,34 @@ export const ModelSelection = () => {
         <TooltipTrigger asChild>
           <DropdownMenuTrigger asChild>
             <Button className="rounded-full p-1.5" variant="outline">
-              {model} <ChevronDownIcon className="w-5 h-5" />
+              {displayLabel}
+              <ChevronDownIcon className="w-5 h-5" />
             </Button>
           </DropdownMenuTrigger>
         </TooltipTrigger>
-        <DropdownMenuContent className="w-72">
+        <DropdownMenuContent className="w-24">
           <DropdownMenuRadioGroup
-            value={model}
+            value={aspectRatio}
             onValueChange={(value) => {
-              const provider = MODEL_PROVIDERS.find(
-                (m) => m.llm_model === value,
-              );
-              if (provider) {
-                setModelProvider(provider);
-              }
+              setAspectRatio(value as AspectRatio);
             }}
             className="gap-1 flex flex-col"
           >
-            {MODEL_PROVIDERS.map((model) => (
+            {Object.entries(AspectRatio).map(([label, value]) => (
               <DropdownMenuRadioItem
-                key={model.llm_model}
-                value={model.llm_model}
+                key={value}
+                value={value}
                 className="font-medium"
               >
-                {model.llm_model}
+                {label}
               </DropdownMenuRadioItem>
             ))}
           </DropdownMenuRadioGroup>
         </DropdownMenuContent>
       </DropdownMenu>
+
       <TooltipContent>
-        <p>Model</p>
+        <p>Aspect ratio</p>
       </TooltipContent>
     </Tooltip>
   );
