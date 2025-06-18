@@ -7,6 +7,7 @@ import { useCallback, useRef } from "react";
 import { ModelSelection } from "@/components/model-selection";
 import { useGenerationStore } from "@/store/generation";
 import { usePromptParamsStore } from "@/store/prompt-params";
+import { RatioSelection } from "@/components/ratio-selection";
 
 export const PromptInput = () => {
   const textareaRef = useRef(null);
@@ -42,6 +43,7 @@ export const PromptInput = () => {
         }}
       />
       <div className="absolute bottom-0 right-0 p-2 w-fit flex flex-row justify-end gap-2 items-center">
+        <RatioSelection />
         <ModelSelection />
         {loading ? (
           <Button className="rounded-full w-14" onClick={() => {}}>
