@@ -9,3 +9,5 @@ export const MODEL_PROVIDERS: ModelProvider[] = [
   { llm_provider: "openai", llm_model: "gpt-4o" },
   { llm_provider: "anthropic", llm_model: "claude-4-sonnet" },
 ];
+
+export const CREDIT_FACTOR = 100;

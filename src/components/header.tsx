@@ -9,11 +9,12 @@ import { User } from "@supabase/auth-js";
 import { Profile } from "@/components/profile";
 import { foundersGroteskBold } from "@/fonts";
 import { getUser } from "@/supabase/client-functions/user";
-import { getProfile } from "@/supabase/client-functions/profile";
+import { getProfile } from "@/supabase/server-functions/profile";
+import { ProfileData } from "@/_type";
 
 export const Header = () => {
   const [user, setUser] = useState<User | null>(null);
-  const [profile, setProfile] = useState<Profile | null>(null);
+  const [profile, setProfile] = useState<ProfileData | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
@@ -33,8 +34,6 @@ export const Header = () => {
       }
     })();
   }, []);
-
-  console.log(profile);
 
   return (
     <div className="flex items-center justify-between h-20 w-full">

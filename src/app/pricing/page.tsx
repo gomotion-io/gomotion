@@ -16,15 +16,29 @@ import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 import { checkout } from "@/supabase/server-functions/checkout";
 import { Spinner } from "@/components/spinner";
-import { getProducts } from "@/supabase/client-functions/products";
 import { getUser } from "@/supabase/client-functions/user";
+import { getProducts } from "@/supabase/server-functions/products";
+import { CREDIT_FACTOR } from "@/constant";
+import { ProfileData } from "@/_type";
+import { getProfile } from "@/supabase/server-functions/profile";
 
 const Pricing = () => {
   const router = useRouter();
+  const [profile, setProfile] = useState<ProfileData | null>(null);
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setIsLoading] = useState(true);
   const [loadingCheckout, setIsLoadingCheckout] = useState(false);
   const [currentVariantId, setCurrentVariantId] = useState<string>("idle");
+
+  useEffect(() => {
+    (async () => {
+      const user = await getUser();
+      if (user) {
+        const profileData = await getProfile(user.id);
+        setProfile(profileData);
+      }
+    })();
+  }, []);
 
   useEffect(() => {
     (async () => {
@@ -66,7 +80,6 @@ const Pricing = () => {
       setCurrentVariantId(product.variant_id);
       setIsLoadingCheckout(true);
       const data = await checkout({ variantId: product.variant_id });
-      console.log(data);
       if (data.checkoutUrl) {
         window.open(data.checkoutUrl, "_blank");
       }
@@ -133,6 +146,19 @@ const Pricing = () => {
                     )}
                   </div>
                   <ul className="mt-4 space-y-2">
+                    {option.name !== "Enterprise" && (
+                      <li key={index} className="flex items-center">
+                        <Check className="mr-2 h-4 w-4 text-emerald-400" />
+                        <span
+                          className={
+                            option.highlight ? "text-sm" : "text-[14px]"
+                          }
+                        >
+                          {option.limit * CREDIT_FACTOR} credits per month
+                        </span>
+                      </li>
+                    )}
+
                     {((option.features as []) || [])?.map((feature, index) => (
                       <li key={index} className="flex items-center">
                         {feature && (
@@ -149,24 +175,36 @@ const Pricing = () => {
                     ))}
                   </ul>
                 </CardContent>
+
                 <CardFooter>
-                  <Button
-                    className="w-full gap-2 flex items-center"
-                    disabled={loadingCheckout}
-                    onClick={() => onCheckout(option)}
-                  >
-                    {option.name === "Free"
-                      ? "Start for free"
-                      : option.name === "Enterprise"
-                        ? "Contact us"
-                        : "Subscribe now"}
+                  {profile?.products.variant_id &&
+                  profile.products.variant_id === option.variant_id ? (
+                    <Button
+                      className="w-full gap-2 flex items-center"
+                      variant="outline"
+                      disabled
+                    >
+                      Current Plan
+                    </Button>
+                  ) : (
+                    <Button
+                      className="w-full gap-2 flex items-center"
+                      disabled={loadingCheckout}
+                      onClick={() => onCheckout(option)}
+                    >
+                      {option.name === "Free"
+                        ? "Start for free"
+                        : option.name === "Enterprise"
+                          ? "Contact us"
+                          : "Subscribe now"}
 
-                    {currentVariantId === option.variant_id && (
-                      <Spinner className="text-stone-950" />
-                    )}
+                      {currentVariantId === option.variant_id && (
+                        <Spinner className="text-stone-950" />
+                      )}
 
-                    <ArrowRight className="ml-2 h-4 w-4" />
-                  </Button>
+                      <ArrowRight className="ml-2 h-4 w-4" />
+                    </Button>
+                  )}
                 </CardFooter>
               </Card>
             ))}
