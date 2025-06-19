@@ -2,12 +2,10 @@
 
 import React from "react";
 import { Button } from "@/components/ui/button";
-import { Header } from "@/components/header";
 
 const Page = () => {
   return (
-    <div className="flex flex-col min-w-0 h-dvh items-center gap-5">
-      <Header />
+    <div className="flex flex-col min-w-0 items-center gap-5">
       <div className="flex flex-col items-center gap-1 text-center mt-40">
         <h3 className="text-2xl font-bold tracking-tight mb-2">
           Thank you for joining Gomotion !

@@ -1,4 +1,3 @@
-import { Header } from "@/components/header";
 import { Gallery } from "@/components/landing-page/gallery";
 import { foundersGroteskBold } from "@/fonts";
 import type { Metadata } from "next";
@@ -12,7 +11,6 @@ export const metadata: Metadata = {
 export default function Home() {
   return (
     <div>
-      <Header />
       <div
         className={`${foundersGroteskBold.className} mt-2 text-6xl sm:text-7xl md:text-8xl font-bold mb-10`}
       >

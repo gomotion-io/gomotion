@@ -16,3 +16,12 @@ export const getEnvUrl = () => {
   url = url.endsWith("/") ? url : `${url}/`;
   return url;
 };
+
+export const formatCredits = (credits: number): string => {
+  if (credits < 1000) return `${credits} credits`;
+
+  const valueInThousands = credits / 1000;
+  // Keep one decimal place but trim trailing ".0" when not needed
+  const formatted = Number(valueInThousands.toFixed(1)).toString();
+  return `${formatted}k credits`;
+};

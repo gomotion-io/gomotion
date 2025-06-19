@@ -1,5 +1,6 @@
 "use client";
 
+import { ProfileData } from "@/_type";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -9,14 +10,14 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { User } from "@supabase/auth-js";
-import { FC, useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
-import { createClient } from "@/supabase/client";
-import Link from "next/link";
-import { getCounts } from "@/supabase/server-functions/counts";
 import { CREDIT_FACTOR } from "@/constant";
-import { ProfileData } from "@/_type";
+import { formatCredits } from "@/lib/utils";
+import { createClient } from "@/supabase/client";
+import { getCounts } from "@/supabase/server-functions/counts";
+import { User } from "@supabase/auth-js";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { FC, useEffect, useState } from "react";
 
 type ProfileProps = {
   user: User | null;
@@ -46,15 +47,15 @@ export const Profile: FC<ProfileProps> = ({ user, profile }) => {
   }, [profile?.id, profile?.products]);
 
   return (
-    <div className="flex items-center gap-4">
-      <div className="flex gap-4">
+    <div className="flex items-center gap-3">
+      <div className="flex gap-3">
         {profile?.subscription_status === "inactive" && (
           <Button size="sm" onClick={() => router.push("/pricing")}>
             Upgrade
           </Button>
         )}
         <Button variant="outline" size="sm">
-          {credits} credits
+          {credits ? formatCredits(credits) : " credits"}
         </Button>
       </div>
       <DropdownMenu>

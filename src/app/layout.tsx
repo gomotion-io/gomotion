@@ -3,6 +3,10 @@ import { getEnvUrl } from "@/lib/utils";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { LayoutProvider } from "@/components/layout-provider";
+import { Header } from "@/components/ssr/header";
+import { ReactNode } from "react";
+import { Analytics } from "@vercel/analytics/next";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -64,14 +68,18 @@ export const metadata: Metadata = {
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: ReactNode;
 }>) {
   return (
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${foundersGroteskBold.variable} antialiased relative`}
       >
-        <div className="px-5 sm:px-10">{children}</div>
+        <div className="px-5 sm:px-10">
+          <Header />
+          <LayoutProvider>{children}</LayoutProvider>
+        </div>
+        <Analytics />
       </body>
     </html>
   );

@@ -1,7 +1,7 @@
 "use server";
 
 import axios from "axios";
-import { createClient } from "@/supabase/server";
+import { getUser } from "@/supabase/server-functions/users";
 
 const apiKey = process.env.LEMONSQUEEZY_API_KEY;
 const storeId = process.env.LEMONSQUEEZY_STORE_ID;
@@ -14,9 +14,7 @@ export const checkout = async ({
   error: string | null;
   checkoutUrl: string | null;
 }> => {
-  const supabase = await createClient();
-  const response = await supabase.auth.getUser();
-  const user = response.data.user;
+  const user = await getUser();
 
   if (!user) {
     return {
