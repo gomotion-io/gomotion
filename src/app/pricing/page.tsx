@@ -11,90 +11,70 @@ import {
 } from "@/components/ui/card";
 import clsx from "clsx";
 import { ArrowRight, Check } from "lucide-react";
-import Link from "next/link";
-import { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
-
-type PricingOption = {
-  name: string;
-  price: string;
-  yearlyPrice: string;
-  description: string;
-  features: string[];
-  link: string;
-  highlight?: boolean;
-  type: "free" | "paid" | "contactUs";
-};
-
-const pricingOptions: PricingOption[] = [
-  {
-    name: "Free",
-    price: "$0",
-    yearlyPrice: "",
-    description:
-      "For individuals looking to explore Gomotion features for content creation.",
-    features: [
-      "4 videos each month",
-      "Up to 1080p export",
-      "Watermark",
-      "",
-      "",
-    ],
-    link: "/sign-in",
-    type: "free",
-  },
-  {
-    name: "Standard",
-    price: "$9.99",
-    yearlyPrice: "",
-    description:
-      "Ideal for solo creators looking to elevate their content with powerful motion animation.",
-    features: [
-      "15 videos each month",
-      "Up to 4K export",
-      "No watermark",
-      "Priority support",
-      "",
-    ],
-    link: "https://gomotion.lemonsqueezy.com/buy/701dc055-0332-4d51-90ee-69ab0ecc3f49",
-    highlight: true,
-    type: "paid",
-  },
-  {
-    name: "Pro",
-    price: "$24.99",
-    yearlyPrice: "$949",
-    description:
-      "For individuals or teams who create content without compromise.",
-    features: [
-      "35 videos each month",
-      "Up to 4K export",
-      "No watermark",
-      "Priority support",
-      "",
-    ],
-    link: "https://gomotion.lemonsqueezy.com/buy/cc167374-073b-451d-a3b8-2e80340226b0",
-    type: "paid",
-  },
-  {
-    name: "Enterprise",
-    price: "Custom",
-    yearlyPrice: "Custom",
-    description: "For enterprises with unlimited videos and custom solutions.",
-    features: [
-      "Unlimited videos",
-      "Brand kit",
-      "SSO & SAML",
-      "SLA & uptime guarantees",
-      "Bespoke integrations",
-    ],
-    link: "https://discord.gg/emD6h74Fh7",
-    type: "contactUs",
-  },
-];
+import { useRouter } from "next/navigation";
+import { checkout } from "@/supabase/server-functions/checkout";
+import { Spinner } from "@/components/spinner";
+import { getProducts } from "@/supabase/client-functions/products";
+import { getUser } from "@/supabase/client-functions/user";
 
 const Pricing = () => {
-  const [isYearly] = useState(false);
+  const router = useRouter();
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setIsLoading] = useState(true);
+  const [loadingCheckout, setIsLoadingCheckout] = useState(false);
+  const [currentVariantId, setCurrentVariantId] = useState<string>("idle");
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const products = await getProducts();
+        const order = ["Free", "Standard", "Pro", "Enterprise"];
+        const sortedProducts = products.sort(
+          (a, b) => order.indexOf(a.name) - order.indexOf(b.name),
+        );
+        setProducts(sortedProducts);
+      } catch (error) {
+        console.error("Error while getting products", error);
+      } finally {
+        setIsLoading(false);
+      }
+    })();
+  }, []);
+
+  const onCheckout = useCallback(
+    async (product: Product) => {
+      const user = await getUser();
+
+      if (product.name === "Free") {
+        router.push("/sign-in");
+        return;
+      }
+
+      if (product.name === "Enterprise") {
+        window.location.href = "https://discord.gg/emD6h74Fh7";
+        return;
+      }
+
+      if (!user) {
+        router.push("/sign-in");
+        return;
+      }
+
+      if (!product?.variant_id) return;
+      setCurrentVariantId(product.variant_id);
+      setIsLoadingCheckout(true);
+      const data = await checkout({ variantId: product.variant_id });
+      console.log(data);
+      if (data.checkoutUrl) {
+        window.open(data.checkoutUrl, "_blank");
+      }
+      setIsLoadingCheckout(false);
+      setCurrentVariantId("idle");
+    },
+    [router],
+  );
 
   return (
     <div className="min-h-screen">
@@ -110,71 +90,88 @@ const Pricing = () => {
           </p>
 
           <div className="text-sm font-medium text-emerald-400">
-            3 day free trial on all plans
+            The future of motion design today
           </div>
         </div>
 
-        <div className="mx-auto max-w-6xl grid gap-6 px-4 sm:px-10 py-8 lg:grid-cols-4 mb-10">
-          {pricingOptions.map((option, index) => (
-            <Card
-              key={index}
-              className={clsx(
-                "flex flex-col shadow-none bg-opacity-10",
-                option.highlight && "border-neutral-200 scale-110",
-              )}
-            >
-              <CardHeader>
-                <CardTitle>{option.name}</CardTitle>
-                <p
-                  className={cn(
-                    "text-muted-foreground",
-                    option.highlight && "text-sm",
-                  )}
-                >
-                  {option.description}
-                </p>
-              </CardHeader>
-              <CardContent className="flex-grow">
-                <div className="text-3xl font-bold">
-                  {isYearly ? option.yearlyPrice : option.price}
-                  {option.name == "Enterprise" ? (
-                    ""
-                  ) : (
-                    <span className="text-sm font-medium text-muted-foreground">
-                      {isYearly ? " /year" : " /month"}
-                    </span>
-                  )}
-                </div>
-                <ul className="mt-4 space-y-2">
-                  {option.features.map((feature, featureIndex) => (
-                    <li key={featureIndex} className="flex items-center">
-                      {feature !== "" && (
-                        <Check className="mr-2 h-4 w-4 text-emerald-400" />
-                      )}
-                      <span>{feature}</span>
-                    </li>
-                  ))}
-                </ul>
-              </CardContent>
-              <CardFooter>
-                <Link
-                  href={option.link}
-                  target={option.type === "free" ? "" : "_blank"}
-                  className="w-full"
-                >
-                  <Button className="w-full">
-                    {option.type === "free"
+        {loading ? (
+          <div className="flex items-center gap-2 w-full justify-center h-40">
+            <Spinner className="text-stone-100" />
+          </div>
+        ) : (
+          <div className="mx-auto max-w-6xl grid gap-6 px-4 sm:px-10 py-8 lg:grid-cols-4 mb-10">
+            {products.map((option, index) => (
+              <Card
+                key={index}
+                className={clsx(
+                  "flex flex-col shadow-none bg-opacity-10",
+                  option.highlight && "border-neutral-200 scale-110",
+                )}
+              >
+                <CardHeader>
+                  <CardTitle>{option.name}</CardTitle>
+                  <p
+                    className={cn(
+                      "text-muted-foreground",
+                      option.highlight && "text-sm",
+                    )}
+                  >
+                    {option.description}
+                  </p>
+                </CardHeader>
+                <CardContent className="flex-grow">
+                  <div className="text-3xl font-bold">
+                    {option.name == "Enterprise" ? (
+                      "Custom"
+                    ) : (
+                      <div>
+                        ${option.price}
+                        <span className="text-sm font-medium text-muted-foreground">
+                          /month
+                        </span>
+                      </div>
+                    )}
+                  </div>
+                  <ul className="mt-4 space-y-2">
+                    {((option.features as []) || [])?.map((feature, index) => (
+                      <li key={index} className="flex items-center">
+                        {feature && (
+                          <Check className="mr-2 h-4 w-4 text-emerald-400" />
+                        )}
+                        <span
+                          className={
+                            option.highlight ? "text-sm" : "text-[14px]"
+                          }
+                        >
+                          {feature}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                </CardContent>
+                <CardFooter>
+                  <Button
+                    className="w-full gap-2 flex items-center"
+                    disabled={loadingCheckout}
+                    onClick={() => onCheckout(option)}
+                  >
+                    {option.name === "Free"
                       ? "Start for free"
-                      : option.type === "paid"
-                        ? "Subscribe now"
-                        : "Contact us"}
+                      : option.name === "Enterprise"
+                        ? "Contact us"
+                        : "Subscribe now"}
+
+                    {currentVariantId === option.variant_id && (
+                      <Spinner className="text-stone-950" />
+                    )}
+
                     <ArrowRight className="ml-2 h-4 w-4" />
                   </Button>
-                </Link>
-              </CardFooter>
-            </Card>
-          ))}
-        </div>
+                </CardFooter>
+              </Card>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );

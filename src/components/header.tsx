@@ -1,7 +1,6 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { createClient } from "@/supabase/client";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
@@ -9,21 +8,22 @@ import { Spinner } from "@/components/spinner";
 import { User } from "@supabase/auth-js";
 import { Profile } from "@/components/profile";
 import { foundersGroteskBold } from "@/fonts";
+import { getUser } from "@/supabase/client-functions/user";
+import { getProfile } from "@/supabase/client-functions/profile";
 
 export const Header = () => {
   const [user, setUser] = useState<User | null>(null);
+  const [profile, setProfile] = useState<Profile | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const supabase = createClient();
 
   useEffect(() => {
     (async () => {
       try {
-        const {
-          data: { user },
-        } = await supabase.auth.getUser();
-
-        if (user) {
-          setUser(user);
+        const userData = await getUser();
+        if (userData?.id) {
+          const profileData = await getProfile(userData.id);
+          setProfile(profileData);
+          setUser(userData);
         }
       } catch (error) {
         console.error("Error checking auth status:", error);
@@ -32,7 +32,9 @@ export const Header = () => {
         setIsLoading(false);
       }
     })();
-  }, [supabase.auth]);
+  }, []);
+
+  console.log(profile);
 
   return (
     <div className="flex items-center justify-between h-20 w-full">
@@ -52,7 +54,7 @@ export const Header = () => {
             <Spinner className="text-stone-100" />
           </div>
         ) : user ? (
-          <Profile user={user} />
+          <Profile user={user} profile={profile} />
         ) : (
           <>
             <Link href="/pricing">
