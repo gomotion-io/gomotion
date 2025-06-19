@@ -28,7 +28,7 @@ export async function GET(request: NextRequest) {
         throw new Error("User not found");
       }
 
-      const profile = await getProfile();
+      const profile = await getProfile(user.id);
 
       if (!profile) {
         throw new Error("Profile not found");

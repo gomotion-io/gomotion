@@ -10,33 +10,51 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { User } from "@supabase/auth-js";
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/supabase/client";
 import Link from "next/link";
+import { getCounts } from "@/supabase/server-functions/counts";
+import { CREDIT_FACTOR } from "@/constant";
+import { ProfileData } from "@/_type";
 
 type ProfileProps = {
   user: User | null;
-  profile: Profile | null;
+  profile: ProfileData | null;
 };
 
 export const Profile: FC<ProfileProps> = ({ user, profile }) => {
   const router = useRouter();
   const supabase = createClient();
+  const [credits, setCredits] = useState<number | null>(null);
 
   const logout = async () => {
     await supabase.auth.signOut();
     router.push("/sign-in");
   };
 
+  useEffect(() => {
+    if (profile?.id) {
+      getCounts(profile?.id)
+        .then((count) => {
+          const total = (profile?.products as Product)?.limit;
+          const credits = total - count;
+          setCredits(credits * CREDIT_FACTOR);
+        })
+        .catch(console.error);
+    }
+  }, [profile?.id, profile?.products]);
+
   return (
     <div className="flex items-center gap-4">
       <div className="flex gap-4">
         {profile?.subscription_status === "inactive" && (
-          <Button size="sm">Upgrade</Button>
+          <Button size="sm" onClick={() => router.push("/pricing")}>
+            Upgrade
+          </Button>
         )}
         <Button variant="outline" size="sm">
-          5 credits
+          {credits} credits
         </Button>
       </div>
       <DropdownMenu>
