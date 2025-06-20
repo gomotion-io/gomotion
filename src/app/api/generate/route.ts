@@ -1,31 +1,44 @@
+import { createCount, getCounts } from "@/supabase/server-functions/counts";
+import { getProfile } from "@/supabase/server-functions/profile";
+import { getUser } from "@/supabase/server-functions/users";
 import { NextRequest } from "next/server";
+import { generateVideo } from "@/app/api/generate/generate-video";
 
 export async function POST(request: NextRequest) {
   try {
-    const { prompt, llm_provider, llm_model } = await request.json();
+    // Ensure the user is authenticated
+    const user = await getUser();
+    if (!user) {
+      return Response.json({ error: "Unauthorized" }, { status: 401 });
+    }
 
-    const safePrompt =
-      (prompt as string | undefined)?.replace(/`/g, "'") ?? "Hello, Remotion!";
+    // Check credit limits
+    const profile = await getProfile(user.id);
+    const usageCount = await getCounts(profile.id);
 
-    const response = await fetch("http://127.0.0.1:5000/api/generate", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        prompt: safePrompt,
-        llm_provider: llm_provider || "google",
-        llm_model: llm_model || "gemini-2.5-pro-preview-05-06",
-      }),
-    });
+    if (usageCount >= profile.products.limit) {
+      return Response.json(
+        {
+          rateLimit: true,
+          limit: profile.products.limit,
+          message: "Insufficient credits!",
+        },
+        { status: 401 },
+      );
+    }
 
-    const data = await response.json();
-    console.log(data);
+    // Generate video
+    const data = await generateVideo(request);
+
+    // Record credit for successful generation
+    await createCount(profile.id);
+
+    //Return response
     return Response.json(data);
   } catch (error) {
-    console.error("Error generating response:", error);
+    console.error("Generate video error:", error);
     return Response.json(
-      { error: "Failed to generate response" },
+      { error: `Failed to generate response: ${(error as Error).message}` },
       { status: 500 },
     );
   }

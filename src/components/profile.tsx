@@ -32,6 +32,7 @@ export const Profile: FC<ProfileProps> = ({ user, profile }) => {
   const logout = async () => {
     await supabase.auth.signOut();
     router.push("/sign-in");
+    router.refresh();
   };
 
   useEffect(() => {
@@ -65,12 +66,15 @@ export const Profile: FC<ProfileProps> = ({ user, profile }) => {
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent className="min-w-60" align="end">
-          <DropdownMenuLabel className="text-stone-100/40">
+          <DropdownMenuLabel className="text-stone-100/40 truncate max-w-[14rem]">
             {user?.email}
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
           <Link href="/explore">
             <DropdownMenuItem>Explore</DropdownMenuItem>
+          </Link>
+          <Link href="/pricing">
+            <DropdownMenuItem>Pricing</DropdownMenuItem>
           </Link>
           <DropdownMenuItem onClick={logout}>Log out</DropdownMenuItem>
         </DropdownMenuContent>
