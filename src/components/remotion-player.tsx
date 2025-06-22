@@ -1,7 +1,7 @@
 "use client";
 
 import { Player } from "@remotion/player";
-import { useGenerationStore } from "@/store/generation";
+import { useGenerationStore } from "@/store/generation.store";
 import { Loader } from "@/components/loader";
 
 export const RemotionPlayer = () => {

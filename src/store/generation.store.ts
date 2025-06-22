@@ -1,5 +1,5 @@
 import { CompositionMetadata } from "@/_type";
-import { usePromptParamsStore } from "@/store/prompt-params";
+import { useParamStore } from "@/store/params.store";
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 import * as R from "remotion";
@@ -19,7 +19,7 @@ export const useGenerationStore = create<GenerationState>((set) => ({
   metadata: null,
 
   generateComp: async ({ prompt }) => {
-    const { llm_provider, llm_model } = usePromptParamsStore.getState();
+    const { llm_provider, llm_model } = useParamStore.getState();
 
     try {
       set({ loading: true });

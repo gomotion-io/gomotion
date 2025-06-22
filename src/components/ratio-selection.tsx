@@ -8,7 +8,7 @@ import {
   DropdownMenuRadioItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { AspectRatio, usePromptParamsStore } from "@/store/prompt-params";
+import { AspectRatio, useParamStore } from "@/store/params.store";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import {
   Tooltip,
@@ -17,8 +17,8 @@ import {
 } from "@/components/ui/tooltip";
 
 export const RatioSelection = () => {
-  const aspectRatio = usePromptParamsStore((state) => state.aspectRatio);
-  const setAspectRatio = usePromptParamsStore((state) => state.setAspectRatio);
+  const aspectRatio = useParamStore((state) => state.aspectRatio);
+  const setAspectRatio = useParamStore((state) => state.setAspectRatio);
 
   const displayLabel =
     Object.entries(AspectRatio).find(([, v]) => v === aspectRatio)?.[0] ||

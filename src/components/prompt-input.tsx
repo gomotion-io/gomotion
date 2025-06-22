@@ -5,8 +5,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { ArrowUpIcon, StopIcon } from "@heroicons/react/16/solid";
 import { useCallback, useRef } from "react";
 import { ModelSelection } from "@/components/model-selection";
-import { useGenerationStore } from "@/store/generation";
-import { usePromptParamsStore } from "@/store/prompt-params";
+import { useGenerationStore } from "@/store/generation.store";
+import { useParamStore } from "@/store/params.store";
 import { RatioSelection } from "@/components/ratio-selection";
 
 export const PromptInput = () => {
@@ -14,8 +14,8 @@ export const PromptInput = () => {
 
   const loading = useGenerationStore((state) => state.loading);
   const generateComp = useGenerationStore((state) => state.generateComp);
-  const setPrompt = usePromptParamsStore((state) => state.setPrompt);
-  const prompt = usePromptParamsStore((state) => state.prompt);
+  const setPrompt = useParamStore((state) => state.setPrompt);
+  const prompt = useParamStore((state) => state.prompt);
 
   const handleSubmit = useCallback(async () => {
     await generateComp({ prompt });

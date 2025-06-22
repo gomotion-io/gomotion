@@ -9,7 +9,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { MODEL_PROVIDERS } from "@/constant";
-import { usePromptParamsStore } from "@/store/prompt-params";
+import { useParamStore } from "@/store/params.store";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import {
   Tooltip,
@@ -18,10 +18,8 @@ import {
 } from "@/components/ui/tooltip";
 
 export const ModelSelection = () => {
-  const model = usePromptParamsStore((state) => state.llm_model);
-  const setModelProvider = usePromptParamsStore(
-    (state) => state.setModelProvider,
-  );
+  const model = useParamStore((state) => state.llm_model);
+  const setModelProvider = useParamStore((state) => state.setModelProvider);
 
   return (
     <Tooltip>
