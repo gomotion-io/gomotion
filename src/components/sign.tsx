@@ -9,15 +9,13 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { getEnvUrl } from "@/lib/utils";
-import { createClient } from "@/supabase/client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { FC, useCallback, useState } from "react";
+import { FC } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
+import { useAuthStore } from "@/store/auth.store";
 
 const LicenseFormSchema = z.object({
   email: z.string().email(),
@@ -30,34 +28,9 @@ type SignProps = {
 };
 
 export const Sign: FC<SignProps> = ({ type }) => {
-  const isRegister = type === "Register";
-  const title = isRegister ? "Create your account" : "Sign in to your account";
-  const description = isRegister
-    ? "Enter your email address to create an account."
-    : "Enter your email address to continue";
-  const buttonText = isRegister ? "Register with email" : "Sign in with email";
-  const supabase = createClient();
-  const router = useRouter();
-  const [isLoading, setIsLoading] = useState(false);
-  const [error] = useState<string | null>(null);
-
-  const signIn = useCallback(
-    async ({ email }: LicenseFormData) => {
-      setIsLoading(true);
-      const { data, error } = await supabase.auth.signInWithOtp({
-        email,
-        options: {
-          shouldCreateUser: true,
-          emailRedirectTo: getEnvUrl(),
-        },
-      });
-      if (!error && !data.user) {
-        router.push(`/mail-sent`);
-      }
-      setIsLoading(false);
-    },
-    [router, supabase.auth],
-  );
+  const loading = useAuthStore((state) => state.loading);
+  const error = useAuthStore((state) => state.error);
+  const signIn = useAuthStore((state) => state.signIn);
 
   const form = useForm<LicenseFormData>({
     resolver: zodResolver(LicenseFormSchema),
@@ -65,6 +38,13 @@ export const Sign: FC<SignProps> = ({ type }) => {
       email: "",
     },
   });
+
+  const isRegister = type === "Register";
+  const title = isRegister ? "Create your account" : "Sign in to your account";
+  const description = isRegister
+    ? "Enter your email address to create an account."
+    : "Enter your email address to continue";
+  const buttonText = isRegister ? "Register with email" : "Sign in with email";
 
   return (
     <div className="w-full flex flex-col items-center pt-36 gap-10 px-5">
@@ -98,10 +78,10 @@ export const Sign: FC<SignProps> = ({ type }) => {
           <Button
             type="submit"
             className="w-full mt-1 gap-4"
-            disabled={isLoading}
+            disabled={loading}
           >
             {buttonText}
-            {isLoading && <Spinner className="text-stone-950" />}
+            {loading && <Spinner className="text-stone-950" />}
           </Button>
 
           {error && <div className="text-sm text-red-500">{error}</div>}

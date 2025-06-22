@@ -8,19 +8,17 @@ export enum AspectRatio {
   "4:3" = "1440:1080",
 }
 
-export type PromptParamsState = {
+export type ParamsState = {
   prompt: string;
   llm_provider: string;
   llm_model: string;
   aspectRatio: AspectRatio;
-
-  // --- setters ---
   setPrompt: (prompt: string) => void;
   setModelProvider: (provider: ModelProvider) => void;
   setAspectRatio: (aspectRatio: AspectRatio) => void;
 };
 
-export const usePromptParamsStore = create<PromptParamsState>((set) => ({
+export const useParamStore = create<ParamsState>((set) => ({
   prompt: "",
   llm_provider: MODEL_PROVIDERS[0].llm_provider,
   llm_model: MODEL_PROVIDERS[0].llm_model,

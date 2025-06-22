@@ -1,6 +1,6 @@
 "use client";
 
-import React, { FC, useCallback, useState } from "react";
+import React, { FC } from "react";
 import clsx from "clsx";
 import {
   Card,
@@ -14,9 +14,8 @@ import { ArrowRight, Check } from "lucide-react";
 import { CREDIT_FACTOR } from "@/constant";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/spinner";
-import { checkout } from "@/supabase/server-functions/checkout";
-import { useRouter } from "next/navigation";
 import { ProfileData } from "@/_type";
+import { useCheckoutStore } from "@/store/checkout.store";
 
 type PlanItemProps = {
   product: Product;
@@ -24,39 +23,9 @@ type PlanItemProps = {
 };
 
 export const PlanItem: FC<PlanItemProps> = ({ profile, product }) => {
-  const router = useRouter();
-  const [loadingCheckout, setIsLoadingCheckout] = useState(false);
-  const [currentVariantId, setCurrentVariantId] = useState<string>("idle");
-
-  const onCheckout = useCallback(
-    async (product: Product) => {
-      if (product.name === "Free") {
-        router.push("/sign-in");
-        return;
-      }
-
-      if (product.name === "Enterprise") {
-        window.location.href = "https://discord.gg/emD6h74Fh7";
-        return;
-      }
-
-      if (!profile?.id) {
-        router.push("/sign-in");
-        return;
-      }
-
-      if (!product?.variant_id) return;
-      setCurrentVariantId(product.variant_id);
-      setIsLoadingCheckout(true);
-      const data = await checkout({ variantId: product.variant_id });
-      if (data.checkoutUrl) {
-        window.open(data.checkoutUrl, "_blank");
-      }
-      setIsLoadingCheckout(false);
-      setCurrentVariantId("idle");
-    },
-    [profile?.id, router],
-  );
+  const loading = useCheckoutStore((state) => state.loading);
+  const currentVariantId = useCheckoutStore((state) => state.variantId);
+  const checkout = useCheckoutStore((state) => state.checkout);
 
   return (
     <Card
@@ -123,14 +92,14 @@ export const PlanItem: FC<PlanItemProps> = ({ profile, product }) => {
         ) : (
           <Button
             className="w-full gap-2 flex items-center"
-            disabled={loadingCheckout}
-            onClick={() => onCheckout(product)}
+            disabled={loading}
+            onClick={() => checkout(product, profile)}
           >
             {product.name === "Free"
               ? "Start for free"
               : product.name === "Enterprise"
                 ? "Contact us"
-                : "Subscribe now"}
+                : "Subscribe"}
 
             {currentVariantId === product.variant_id && (
               <Spinner className="text-stone-950" />
