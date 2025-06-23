@@ -1,10 +1,9 @@
-import { createCount, getCounts } from "@/supabase/server-functions/counts";
+import { generateVideo } from "@/app/api/generate/generate-video";
+import { getCounts } from "@/supabase/server-functions/counts";
 import { getProfile } from "@/supabase/server-functions/profile";
 import { getUser } from "@/supabase/server-functions/users";
-import { NextRequest } from "next/server";
-import { generateVideo } from "@/app/api/generate/generate-video";
 
-export async function POST(request: NextRequest) {
+export async function POST() {
   try {
     // Ensure the user is authenticated
     const user = await getUser();
@@ -28,12 +27,11 @@ export async function POST(request: NextRequest) {
     }
 
     // Generate video
-    const data = await generateVideo(request);
+    const data = await generateVideo();
 
     // Record credit for successful generation
-    await createCount(profile.id);
+    // await createCount(profile.id);
 
-    //Return response
     return Response.json(data);
   } catch (error) {
     console.error("Generate video error:", error);

@@ -1,14 +1,20 @@
-import type { NextConfig } from "next";
-
-const nextConfig: NextConfig = {
-  webpack: (config, { isServer }) => {
-    // Exclude esbuild from webpack bundling to prevent parse errors
-    if (isServer) {
-      config.externals = config.externals || [];
-      config.externals.push("esbuild");
-    }
-    return config;
+module.exports = {
+  reactStrictMode: false,
+  async headers() {
+    return [
+      {
+        source: "/(.*)",
+        headers: [
+          {
+            key: "Cross-Origin-Embedder-Policy",
+            value: "require-corp",
+          },
+          {
+            key: "Cross-Origin-Opener-Policy",
+            value: "same-origin",
+          },
+        ],
+      },
+    ];
   },
 };
-
-export default nextConfig;

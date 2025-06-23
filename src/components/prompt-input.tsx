@@ -1,16 +1,18 @@
 "use client";
 
+import { ModelSelection } from "@/components/model-selection";
+import { RatioSelection } from "@/components/ratio-selection";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { ArrowUpIcon, StopIcon } from "@heroicons/react/16/solid";
-import { useCallback, useRef } from "react";
-import { ModelSelection } from "@/components/model-selection";
+import { useWebContainer } from "@/hooks/useWebContainer";
 import { useGenerationStore } from "@/store/generation.store";
 import { useParamStore } from "@/store/params.store";
-import { RatioSelection } from "@/components/ratio-selection";
+import { ArrowUpIcon, StopIcon } from "@heroicons/react/16/solid";
+import { useCallback, useRef } from "react";
 
 export const PromptInput = () => {
   const textareaRef = useRef(null);
+  const { mountFiles } = useWebContainer();
 
   const loading = useGenerationStore((state) => state.loading);
   const generateComp = useGenerationStore((state) => state.generateComp);
@@ -18,8 +20,11 @@ export const PromptInput = () => {
   const prompt = useParamStore((state) => state.prompt);
 
   const handleSubmit = useCallback(async () => {
-    await generateComp({ prompt });
-  }, [generateComp, prompt]);
+    const tree = await generateComp({ prompt });
+    if (tree) {
+      await mountFiles(tree);
+    }
+  }, [generateComp, prompt, mountFiles]);
 
   return (
     <div className="relative w-full flex flex-col gap-4">
@@ -38,7 +43,7 @@ export const PromptInput = () => {
             !event.nativeEvent.isComposing
           ) {
             event.preventDefault();
-            handleSubmit();
+            handleSubmit().catch(console.error);
           }
         }}
       />
