@@ -1,91 +1,148 @@
-/* ----------------- Particle burst animation with colorful particles ----------------- */
-export const particle_burst_example = () => ({
-  metadata: {
-    width: 1920,
-    height: 1080,
-    fps: 60,
-    duration_in_frames: 300,
+import { FileSystemTree } from "@webcontainer/api";
+
+export const files: FileSystemTree = {
+  "index.html": {
+    file: {
+      contents: `<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>React Vite App</title>
+    <style>
+      html,body,#root{
+        margin:0;
+        padding:0;
+        width:100%;
+        height:100%;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>`,
+    },
   },
-  tsx: `const React = window.React;
-const R = window.Remotion;
+  "package.json": {
+    file: {
+      contents: `{
+  "name": "react-vite-ts-app",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "vite --host"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "@remotion/player": "^4.0.0",
+    "remotion": "^4.0.0"
+  },
+  "devDependencies": {
+    "vite": "^5.2.0",
+    "@vitejs/plugin-react": "^4.0.3",
+    "typescript": "^5.4.0"
+  }
+}`,
+    },
+  },
+  "tsconfig.json": {
+    file: {
+      contents: `{
+  "compilerOptions": {
+    "target": "ESNext",
+    "useDefineForClassFields": true,
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "allowJs": false,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react-jsx"
+  },
+  "include": ["src"]
+}`,
+    },
+  },
+  "vite.config.ts": {
+    file: {
+      contents: `import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
 
-export const GeneratedComp: React.FC = () => {
-  const frame = R.useCurrentFrame();
-  const { fps } = R.useVideoConfig();
-  
-  const particles = Array.from({ length: 20 }, (_, i) => {
-    const angle = (i / 20) * 2 * Math.PI;
-    const distance = R.spring({
-      frame: frame - 60,
-      fps,
-      config: { damping: 15, stiffness: 200 },
-    }) * 300;
-    
-    const x = Math.cos(angle) * distance;
-    const y = Math.sin(angle) * distance;
-    
-    const opacity = R.interpolate(frame, [60, 100, 200, 240], [0, 1, 1, 0], {
-      extrapolateRight: 'clamp',
-      extrapolateLeft: 'clamp',
-    });
-    
-    return { x, y, opacity, angle: angle * (180 / Math.PI) };
-  });
+export default defineConfig({
+  plugins: [react()],
+});`,
+    },
+  },
+  src: {
+    directory: {
+      "main.tsx": {
+        file: {
+          contents: `import React from 'react';
+import ReactDOM from 'react-dom/client';
+import App from './App';
 
-  // Text animation
-  const textScale = R.spring({
-    frame: frame - 30,
-    fps,
-    config: { damping: 12, stiffness: 300 },
-  });
+ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+);`,
+        },
+      },
+      "App.tsx": {
+        file: {
+          contents: `import React from 'react';
+import { Player } from '@remotion/player';
+import { HelloWorld } from './HelloWorld';
 
+const App: React.FC = () => {
   return (
-    <div style={{ 
-      width: '100%', 
-      height: '100%', 
-      display: 'flex', 
-      alignItems: 'center', 
-      justifyContent: 'center', 
-      backgroundColor: '#0a0a0a',
-      fontFamily: 'Arial, sans-serif',
-      position: 'relative',
-      overflow: 'hidden'
-    }}>
-      {/* Particles */}
-      {particles.map((particle, index) => (
-        <div
-          key={index}
-          style={{
-            position: 'absolute',
-            width: 8,
-            height: 8,
-            borderRadius: '50%',
-            background: \`hsl(\${index * 18}, 80%, 60%)\`,
-            transform: \`translate(\${particle.x}px, \${particle.y}px)\`,
-            opacity: particle.opacity,
-          }}
-        />
-      ))}
-      
-      {/* Central text */}
-      <div style={{
-        textAlign: 'center',
-        transform: \`scale(\${textScale})\`,
-        zIndex: 10,
-      }}>
-        <h1 style={{
-          fontSize: 72,
-          fontWeight: 'bold',
-          color: 'white',
-          margin: 0,
-          textShadow: '0 0 20px rgba(255,255,255,0.5)',
-        }}>
-          hello world
-        </h1>
-      </div>
+    <div style={{ width: '100%' }}>
+      <Player
+        component={HelloWorld}
+        durationInFrames={60}
+        fps={30}
+        compositionWidth={1920}
+        compositionHeight={1080}
+        controls
+        style={{ width: '100%' }}
+      />
     </div>
   );
 };
 
-export default GeneratedComp;`,
-});
+export default App;`,
+        },
+      },
+      "HelloWorld.tsx": {
+        file: {
+          contents: `import React from 'react';
+import { AbsoluteFill } from 'remotion';
+
+export const HelloWorld: React.FC = () => {
+  return (
+    <AbsoluteFill style={{ justifyContent: 'center', alignItems: 'center' }}>
+      <h1 style={{ fontSize: 60 }}>Hello World</h1>
+    </AbsoluteFill>
+  );
+};`,
+        },
+      },
+      "vite-env.d.ts": {
+        file: {
+          contents: `/// <reference types="vite/client" />`,
+        },
+      },
+    },
+  },
+};
