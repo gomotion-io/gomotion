@@ -1,11 +1,11 @@
-import { FileSystemTree } from "@webcontainer/api";
-
-export const srcfiles: FileSystemTree = {
-  src: {
-    directory: {
-      "main.tsx": {
-        file: {
-          contents: `import React from 'react';
+export const example = {
+  projectName: "remotion-video",
+  fileSystem: {
+    src: {
+      directory: {
+        "main.tsx": {
+          file: {
+            contents: `import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
 
@@ -14,17 +14,17 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
     <App />
   </React.StrictMode>
 );`,
+          },
         },
-      },
-      "App.tsx": {
-        file: {
-          contents: `import React from 'react';
+        "App.tsx": {
+          file: {
+            contents: `import React from 'react';
 import { Player } from '@remotion/player';
 import { HelloWorld } from './HelloWorld';
 
 const App: React.FC = () => {
   return (
-    <div style={{ width: '100%' }}>
+    <div>
       <Player
         component={HelloWorld}
         durationInFrames={60}
@@ -39,11 +39,11 @@ const App: React.FC = () => {
 };
 
 export default App;`,
+          },
         },
-      },
-      "HelloWorld.tsx": {
-        file: {
-          contents: `import React from 'react';
+        "HelloWorld.tsx": {
+          file: {
+            contents: `import React from 'react';
 import { AbsoluteFill } from 'remotion';
 
 export const HelloWorld: React.FC = () => {
@@ -53,6 +53,7 @@ export const HelloWorld: React.FC = () => {
     </AbsoluteFill>
   );
 };`,
+          },
         },
       },
     },

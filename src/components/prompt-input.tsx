@@ -1,10 +1,9 @@
 "use client";
 
-import { ModelSelection } from "@/components/model-selection";
 import { RatioSelection } from "@/components/ratio-selection";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { useWebContainer } from "@/hooks/useWebContainer";
+import { useWebContainer } from "@/hooks/webcontainer/useWebContainer";
 import { useGenerationStore } from "@/store/generation.store";
 import { useParamStore } from "@/store/params.store";
 import { ArrowUpIcon, StopIcon } from "@heroicons/react/16/solid";
@@ -49,7 +48,6 @@ export const PromptInput = () => {
       />
       <div className="absolute bottom-0 right-0 p-2 w-fit flex flex-row justify-end gap-2 items-center">
         <RatioSelection />
-        <ModelSelection />
         {loading ? (
           <Button className="rounded-full w-14" onClick={() => {}}>
             <StopIcon className="w-5 h-5" />
