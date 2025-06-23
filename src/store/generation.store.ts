@@ -1,15 +1,12 @@
-import { CompositionMetadata } from "@/_type";
 import { useParamStore } from "@/store/params.store";
-import * as React from "react";
-import * as ReactDOM from "react-dom";
-import * as R from "remotion";
+import type { FileSystemTree } from "@webcontainer/api";
 import { create } from "zustand";
 
 export type GenerationState = {
   loading: boolean;
-  composition: React.ComponentType | null;
-  metadata: CompositionMetadata | null;
-  generateComp: (payload: { prompt: string }) => Promise<void>;
+  generateComp: (payload: {
+    prompt: string;
+  }) => Promise<FileSystemTree | undefined>;
 };
 
 export const useGenerationStore = create<GenerationState>((set) => ({
@@ -32,34 +29,7 @@ export const useGenerationStore = create<GenerationState>((set) => ({
         body: JSON.stringify({ prompt, llm_provider, llm_model }),
       });
 
-      const { tsx, metadata } = await res.json();
-
-      // Make React and Remotion available globally for the dynamic component
-      window.React = React;
-      window.ReactDOM = ReactDOM;
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      (window as any).Remotion = R;
-
-      // Transform TSX using the API route
-      const transformRes = await fetch("/api/transform", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ tsx }),
-      });
-
-      const { code } = await transformRes.json();
-
-      const jsBlob = new Blob([code], { type: "text/javascript" });
-      const blobUrl = URL.createObjectURL(jsBlob);
-      const imported = await import(/* webpackIgnore: true */ blobUrl);
-      URL.revokeObjectURL(blobUrl);
-
-      set({
-        composition: imported.default as React.ComponentType,
-        metadata: metadata as CompositionMetadata,
-      });
+      return (await res.json()) as FileSystemTree;
     } catch (error) {
       console.error(error);
     } finally {
