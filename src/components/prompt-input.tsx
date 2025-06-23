@@ -4,7 +4,7 @@ import { ModelSelection } from "@/components/model-selection";
 import { RatioSelection } from "@/components/ratio-selection";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { useWebContainer } from "@/hooks/useWebContainer";
+import { useWebContainer } from "@/hooks/webcontainer/useWebContainer";
 import { useGenerationStore } from "@/store/generation.store";
 import { useParamStore } from "@/store/params.store";
 import { ArrowUpIcon, StopIcon } from "@heroicons/react/16/solid";

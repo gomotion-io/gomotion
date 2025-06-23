@@ -21,7 +21,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
           contents: `import React from 'react';
 
 const App: React.FC = () => {
-  return <h1 style={{color: '#ffffff'}}>Hello World</h1>;
+  return <h2 style={{color: '#ffffff'}}>Ready 🎉</h2>;
 };
 
 export default App;`,

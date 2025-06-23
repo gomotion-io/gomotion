@@ -24,7 +24,7 @@ import { HelloWorld } from './HelloWorld';
 
 const App: React.FC = () => {
   return (
-    <div style={{ width: '100%' }}>
+    <div style={{ width: '100%'; display: 'flex'; alignItems: 'center' }}>
       <Player
         component={HelloWorld}
         durationInFrames={60}
