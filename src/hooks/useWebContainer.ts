@@ -1,12 +1,15 @@
-import { WebContainer } from "@webcontainer/api";
+import { rootFile } from "@/hooks/root-file";
+import { type FileSystemTree, WebContainer } from "@webcontainer/api";
 import { Terminal } from "@xterm/xterm";
 import { RefObject, useCallback, useEffect, useMemo, useRef } from "react";
-import { rootFile } from "@/hooks/root-file";
+
+let webContainerInstance: WebContainer | null = null;
+let hasMountedFileSystem = false;
 
 type UseWebContainerOutput = {
   wb: RefObject<WebContainer | null>;
   iframe: RefObject<HTMLIFrameElement | null>;
-  writeIndexJS: (content: string) => Promise<void>;
+  mountFiles: (tree: FileSystemTree) => Promise<void>;
   xterm: RefObject<Terminal | null>;
 };
 
@@ -53,13 +56,23 @@ export const useWebContainer = (): UseWebContainerOutput => {
     });
   }, []);
 
-  /* ----------------- write file ----------------- */
-  const writeIndexJS = useCallback(async (content: string) => {
-    if (!wb.current) return;
-    await wb.current.fs.writeFile("/index.js", content);
+  /* ----------------- mount / replace files ----------------- */
+  const mountFiles = useCallback(async (tree: FileSystemTree) => {
+    const container = wb.current ?? webContainerInstance;
+    if (!container) return;
+
+    try {
+      // Remove the existing `/src` directory to avoid stale files.
+      await container.fs.rm("/src", { recursive: true }).catch(() => {});
+    } catch {
+      // directory might not exist – ignore
+    }
+
+    // Any files declared in `tree` will be created/overwritten.
+    await container.mount(tree);
   }, []);
 
-  /* ----------------- initialize : ensure single execution ----------------- */
+  /* ----------------- initialize and ensure single execution ----------------- */
   useEffect(() => {
     if (didBoot.current) return; // Prevent double-boot in React StrictMode
     didBoot.current = true;
@@ -69,10 +82,19 @@ export const useWebContainer = (): UseWebContainerOutput => {
         convertEol: true,
       });
 
-      // In case another component already booted the WebContainer, reuse it
-      if (!wb.current) {
-        wb.current = await WebContainer.boot();
-        await wb.current.mount(rootFile);
+      // Boot the global WebContainer instance only once and reuse it.
+      if (!webContainerInstance) {
+        webContainerInstance = await WebContainer.boot();
+      }
+
+      // Store the instance in the ref so that the rest of the hook API
+      // continues to work with the same signature.
+      wb.current = webContainerInstance;
+
+      // Mount the file-system only the first time we create the container.
+      if (!hasMountedFileSystem) {
+        await webContainerInstance.mount(rootFile);
+        hasMountedFileSystem = true;
       }
 
       const exitCode = await installDependencies(xterm.current);
@@ -85,5 +107,5 @@ export const useWebContainer = (): UseWebContainerOutput => {
     // eslint-disable-next-line react-hooks/exhaustive-deps -- run only once intentionally
   }, []);
 
-  return useMemo(() => ({ wb, iframe, writeIndexJS, xterm }), [writeIndexJS]);
+  return useMemo(() => ({ wb, iframe, mountFiles, xterm }), [mountFiles]);
 };

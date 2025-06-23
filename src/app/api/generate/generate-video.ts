@@ -1,10 +1,9 @@
-import { NextRequest } from "next/server";
+import { srcfiles } from "@/app/api/generate/example";
 
 // const DEFAULT_LLM_PROVIDER = "google";
 // const DEFAULT_LLM_MODEL = "gemini-2.5-pro-preview-05-06";
-import { files } from "@/app/api/generate/example";
 
-export async function generateVideo(_: NextRequest) {
+export async function generateVideo() {
   // const { prompt, llm_provider, llm_model } = await request.json();
   //
   // const response = await fetch("http://127.0.0.1:5000/api/generate", {
@@ -22,5 +21,5 @@ export async function generateVideo(_: NextRequest) {
   // }
   // return response.json();
 
-  return files;
+  return srcfiles;
 }

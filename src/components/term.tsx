@@ -16,7 +16,7 @@ export const Term: FC<TermProps> = ({ xterm }) => {
 
   return (
     <div
-      className=" left-5 w-[25rem] border border-red-500 absolute -z-1"
+      className="left-5 w-[22rem] border border-emerald-500 absolute -z-1 h-[26rem]"
       ref={term}
     ></div>
   );
