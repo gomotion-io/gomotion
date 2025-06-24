@@ -32,7 +32,7 @@ export const linkProductToUser = async (
     .from("profiles")
     .update({
       subscription_status: variantId === "free" ? "inactive" : "active",
-      subscription_id: subscriptionId,
+      subscription_id: Number(subscriptionId),
       product_id: data.id,
     })
     .eq("id", userId);

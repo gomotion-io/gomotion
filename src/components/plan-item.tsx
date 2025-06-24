@@ -80,7 +80,7 @@ export const PlanItem: FC<PlanItemProps> = ({ profile, product }) => {
       </CardContent>
 
       <CardFooter>
-        {profile?.products.variant_id &&
+        {profile?.products?.variant_id &&
         profile.products.variant_id === product.variant_id ? (
           <Button
             className="w-full gap-2 flex items-center"

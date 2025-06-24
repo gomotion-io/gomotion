@@ -16,6 +16,7 @@ let bootPromise: Promise<WebContainer> | null = null;
 
 export enum WebContainerStatus {
   Idle = "idle",
+  Booting = "booting",
   InstallingDeps = "installingDeps",
   StartingDevServer = "startingDevServer",
   UpdatingFiles = "updatingFiles",
@@ -100,6 +101,7 @@ export const useWebContainer = (
   /* ----------------- initialize and ensure single execution ----------------- */
   useEffect(() => {
     if (didBoot.current) return;
+    setStatus(WebContainerStatus.Booting);
     didBoot.current = true;
 
     (async () => {

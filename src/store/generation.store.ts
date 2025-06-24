@@ -16,7 +16,7 @@ export const useGenerationStore = create<GenerationState>((set) => ({
   metadata: null,
 
   generateComp: async ({ prompt }) => {
-    const { llm_provider, llm_model } = useParamStore.getState();
+    const { aspectRatio } = useParamStore.getState();
 
     try {
       set({ loading: true });
@@ -26,10 +26,11 @@ export const useGenerationStore = create<GenerationState>((set) => ({
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ prompt, llm_provider, llm_model }),
+        body: JSON.stringify({ prompt, aspectRatio }),
       });
 
-      return (await res.json()) as FileSystemTree;
+      const data: Video = await res.json();
+      return data.composition as unknown as FileSystemTree;
     } catch (error) {
       console.error(error);
     } finally {

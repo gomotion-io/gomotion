@@ -13,6 +13,12 @@ export const Player = () => {
 
   const statusMessage = useMemo(() => {
     switch (status) {
+      case WebContainerStatus.Booting:
+        return (
+          <div className="flex items-center">
+            <Loader /> Booting container...
+          </div>
+        );
       case WebContainerStatus.InstallingDeps:
         return (
           <div className="flex items-center">

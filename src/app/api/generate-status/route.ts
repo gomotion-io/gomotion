@@ -1,4 +1,4 @@
-export async function getGenerationStatus() {
+export async function GET() {
   const response = await fetch(
     `${process.env.MASTRA_URL}/api/workflows/remotionWorkflow/watch`,
     {
