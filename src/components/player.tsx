@@ -1,55 +1,25 @@
 "use client";
 
-import { Loader } from "@/components/loader";
-import {
-  useWebContainer,
-  WebContainerStatus,
-} from "@/hooks/webcontainer/useWebContainer";
+import { useWebContainer } from "@/hooks/webcontainer/useWebContainer";
 import { isDevMode } from "@/lib/utils";
-import { useMemo } from "react";
+import { motion } from "framer-motion";
 
 export const Player = () => {
-  const { iframe, status } = useWebContainer(isDevMode);
-
-  const statusMessage = useMemo(() => {
-    switch (status) {
-      case WebContainerStatus.Booting:
-        return (
-          <div className="flex items-center">
-            <Loader /> Booting container...
-          </div>
-        );
-      case WebContainerStatus.InstallingDeps:
-        return (
-          <div className="flex items-center">
-            <Loader /> Installing dependencies...
-          </div>
-        );
-      case WebContainerStatus.StartingDevServer:
-        return (
-          <div className="flex items-center">
-            <Loader /> Starting dev server...
-          </div>
-        );
-      case WebContainerStatus.UpdatingFiles:
-        return (
-          <div className="flex items-center">
-            <Loader /> Updating files...
-          </div>
-        );
-      case WebContainerStatus.Idle:
-      default:
-        return null;
-    }
-  }, [status]);
+  const { iframe, initProgress } = useWebContainer(isDevMode);
 
   return (
     <div className="w-full flex-1 relative">
       <iframe ref={iframe} className="w-full h-full" />
 
-      {statusMessage && (
+      {initProgress && (
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-          {statusMessage}
+          <motion.div className="w-52 h-2 border rounded overflow-hidden">
+            <motion.div
+              className="h-full bg-primary"
+              animate={{ width: `${initProgress * 100}%` }}
+              transition={{ duration: 0.5 }}
+            />
+          </motion.div>
         </div>
       )}
     </div>

@@ -36,6 +36,7 @@
     "esbuild": "^0.25.5",
     "langchain": "^0.3.27",
     "lucide-react": "^0.511.0",
+    "motion": "^12.19.1",
     "next": "15.3.3",
     "next-nprogress-bar": "^2.4.7",
     "raw-body": "^3.0.0",
