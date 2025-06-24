@@ -14,16 +14,8 @@ let globalWebContainer: WebContainer | null = null;
 let isBooting = false;
 let bootPromise: Promise<WebContainer> | null = null;
 
-export enum WebContainerStatus {
-  Idle = "idle",
-  Booting = "booting",
-  InstallingDeps = "installingDeps",
-  StartingDevServer = "startingDevServer",
-  UpdatingFiles = "updatingFiles",
-}
-
 type UseWebContainerOutput = {
-  status: WebContainerStatus;
+  initProgress: number | null;
   wb: RefObject<WebContainer | null>;
   iframe: RefObject<HTMLIFrameElement | null>;
   mountFiles: (tree: FileSystemTree) => Promise<void>;
@@ -35,15 +27,12 @@ export const useWebContainer = (
   const didBoot = useRef(false);
   const wb = useRef<WebContainer | null>(null);
   const iframe = useRef<HTMLIFrameElement>(null);
-  const [status, setStatus] = useState<WebContainerStatus>(
-    WebContainerStatus.Idle,
-  );
+  const [progress, setProgress] = useState<number | null>(null);
 
   /* ----------------- install dependencies ----------------- */
   const installDependencies = useCallback(async () => {
     if (!wb.current) return;
 
-    setStatus(WebContainerStatus.InstallingDeps);
     const installProcess = await wb.current.spawn("npm", ["install"]);
 
     installProcess.output
@@ -58,16 +47,13 @@ export const useWebContainer = (
       )
       .catch(console.error);
 
-    const exitCode = await installProcess.exit;
-    setStatus(WebContainerStatus.Idle);
-    return exitCode;
+    return await installProcess.exit;
   }, [logToConsole]);
 
   /* ----------------- start dev server ----------------- */
   const startDevServer = useCallback(async () => {
     if (!wb.current) return;
 
-    setStatus(WebContainerStatus.StartingDevServer);
     const startProcess = await wb.current.spawn("npm", ["run", "start"]);
 
     startProcess.output
@@ -83,7 +69,6 @@ export const useWebContainer = (
       .catch(console.error);
 
     wb.current.on("server-ready", (_, url) => {
-      setStatus(WebContainerStatus.Idle);
       if (!iframe.current) return;
       iframe.current.src = url;
     });
@@ -91,40 +76,41 @@ export const useWebContainer = (
 
   /* ----------------- mount / replace files ----------------- */
   const mountFiles = useCallback(async (tree: FileSystemTree) => {
-    setStatus(WebContainerStatus.UpdatingFiles);
     if (!wb.current) return;
     await wb.current.fs.rm("/src", { recursive: true });
     await wb.current.mount(tree);
-    setStatus(WebContainerStatus.Idle);
   }, []);
 
   /* ----------------- initialize and ensure single execution ----------------- */
   useEffect(() => {
     if (didBoot.current) return;
-    setStatus(WebContainerStatus.Booting);
+    setProgress(0);
     didBoot.current = true;
 
     (async () => {
       try {
+        setProgress(0.25);
         wb.current = await getWebContainer();
-
         // Mount the file-system only the first time we create the container.
         if (!hasMountedFileSystem) {
           await wb.current.mount(rootFile);
           hasMountedFileSystem = true;
         }
-
+        setProgress(0.5);
         await installDependencies();
+        setProgress(0.75);
         await startDevServer();
+        setProgress(1);
+        setTimeout(() => setProgress(null), 1000);
       } catch (error) {
         console.error("Failed to initialize WebContainer:", error);
       }
     })();
-  }, [installDependencies, startDevServer]);
+  }, []);
 
   return useMemo(
-    () => ({ wb, iframe, mountFiles, status }),
-    [status, mountFiles],
+    () => ({ wb, iframe, mountFiles, initProgress: progress }),
+    [progress, mountFiles],
   );
 };
 
