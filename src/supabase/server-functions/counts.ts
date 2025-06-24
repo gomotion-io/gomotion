@@ -1,6 +1,5 @@
 "use server";
 
-import { createClient } from "@/supabase/client";
 import { createAdminClient } from "@/supabase/admin";
 
 export const getCounts = async (profileId: string): Promise<number> => {
@@ -30,7 +29,7 @@ export const getCounts = async (profileId: string): Promise<number> => {
 };
 
 export const createCount = async (profileId: string): Promise<void> => {
-  const supabase = createClient();
+  const supabase = await createAdminClient();
 
   const { error } = await supabase
     .from("counts")

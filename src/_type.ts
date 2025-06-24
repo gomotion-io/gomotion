@@ -8,6 +8,6 @@ export type CompositionMetadata = {
 export interface ProfileData extends Profile {
   products: {
     limit: number;
-    variant_id: string;
-  };
+    variant_id: string | null;
+  } | null;
 }

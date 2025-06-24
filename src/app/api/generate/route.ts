@@ -1,61 +1,34 @@
-import { getCounts } from "@/supabase/server-functions/counts";
-import { getProfile } from "@/supabase/server-functions/profile";
-import { getUser } from "@/supabase/server-functions/users";
 import { NextRequest } from "next/server";
+import { validateUser } from "@/app/api/generate/utils/validate-user";
+import { validateCredit } from "@/app/api/generate/utils/validate-credits";
+import { generateVideo } from "@/app/api/generate/utils/generate-video";
+import { recordUsage } from "@/app/api/generate/utils/record-usage";
+
+interface GenerationRequest {
+  prompt: string;
+}
 
 export async function POST(request: NextRequest) {
   try {
-    const { prompt } = await request.json();
+    const { prompt }: GenerationRequest = await request.json();
 
-    // Ensure the user is authenticated
-    const user = await getUser();
-    if (!user) {
-      return Response.json({ error: "Unauthorized" }, { status: 401 });
-    }
+    // Step 1: Validate user authentication
+    const user = await validateUser();
 
-    // Check credit limits
-    const profile = await getProfile(user.id);
-    const usageCount = await getCounts(profile.id);
+    // Step 2: Check credit limits
+    const { profile } = await validateCredit(user.id);
 
-    if (usageCount >= profile.products.limit) {
-      return Response.json(
-        {
-          rateLimit: true,
-          limit: profile.products.limit,
-          message: "Insufficient credits!",
-        },
-        { status: 401 },
-      );
-    }
+    // Step 3: Generate video via mastra api
+    const videoData = await generateVideo(prompt);
 
-    // Generate video
-    const response = await fetch(
-      `${process.env.MASTRA_URL}/api/workflows/remotionWorkflow/start-async`,
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          inputData: {
-            userRequest: prompt,
-          },
-          runtimeContext: {},
-        }),
-      },
+    // Step 4: Record usage and save video to database
+    const result = await recordUsage(
+      profile.id,
+      videoData.result.projectName,
+      videoData.result.fileSystem,
     );
 
-    const data = await response.json();
-
-    if (data.status !== "success") {
-      return Response.json({ error: response.status });
-    }
-
-    const fileSystem = data.result.fileSystem;
-
-    // Record credit for successful generation
-    // await createCount(profile.id);
-
-    console.log(fileSystem);
-    return Response.json(fileSystem);
+    return Response.json(result);
   } catch (error) {
     console.error("Generate video error:", error);
     return Response.json(

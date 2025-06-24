@@ -115,6 +115,38 @@ export type Database = {
           },
         ]
       }
+      videos: {
+        Row: {
+          composition: Json | null
+          created_at: string
+          id: string
+          name: string | null
+          profile_id: string
+        }
+        Insert: {
+          composition?: Json | null
+          created_at?: string
+          id?: string
+          name?: string | null
+          profile_id?: string
+        }
+        Update: {
+          composition?: Json | null
+          created_at?: string
+          id?: string
+          name?: string | null
+          profile_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "videos_profile_id_fkey"
+            columns: ["profile_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
