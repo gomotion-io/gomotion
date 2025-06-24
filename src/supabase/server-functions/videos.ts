@@ -25,23 +25,16 @@ export const saveVideo = async ({
   return data;
 };
 
-export const getVideos = async (profileId: string) => {
+export const getVideoById = async (id: string) => {
   const supabase = await createAdminClient();
 
   const { data, error } = await supabase
     .from("videos")
-    .select()
-    .eq("profile_id", profileId);
+    .select("*")
+    .eq("id", id)
+    .single();
 
   if (error) throw error;
 
   return data;
-};
-
-export const deleteVideo = async (id: string): Promise<void> => {
-  const supabase = await createAdminClient();
-
-  const { error } = await supabase.from("videos").delete().eq("id", id);
-
-  if (error) throw error;
 };

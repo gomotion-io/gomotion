@@ -8,8 +8,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useVideoStore } from "@/store/video.store";
-import { useRouter } from "next/navigation";
 import { format } from "date-fns";
+import { useRouter } from "next/navigation";
 
 export function VideoHistory() {
   const router = useRouter();
@@ -21,7 +21,7 @@ export function VideoHistory() {
         <Button variant="outline">History</Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent
-        className="w-80 h-80 overflow-y-auto flex flex-col gap-1"
+        className="w-64 h-80 overflow-y-auto flex flex-col gap-1"
         align="end"
       >
         {loading && (
@@ -35,13 +35,13 @@ export function VideoHistory() {
         {videos.map((video) => (
           <button
             key={video.id}
-            onClick={() => router.push("/explore")}
+            onClick={() => router.push(`/explore/${video.id}`)}
             className="flex flex-col gap-0.5 px-3 bg-accent/50 hover:bg-accent h-14 rounded-lg justify-center border"
           >
-            <div className="text-sm w-64 truncate text-start font-medium">
+            <div className="text-sm w-52 truncate text-start font-medium">
               {video.name}
             </div>
-            <div className="text-xs text-start w-64 truncate text-stone-100/50 font-medium">
+            <div className="text-xs text-start w-52 truncate text-stone-100/50 font-medium">
               {format(new Date(video.created_at), "d MMMM HH:mm")}
             </div>
           </button>
