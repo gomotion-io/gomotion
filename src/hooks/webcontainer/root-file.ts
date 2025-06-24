@@ -1,6 +1,6 @@
 import { FileSystemTree } from "@webcontainer/api";
 
-export const rootFile: FileSystemTree = {
+export const remotionPlaceholder = {
   src: {
     directory: {
       "main.tsx": {
@@ -19,21 +19,48 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
       "App.tsx": {
         file: {
           contents: `import React from 'react';
+import { Player } from '@remotion/player';
+import { HelloWorld } from './HelloWorld';
 
 const App: React.FC = () => {
-  return <h2 style={{color: '#ffffff'}}>Ready 🎉 : enter a prompt to generate video</h2>;
+  return (
+    <div>
+      <Player
+        component={HelloWorld}
+        durationInFrames={60}
+        fps={30}
+        compositionWidth={1920}
+        compositionHeight={1080}
+        controls
+        style={{ width: '100%' }}
+      />
+    </div>
+  );
 };
 
 export default App;`,
         },
       },
-      "vite-env.d.ts": {
+      "HelloWorld.tsx": {
         file: {
-          contents: `/// <reference types="vite/client" />`,
+          contents: `import React from 'react';
+import { AbsoluteFill } from 'remotion';
+
+export const HelloWorld: React.FC = () => {
+  return (
+    <AbsoluteFill style={{ justifyContent: 'center', alignItems: 'center' }}>
+      <h1 style={{ fontSize: 60, color: "#ffffff" }}>Hello Gomotion</h1>
+    </AbsoluteFill>
+  );
+};`,
         },
       },
     },
   },
+};
+
+export const rootFile: FileSystemTree = {
+  src: remotionPlaceholder.src,
   "index.html": {
     file: {
       contents: `<!DOCTYPE html>
