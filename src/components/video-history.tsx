@@ -10,8 +10,11 @@ import {
 import { useVideoStore } from "@/store/video.store";
 import { createClient } from "@/supabase/client";
 import { useEffect } from "react";
+import { getProfile } from "@/supabase/server-functions/profile";
+import { useRouter } from "next/navigation";
 
 export function VideoHistory() {
+  const router = useRouter();
   const supabase = createClient();
   const { videos, loading, fetchVideos, subscribe } = useVideoStore();
 
@@ -22,8 +25,10 @@ export function VideoHistory() {
       } = await supabase.auth.getUser();
       if (!user) return;
 
-      fetchVideos(user.id);
-      subscribe(user.id);
+      const profile = await getProfile(user.id);
+
+      await fetchVideos(profile.id);
+      subscribe(profile.id);
     })();
     // We only want to run this once on mount
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -35,22 +40,34 @@ export function VideoHistory() {
         <Button variant="outline">History</Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent
-        className="w-64 h-80 overflow-y-auto flex flex-col gap-2"
+        className="w-80 h-80 overflow-y-auto flex flex-col gap-1"
         align="end"
       >
-        {loading && <Card className="h-10 animate-pulse" />}
+        {loading && (
+          <div className="flex flex-col gap-1">
+            <Card className="animate-pulse bg-accent" />
+            <Card className="animate-pulse bg-accent" />
+            <Card className="animate-pulse bg-accent" />
+            <Card className="animate-pulse bg-accent" />
+          </div>
+        )}
         {videos.map((video) => (
-          <Card
+          <button
             key={video.id}
-            className="h-10 flex items-center px-3 hover:bg-accent"
+            onClick={() => router.push("/explore")}
+            className="flex px-3 hover:bg-accent h-12 rounded-lg items-center border"
           >
-            {video.name ?? "Untitled"}
-          </Card>
+            <div className="text-sm w-64 truncate font-medium">
+              {video.name}
+            </div>
+          </button>
         ))}
         {!loading && videos.length === 0 && (
-          <p className="text-muted-foreground text-center py-4">
-            No videos yet
-          </p>
+          <div className="flex h-full items-center justify-center">
+            <div className="text-muted-foreground text-center font-medium text-sm ">
+              No videos yet
+            </div>
+          </div>
         )}
       </DropdownMenuContent>
     </DropdownMenu>

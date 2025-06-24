@@ -1,16 +1,15 @@
 "use client";
 
 import { ProfileData } from "@/_type";
+import { Menu } from "@/components/menu";
 import { Button } from "@/components/ui/button";
-import { CREDIT_FACTOR } from "@/constant";
+import { VideoHistory } from "@/components/video-history";
 import { formatCredits } from "@/lib/utils";
+import { useCountStore } from "@/store/count.store";
 import { createClient } from "@/supabase/client";
-import { getCounts } from "@/supabase/server-functions/counts";
 import { User } from "@supabase/auth-js";
 import { useRouter } from "next/navigation";
-import { FC, useEffect, useState } from "react";
-import { VideoHistory } from "@/components/video-history";
-import { Menu } from "@/components/menu";
+import { FC, useEffect } from "react";
 
 type ProfileProps = {
   user: User | null;
@@ -20,7 +19,7 @@ type ProfileProps = {
 export const Profile: FC<ProfileProps> = ({ user, profile }) => {
   const router = useRouter();
   const supabase = createClient();
-  const [credits, setCredits] = useState<number | null>(null);
+  const { credits, fetchCounts, subscribe } = useCountStore();
 
   const logout = async () => {
     await supabase.auth.signOut();
@@ -29,16 +28,13 @@ export const Profile: FC<ProfileProps> = ({ user, profile }) => {
   };
 
   useEffect(() => {
-    if (profile?.id) {
-      getCounts(profile?.id)
-        .then((count) => {
-          const total = (profile?.products as Product)?.limit;
-          const credits = total - count;
-          setCredits(credits * CREDIT_FACTOR);
-        })
-        .catch(console.error);
+    if (profile?.id && profile?.products) {
+      const limit = (profile.products as Product).limit;
+      fetchCounts(profile.id, limit).catch(console.error);
+      subscribe(profile.id, limit);
     }
-  }, [profile?.id, profile?.products]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div className="flex items-center gap-3">
