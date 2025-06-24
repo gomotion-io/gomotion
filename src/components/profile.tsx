@@ -2,22 +2,15 @@
 
 import { ProfileData } from "@/_type";
 import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { CREDIT_FACTOR } from "@/constant";
 import { formatCredits } from "@/lib/utils";
 import { createClient } from "@/supabase/client";
 import { getCounts } from "@/supabase/server-functions/counts";
 import { User } from "@supabase/auth-js";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FC, useEffect, useState } from "react";
+import { VideoHistory } from "@/components/video-history";
+import { Menu } from "@/components/menu";
 
 type ProfileProps = {
   user: User | null;
@@ -59,26 +52,8 @@ export const Profile: FC<ProfileProps> = ({ user, profile }) => {
           {credits ? formatCredits(credits) : " credits"}
         </Button>
       </div>
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button size="icon" className="rounded-full" variant="outline">
-            {user?.email?.charAt(0).toUpperCase()}
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent className="min-w-60" align="end">
-          <DropdownMenuLabel className="text-stone-100/40 truncate max-w-[14rem]">
-            {user?.email}
-          </DropdownMenuLabel>
-          <DropdownMenuSeparator />
-          <Link href="/explore">
-            <DropdownMenuItem>Explore</DropdownMenuItem>
-          </Link>
-          <Link href="/pricing">
-            <DropdownMenuItem>Pricing</DropdownMenuItem>
-          </Link>
-          <DropdownMenuItem onClick={logout}>Log out</DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
+      <VideoHistory />
+      <Menu logout={logout} user={user} />
     </div>
   );
 };
