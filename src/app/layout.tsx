@@ -1,12 +1,15 @@
-import { foundersGroteskBold } from "@/fonts";
-import { getEnvUrl } from "@/lib/utils";
-import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
+import { AuthProvider } from "@/components/auth-provider";
 import { LayoutProvider } from "@/components/layout-provider";
 import { Header } from "@/components/ssr/header";
-import { ReactNode } from "react";
+import { foundersGroteskBold } from "@/fonts";
+import { getEnvUrl } from "@/lib/utils";
+import { getProfile } from "@/supabase/server-functions/profile";
+import { getUser } from "@/supabase/server-functions/users";
 import { Analytics } from "@vercel/analytics/next";
+import type { Metadata } from "next";
+import { Geist, Geist_Mono } from "next/font/google";
+import { ReactNode } from "react";
+import "./globals.css";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -65,11 +68,14 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: ReactNode;
 }>) {
+  const user = await getUser();
+  const profile = user ? await getProfile(user.id) : null;
+
   return (
     <html lang="en">
       <body
@@ -77,7 +83,9 @@ export default function RootLayout({
       >
         <div className="px-5 sm:px-10">
           <Header />
-          <LayoutProvider>{children}</LayoutProvider>
+          <AuthProvider initialUser={user} initialProfile={profile}>
+            <LayoutProvider>{children}</LayoutProvider>
+          </AuthProvider>
         </div>
         <Analytics />
       </body>

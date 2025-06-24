@@ -1,18 +1,11 @@
-import Image from "next/image";
-import Link from "next/link";
-import React from "react";
 import { Profile } from "@/components/profile";
 import { foundersGroteskBold } from "@/fonts";
 import { getUser } from "@/supabase/server-functions/users";
-import { getProfile } from "@/supabase/server-functions/profile";
+import Image from "next/image";
+import Link from "next/link";
 
 export const Header = async () => {
   const user = await getUser();
-  let profile = null;
-
-  if (user) {
-    profile = await getProfile(user?.id);
-  }
 
   return (
     <div className="flex items-center justify-between h-[5rem] w-full">
@@ -28,7 +21,7 @@ export const Header = async () => {
       </Link>
       <div className="flex items-center">
         {user ? (
-          <Profile user={user} profile={profile} />
+          <Profile />
         ) : (
           <div className="flex gap-4">
             <Link href="/pricing">

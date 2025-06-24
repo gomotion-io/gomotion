@@ -9,7 +9,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { cn } from "@/lib/utils";
+import { cn, formatCredits } from "@/lib/utils";
 import { ArrowRight, Check } from "lucide-react";
 import { CREDIT_FACTOR } from "@/constant";
 import { Button } from "@/components/ui/button";
@@ -63,7 +63,7 @@ export const PlanItem: FC<PlanItemProps> = ({ profile, product }) => {
             <li className="flex items-center">
               <Check className="mr-2 h-4 w-4 text-emerald-400" />
               <span className={product.highlight ? "text-sm" : "text-[14px]"}>
-                {product.limit * CREDIT_FACTOR} credits per month
+                {formatCredits(product.limit * CREDIT_FACTOR)} per month
               </span>
             </li>
           )}

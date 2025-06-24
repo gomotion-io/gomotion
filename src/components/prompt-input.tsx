@@ -4,8 +4,8 @@ import { RatioSelection } from "@/components/ratio-selection";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { useWebContainer } from "@/hooks/webcontainer/useWebContainer";
-import { useGenerationStore } from "@/store/generation.store";
 import { useParamStore } from "@/store/params.store";
+import { useVideoStore } from "@/store/video.store";
 import { ArrowUpIcon, StopIcon } from "@heroicons/react/16/solid";
 import { useCallback, useRef } from "react";
 
@@ -13,17 +13,17 @@ export const PromptInput = () => {
   const textareaRef = useRef(null);
   const { mountFiles } = useWebContainer();
 
-  const loading = useGenerationStore((state) => state.loading);
-  const generateComp = useGenerationStore((state) => state.generateComp);
+  const generating = useVideoStore((state) => state.generating);
+  const createVideo = useVideoStore((state) => state.create);
   const setPrompt = useParamStore((state) => state.setPrompt);
   const prompt = useParamStore((state) => state.prompt);
 
   const handleSubmit = useCallback(async () => {
-    const tree = await generateComp({ prompt });
+    const tree = await createVideo({ prompt });
     if (tree) {
       await mountFiles(tree);
     }
-  }, [generateComp, prompt, mountFiles]);
+  }, [createVideo, prompt, mountFiles]);
 
   return (
     <div className="relative w-full flex flex-col gap-4">
@@ -48,7 +48,7 @@ export const PromptInput = () => {
       />
       <div className="absolute bottom-0 right-0 p-2 w-fit flex flex-row justify-end gap-2 items-center">
         <RatioSelection />
-        {loading ? (
+        {generating ? (
           <Button className="rounded-full w-14" onClick={() => {}}>
             <StopIcon className="w-5 h-5" />
           </Button>
