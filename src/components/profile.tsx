@@ -14,6 +14,7 @@ export const Profile: FC = () => {
   const { user, profile, signOut } = useUserStore();
   const { credits } = useCountStore();
 
+  console.log(credits);
   const logout = async () => {
     await signOut();
     router.push("/sign-in");
@@ -29,7 +30,7 @@ export const Profile: FC = () => {
           </Button>
         )}
         <Button variant="outline" size="sm">
-          {credits ? formatCredits(credits) : " credits"}
+          {formatCredits(credits)}
         </Button>
       </div>
       <VideoHistory />

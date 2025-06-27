@@ -17,7 +17,8 @@ export const getEnvUrl = () => {
   return url;
 };
 
-export const formatCredits = (credits: number): string => {
+export const formatCredits = (credits: number | null): string => {
+  if (!credits) return "0 credits";
   if (credits < 1000) return `${credits} credits`;
 
   const valueInThousands = credits / 1000;
