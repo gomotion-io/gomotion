@@ -1,21 +1,30 @@
 "use client";
-import "./Copy.css";
-import React, { useRef } from "react";
+import React, { ReactElement, ReactNode, useRef } from "react";
 
-import gsap from "gsap";
-import { SplitText } from "gsap/SplitText";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { SplitText } from "gsap/SplitText";
 
 gsap.registerPlugin(SplitText, ScrollTrigger);
 
-export default function Copy({ children, animateOnScroll = true, delay = 0 }) {
-  const containerRef = useRef(null);
-  const elementRefs = useRef([]);
-  const splitRefs = useRef([]);
-  const lines = useRef([]);
+interface CopyProps {
+  children: ReactNode;
+  animateOnScroll?: boolean;
+  delay?: number;
+}
 
-  const waitForFonts = async () => {
+export default function Copy({
+  children,
+  animateOnScroll = true,
+  delay = 0,
+}: CopyProps) {
+  const containerRef = useRef<HTMLElement | null>(null);
+  const elementRefs = useRef<Element[]>([]);
+  const splitRefs = useRef<SplitText[]>([]);
+  const lines = useRef<Element[]>([]);
+
+  const waitForFonts = async (): Promise<boolean> => {
     try {
       await document.fonts.ready;
 
@@ -46,11 +55,11 @@ export default function Copy({ children, animateOnScroll = true, delay = 0 }) {
         lines.current = [];
         elementRefs.current = [];
 
-        let elements = [];
-        if (containerRef.current.hasAttribute("data-copy-wrapper")) {
-          elements = Array.from(containerRef.current.children);
+        let elements: Element[] = [];
+        if (containerRef.current!.hasAttribute("data-copy-wrapper")) {
+          elements = Array.from(containerRef.current!.children);
         } else {
-          elements = [containerRef.current];
+          elements = [containerRef.current!];
         }
 
         elements.forEach((element) => {
@@ -70,9 +79,9 @@ export default function Copy({ children, animateOnScroll = true, delay = 0 }) {
 
           if (textIndent && textIndent !== "0px") {
             if (split.lines.length > 0) {
-              split.lines[0].style.paddingLeft = textIndent;
+              (split.lines[0] as HTMLElement).style.paddingLeft = textIndent;
             }
-            element.style.textIndent = "0";
+            (element as HTMLElement).style.textIndent = "0";
           }
 
           lines.current.push(...split.lines);
@@ -112,15 +121,20 @@ export default function Copy({ children, animateOnScroll = true, delay = 0 }) {
         });
       };
     },
-    { scope: containerRef, dependencies: [animateOnScroll, delay] }
+    { scope: containerRef, dependencies: [animateOnScroll, delay] },
   );
 
   if (React.Children.count(children) === 1) {
-    return React.cloneElement(children, { ref: containerRef });
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-expect-error
+    return React.cloneElement(children as ReactElement, { ref: containerRef });
   }
 
   return (
-    <div ref={containerRef} data-copy-wrapper="true">
+    <div
+      ref={containerRef as React.RefObject<HTMLDivElement>}
+      data-copy-wrapper="true"
+    >
       {children}
     </div>
   );

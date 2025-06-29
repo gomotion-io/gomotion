@@ -6,7 +6,7 @@ import "./style.css";
 
 export const Gallery = () => {
   return (
-    <div className="work-page mb-44">
+    <div className="work-page mb-44 px-5 sm:px-10">
       <div className="">
         <div className="works">
           <div className="row">

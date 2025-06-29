@@ -7,7 +7,7 @@ import { getProfile } from "@/supabase/server-functions/profile";
 import { getUser } from "@/supabase/server-functions/users";
 import { Analytics } from "@vercel/analytics/next";
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Roboto } from "next/font/google";
 import { ReactNode } from "react";
 import "./globals.css";
 
@@ -16,7 +16,7 @@ const geistSans = Geist({
   subsets: ["latin"],
 });
 
-const geistMono = Geist_Mono({
+const roboto = Roboto({
   variable: "--font-geist-mono",
   subsets: ["latin"],
 });
@@ -61,7 +61,7 @@ export const metadata: Metadata = {
     title: "Gomotion – AI-Powered Motion Animation Video Generation",
     description:
       "Gomotion transforms simple text prompts into stunning motion-graphic videos in seconds. Create, customise and scale high-quality animations without After-Effects or complex tooling.",
-    images: ["/gomotion.png"],
+    images: ["/images/logos/logo_light.png"],
   },
   alternates: {
     canonical: getEnvUrl(),
@@ -79,9 +79,9 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${foundersGroteskBold.variable} antialiased relative`}
+        className={`${roboto.variable} ${foundersGroteskBold.variable} antialiased relative`}
       >
-        <div className="px-5 sm:px-10">
+        <div>
           <Header />
           <AuthProvider initialUser={user} initialProfile={profile}>
             <LayoutProvider>{children}</LayoutProvider>

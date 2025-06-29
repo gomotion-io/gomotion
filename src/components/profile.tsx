@@ -3,27 +3,30 @@
 import { Menu } from "@/components/menu";
 import { Button } from "@/components/ui/button";
 import { VideoHistory } from "@/components/video-history";
-import { useUserStore } from "@/store/user.store";
-import { useRouter } from "next/navigation";
-import { FC } from "react";
 import { formatCredits } from "@/lib/utils";
 import { useCountStore } from "@/store/count.store";
+import { useUserStore } from "@/store/user.store";
+import { usePathname, useRouter } from "next/navigation";
+import { FC } from "react";
+import { ArrowRight } from "lucide-react";
+import Link from "next/link";
 
 export const Profile: FC = () => {
   const router = useRouter();
+  const pathname = usePathname();
+  const isExplorePage = pathname === "/explore";
   const { user, profile, signOut } = useUserStore();
   const { credits } = useCountStore();
 
-  console.log(credits);
   const logout = async () => {
     await signOut();
     router.push("/sign-in");
     router.refresh();
   };
 
-  return (
+  return isExplorePage ? (
     <div className="flex items-center gap-3">
-      <div className="flex gap-3">
+      <div className="flex  items-center gap-3">
         {profile?.subscription_status === "inactive" && (
           <Button size="sm" onClick={() => router.push("/pricing")}>
             Upgrade
@@ -32,9 +35,23 @@ export const Profile: FC = () => {
         <Button variant="outline" size="sm">
           {formatCredits(credits)}
         </Button>
+        <VideoHistory />
       </div>
-      <VideoHistory />
       <Menu logout={logout} user={user} />
+    </div>
+  ) : (
+    <div className="flex items-center gap-4">
+      <Link href="/pricing">
+        <div className="text-primary text-sm underline-offset-4 hover:underline font-semibold">
+          Pricing
+        </div>
+      </Link>
+
+      <Link href="/explore">
+        <Button size="sm">
+          Go to app <ArrowRight />{" "}
+        </Button>
+      </Link>
     </div>
   );
 };
