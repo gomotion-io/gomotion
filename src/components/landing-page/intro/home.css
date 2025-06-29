@@ -1,0 +1,129 @@
+.hero {
+  position: relative;
+  width: 100vw;
+  height: 100svh;
+  color: var(--foreground);
+  overflow: hidden;
+}
+
+.hero-header {
+  position: absolute;
+  top: 25svh;
+  width: 100%;
+  padding: 1.5rem;
+  display: flex;
+}
+
+.hero-header-col-lg {
+  flex: 4;
+}
+
+.hero-header-col-sm {
+  flex: 2;
+}
+
+.hero-footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  padding: 1.5rem;
+  display: flex;
+  align-items: flex-end;
+}
+
+.hero-footer-col-lg {
+  flex: 4;
+  display: flex;
+  gap: 4.5rem;
+}
+
+.hero-footer-col-lg h3 {
+  width: 65%;
+}
+
+.hero-footer-col-sm {
+  flex: 2;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.hero-tags {
+  flex-shrink: 0;
+}
+
+.preloader-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100svh;
+  overflow: hidden;
+  z-index: 10000000;
+  background-color: var(--background-200);
+  pointer-events: none;
+}
+
+.progress-bar {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 0.45rem;
+  height: 100svh;
+  background-color: var(--foreground);
+  display: flex;
+  transform-origin: bottom;
+  transform: scaleY(0%);
+}
+
+.counter {
+  position: absolute;
+  bottom: 1.5rem;
+  left: 1.5rem;
+  z-index: 2;
+}
+
+.count {
+  position: absolute;
+  bottom: 1.5rem;
+  left: 1.5rem;
+  display: flex;
+}
+
+.digit {
+  flex: 1;
+  padding-top: 1rem;
+}
+
+.count .digit h1 {
+  color: var(--foreground);
+}
+
+.count .digit {
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+}
+
+.count .digit h1 {
+  position: relative;
+  transform: translateY(120%);
+  will-change: transform;
+}
+
+@media (max-width: 1000px) {
+  .hero {
+    background-color: var(--background);
+  }
+
+  .hero-header-col-lg,
+  .hero-footer-col-lg {
+    display: none;
+  }
+
+  .hero-header {
+    top: 40svh;
+  }
+
+  .hero h3 {
+    font-size: clamp(2rem, 1.5rem + 2.5vw, 5rem);
+  }
+}
