@@ -1,22 +1,61 @@
 "use client";
 import { useEffect, useRef } from "react";
 
-const DynamicBackground = ({ logoPath = "/images/logos/logo_light.png" }) => {
-  const canvasRef = useRef(null);
-  const animationFrameRef = useRef(null);
-  const programRef = useRef(null);
-  const glRef = useRef(null);
-  const geometryRef = useRef(null);
-  const particleGridRef = useRef([]);
-  const posArrayRef = useRef(null);
-  const colorArrayRef = useRef(null);
-  const mouseRef = useRef({ x: 0, y: 0 });
-  const execCountRef = useRef(0);
-  const isCleanedUpRef = useRef(false);
-  const isMobileRef = useRef(false);
+interface DynamicBackgroundProps {
+  logoPath?: string;
+}
 
-  const CONFIG = {
-    canvasBg: "#1a1a1a",
+interface Particle {
+  ox: number;
+  oy: number;
+  vx: number;
+  vy: number;
+}
+
+interface Geometry {
+  positionBuffer: WebGLBuffer;
+  colorBuffer: WebGLBuffer;
+  vertexCount: number;
+}
+
+interface MousePosition {
+  x: number;
+  y: number;
+}
+
+interface Config {
+  canvasBg: string;
+  logoSize: number;
+  distortionRadius: number;
+  forceStrength: number;
+  maxDisplacement: number;
+  returnForce: number;
+}
+
+interface RgbColor {
+  r: number;
+  g: number;
+  b: number;
+}
+
+const DynamicBackground = ({
+  logoPath = "/images/logos/logo_light.png",
+}: DynamicBackgroundProps) => {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const animationFrameRef = useRef<number | null>(null);
+  const programRef = useRef<WebGLProgram | null>(null);
+  const glRef = useRef<WebGLRenderingContext | null>(null);
+  const geometryRef = useRef<Geometry | null>(null);
+  const particleGridRef = useRef<Particle[]>([]);
+  const posArrayRef = useRef<Float32Array | null>(null);
+  const colorArrayRef = useRef<Float32Array | null>(null);
+  const mouseRef = useRef<MousePosition>({ x: 0, y: 0 });
+  const execCountRef = useRef<number>(0);
+  const isCleanedUpRef = useRef<boolean>(false);
+  const isMobileRef = useRef<boolean>(false);
+
+  const CONFIG: Config = {
+    canvasBg: "#ececec",
     logoSize: 1100,
     distortionRadius: 3000,
     forceStrength: 0.003,
@@ -28,7 +67,7 @@ const DynamicBackground = ({ logoPath = "/images/logos/logo_light.png" }) => {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
-    const checkMobile = () => window.innerWidth < 1000;
+    const checkMobile = (): boolean => window.innerWidth < 1000;
     isMobileRef.current = checkMobile();
 
     if (isMobileRef.current) {
@@ -61,7 +100,7 @@ const DynamicBackground = ({ logoPath = "/images/logos/logo_light.png" }) => {
     gl.enable(gl.BLEND);
     gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
 
-    function hexToRgb(hex) {
+    function hexToRgb(hex: string): RgbColor {
       const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
       return result
         ? {
@@ -101,7 +140,11 @@ const DynamicBackground = ({ logoPath = "/images/logos/logo_light.png" }) => {
       }
     `;
 
-    function createShader(gl, type, source) {
+    function createShader(
+      gl: WebGLRenderingContext,
+      type: number,
+      source: string,
+    ): WebGLShader | null {
       if (!gl || isCleanedUpRef.current) return null;
 
       const shader = gl.createShader(type);
@@ -119,7 +162,11 @@ const DynamicBackground = ({ logoPath = "/images/logos/logo_light.png" }) => {
       return shader;
     }
 
-    function createProgram(gl, vertexShader, fragmentShader) {
+    function createProgram(
+      gl: WebGLRenderingContext,
+      vertexShader: WebGLShader,
+      fragmentShader: WebGLShader,
+    ): WebGLProgram | null {
       if (!gl || !vertexShader || !fragmentShader || isCleanedUpRef.current)
         return null;
 
@@ -143,7 +190,7 @@ const DynamicBackground = ({ logoPath = "/images/logos/logo_light.png" }) => {
     const fragmentShader = createShader(
       gl,
       gl.FRAGMENT_SHADER,
-      fragmentShaderSource
+      fragmentShaderSource,
     );
 
     if (!vertexShader || !fragmentShader) return;
@@ -155,15 +202,15 @@ const DynamicBackground = ({ logoPath = "/images/logos/logo_light.png" }) => {
 
     const positionAttributeLocation = gl.getAttribLocation(
       program,
-      "a_position"
+      "a_position",
     );
     const colorAttributeLocation = gl.getAttribLocation(program, "a_color");
     const resolutionUniformLocation = gl.getUniformLocation(
       program,
-      "u_resolution"
+      "u_resolution",
     );
 
-    const loadLogo = () => {
+    const loadLogo = (): void => {
       const image = new Image();
       image.crossOrigin = "anonymous";
 
@@ -172,6 +219,8 @@ const DynamicBackground = ({ logoPath = "/images/logos/logo_light.png" }) => {
 
         const tempCanvas = document.createElement("canvas");
         const tempCtx = tempCanvas.getContext("2d");
+        if (!tempCtx) return;
+
         tempCanvas.width = CONFIG.logoSize;
         tempCanvas.height = CONFIG.logoSize;
 
@@ -186,7 +235,7 @@ const DynamicBackground = ({ logoPath = "/images/logos/logo_light.png" }) => {
           0,
           0,
           CONFIG.logoSize,
-          CONFIG.logoSize
+          CONFIG.logoSize,
         );
 
         initParticleSystem(imageData.data, CONFIG.logoSize);
@@ -199,16 +248,18 @@ const DynamicBackground = ({ logoPath = "/images/logos/logo_light.png" }) => {
       image.src = logoPath;
     };
 
-    function initParticleSystem(pixels, dim) {
+    function initParticleSystem(pixels: Uint8ClampedArray, dim: number): void {
       if (isCleanedUpRef.current) return;
+
+      if (!canvas) return;
 
       const centerX = canvas.width / 2;
       const centerY = canvas.height / 2;
 
       particleGridRef.current = [];
-      const validParticles = [];
-      const validPositions = [];
-      const validColors = [];
+      const validParticles: Particle[] = [];
+      const validPositions: number[] = [];
+      const validColors: number[] = [];
 
       for (let i = 0; i < dim; i++) {
         for (let j = 0; j < dim; j++) {
@@ -224,7 +275,7 @@ const DynamicBackground = ({ logoPath = "/images/logos/logo_light.png" }) => {
               pixels[pixelIndex] / 255,
               pixels[pixelIndex + 1] / 255,
               pixels[pixelIndex + 2] / 255,
-              pixels[pixelIndex + 3] / 255
+              pixels[pixelIndex + 3] / 255,
             );
 
             validParticles.push({
@@ -241,14 +292,16 @@ const DynamicBackground = ({ logoPath = "/images/logos/logo_light.png" }) => {
       posArrayRef.current = new Float32Array(validPositions);
       colorArrayRef.current = new Float32Array(validColors);
 
-      const positionBuffer = gl.createBuffer();
-      const colorBuffer = gl.createBuffer();
+      const positionBuffer = gl?.createBuffer();
+      const colorBuffer = gl?.createBuffer();
 
-      gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
-      gl.bufferData(gl.ARRAY_BUFFER, posArrayRef.current, gl.DYNAMIC_DRAW);
+      if (!positionBuffer || !colorBuffer) return;
 
-      gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer);
-      gl.bufferData(gl.ARRAY_BUFFER, colorArrayRef.current, gl.STATIC_DRAW);
+      gl?.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
+      gl?.bufferData(gl.ARRAY_BUFFER, posArrayRef.current, gl.DYNAMIC_DRAW);
+
+      gl?.bindBuffer(gl.ARRAY_BUFFER, colorBuffer);
+      gl?.bufferData(gl.ARRAY_BUFFER, colorArrayRef.current, gl.STATIC_DRAW);
 
       geometryRef.current = {
         positionBuffer,
@@ -260,8 +313,8 @@ const DynamicBackground = ({ logoPath = "/images/logos/logo_light.png" }) => {
       startAnimation();
     }
 
-    function startAnimation() {
-      function animate() {
+    function startAnimation(): void {
+      function animate(): void {
         if (
           isCleanedUpRef.current ||
           !gl ||
@@ -279,8 +332,8 @@ const DynamicBackground = ({ logoPath = "/images/logos/logo_light.png" }) => {
           const my = mouseRef.current.y;
 
           for (let i = 0, len = particleGridRef.current.length; i < len; i++) {
-            const x = posArrayRef.current[i * 2];
-            const y = posArrayRef.current[i * 2 + 1];
+            const x = posArrayRef.current![i * 2];
+            const y = posArrayRef.current![i * 2 + 1];
             const d = particleGridRef.current[i];
 
             const dx = mx - x;
@@ -292,12 +345,12 @@ const DynamicBackground = ({ logoPath = "/images/logos/logo_light.png" }) => {
               const t = Math.atan2(dy, dx);
 
               const distFromOrigin = Math.sqrt(
-                (x - d.ox) * (x - d.ox) + (y - d.oy) * (y - d.oy)
+                (x - d.ox) * (x - d.ox) + (y - d.oy) * (y - d.oy),
               );
 
               const forceMultiplier = Math.max(
                 0.1,
-                1 - distFromOrigin / (CONFIG.maxDisplacement * 2)
+                1 - distFromOrigin / (CONFIG.maxDisplacement * 2),
               );
 
               d.vx += f * Math.cos(t) * CONFIG.forceStrength * forceMultiplier;
@@ -310,7 +363,7 @@ const DynamicBackground = ({ logoPath = "/images/logos/logo_light.png" }) => {
             const dx_origin = newX - d.ox;
             const dy_origin = newY - d.oy;
             const distFromOrigin = Math.sqrt(
-              dx_origin * dx_origin + dy_origin * dy_origin
+              dx_origin * dx_origin + dy_origin * dy_origin,
             );
 
             if (distFromOrigin > CONFIG.maxDisplacement) {
@@ -319,22 +372,23 @@ const DynamicBackground = ({ logoPath = "/images/logos/logo_light.png" }) => {
               const dampedScale =
                 scale + (1 - scale) * Math.exp(-excess * 0.02);
 
-              posArrayRef.current[i * 2] = d.ox + dx_origin * dampedScale;
-              posArrayRef.current[i * 2 + 1] = d.oy + dy_origin * dampedScale;
+              posArrayRef.current![i * 2] = d.ox + dx_origin * dampedScale;
+              posArrayRef.current![i * 2 + 1] = d.oy + dy_origin * dampedScale;
 
               d.vx *= 0.7;
               d.vy *= 0.7;
             } else {
-              posArrayRef.current[i * 2] = newX;
-              posArrayRef.current[i * 2 + 1] = newY;
+              posArrayRef.current![i * 2] = newX;
+              posArrayRef.current![i * 2 + 1] = newY;
             }
           }
 
           gl.bindBuffer(gl.ARRAY_BUFFER, geometryRef.current.positionBuffer);
-          gl.bufferSubData(gl.ARRAY_BUFFER, 0, posArrayRef.current);
+          gl.bufferSubData(gl.ARRAY_BUFFER, 0, posArrayRef.current!);
         }
 
         const bgColor = hexToRgb(CONFIG.canvasBg);
+        if (!canvas) return;
         gl.viewport(0, 0, canvas.width, canvas.height);
         gl.clearColor(bgColor.r, bgColor.g, bgColor.b, 1.0);
         gl.clear(gl.COLOR_BUFFER_BIT);
@@ -351,7 +405,7 @@ const DynamicBackground = ({ logoPath = "/images/logos/logo_light.png" }) => {
           gl.FLOAT,
           false,
           0,
-          0
+          0,
         );
 
         gl.bindBuffer(gl.ARRAY_BUFFER, geometryRef.current.colorBuffer);
@@ -362,7 +416,7 @@ const DynamicBackground = ({ logoPath = "/images/logos/logo_light.png" }) => {
           gl.FLOAT,
           false,
           0,
-          0
+          0,
         );
 
         gl.drawArrays(gl.POINTS, 0, geometryRef.current.vertexCount);
@@ -373,7 +427,7 @@ const DynamicBackground = ({ logoPath = "/images/logos/logo_light.png" }) => {
       animate();
     }
 
-    const handleMouseMove = (event) => {
+    const handleMouseMove = (event: MouseEvent): void => {
       if (isCleanedUpRef.current) return;
 
       const rect = canvas.getBoundingClientRect();
@@ -384,7 +438,7 @@ const DynamicBackground = ({ logoPath = "/images/logos/logo_light.png" }) => {
       execCountRef.current = 300;
     };
 
-    const handleResize = () => {
+    const handleResize = (): void => {
       if (isCleanedUpRef.current) return;
 
       const dpr = window.devicePixelRatio || 1;
@@ -406,12 +460,12 @@ const DynamicBackground = ({ logoPath = "/images/logos/logo_light.png" }) => {
 
           particleGridRef.current[i].ox = newX;
           particleGridRef.current[i].oy = newY;
-          posArrayRef.current[i * 2] = newX;
-          posArrayRef.current[i * 2 + 1] = newY;
+          posArrayRef.current![i * 2] = newX;
+          posArrayRef.current![i * 2 + 1] = newY;
         }
 
         gl.bindBuffer(gl.ARRAY_BUFFER, geometryRef.current.positionBuffer);
-        gl.bufferSubData(gl.ARRAY_BUFFER, 0, posArrayRef.current);
+        gl.bufferSubData(gl.ARRAY_BUFFER, 0, posArrayRef.current!);
       }
     };
 
@@ -447,7 +501,7 @@ const DynamicBackground = ({ logoPath = "/images/logos/logo_light.png" }) => {
             const shaders = gl.getAttachedShaders(programRef.current);
             if (shaders) {
               shaders.forEach((shader) => {
-                gl.detachShader(programRef.current, shader);
+                gl.detachShader(programRef.current!, shader);
                 gl.deleteShader(shader);
               });
             }

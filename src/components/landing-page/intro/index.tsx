@@ -1,12 +1,11 @@
 "use client";
-import "./home.css";
 
+import Copy from "@/components/landing-page/intro/copy";
+import DynamicBackground from "@/components/landing-page/intro/dynamic-background";
 import { useGSAP } from "@gsap/react";
 import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import CustomEase from "gsap/CustomEase";
-import DynamicBackground from "@/components/landing-page/intro/dynamic-background";
-import Copy from "@/components/landing-page/intro/copy";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger, CustomEase);
 CustomEase.create("hop", "0.9, 0, 0.1, 1");
@@ -31,41 +30,44 @@ export default function Intro() {
 
   return (
     <>
-      <section className="hero">
+      <section
+        className="relative w-screen overflow-hidden text-black"
+        style={{ height: "calc(100svh - 5rem)" }}
+      >
         <DynamicBackground logoPath="/images/logos/logo_light.png" />
 
-        <div className="hero-content">
-          <div className="hero-header">
-            <div className="hero-header-col-lg"></div>
-            <div className="hero-header-col-sm">
+        <div className="">
+          <div
+            className="absolute w-full flex px-5 sm:px-10"
+            style={{ top: "25svh", left: 0 }}
+          >
+            <div className="flex-[2] lg:flex-[2]">
               <Copy animateOnScroll={false} delay={0.9}>
-                <h3>
+                <h3 className="font-medium text-4xl">
                   Systems thinking and creative execution brought into web
                   development for consistent outcomes.
                 </h3>
               </Copy>
             </div>
+            <div className="hidden lg:flex flex-[4]"></div>
           </div>
 
-          <div className="hero-footer">
-            <div className="hero-footer-col-lg">
+          <div className="absolute bottom-10 w-full px-5 sm:px-10 flex items-end">
+            <div className="hidden lg:flex flex-[5] gap-[4.5rem]">
               <Copy animateOnScroll={false} delay={0.9}>
-                <p className="sm caps mono">Studios</p>
-                <p className="sm caps mono">Toronto and Copenhagen</p>
+                <div className="w-[65%]">
+                  <p className="font-medium">Toronto and Copenhagen</p>
+                </div>
               </Copy>
             </div>
-            <div className="hero-footer-col-sm">
-              <div className="hero-tags">
+            <div className="flex-[2] flex justify-between items-end">
+              <div className="flex-shrink-0">
                 <Copy animateOnScroll={false} delay={0.9}>
-                  <p className="sm caps mono">Web Systems</p>
-                  <p className="sm caps mono">Interface Design</p>
-                  <p className="sm caps mono">Creative Development</p>
-                  <p className="sm caps mono">End to End Delivery</p>
+                  <p className="font-medium">Web Systems</p>
+                  <p className="font-medium">Interface Design</p>
+                  <p className="font-medium">Creative Development</p>
+                  <p className="font-medium">End to End Delivery</p>
                 </Copy>
-              </div>
-
-              <div className="hero-link">
-                {/*<BtnLink route="/contact" label="contact" />*/}
               </div>
             </div>
           </div>
