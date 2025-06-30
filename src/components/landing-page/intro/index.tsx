@@ -1,7 +1,6 @@
 "use client";
 
 import Copy from "@/components/landing-page/intro/copy";
-import DynamicBackground from "@/components/landing-page/intro/dynamic-background";
 import { useGSAP } from "@gsap/react";
 import { gsap } from "gsap";
 import CustomEase from "gsap/CustomEase";
@@ -31,44 +30,26 @@ export default function Intro() {
   return (
     <>
       <section
-        className="relative w-screen overflow-hidden text-black"
+        className="relative w-screen overflow-hidden text-stone-100"
         style={{ height: "calc(100svh - 5rem)" }}
       >
-        <DynamicBackground logoPath="/images/logos/logo_light.png" />
-
-        <div className="">
+        <div>
           <div
             className="absolute w-full flex px-5 sm:px-10"
             style={{ top: "25svh", left: 0 }}
           >
             <div className="flex-[2] lg:flex-[2]">
               <Copy animateOnScroll={false} delay={0.9}>
-                <h3 className="font-medium text-4xl">
-                  Systems thinking and creative execution brought into web
-                  development for consistent outcomes.
+                <h3 className="font-medium text-4xl leading-snug">
+                  Distractions surround us. Focus defines us. We use
+                  <span className="opacity-50 ml-1">
+                    {" "}
+                    Motion Design to tell stories that stick.
+                  </span>
                 </h3>
               </Copy>
             </div>
             <div className="hidden lg:flex flex-[4]"></div>
-          </div>
-          <div className="absolute bottom-10 w-full px-5 sm:px-10 flex items-end">
-            <div className="hidden lg:flex flex-[5] gap-[4.5rem]">
-              <Copy animateOnScroll={false} delay={0.9}>
-                <div className="w-[65%]">
-                  <p className="font-medium">Toronto and Copenhagen</p>
-                </div>
-              </Copy>
-            </div>
-            <div className="flex-[2] flex justify-between items-end">
-              <div className="flex-shrink-0">
-                <Copy animateOnScroll={false} delay={0.9}>
-                  <p className="font-medium">Web Systems</p>
-                  <p className="font-medium">Interface Design</p>
-                  <p className="font-medium">Creative Development</p>
-                  <p className="font-medium">End to End Delivery</p>
-                </Copy>
-              </div>
-            </div>
           </div>
         </div>
       </section>

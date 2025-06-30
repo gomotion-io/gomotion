@@ -83,7 +83,8 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-[#0E0E0E] text-foreground;
+    @apply text-stone-100;
+    background: black;
     font-family: "Roboto", sans-serif;
   }
 }
