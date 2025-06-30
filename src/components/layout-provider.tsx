@@ -25,7 +25,6 @@ export const LayoutProvider: FC<{ children: ReactNode }> = ({ children }) => {
   return (
     <ReactLenis root options={scrollSettings}>
       {children}
-
       <ProgressBar
         height="4px"
         color="#ffffff"
