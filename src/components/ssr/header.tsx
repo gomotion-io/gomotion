@@ -7,15 +7,16 @@ export const Header = async () => {
   const user = await getUser();
 
   return (
-    <div className="flex items-center justify-between h-[5rem] w-full px-5 sm:px-10 header">
+    <div className="absolute z-50 flex items-center justify-between h-[5rem] w-full px-5 sm:px-10 header">
       <Link href="/">
         <div className="flex items-center gap-2">
           <div className="">
             <Image
-              src="/images/logos/logo_light.png"
+              src="/images/gomotion.svg"
               alt="gomotion"
               width={20}
               height={20}
+              unoptimized
             />
           </div>
         </div>

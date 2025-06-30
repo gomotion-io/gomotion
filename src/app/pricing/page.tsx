@@ -18,7 +18,7 @@ const Pricing = async () => {
   );
 
   return (
-    <div className="mx-auto px-2">
+    <div className="mx-auto px-2 pt-[5rem]">
       <div className="mx-auto max-w-lg sm:max-w-3xl space-y-4 pt-6 pb-3 text-center flex flex-col items-center">
         <h4 className="mx-auto mb-2 text-balance text-[42px] font-semibold text-stone-100">
           Pricing

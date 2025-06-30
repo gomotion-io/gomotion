@@ -1,19 +1,17 @@
 "use client";
 
-import React from "react";
-import { VideoItem } from "./video-item";
-import "./style.css";
 import Copy from "@/components/landing-page/intro/copy";
+import { VideoItem } from "./video-item";
 
-export const Gallery = () => {
+export const Showcase = () => {
   return (
-    <div className=" flex flex-col mb-24 px-5 sm:px-10 bg-black">
-      <div className="w-full flex text-stone-100 pt-16 mb-20">
+    <div className="flex flex-col mb-24 px-5 sm:px-10 bg-black">
+      <div className="w-full flex text-stone-100 pt-16 mb-14 md:mb-16">
         <div className="flex-[2] lg:flex-[2]">
-          <Copy animateOnScroll={true} delay={0.9}>
+          <Copy animateOnScroll={true}>
             <h3 className="font-medium text-4xl leading-snug">
-              Scroll down and let our motion
-              <span className="opacity-50 ml-1">design tell your story.</span>
+              Scroll down and let our motion{" "}
+              <span className="opacity-50 mr-1.5">design tell your story</span>
               frame by frame
             </h3>
           </Copy>
@@ -21,38 +19,38 @@ export const Gallery = () => {
         <div className="hidden lg:flex flex-[4]"></div>
       </div>
 
-      <div className="">
-        <div className="works">
-          <div className="row">
+      <div className="w-full">
+        <div className="">
+          <div className="flex flex-col lg:flex-row gap-4 py-5 w-full">
             <VideoItem
-              videoId={437808118}
+              videoUrl="https://legendary.b-cdn.net/website/sample.mp4"
               index="01"
               workName="Azure Serenity Echoes"
             />
             <VideoItem
-              videoId={871750630}
+              videoUrl="https://legendary.b-cdn.net/website/sample.mp4"
               index="02"
               workName="Solar Reverie"
             />
             <VideoItem
-              videoId={477068055}
+              videoUrl="https://legendary.b-cdn.net/website/sample.mp4"
               index="03"
               workName="Crimson Symphony Memoirs"
             />
           </div>
-          <div className="row">
+          <div className="flex flex-col lg:flex-row gap-4 py-5 w-full">
             <VideoItem
-              videoId={487114118}
+              videoUrl="https://legendary.b-cdn.net/website/sample.mp4"
               index="04"
               workName="Neon Galactic Chronicles"
             />
             <VideoItem
-              videoId={366780994}
+              videoUrl="https://legendary.b-cdn.net/website/sample.mp4"
               index="05"
               workName="Velvet Dreamscape"
             />
             <VideoItem
-              videoId={659334960}
+              videoUrl="https://legendary.b-cdn.net/website/sample.mp4"
               index="06"
               workName="Lunar Symphony"
             />
@@ -63,7 +61,7 @@ export const Gallery = () => {
       <div className="flex mt-5">
         <div className="flex-[2] lg:flex-[4]"></div>
         <div className="lg:flex flex-[3] gap-5 opacity-85 justify-end">
-          <Copy animateOnScroll={true} delay={0.9}>
+          <Copy animateOnScroll={true}>
             <div className="font-medium leading-snug uppercase ">
               Lorem ipsum dolor sit amet, consectetur adipisicing elit. At aut
               dolorem dolorum et incidunt ipsum minus

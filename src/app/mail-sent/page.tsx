@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 
 const Page = () => {
   return (
-    <div className="flex flex-col min-w-0 items-center gap-5">
+    <div className="flex flex-col min-w-0 items-center gap-5 pt-[5rem]">
       <div className="flex flex-col items-center gap-1 text-center mt-40">
         <h3 className="text-2xl font-bold tracking-tight mb-2">
           Thank you for joining Gomotion !

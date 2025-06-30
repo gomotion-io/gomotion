@@ -47,10 +47,16 @@ export const Sign: FC<SignProps> = ({ type }) => {
   const buttonText = isRegister ? "Register with email" : "Sign in with email";
 
   return (
-    <div className="w-full flex flex-col items-center pt-36 gap-10 px-5">
+    <div className="w-full flex flex-col items-center pt-44 gap-10 px-5">
       <div className="flex flex-col items-center justify-center">
         <Link href="/" className="mb-4">
-          <Image src="/gomotion.png" alt="gomotion" width={40} height={40} />
+          <Image
+            src="/images/gomotion.svg"
+            alt="gomotion"
+            width={45}
+            height={45}
+            unoptimized
+          />
         </Link>
         <div className="text-xl font-medium mb-3">{title}</div>
 

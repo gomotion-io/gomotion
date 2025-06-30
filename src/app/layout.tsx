@@ -36,12 +36,12 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Gomotion – AI-Powered Motion Animation Video Generation",
     description:
-      "Gomotion transforms simple text prompts into stunning motion-graphic videos in seconds. Create, customise and scale high-quality animations without After-Effects or complex tooling.",
+      "Create scroll-stopping, motion-designed videos from a single prompt. GoMotion is a cutting-edge AI model that generates voiceovers, music, and storytelling structures to drive engagement on YouTube, TikTok, Instagram, and more.",
     url: getEnvUrl(),
     siteName: "Gomotion",
     images: [
       {
-        url: "/gomotion.png",
+        url: "/images/gomotion.png",
         width: 1200,
         height: 630,
         alt: "Gomotion logo",
@@ -52,10 +52,10 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Gomotion – AI-Powered Motion Animation Video Generation",
+    title: "Gomotion – Frontier model for stories that stick",
     description:
       "Gomotion transforms simple text prompts into stunning motion-graphic videos in seconds. Create, customise and scale high-quality animations without After-Effects or complex tooling.",
-    images: ["/images/logos/logo_light.png"],
+    images: ["/images/gomotion.png"],
   },
   alternates: {
     canonical: getEnvUrl(),

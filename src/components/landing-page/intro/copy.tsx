@@ -99,11 +99,14 @@ export default function Copy({
 
         if (animateOnScroll) {
           gsap.to(lines.current, {
-            ...animationProps,
+            y: "0%",
+            stagger: 0.1,
+            ease: "power4.out",
             scrollTrigger: {
               trigger: containerRef.current,
-              start: "top 75%",
-              once: true,
+              start: "top 90%",
+              end: "top 50%",
+              scrub: true,
             },
           });
         } else {
@@ -121,7 +124,7 @@ export default function Copy({
         });
       };
     },
-    { scope: containerRef, dependencies: [animateOnScroll, delay] },
+    { scope: containerRef, dependencies: [animateOnScroll, delay] }
   );
 
   if (React.Children.count(children) === 1) {

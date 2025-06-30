@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Environment,
   MeshTransmissionMaterial,
@@ -16,18 +18,19 @@ function Model({ isMobile }: { isMobile: boolean }) {
 
   useFrame(() => {
     if (torus.current) {
-      torus.current.rotation.x += 0.02;
+      torus.current.rotation.x += 0.005;
     }
   });
 
-  const groupScale = useMemo(() => (isMobile ? 2 : 3.5), [isMobile]);
+  const groupScale = useMemo(() => (isMobile ? 0.5 : 2.8), [isMobile]); // full 0.5 // donut 2.8
+  const fontSize = useMemo(() => (isMobile ? 0.17 : 0.45), [isMobile]); // full 0.35 // donut 0.45
 
   return (
     <group scale={viewport.width / groupScale}>
       <Text
         font={"/fonts/PPNeueMontreal-Bold.otf"}
-        position={[0, 0, -1]}
-        fontSize={0.5}
+        position={[0, 0.39, -1]}
+        fontSize={fontSize}
         color="white"
         anchorX="center"
         anchorY="middle"
