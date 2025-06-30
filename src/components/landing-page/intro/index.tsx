@@ -31,14 +31,14 @@ export default function Intro() {
   return (
     <>
       <section
-        className="relative w-screen overflow-hidden text-foreground px-5 sm:px-10"
+        className="relative w-screen overflow-hidden text-black"
         style={{ height: "calc(100svh - 5rem)" }}
       >
         <DynamicBackground logoPath="/images/logos/logo_light.png" />
 
-        <div className="hero-content">
+        <div className="">
           <div
-            className="absolute w-full flex p-6"
+            className="absolute w-full flex px-5 sm:px-10"
             style={{ top: "25svh", left: 0 }}
           >
             <div className="flex-[2] lg:flex-[2]">
@@ -51,28 +51,22 @@ export default function Intro() {
             </div>
             <div className="hidden lg:flex flex-[4]"></div>
           </div>
-
-          <div className="absolute bottom-0 w-full p-6 flex items-end">
-            <div className="hidden lg:flex flex-[4] gap-[4.5rem]">
+          <div className="absolute bottom-10 w-full px-5 sm:px-10 flex items-end">
+            <div className="hidden lg:flex flex-[5] gap-[4.5rem]">
               <Copy animateOnScroll={false} delay={0.9}>
                 <div className="w-[65%]">
-                  <p className="sm caps mono">Studios</p>
-                  <p className="sm caps mono">Toronto and Copenhagen</p>
+                  <p className="font-medium">Toronto and Copenhagen</p>
                 </div>
               </Copy>
             </div>
             <div className="flex-[2] flex justify-between items-end">
               <div className="flex-shrink-0">
                 <Copy animateOnScroll={false} delay={0.9}>
-                  <p className="sm caps mono">Web Systems</p>
-                  <p className="sm caps mono">Interface Design</p>
-                  <p className="sm caps mono">Creative Development</p>
-                  <p className="sm caps mono">End to End Delivery</p>
+                  <p className="font-medium">Web Systems</p>
+                  <p className="font-medium">Interface Design</p>
+                  <p className="font-medium">Creative Development</p>
+                  <p className="font-medium">End to End Delivery</p>
                 </Copy>
-              </div>
-
-              <div className="hero-link">
-                {/*<BtnLink route="/contact" label="contact" />*/}
               </div>
             </div>
           </div>

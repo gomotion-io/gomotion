@@ -5,7 +5,7 @@ import { getVideoById } from "@/supabase/server-functions/videos";
 import { getUser } from "@/supabase/server-functions/users";
 
 interface PageProps {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }
 
 export default async function ExplorePage({ params }: PageProps) {

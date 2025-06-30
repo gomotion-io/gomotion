@@ -1,20 +1,14 @@
 import { AuthProvider } from "@/components/auth-provider";
 import { LayoutProvider } from "@/components/layout-provider";
 import { Header } from "@/components/ssr/header";
-import { foundersGroteskBold } from "@/fonts";
 import { getEnvUrl } from "@/lib/utils";
 import { getProfile } from "@/supabase/server-functions/profile";
 import { getUser } from "@/supabase/server-functions/users";
 import { Analytics } from "@vercel/analytics/next";
 import type { Metadata } from "next";
-import { Geist, Roboto } from "next/font/google";
+import { Roboto } from "next/font/google";
 import { ReactNode } from "react";
 import "./globals.css";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
 
 const roboto = Roboto({
   variable: "--font-geist-mono",
@@ -78,9 +72,7 @@ export default async function RootLayout({
 
   return (
     <html lang="en">
-      <body
-        className={`${roboto.variable} ${foundersGroteskBold.variable} antialiased relative`}
-      >
+      <body className={`${roboto.variable} antialiased relative`}>
         <div>
           <Header />
           <AuthProvider initialUser={user} initialProfile={profile}>

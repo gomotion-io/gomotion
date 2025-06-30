@@ -55,7 +55,7 @@ const DynamicBackground = ({
   const isMobileRef = useRef<boolean>(false);
 
   const CONFIG: Config = {
-    canvasBg: "#0E0E0E",
+    canvasBg: "#ececec",
     logoSize: 1100,
     distortionRadius: 3000,
     forceStrength: 0.003,
@@ -455,8 +455,8 @@ const DynamicBackground = ({
         for (let i = 0; i < particleGridRef.current.length; i++) {
           const row = Math.floor(i / dim);
           const col = i % dim;
-          const newX = centerX + (col - dim / 2) * 1.0;
-          const newY = centerY + (row - dim / 2) * 1.0;
+          const newX = centerX + (col - dim / 2);
+          const newY = centerY + (row - dim / 2);
 
           particleGridRef.current[i].ox = newX;
           particleGridRef.current[i].oy = newY;

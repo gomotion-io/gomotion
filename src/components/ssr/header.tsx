@@ -10,7 +10,7 @@ export const Header = async () => {
     <div className="flex items-center justify-between h-[5rem] w-full px-5 sm:px-10">
       <Link href="/">
         <div className="flex items-center gap-2">
-          <div className="hidden sm:block">
+          <div className="">
             <Image
               src="/images/logos/logo_light.png"
               alt="gomotion"
