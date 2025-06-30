@@ -84,5 +84,6 @@
   }
   body {
     @apply bg-[#0E0E0E] text-foreground;
+    font-family: "Roboto", sans-serif;
   }
 }

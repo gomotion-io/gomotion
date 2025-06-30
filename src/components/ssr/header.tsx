@@ -1,5 +1,4 @@
 import { Profile } from "@/components/profile";
-import { foundersGroteskBold } from "@/fonts";
 import { getUser } from "@/supabase/server-functions/users";
 import Image from "next/image";
 import Link from "next/link";
@@ -8,14 +7,16 @@ export const Header = async () => {
   const user = await getUser();
 
   return (
-    <div className="flex items-center justify-between h-[5rem] w-full">
+    <div className="flex items-center justify-between h-[5rem] w-full px-5 sm:px-10">
       <Link href="/">
         <div className="flex items-center gap-2">
           <div className="hidden sm:block">
-            <Image src="/gomotion.png" alt="gomotion" width={20} height={20} />
-          </div>
-          <div className={`${foundersGroteskBold.className} text-[18px]`}>
-            GOMOTION
+            <Image
+              src="/images/logos/logo_light.png"
+              alt="gomotion"
+              width={20}
+              height={20}
+            />
           </div>
         </div>
       </Link>

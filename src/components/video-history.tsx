@@ -18,7 +18,9 @@ export function VideoHistory() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline">History</Button>
+        <Button variant="outline" size="sm">
+          History
+        </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent
         className="w-64 h-80 overflow-y-auto flex flex-col gap-1"
