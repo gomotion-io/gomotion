@@ -4,29 +4,10 @@ import React from "react";
 import { VideoItem } from "./video-item";
 import "./style.css";
 import Copy from "@/components/landing-page/intro/copy";
-import { useGSAP } from "@gsap/react";
-import { gsap } from "gsap";
 
 export const Gallery = () => {
-  useGSAP(() => {
-    const heroLink = document.querySelector(".hero-link");
-    const animationDelay = 0.9;
-
-    if (heroLink) {
-      gsap.set(heroLink, { y: 30, opacity: 0 });
-
-      gsap.to(heroLink, {
-        y: 0,
-        opacity: 1,
-        duration: 1,
-        delay: animationDelay,
-        ease: "power4.out",
-      });
-    }
-  }, []);
-
   return (
-    <div className="work-page mb-44 px-5 sm:px-10 bg-black">
+    <div className=" flex flex-col mb-24 px-5 sm:px-10 bg-black">
       <div className="w-full flex text-stone-100 pt-16 mb-20">
         <div className="flex-[2] lg:flex-[2]">
           <Copy animateOnScroll={true} delay={0.9}>
@@ -76,6 +57,18 @@ export const Gallery = () => {
               workName="Lunar Symphony"
             />
           </div>
+        </div>
+      </div>
+
+      <div className="flex mt-5">
+        <div className="flex-[2] lg:flex-[4]"></div>
+        <div className="lg:flex flex-[3] gap-5 opacity-85 justify-end">
+          <Copy animateOnScroll={true} delay={0.9}>
+            <div className="font-medium leading-snug uppercase ">
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit. At aut
+              dolorem dolorum et incidunt ipsum minus
+            </div>
+          </Copy>
         </div>
       </div>
     </div>
