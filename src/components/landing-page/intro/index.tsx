@@ -51,7 +51,6 @@ export default function Intro() {
             </div>
             <div className="hidden lg:flex flex-[4]"></div>
           </div>
-
           <div className="absolute bottom-10 w-full px-5 sm:px-10 flex items-end">
             <div className="hidden lg:flex flex-[5] gap-[4.5rem]">
               <Copy animateOnScroll={false} delay={0.9}>
