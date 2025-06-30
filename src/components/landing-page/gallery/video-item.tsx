@@ -17,7 +17,7 @@ export const VideoItem: React.FC<WorkItemProps> = ({
   workName,
 }) => {
   return (
-    <div className="work">
+    <div className="work showcase-item">
       <div className="work-open"></div>
       <div className="work-video">
         <div className="work-video-wrapper">

@@ -3,7 +3,7 @@ module.exports = {
   async headers() {
     return [
       {
-        source: "/(.*)",
+        source: "/explore/:path*",
         headers: [
           {
             key: "Cross-Origin-Embedder-Policy",

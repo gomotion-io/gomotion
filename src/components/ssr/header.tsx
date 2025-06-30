@@ -7,7 +7,7 @@ export const Header = async () => {
   const user = await getUser();
 
   return (
-    <div className="flex items-center justify-between h-[5rem] w-full px-5 sm:px-10">
+    <div className="flex items-center justify-between h-[5rem] w-full px-5 sm:px-10 header">
       <Link href="/">
         <div className="flex items-center gap-2">
           <div className="">
