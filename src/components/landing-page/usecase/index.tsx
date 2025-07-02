@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import { ParallaxBand } from "@/components/landing-page/usecase/parallax-band";
 import Copy from "@/components/landing-page/intro/copy";
 import { RevealBand } from "@/components/landing-page/usecase/reveal-band";
 
@@ -32,7 +31,6 @@ export const Usecase = () => {
           </Copy>
         </div>
       </div>
-      <ParallaxBand />
     </div>
   );
 };
