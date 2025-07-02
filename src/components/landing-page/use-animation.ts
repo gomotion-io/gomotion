@@ -1,6 +1,10 @@
-import { useEffect } from "react";
 import { useGSAP } from "@gsap/react";
 import { gsap } from "gsap";
+import CustomEase from "gsap/CustomEase";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useEffect } from "react";
+
+gsap.registerPlugin(ScrollTrigger, CustomEase);
 
 export const useLandingPageAnimation = () => {
   useEffect(() => {

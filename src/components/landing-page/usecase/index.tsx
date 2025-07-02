@@ -20,11 +20,11 @@ export const Usecase = () => {
         <div className="hidden lg:flex flex-[4]"></div>
       </div>
       <RevealBand />
-      <div className="flex mt-20 text-black px-5 sm:px-10">
+      <div className="flex mt-20 text-black px-5 sm:px-10 ">
         <div className="flex-[2] lg:flex-[4]"></div>
         <div className="lg:flex flex-[3] gap-5 opacity-85 justify-end">
           <Copy animateOnScroll={true}>
-            <div className="font-medium leading-snug uppercase  justify-end">
+            <div className="font-medium leading-snug uppercase  justify-end mb-16">
               From Tech Reviewers to Travel Vloggers — GoMotion Fits Every
               Creator.
             </div>

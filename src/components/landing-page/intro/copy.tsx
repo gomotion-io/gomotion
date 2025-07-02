@@ -48,6 +48,8 @@ export default function Copy({
     () => {
       if (!containerRef.current) return;
 
+      gsap.set(containerRef.current, { opacity: 0 });
+
       const initializeSplitText = async () => {
         await waitForFonts();
 
@@ -89,6 +91,8 @@ export default function Copy({
 
         gsap.set(lines.current, { y: "100%" });
 
+        gsap.set(containerRef.current, { opacity: 1 });
+
         const animationProps = {
           y: "0%",
           duration: 1,
@@ -124,7 +128,7 @@ export default function Copy({
         });
       };
     },
-    { scope: containerRef, dependencies: [animateOnScroll, delay] }
+    { scope: containerRef, dependencies: [animateOnScroll, delay] },
   );
 
   if (React.Children.count(children) === 1) {

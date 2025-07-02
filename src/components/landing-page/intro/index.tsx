@@ -17,7 +17,7 @@ export default function Intro() {
       <section className="relative w-screen overflow-hidden text-stone-100 h-[100svh]">
         <Scene />
 
-        <div className="absolute w-full left-1/2 bottom-1/12 sm:bottom-1/7 transform -translate-x-1/2 -translate-y-1/2">
+        <div className="absolute w-full left-1/2 bottom-0 sm:bottom-1/7 transform -translate-x-1/2 -translate-y-1/2">
           <div className="flex flex-col items-center justify-center">
             <Copy animateOnScroll={false} delay={0.9}>
               <h3 className="text-white font-medium sm:max-w-xl px-5 leading-relaxed text-center text-xl mb-2">

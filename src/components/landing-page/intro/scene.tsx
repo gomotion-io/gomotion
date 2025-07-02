@@ -22,7 +22,7 @@ function Model({ isMobile }: { isMobile: boolean }) {
     }
   });
 
-  const groupScale = useMemo(() => (isMobile ? 0.5 : 2.8), [isMobile]); // full 0.5 // donut 2.8
+  const groupScale = useMemo(() => (isMobile ? 0.9 : 2.8), [isMobile]); // full 0.5 // donut 2.8
   const fontSize = useMemo(() => (isMobile ? 0.17 : 0.45), [isMobile]); // full 0.35 // donut 0.45
 
   return (

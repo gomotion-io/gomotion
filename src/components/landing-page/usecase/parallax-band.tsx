@@ -1,10 +1,12 @@
 "use client";
 
 import { motion, MotionValue, useScroll, useTransform } from "framer-motion";
-import Picture1 from "../../../../public/images/salar_de_atacama.jpg";
-import Picture2 from "../../../../public/images/salar_de_atacama.jpg";
-import Picture3 from "../../../../public/images/salar_de_atacama.jpg";
 import Lenis from "lenis";
+import {
+  default as Picture1,
+  default as Picture2,
+  default as Picture3,
+} from "../../../../public/images/salar_de_atacama.jpg";
 
 import Image, { StaticImageData } from "next/image";
 import { useEffect, useRef } from "react";
@@ -67,14 +69,14 @@ const Slide = (props: SlideProps) => {
   const translateX = useTransform(
     props.progress,
     [0, 1],
-    [150 * direction, -150 * direction],
+    [150 * direction, -150 * direction]
   );
   const src = props.src as string;
 
   return (
     <motion.div
       style={{ x: translateX, left: props.left }}
-      className="relative flex whitespace-nowrap"
+      className="relative flex whitespace-nowrap will-change-transform"
     >
       <Phrase src={src} text="Life Coach" />
       <Phrase src={src} text="Tech Reviewer" />
