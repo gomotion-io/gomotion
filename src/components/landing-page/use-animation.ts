@@ -2,19 +2,13 @@ import { useGSAP } from "@gsap/react";
 import { gsap } from "gsap";
 import CustomEase from "gsap/CustomEase";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useEffect } from "react";
 
-gsap.registerPlugin(ScrollTrigger, CustomEase);
+gsap.registerPlugin(useGSAP);
 
 export const useLandingPageAnimation = () => {
-  useEffect(() => {
-    (async () => {
-      const LocomotiveScroll = (await import("locomotive-scroll")).default;
-      new LocomotiveScroll();
-    })();
-  }, []);
-
   useGSAP(() => {
+    gsap.registerPlugin(ScrollTrigger, CustomEase);
+
     const scene = document.querySelector(".scene");
     const introBtn = document.querySelector(".intro-button");
     const header = document.querySelector(".header");
