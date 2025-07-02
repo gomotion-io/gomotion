@@ -3,21 +3,17 @@
 import Copy from "@/components/landing-page/intro/copy";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
-import dynamic from "next/dynamic";
-
-const Scene = dynamic(
-  () =>
-    import("@/components/landing-page/intro/scene").then((mod) => mod.Scene),
-  { ssr: false },
-);
+import Link from "next/link";
 
 export default function Intro() {
   return (
     <>
-      <section className="relative w-screen overflow-hidden text-stone-100 h-[100svh]">
-        <Scene />
+      {/*<div className="absolute overflow-hidden border border-red-500 h-screen w-full">*/}
+      {/*  <Scene />*/}
+      {/*</div>*/}
 
-        <div className="absolute w-full left-1/2 bottom-0 sm:bottom-1/7 transform -translate-x-1/2 -translate-y-1/2">
+      <section className="relative w-screen overflow-hidden text-stone-100 h-[100svh]">
+        <div className="h-full flex items-center justify-center w-full">
           <div className="flex flex-col items-center justify-center">
             <Copy animateOnScroll={false} delay={0.9}>
               <h3 className="text-white font-medium sm:max-w-xl px-5 leading-relaxed text-center text-xl mb-2">
@@ -30,13 +26,15 @@ export default function Intro() {
                 unleash scroll-stopping videos from a single prompt.
               </h3>
             </Copy>
-            <Button
-              className="intro-button w-52 cursor-pointer h-12 hover:bg-opacity-50 hover:scale-105 transition-all duration-300"
-              size="lg"
-              variant="outline"
-            >
-              Try for free <ArrowRight />
-            </Button>
+            <Link href="/register">
+              <Button
+                className="intro-button w-52 cursor-pointer h-12 hover:bg-opacity-50 hover:scale-105 transition-all duration-300"
+                size="lg"
+                variant="outline"
+              >
+                Get started <ArrowRight />
+              </Button>
+            </Link>
           </div>
         </div>
 

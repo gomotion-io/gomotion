@@ -28,7 +28,7 @@ export const Header = async () => {
           <div className="flex gap-4">
             <Link href="/pricing">
               <div className="text-primary text-sm underline-offset-4 hover:underline font-semibold">
-                Get started
+                Pricing
               </div>
             </Link>
             <Link href="/sign-in">

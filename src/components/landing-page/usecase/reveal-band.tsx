@@ -1,79 +1,105 @@
 import Image from "next/image";
-import Picture1 from "../../../../public/images/salar_de_atacama.jpg";
+import Influencer from "../../../../public/images/influencer.png";
+import Sassy from "../../../../public/images/sassy.jpg";
+import Educator from "../../../../public/images/educator.png";
+import Copy from "@/components/landing-page/intro/copy";
 
 export const RevealBand = () => {
   return (
     <div className="flex flex-col px-5 sm:px-10 gap-10 text-black mb-6">
-      <div className="reveal-row grid grid-cols-2 md:grid-cols-6 w-full md:min-h-60 rounded-3xl">
-        <div className="col-span-2 pl-20 min-h-24 md:min-h-auto text-2xl font-medium flex items-center">
-          <div className="max-w-[10rem]">Lorem ipsum dolor</div>
+      <div className="reveal-row grid grid-cols-1 md:grid-cols-6 w-full md:min-h-60 rounded-3xl">
+        <div className="col-span-1 md:col-span-2 lg:col-span-1 md:pl-20 min-h-24 md:min-h-auto text-2xl font-medium flex items-center">
+          <Copy animateOnScroll={true}>
+            <div className="md:max-w-[16rem]">Influencer Short-Form Series</div>
+          </Copy>
         </div>
 
-        <div className="col-span-1 md:col-span-2 flex items-center md:justify-end px-5 md:px-10">
-          <span className="relative h-52 aspect-[14/16] overflow-hidden">
+        <div className="col-span-1 md:col-span-2 mb-5 md:mb-0 flex items-center md:justify-end px-5 md:px-10">
+          <span className="relative h-72 aspect-[12/16] overflow-hidden">
             <Image
               style={{ objectFit: "cover" }}
-              src={Picture1}
+              src={Influencer}
               alt="image"
               fill
             />
           </span>
         </div>
 
-        <div className="ol-span-1 md:col-span-2 h-full flex items-center px-5">
-          <div className="max-w-sm opacity-50 text-lg">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-            Accusantium asperiores consectetur corporis cupiditate deserunt
-            distinctio dolor fuga.
-          </div>
+        <div className="col-span-1 md:col-span-2 h-full flex items-center px-5">
+          <Copy animateOnScroll={true}>
+            <div className="max-w-sm text-lg text-balance mb-2">
+              Batch create daily TikTok with consistent style and on-brand voice
+            </div>
+
+            <div className="text-md text-stone-400">
+              “My follower count jumped from 8 K to 120 K in four months.” —
+              @BeautyTinker, Creator
+            </div>
+          </Copy>
         </div>
       </div>
-      <div className="reveal-row grid grid-cols-2 md:grid-cols-6 w-full md:min-h-60 rounded-3xl">
-        <div className="col-span-2 pl-20 min-h-24 md:min-h-auto text-2xl font-medium flex items-center">
-          <div className="max-w-[10rem]">Lorem ipsum dolor</div>
+      <div className="reveal-row grid grid-cols-1 md:grid-cols-6 w-full md:min-h-60 rounded-3xl">
+        <div className="col-span-1 md:col-span-2 lg:col-span-1 md:pl-20 min-h-24 md:min-h-auto text-2xl font-medium flex items-center">
+          <Copy animateOnScroll={true}>
+            <div className="md:max-w-[16rem]">SaaS Product Walk-through</div>
+          </Copy>
         </div>
 
-        <div className="col-span-1 md:col-span-2 flex items-center md:justify-end px-5 md:px-10">
-          <span className="relative h-52 aspect-[14/16] overflow-hidden">
+        <div className="col-span-1 md:col-span-2 mb-5 md:mb-0 flex items-center md:justify-end px-5 md:px-10">
+          <span className="relative h-72 aspect-[12/16] overflow-hidden">
             <Image
               style={{ objectFit: "cover" }}
-              src={Picture1}
+              src={Sassy}
               alt="image"
               fill
             />
           </span>
         </div>
 
-        <div className="ol-span-1 md:col-span-2 h-full flex items-center px-5">
-          <div className="max-w-sm opacity-50 text-lg">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-            Accusantium asperiores consectetur corporis cupiditate deserunt
-            distinctio dolor fuga.
-          </div>
+        <div className="col-span-1 md:col-span-2 h-full flex items-center px-5">
+          <Copy animateOnScroll={true}>
+            <div className="max-w-sm text-lg text-balance mb-2">
+              Ship release videos for every sprint—no motion-designer
+              bottleneck.
+            </div>
+
+            <div className="text-md text-stone-400">
+              “Stakeholders finally ‘get’ our updates without reading a doc” —
+              @Jenna Lee, PM at Loom
+            </div>
+          </Copy>
         </div>
       </div>
-      <div className="reveal-row grid grid-cols-2 md:grid-cols-6 w-full md:min-h-60 rounded-3xl">
-        <div className="col-span-2 pl-20 min-h-24 md:min-h-auto text-2xl font-medium flex items-center">
-          <div className="max-w-[10rem]">Lorem ipsum dolor</div>
+      <div className="reveal-row grid grid-cols-1 md:grid-cols-6 w-full md:min-h-60 rounded-3xl">
+        <div className="col-span-1 md:col-span-2 lg:col-span-1 md:pl-20 min-h-24 md:min-h-auto text-2xl font-medium flex items-center">
+          <Copy animateOnScroll={true}>
+            <div className="md:max-w-[16rem]">EdTech Micro-Lessons</div>
+          </Copy>
         </div>
 
-        <div className="col-span-1 md:col-span-2 flex items-center md:justify-end px-5 md:px-10">
-          <span className="relative h-52 aspect-[14/16] overflow-hidden">
+        <div className="col-span-1 md:col-span-2 mb-5 md:mb-0 flex items-center md:justify-end px-5 md:px-10">
+          <span className="relative h-72 aspect-[12/16] overflow-hidden">
             <Image
               style={{ objectFit: "cover" }}
-              src={Picture1}
+              src={Educator}
               alt="image"
               fill
             />
           </span>
         </div>
 
-        <div className="ol-span-1 md:col-span-2 h-full flex items-center px-5">
-          <div className="max-w-sm opacity-50 text-lg">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-            Accusantium asperiores consectetur corporis cupiditate deserunt
-            distinctio dolor fuga.
-          </div>
+        <div className="col-span-1 md:col-span-2 h-full flex items-center px-5">
+          <Copy animateOnScroll={true}>
+            <div className="max-w-sm text-lg text-balance mb-2">
+              Break complex topics into bite-sized, voice-narrated visual
+              stories.
+            </div>
+
+            <div className="text-md text-stone-400">
+              “Students watch the whole lesson instead of skipping ahead.” —
+              @Dr. Luis Gomez, Online Instructor
+            </div>
+          </Copy>
         </div>
       </div>
     </div>

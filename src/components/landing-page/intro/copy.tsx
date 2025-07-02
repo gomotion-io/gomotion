@@ -5,7 +5,6 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { SplitText } from "gsap/SplitText";
-import { useMediaQuery } from "usehooks-ts";
 
 gsap.registerPlugin(SplitText, ScrollTrigger);
 
@@ -20,7 +19,6 @@ export default function Copy({
   animateOnScroll = true,
   delay = 0,
 }: CopyProps) {
-  const isMobile = useMediaQuery("(max-width: 568px)");
   const containerRef = useRef<HTMLElement | null>(null);
   const elementRefs = useRef<Element[]>([]);
   const splitRefs = useRef<SplitText[]>([]);
@@ -49,11 +47,6 @@ export default function Copy({
   useGSAP(
     () => {
       if (!containerRef.current) return;
-
-      if (isMobile) {
-        gsap.set(containerRef.current, { opacity: 1 });
-        return;
-      }
 
       gsap.set(containerRef.current, { opacity: 0 });
 

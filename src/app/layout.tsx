@@ -73,12 +73,10 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body className={`${roboto.variable} antialiased relative`}>
-        <div>
-          <Header />
-          <AuthProvider initialUser={user} initialProfile={profile}>
-            <LayoutProvider>{children}</LayoutProvider>
-          </AuthProvider>
-        </div>
+        <Header />
+        <AuthProvider initialUser={user} initialProfile={profile}>
+          <LayoutProvider>{children}</LayoutProvider>
+        </AuthProvider>
         <Analytics />
       </body>
     </html>

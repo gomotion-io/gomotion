@@ -6,7 +6,7 @@ const Team = () => {
   return (
     <div className="flex flex-col xl:flex-row gap-10 px-5 sm:px-20 lg:px-40 mt-24 z-50">
       <div className="team-member flex  flex-col lg:flex-row gap-7">
-        <div className="relative h-[32rem] aspect-[12/16] overflow-hidden">
+        <div className="relative h-[26rem] aspect-[12/16] overflow-hidden">
           <Image
             style={{ objectFit: "cover" }}
             src={Philippe}
@@ -30,8 +30,9 @@ const Team = () => {
           </div>
         </div>
       </div>
+
       <div className="team-member flex  flex-col lg:flex-row gap-7">
-        <div className="relative h-[32rem] aspect-[12/16] overflow-hidden">
+        <div className="relative h-[26rem] aspect-[12/16] overflow-hidden">
           <Image style={{ objectFit: "cover" }} src={Lionel} alt="image" fill />
         </div>
 

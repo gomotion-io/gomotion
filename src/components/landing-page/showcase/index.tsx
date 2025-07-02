@@ -2,17 +2,28 @@
 
 import Copy from "@/components/landing-page/intro/copy";
 import { VideoItem } from "./video-item";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { ArrowRight } from "lucide-react";
+import React from "react";
 
 export const Showcase = () => {
   return (
     <div className="flex flex-col mb-24 px-5 sm:px-10 bg-black">
-      <div className="w-full flex text-stone-100 pt-16 mb-14 md:mb-16">
+      <div className="w-full flex gap-5 text-stone-100 pt-16 mb-14">
         <div className="flex-[2] lg:flex-[2]">
           <Copy animateOnScroll={true}>
-            <h3 className="font-medium text-4xl leading-snug">
-              Scroll down and let our motion{" "}
-              <span className="opacity-50 mr-1.5">design tell your story</span>
-              frame by frame
+            <h3 className="font-medium text-4xl leading-snug mb-2">
+              Some examples made by the{" "}
+              <span className="text-stone-400">community</span>
+            </h3>
+          </Copy>
+
+          <Copy animateOnScroll={true}>
+            <h3 className="text-balance leading-relaxed ">
+              Below, explore a dynamic showcase of real clips our users
+              generated — each crafted to maximize watch time and social
+              shares—each crafted to maximize watch time and social shares.
             </h3>
           </Copy>
         </div>
@@ -60,13 +71,19 @@ export const Showcase = () => {
 
       <div className="flex mt-5">
         <div className="flex-[2] lg:flex-[4]"></div>
-        <div className="lg:flex flex-[3] gap-5 opacity-85 justify-end">
+        <div className="lg:flex flex-[3] md:flex-[1] flex-col gap-5 justify-end">
           <Copy animateOnScroll={true}>
-            <div className="font-medium leading-snug uppercase ">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. At aut
-              dolorem dolorum et incidunt ipsum minus
+            <div className=" leading-snug uppercase text-stone-400  mb-5 lg:mb-2">
+              You’re one prompt away from the next viral video.
             </div>
           </Copy>
+          <div className="mb-5">
+            <Link href="/register">
+              <Button size="lg">
+                Start for free <ArrowRight />
+              </Button>
+            </Link>
+          </div>
         </div>
       </div>
     </div>
