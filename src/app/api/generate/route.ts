@@ -2,7 +2,8 @@ import { NextRequest } from "next/server";
 import { validateUser } from "@/app/api/generate/utils/validate-user";
 import { validateCredit } from "@/app/api/generate/utils/validate-credits";
 import { generateVideo } from "@/app/api/generate/utils/generate-video";
-import { recordUsage } from "@/app/api/generate/utils/record-usage";
+import { createCount } from "@/supabase/server-functions/counts";
+import { saveVideo } from "@/supabase/server-functions/videos";
 
 interface GenerationRequest {
   prompt: string;
@@ -22,11 +23,12 @@ export async function POST(request: NextRequest) {
     const videoData = await generateVideo(prompt);
 
     // Step 4: Record usage and save video to database
-    const result = await recordUsage(
-      profile.id,
-      videoData.result.projectName,
-      videoData.result.fileSystem,
-    );
+    await createCount(profile.id);
+
+    const result = await saveVideo({
+      profileId: profile.id,
+      video: videoData,
+    });
 
     return Response.json(result);
   } catch (error) {
