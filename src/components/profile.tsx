@@ -14,7 +14,7 @@ import Link from "next/link";
 export const Profile: FC = () => {
   const router = useRouter();
   const pathname = usePathname();
-  const isExplorePage = pathname === "/explore";
+  const isExplorePage = pathname.startsWith("/explore");
   const { user, profile, signOut } = useUserStore();
   const { credits } = useCountStore();
 

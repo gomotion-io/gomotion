@@ -3,27 +3,28 @@
 import { RatioSelection } from "@/components/ratio-selection";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { useWebContainer } from "@/hooks/webcontainer/useWebContainer";
+
 import { useParamStore } from "@/store/params.store";
 import { useVideoStore } from "@/store/video.store";
 import { ArrowUpIcon, StopIcon } from "@heroicons/react/16/solid";
+import { useRouter } from "next/navigation";
 import { useCallback, useRef } from "react";
 
 export const PromptInput = () => {
   const textareaRef = useRef(null);
-  const { mountFiles } = useWebContainer();
 
   const generating = useVideoStore((state) => state.generating);
   const createVideo = useVideoStore((state) => state.create);
   const setPrompt = useParamStore((state) => state.setPrompt);
   const prompt = useParamStore((state) => state.prompt);
+  const router = useRouter();
 
   const handleSubmit = useCallback(async () => {
-    const tree = await createVideo({ prompt });
-    if (tree) {
-      await mountFiles(tree);
+    const video = await createVideo({ prompt });
+    if (video?.id) {
+      router.push(`/explore/${video.id}`);
     }
-  }, [createVideo, prompt, mountFiles]);
+  }, [createVideo, prompt, router]);
 
   return (
     <div className="relative w-full flex flex-col gap-4">
