@@ -19,6 +19,7 @@ export const CustomPlayer: React.FC<CustomPlayerProps> = ({
   ...rest
 }) => {
   const [playing, setPlaying] = useState(false);
+  const [isReady, setIsReady] = useState(false);
 
   const togglePlay = () => {
     setPlaying((prev) => !prev);
@@ -26,8 +27,9 @@ export const CustomPlayer: React.FC<CustomPlayerProps> = ({
 
   return (
     <div
-      className={`relative cursor-pointer select-none h-full w-full transition-all duration-300 transform group-hover:scale-105  ${className ?? ""}`}
+      className={`relative cursor-pointer select-none h-full w-full transition-all duration-300 transform group-hover:scale-105 ${className ?? ""}`}
       onClick={togglePlay}
+      style={{ opacity: isReady ? 1 : 0, transition: "opacity 300ms ease" }}
     >
       <ReactPlayer
         url={url}
@@ -35,6 +37,7 @@ export const CustomPlayer: React.FC<CustomPlayerProps> = ({
         controls={false}
         width={width}
         height={height}
+        onReady={() => setIsReady(true)}
         {...rest}
       />
 

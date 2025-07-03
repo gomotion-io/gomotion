@@ -1,13 +1,28 @@
+"use client";
+
 import { Profile } from "@/components/profile";
-import { getUser } from "@/supabase/server-functions/users";
 import Image from "next/image";
 import Link from "next/link";
+import { FunctionComponent } from "react";
+import { User } from "@supabase/auth-js";
+import { cn } from "@/lib/utils";
+import { usePathname } from "next/navigation";
 
-export const Header = async () => {
-  const user = await getUser();
+type HeaderProps = {
+  user: User | null;
+};
+
+export const Header: FunctionComponent<HeaderProps> = ({ user }) => {
+  const pathname = usePathname();
+  const isExplorePage = pathname.startsWith("/explore");
 
   return (
-    <div className="absolute z-50 flex items-center justify-between h-[5rem] w-full px-5 sm:px-10 header">
+    <div
+      className={cn(
+        "absolute z-50 flex items-center gap-10 h-[5rem] w-full px-5 sm:px-10 header",
+        isExplorePage && "justify-between",
+      )}
+    >
       <Link href="/">
         <div className="flex items-center gap-2">
           <div className="">
@@ -23,7 +38,7 @@ export const Header = async () => {
       </Link>
       <div className="flex items-center">
         {user ? (
-          <Profile />
+          <Profile isExplorePage={isExplorePage} />
         ) : (
           <div className="flex gap-4">
             <Link href="/pricing">

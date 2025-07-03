@@ -8,6 +8,8 @@ import { SplitText } from "gsap/SplitText";
 
 gsap.registerPlugin(SplitText, ScrollTrigger);
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 interface CopyProps {
   children: ReactNode;
   animateOnScroll?: boolean;
@@ -128,19 +130,34 @@ export default function Copy({
         });
       };
     },
-    { scope: containerRef, dependencies: [animateOnScroll, delay] },
+    { scope: containerRef, dependencies: [animateOnScroll, delay] }
   );
 
+  // Ensure the element starts hidden on the very first paint (SSR) to avoid a flash
+  // of visible content that immediately disappears when GSAP sets opacity to 0 on mount.
+  const initialStyle = { opacity: 0 } as React.CSSProperties;
+
   if (React.Children.count(children) === 1) {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-expect-error
-    return React.cloneElement(children as ReactElement, { ref: containerRef });
+    const child = children as ReactElement;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const mergedStyle = {
+      ...((child.props as any)?.style ?? {}),
+      ...initialStyle,
+    };
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    return React.cloneElement(child, {
+      ref: containerRef,
+      style: mergedStyle,
+    } as any);
   }
 
+  // Wrapper variant when multiple children are provided
   return (
     <div
       ref={containerRef as React.RefObject<HTMLDivElement>}
       data-copy-wrapper="true"
+      style={initialStyle}
     >
       {children}
     </div>

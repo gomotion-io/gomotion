@@ -1,6 +1,6 @@
 import { AuthProvider } from "@/components/auth-provider";
 import { LayoutProvider } from "@/components/layout-provider";
-import { Header } from "@/components/ssr/header";
+import { HeaderWrapper } from "@/components/ssr/header-wrapper";
 import { getEnvUrl } from "@/lib/utils";
 import { getProfile } from "@/supabase/server-functions/profile";
 import { getUser } from "@/supabase/server-functions/users";
@@ -73,7 +73,7 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body className={`${roboto.variable} antialiased relative`}>
-        <Header />
+        <HeaderWrapper />
         <AuthProvider initialUser={user} initialProfile={profile}>
           <LayoutProvider>{children}</LayoutProvider>
         </AuthProvider>

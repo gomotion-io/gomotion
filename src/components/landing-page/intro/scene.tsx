@@ -56,7 +56,7 @@ export const Scene = () => {
   return (
     <Canvas style={{ background: "#000000" }} className="scene">
       <Model isMobile={isMobile} />
-      <directionalLight intensity={2} position={[0, 2, 3]} />
+      <directionalLight intensity={2} position={[4, 1, 3]} />
       <Environment preset="city" />
     </Canvas>
   );
