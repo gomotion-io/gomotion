@@ -18,6 +18,7 @@ export default function LandingPage() {
 
     const scene = document.querySelector(".scene");
     const introBtn = document.querySelector(".intro-button");
+    const heroIcons = gsap.utils.toArray<HTMLElement>(".hero-icon");
     const header = document.querySelector(".header");
     const capabilityPlayer = document.querySelector(".capability-player");
     const showcaseItems = gsap.utils.toArray<HTMLElement>(".showcase-item");
@@ -57,6 +58,21 @@ export default function LandingPage() {
         opacity: 1,
         delay: 1,
         ease: "power3.out",
+      });
+    }
+
+    if (heroIcons.length) {
+      heroIcons.forEach((icon, i) => {
+        gsap.fromTo(
+          icon,
+          { opacity: 0, y: 60 },
+          {
+            opacity: 1,
+            y: 0,
+            delay: 1 + i / 4,
+            ease: "power3.out",
+          },
+        );
       });
     }
 

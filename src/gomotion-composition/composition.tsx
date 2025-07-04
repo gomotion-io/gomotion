@@ -4,19 +4,23 @@ import {
 } from "@/gomotion-composition/text-layer/text-stomp";
 import { AbsoluteFill } from "remotion";
 import { FC } from "react";
+import { Watermark } from "@/gomotion-composition/watermark";
 
-type GomotionCompositionProps = {
+export type GomotionCompositionProps = {
+  watermark: boolean;
   fps: number;
-  textStomp: TextStompProps;
+  textStompLayer: TextStompProps;
 };
 
 export const GomotionComposition: FC<GomotionCompositionProps> = ({
+  watermark,
   fps,
-  textStomp,
+  textStompLayer,
 }) => {
   return (
     <AbsoluteFill>
-      <TextStomp words={textStomp.words} fps={fps} />
+      <TextStomp words={textStompLayer.words} fps={fps} />
+      {watermark && <Watermark />}
     </AbsoluteFill>
   );
 };
