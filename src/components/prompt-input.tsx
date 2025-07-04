@@ -9,6 +9,7 @@ import { useVideoStore } from "@/store/video.store";
 import { ArrowUpIcon, StopIcon } from "@heroicons/react/16/solid";
 import { useRouter } from "next/navigation";
 import { useCallback, useRef } from "react";
+import { VoiceSelection } from "@/components/voice-selection";
 
 export const PromptInput = () => {
   const textareaRef = useRef(null);
@@ -48,6 +49,7 @@ export const PromptInput = () => {
         }}
       />
       <div className="absolute bottom-0 right-0 p-2 w-fit flex flex-row justify-end gap-2 items-center">
+        <VoiceSelection />
         <RatioSelection />
         {generating ? (
           <Button className="rounded-full w-14" onClick={() => {}}>
