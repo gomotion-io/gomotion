@@ -5,18 +5,18 @@ import {
 import { AbsoluteFill } from "remotion";
 import { FC } from "react";
 
-type GomotionCompositionProps = {
+export type GomotionCompositionProps = {
   fps: number;
-  textStomp: TextStompProps;
+  textStompLayer: TextStompProps;
 };
 
 export const GomotionComposition: FC<GomotionCompositionProps> = ({
   fps,
-  textStomp,
+  textStompLayer,
 }) => {
   return (
     <AbsoluteFill>
-      <TextStomp words={textStomp.words} fps={fps} />
+      <TextStomp words={textStompLayer.words} fps={fps} />
     </AbsoluteFill>
   );
 };

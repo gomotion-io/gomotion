@@ -13,15 +13,19 @@ import {
  */
 export interface FxSpec {
   /** Scale animation range [start, end]. */
-  scale: [number, number];
+  scale?: [number, number];
   /** Rotation animation range in degrees [start, end]. */
-  rotation: [number, number];
+  rotation?: [number, number];
   /** Opacity animation range [start, end]. */
-  opacity: [number, number];
+  opacity?: [number, number];
   /** Color animation */
-  color: [string, string];
+  color?: [string, string];
   /** Background color animation */
-  bgColor: [string, string];
+  bgColor?: [string, string];
+  /** Horizontal translation in px [start, end] */
+  translateX?: [number, number];
+  /** Vertical translation in px [start, end] */
+  translateY?: [number, number];
 }
 
 /**
@@ -75,11 +79,21 @@ const Word: React.FC<{ spec: WordSpec; fps: number }> = ({ spec, fps }) => {
 
   const fx = spec.fxs[segIndex];
 
-  const scale = interpolate(progress, [0, 1], fx.scale);
-  const rotate = interpolate(progress, [0, 1], fx.rotation);
-  const opacity = interpolate(progress, [0, 1], fx.opacity);
-  const color = interpolateColors(progress, [0, 1], fx.color);
-  const bgColor = interpolateColors(progress, [0, 1], fx.bgColor);
+  const scale = fx.scale ? interpolate(progress, [0, 1], fx.scale) : 1;
+  const rotate = fx.rotation ? interpolate(progress, [0, 1], fx.rotation) : 0;
+  const opacity = fx.opacity ? interpolate(progress, [0, 1], fx.opacity) : 1;
+  const color = fx.color
+    ? interpolateColors(progress, [0, 1], fx.color)
+    : undefined;
+  const bgColor = fx.bgColor
+    ? interpolateColors(progress, [0, 1], fx.bgColor)
+    : undefined;
+  const translateX = fx.translateX
+    ? interpolate(progress, [0, 1], fx.translateX)
+    : 0;
+  const translateY = fx.translateY
+    ? interpolate(progress, [0, 1], fx.translateY)
+    : 0;
 
   return (
     <>
@@ -87,7 +101,7 @@ const Word: React.FC<{ spec: WordSpec; fps: number }> = ({ spec, fps }) => {
       <span
         style={{
           display: "inline-block",
-          transform: `scale(${scale}) rotate(${rotate}deg)`,
+          transform: `translate(${translateX}px, ${translateY}px) scale(${scale}) rotate(${rotate}deg)`,
           opacity,
           whiteSpace: "pre",
           pointerEvents: "none",

@@ -3,11 +3,11 @@
 import { CustomPlayer } from "@/components/custom-player";
 import Copy from "@/components/landing-page/intro/copy";
 import { Button } from "@/components/ui/button";
-import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 
 import localFont from "next/font/local";
 import { cx } from "class-variance-authority";
+import Image from "next/image";
 
 const neueMontreal = localFont({
   src: "../../../../public/fonts/PPNeueMontreal-Bold.otf",
@@ -30,24 +30,69 @@ export default function Intro() {
           </Copy>
           <Copy animateOnScroll={false} delay={0.9}>
             <h3 className="text-white font-medium sm:max-w-xl text-center sm:text-start leading-relaxed text-xl mb-2">
-              Create stories that stick
+              No After Effects. Just Prompts
             </h3>
           </Copy>
           <Copy animateOnScroll={false} delay={0.9}>
             <h3 className="text-stone-400 text-center lg:text-start px-5 lg:px-0 max-w-full lg:max-w-lg text-balance leading-relaxed text-xl mb-7">
-              The frontier AI model for motion-design driven storytelling,
-              unleash scroll-stopping videos from a single prompt.
+              Create stories that stick — effortlessly. GoMotion is the first
+              frontier AI model for motion-design storytelling
             </h3>
           </Copy>
+
           <Link href="/register">
             <Button
-              className="intro-button w-52 cursor-pointer h-12 hover:bg-opacity-50 hover:scale-105 transition-all duration-300"
+              className="intro-button text-lg px-5 cursor-pointer h-12 hover:bg-opacity-50 hover:scale-105 transition-all duration-300 mb-24"
               size="lg"
               variant="outline"
             >
-              Get started <ArrowRight />
+              Get started for free
             </Button>
           </Link>
+
+          <div className="flex -ml-5">
+            <div className="relative w-[5rem] h-[5rem] flex items-center justify-center hero-icon">
+              <Image
+                src="/images/ae.svg"
+                alt="ae"
+                width={40}
+                height={40}
+                unoptimized
+              />
+              <Image
+                src="/images/x.svg"
+                alt="x"
+                width={70}
+                height={70}
+                unoptimized
+                className="absolute"
+              />
+            </div>
+
+            <div className="hero-icon">
+              <Image
+                src="/images/arrow-right.svg"
+                alt="x"
+                width={80}
+                height={80}
+                unoptimized
+              />
+            </div>
+
+            <div className="relative w-[5rem] h-[5rem] flex items-center justify-center hero-icon">
+              <Image
+                src="/images/gomotion.svg"
+                alt="gomotion"
+                width={30}
+                height={30}
+                unoptimized
+              />
+            </div>
+          </div>
+
+          <div className="text-stone-400 italic hero-icon">
+            "Next Gen Motion Design. Without the Old Tools."
+          </div>
         </div>
 
         {/*<div className="lg:flex w-full gap-5 text-stone-400 pl-40 px-5 sm:px-10">*/}

@@ -117,6 +117,7 @@ export type Database = {
       }
       videos: {
         Row: {
+          composition: Json
           created_at: string
           duration_in_frames: number
           fps: number
@@ -124,10 +125,10 @@ export type Database = {
           id: string
           name: string | null
           profile_id: string
-          tsx: string
           width: number
         }
         Insert: {
+          composition: Json
           created_at?: string
           duration_in_frames: number
           fps: number
@@ -135,10 +136,10 @@ export type Database = {
           id?: string
           name?: string | null
           profile_id?: string
-          tsx: string
           width: number
         }
         Update: {
+          composition?: Json
           created_at?: string
           duration_in_frames?: number
           fps?: number
@@ -146,7 +147,6 @@ export type Database = {
           id?: string
           name?: string | null
           profile_id?: string
-          tsx?: string
           width?: number
         }
         Relationships: [

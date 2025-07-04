@@ -1,22 +1,24 @@
+import { GomotionCompositionProps } from "@/gomotion-composition/composition";
 import { useParamStore } from "@/store/params.store";
 import { createClient } from "@/supabase/client";
-import * as React from "react";
-import { ComponentType } from "react";
-import * as ReactDOM from "react-dom";
-import * as Remotion from "remotion";
 import { create } from "zustand";
+
+type RefinedVideo = Omit<Video, "composition"> & {
+  composition: {
+    textStompLayer: GomotionCompositionProps["textStompLayer"];
+  };
+};
 
 interface VideoState {
   videos: Video[];
-  currentVideo: Video | null;
+  currentVideo: RefinedVideo | null;
   loading: boolean;
   generating: boolean;
   fetchVideos: (profileId: string) => Promise<void>;
   subscribe: (profileId: string) => void;
-  create: (payload: { prompt: string }) => Promise<Video | null>;
+  create: (payload: { prompt: string }) => Promise<RefinedVideo | null>;
   remove: (id: string) => void;
-  composition: ComponentType | null;
-  load: (id: string) => Promise<Video | null>;
+  load: (id: string) => Promise<RefinedVideo | null>;
 }
 
 export const useVideoStore = create<VideoState>((set) => ({
@@ -24,7 +26,6 @@ export const useVideoStore = create<VideoState>((set) => ({
   currentVideo: null,
   loading: false,
   generating: false,
-  composition: null,
 
   fetchVideos: async (profileId) => {
     const supabase = createClient();
@@ -67,11 +68,11 @@ export const useVideoStore = create<VideoState>((set) => ({
           if (payload.eventType === "DELETE") {
             set((state) => ({
               videos: state.videos.filter(
-                (v) => v.id !== (payload.old as Video).id,
+                (v) => v.id !== (payload.old as Video).id
               ),
             }));
           }
-        },
+        }
       )
       .subscribe();
   },
@@ -93,12 +94,13 @@ export const useVideoStore = create<VideoState>((set) => ({
       const data: Video = await res.json();
 
       if (data) {
+        const refinedData = data as unknown as RefinedVideo;
+
         set((state) => ({ videos: [data, ...state.videos] }));
 
-        const composition = await createComponent(data.tsx);
-        set({ currentVideo: data, composition });
+        set({ currentVideo: refinedData });
 
-        return data;
+        return refinedData;
       }
 
       return null;
@@ -136,40 +138,14 @@ export const useVideoStore = create<VideoState>((set) => ({
     }
 
     try {
-      const composition = await createComponent(data.tsx);
-      set({ currentVideo: data, composition });
+      const refinedData = data as unknown as RefinedVideo;
+      set({ currentVideo: refinedData });
     } catch (err) {
       console.error(err);
     } finally {
       set({ loading: false });
     }
 
-    return data as Video;
+    return data as unknown as RefinedVideo;
   },
 }));
-
-const createComponent = async (tsx: string) => {
-  // Make React and Remotion available globally for the dynamic component
-  window.React = React;
-  window.ReactDOM = ReactDOM;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  (window as any).Remotion = Remotion;
-
-  // Transform TSX using the API route
-  const transformRes = await fetch("/api/transform", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ tsx }),
-  });
-
-  const { code } = await transformRes.json();
-
-  const jsBlob = new Blob([code], { type: "text/javascript" });
-  const blobUrl = URL.createObjectURL(jsBlob);
-  const imported = await import(/* webpackIgnore: true */ blobUrl);
-  URL.revokeObjectURL(blobUrl);
-
-  return imported.default;
-};
