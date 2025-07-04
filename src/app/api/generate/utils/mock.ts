@@ -5,7 +5,7 @@ export const mock: Omit<Video, "id"> = {
   width: 1920,
   height: 1080,
   fps: 30,
-  duration_in_frames: 300,
+  duration_in_frames: 420,
   composition: {
     textStompLayer: {
       words: [
@@ -106,9 +106,41 @@ export const mock: Omit<Video, "id"> = {
           ],
         },
         {
-          text: "REVOLUTION",
+          text: "KINETIC",
           inFrame: 150,
           outFrame: 180,
+          fxs: [
+            // 1️⃣ first (largest) bounce – starts off-screen, fades in
+            {
+              translateY: [-48, 0],
+              scale: [1.18, 1],
+              opacity: [0, 1],
+            },
+            // 2️⃣ smaller rebound in opposite direction
+            {
+              translateY: [24, 0],
+              scale: [1.09, 1],
+            },
+            // 3️⃣ final micro-bounce
+            {
+              translateY: [-12, 0],
+              scale: [1.045, 1],
+            },
+          ],
+        },
+        {
+          text: "SKEW",
+          inFrame: 180,
+          outFrame: 220,
+          fxs: [
+            { skewX: [-40, 0], scale: [0.7, 1], opacity: [0, 1] }, // skew in & pop
+            { skewX: [0, 15], skewY: [0, 5] }, // subtle overshoot
+          ],
+        },
+        {
+          text: "REVOLUTION",
+          inFrame: 220,
+          outFrame: 260,
           fxs: [
             {
               opacity: [0, 1],
@@ -121,6 +153,26 @@ export const mock: Omit<Video, "id"> = {
               rotation: [0, -5],
               bgColor: ["#2dd4bf", "#2dd4bf"],
             },
+          ],
+        },
+        {
+          text: "FLIP",
+          inFrame: 260,
+          outFrame: 300,
+          fxs: [
+            { rotateY: [90, 0], opacity: [0, 1] }, // Y-axis card flip in
+            { rotateX: [0, 10], perspective: 600 }, // subtle nod
+            { rotateX: [10, 0] }, // settle back
+          ],
+        },
+        {
+          text: "DEPTH !",
+          inFrame: 300,
+          outFrame: 320,
+          fxs: [
+            { translateZ: [-600, 0], opacity: [0, 1] }, // rush toward camera
+            { translateZ: [0, 60], scale: [1, 0.85] }, // bounce back a bit
+            { translateZ: [60, -800], opacity: [1, 0] }, // fall away into space
           ],
         },
       ],

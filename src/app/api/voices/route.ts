@@ -1,20 +1,38 @@
-import { Voice } from "@/store/params.store";
-
-export const VOICES: Voice[] = [
+export const VOICES = [
   {
-    name: "Guillaume",
-    voiceId: "Qrl71rx6Yg8RvyPYRGCQ",
+    name: "Declan",
+    voice_id: "kqVT88a5QfII1HNAEPTJ",
   },
   {
-    name: "Angela",
-    voiceId: "PT4nqlKZfc06VW1BuClj",
+    name: "Mark",
+    voice_id: "1SM7GgM6IMuvQlz2BwM3",
+  },
+  {
+    name: "Hope",
+    voice_id: "tnSpp4vdxKPjI9w0GnoV",
+  },
+  {
+    name: "Guillaume",
+    voice_id: "Qrl71rx6Yg8RvyPYRGCQ",
+  },
+  {
+    name: "Gaëlle",
+    voice_id: "WLKp2jV6nrS8aMkPPDRO",
+  },
+  {
+    name: "Paul",
+    voice_id: "tKaoyJLW05zqV0tIH9FD",
+  },
+  {
+    name: "Emilia",
+    voice_id: "ZF6FPAbjXT4488VcRRnw",
   },
 ];
 
 export async function GET() {
   try {
     const voicePromises = VOICES.map((voice) =>
-      fetch(`https://api.elevenlabs.io/v1/voices/${voice.voiceId}`, {
+      fetch(`https://api.elevenlabs.io/v1/voices/${voice.voice_id}`, {
         method: "GET",
         headers: {
           "xi-api-key": process.env.ELEVENLABS_API_KEY as string,

@@ -1,165 +1,56 @@
 "use client";
-import React, { ReactElement, ReactNode, useRef } from "react";
-
 import { useGSAP } from "@gsap/react";
-import gsap from "gsap";
+import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { SplitText } from "gsap/SplitText";
-
-gsap.registerPlugin(SplitText, ScrollTrigger);
-
-/* eslint-disable @typescript-eslint/no-explicit-any */
+import { ReactNode, useRef } from "react";
 
 interface CopyProps {
   children: ReactNode;
   animateOnScroll?: boolean;
+
   delay?: number;
 }
 
 export default function Copy({
   children,
-  animateOnScroll = true,
+  animateOnScroll = false,
   delay = 0,
 }: CopyProps) {
-  const containerRef = useRef<HTMLElement | null>(null);
-  const elementRefs = useRef<Element[]>([]);
-  const splitRefs = useRef<SplitText[]>([]);
-  const lines = useRef<Element[]>([]);
+  const wrapperRef = useRef<HTMLDivElement | null>(null);
 
-  const waitForFonts = async (): Promise<boolean> => {
-    try {
-      await document.fonts.ready;
-
-      const customFonts = ["nm", "DM Mono"];
-      const fontCheckPromises = customFonts.map((fontFamily) => {
-        return document.fonts.check(`16px ${fontFamily}`);
-      });
-
-      await Promise.all(fontCheckPromises);
-      await new Promise((resolve) => setTimeout(resolve, 100));
-
-      return true;
-    } catch (error) {
-      console.warn("Font loading check failed, proceeding anyway:", error);
-      await new Promise((resolve) => setTimeout(resolve, 200));
-      return true;
-    }
-  };
+  // Register plugins once. gsap ignores duplicate registrations.
+  gsap.registerPlugin(ScrollTrigger, useGSAP);
 
   useGSAP(
     () => {
-      if (!containerRef.current) return;
+      if (!wrapperRef.current) return;
 
-      gsap.set(containerRef.current, { opacity: 0 });
-
-      const initializeSplitText = async () => {
-        await waitForFonts();
-
-        splitRefs.current = [];
-        lines.current = [];
-        elementRefs.current = [];
-
-        let elements: Element[] = [];
-        if (containerRef.current!.hasAttribute("data-copy-wrapper")) {
-          elements = Array.from(containerRef.current!.children);
-        } else {
-          elements = [containerRef.current!];
-        }
-
-        elements.forEach((element) => {
-          elementRefs.current.push(element);
-
-          const split = SplitText.create(element, {
-            type: "lines",
-            mask: "lines",
-            linesClass: "line++",
-            lineThreshold: 0.1,
-          });
-
-          splitRefs.current.push(split);
-
-          const computedStyle = window.getComputedStyle(element);
-          const textIndent = computedStyle.textIndent;
-
-          if (textIndent && textIndent !== "0px") {
-            if (split.lines.length > 0) {
-              (split.lines[0] as HTMLElement).style.paddingLeft = textIndent;
-            }
-            (element as HTMLElement).style.textIndent = "0";
-          }
-
-          lines.current.push(...split.lines);
-        });
-
-        gsap.set(lines.current, { y: "100%" });
-
-        gsap.set(containerRef.current, { opacity: 1 });
-
-        const animationProps = {
-          y: "0%",
-          duration: 1,
-          stagger: 0.1,
-          ease: "power4.out",
-          delay: delay,
-        };
-
-        if (animateOnScroll) {
-          gsap.to(lines.current, {
-            y: "0%",
-            stagger: 0.1,
-            ease: "power4.out",
-            scrollTrigger: {
-              trigger: containerRef.current,
-              start: "top 90%",
-              end: "top 50%",
-              scrub: true,
-            },
-          });
-        } else {
-          gsap.to(lines.current, animationProps);
-        }
+      const baseConfig = {
+        opacity: 0,
+        y: 40,
+        ease: "power3.out" as const,
+        duration: 1,
       };
 
-      initializeSplitText().catch(console.error);
-
-      return () => {
-        splitRefs.current.forEach((split) => {
-          if (split) {
-            split.revert();
-          }
+      if (animateOnScroll) {
+        gsap.from(wrapperRef.current, {
+          ...baseConfig,
+          scrollTrigger: {
+            trigger: wrapperRef.current,
+            start: "top 90%",
+            end: "top 60%",
+            toggleActions: "play none none reset",
+          },
         });
-      };
+      } else {
+        gsap.from(wrapperRef.current, {
+          ...baseConfig,
+          delay,
+        });
+      }
     },
-    { scope: containerRef, dependencies: [animateOnScroll, delay] }
+    { dependencies: [animateOnScroll, delay] },
   );
 
-  // Ensure the element starts hidden on the very first paint (SSR) to avoid a flash
-  // of visible content that immediately disappears when GSAP sets opacity to 0 on mount.
-  const initialStyle = { opacity: 0 } as React.CSSProperties;
-
-  if (React.Children.count(children) === 1) {
-    const child = children as ReactElement;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const mergedStyle = {
-      ...((child.props as any)?.style ?? {}),
-      ...initialStyle,
-    };
-
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    return React.cloneElement(child, {
-      ref: containerRef,
-      style: mergedStyle,
-    } as any);
-  }
-
-  // Wrapper variant when multiple children are provided
-  return (
-    <div
-      ref={containerRef as React.RefObject<HTMLDivElement>}
-      data-copy-wrapper="true"
-      style={initialStyle}
-    >
-      {children}
-    </div>
-  );
+  return <div ref={wrapperRef}>{children}</div>;
 }
