@@ -68,17 +68,21 @@ export const useVideoStore = create<VideoState>((set) => ({
           if (payload.eventType === "DELETE") {
             set((state) => ({
               videos: state.videos.filter(
-                (v) => v.id !== (payload.old as Video).id
+                (v) => v.id !== (payload.old as Video).id,
               ),
             }));
           }
-        }
+        },
       )
       .subscribe();
   },
 
   create: async ({ prompt }) => {
-    const { aspectRatio } = useParamStore.getState();
+    const { aspectRatio, currentVoice } = useParamStore.getState();
+
+    if (!currentVoice) {
+      throw new Error("currentVoice was not provided");
+    }
 
     try {
       set({ generating: true, currentVideo: null });
@@ -88,7 +92,11 @@ export const useVideoStore = create<VideoState>((set) => ({
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ prompt, aspectRatio }),
+        body: JSON.stringify({
+          prompt,
+          voiceId: currentVoice.voice_id,
+          aspectRatio,
+        }),
       });
 
       const data: Video = await res.json();

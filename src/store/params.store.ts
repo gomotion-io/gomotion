@@ -9,7 +9,8 @@ export enum AspectRatio {
 
 export type Voice = {
   name: string;
-  voiceId: string;
+  voice_id: string;
+  preview_url: string;
 };
 
 export type ParamsState = {
@@ -19,8 +20,8 @@ export type ParamsState = {
   currentVoice: Voice | null;
   setPrompt: (prompt: string) => void;
   setAspectRatio: (aspectRatio: AspectRatio) => void;
-  setVoice: (voice: Voice) => void;
   getVoices: () => Promise<void>;
+  setCurrentVoice: (currentVoice: Voice) => void;
 };
 
 export const useParamStore = create<ParamsState>((set) => ({
@@ -30,10 +31,10 @@ export const useParamStore = create<ParamsState>((set) => ({
   currentVoice: null,
   setPrompt: (prompt) => set({ prompt }),
   setAspectRatio: (aspectRatio: AspectRatio) => set({ aspectRatio }),
-  setVoice: (voice) => set({ voice }),
   getVoices: async () => {
     const res = await fetch("/api/voices");
     const data = await res.json();
-    set({ voices: data });
+    set({ voices: data, currentVoice: data[0] });
   },
+  setCurrentVoice: (currentVoice) => set({ currentVoice }),
 }));

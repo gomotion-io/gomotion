@@ -7,11 +7,14 @@ import { saveVideo } from "@/supabase/server-functions/videos";
 
 interface GenerationRequest {
   prompt: string;
+  voiceId: string;
+  aspectRatio: string;
 }
 
 export async function POST(request: NextRequest) {
   try {
-    const { prompt }: GenerationRequest = await request.json();
+    const { prompt, voiceId, aspectRatio }: GenerationRequest =
+      await request.json();
 
     // Step 1: Validate user authentication
     const user = await validateUser();
@@ -20,7 +23,7 @@ export async function POST(request: NextRequest) {
     const { profile } = await validateCredit(user.id);
 
     // Step 3: Generate video via mastra api
-    const videoData = await generateVideo(prompt);
+    const videoData = await generateVideo({ prompt, voiceId, aspectRatio });
 
     // Step 4: Record usage and save video to database
     await createCount(profile.id);
