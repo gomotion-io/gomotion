@@ -1,10 +1,37 @@
+import Copy from "@/components/landing-page/intro/copy";
+import { useGSAP } from "@gsap/react";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Image from "next/image";
+import Educator from "../../../../public/images/educator.png";
 import Influencer from "../../../../public/images/influencer.png";
 import Sassy from "../../../../public/images/sassy.jpg";
-import Educator from "../../../../public/images/educator.png";
-import Copy from "@/components/landing-page/intro/copy";
+
+gsap.registerPlugin(ScrollTrigger, useGSAP);
 
 export const RevealBand = () => {
+  useGSAP(() => {
+    const rows = gsap.utils.toArray<HTMLElement>(".reveal-row");
+
+    rows.forEach((row) => {
+      gsap.fromTo(
+        row,
+        { opacity: 0, y: 60 },
+        {
+          opacity: 1,
+          y: 0,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: row,
+            start: "top 85%",
+            end: "top 60%",
+            scrub: true,
+          },
+        }
+      );
+    });
+  }, []);
+
   return (
     <div className="flex flex-col px-5 sm:px-10 gap-10 text-black mb-6">
       <div className="reveal-row grid grid-cols-1 md:grid-cols-6 w-full md:min-h-60 rounded-3xl">
@@ -64,8 +91,8 @@ export const RevealBand = () => {
             </div>
 
             <div className="text-md text-stone-400">
-              “Stakeholders finally ‘get’ our updates without reading a doc” —
-              @Jenna Lee, PM at Loom
+              “Stakeholders finally &apos;get&apos; our updates without reading
+              a doc — @Jenna Lee, PM at Loom
             </div>
           </Copy>
         </div>

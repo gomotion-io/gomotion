@@ -1,10 +1,47 @@
+import { useGSAP } from "@gsap/react";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Image from "next/image";
+import { useRef } from "react";
 import Philippe from "../../../../public/images/team-philippe.jpg";
 import Lionel from "../../../../public/images/team-tatkeu.jpg";
 
+gsap.registerPlugin(ScrollTrigger, useGSAP);
+
 const Team = () => {
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useGSAP(() => {
+    if (!containerRef.current) return;
+
+    const members =
+      containerRef.current.querySelectorAll<HTMLElement>(".team-member");
+
+    members.forEach((member, i) => {
+      gsap.set(member, { y: 40 * (i + 1), opacity: 0 });
+      gsap
+        .timeline({
+          scrollTrigger: {
+            trigger: member,
+            start: "top 90%",
+            end: "top 40%",
+            scrub: true,
+          },
+        })
+        .to(member, {
+          y: 0,
+          opacity: 1,
+          ease: "power3.Out",
+        });
+    });
+  }, []);
+
   return (
-    <div className="flex flex-col xl:flex-row gap-10 px-5 sm:px-20 lg:px-40 mt-24 z-50">
+    <div
+      ref={containerRef}
+      id="our-team"
+      className="flex flex-col xl:flex-row gap-10 px-5 sm:px-20 lg:px-40 mt-24 z-50"
+    >
       <div className="team-member flex  flex-col lg:flex-row gap-7">
         <div className="relative h-[26rem] aspect-[12/16] overflow-hidden">
           <Image

@@ -1,12 +1,17 @@
 "use client";
 
 import { Profile } from "@/components/profile";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import { useGSAP } from "@gsap/react";
+import { User } from "@supabase/auth-js";
+import { gsap } from "gsap";
+import { ScrollToPlugin } from "gsap/ScrollToPlugin";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Image from "next/image";
 import Link from "next/link";
-import { FunctionComponent } from "react";
-import { User } from "@supabase/auth-js";
-import { cn } from "@/lib/utils";
 import { usePathname } from "next/navigation";
+import { FunctionComponent, useCallback, useRef } from "react";
 
 type HeaderProps = {
   user: User | null;
@@ -16,11 +21,34 @@ export const Header: FunctionComponent<HeaderProps> = ({ user }) => {
   const pathname = usePathname();
   const isExplorePage = pathname.startsWith("/explore");
 
+  const headerRef = useRef<HTMLDivElement>(null);
+
+  // Register plugins once. gsap ignores duplicate registrations.
+  gsap.registerPlugin(ScrollTrigger, ScrollToPlugin, useGSAP);
+
+  useGSAP(() => {
+    if (!headerRef.current) return;
+
+    gsap.set(headerRef.current, { y: -20, opacity: 0 });
+    gsap.to(headerRef.current, {
+      y: 0,
+      opacity: 1,
+      duration: 1,
+      delay: 1.5,
+      ease: "power4.out",
+    });
+  }, []);
+
+  const scrollToContact = useCallback(() => {
+    gsap.to(window, { duration: 2, scrollTo: "#our-team" });
+  }, []);
+
   return (
     <div
+      ref={headerRef}
       className={cn(
         "absolute z-50 flex items-center gap-10 h-[5rem] w-full px-5 sm:px-10 header",
-        isExplorePage && "justify-between",
+        isExplorePage && "justify-between"
       )}
     >
       <Link href="/">
@@ -50,11 +78,9 @@ export const Header: FunctionComponent<HeaderProps> = ({ user }) => {
             )}
 
             {process.env.NEXT_PUBLIC_BETA ? (
-              <Link href="/contact-us">
-                <div className="text-primary text-sm underline-offset-4 hover:underline font-semibold">
-                  Contact us
-                </div>
-              </Link>
+              <Button onClick={scrollToContact} variant="link">
+                Contact us
+              </Button>
             ) : (
               <>
                 <Link href="/sign-in">

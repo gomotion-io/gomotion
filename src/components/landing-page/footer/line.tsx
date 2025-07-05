@@ -149,6 +149,11 @@ export default function Line() {
             Tiktok
           </p>
         </Link>
+        <Link href="https://discord.gg/Wd4nCJhCgd" target="_blank">
+          <p className="text-sm mt-2 font-medium underline-offset-4 hover:underline">
+            Discord
+          </p>
+        </Link>
         <div className="pt-1">|</div>
         <p className="text-sm mt-2 font-medium">Montreal - Canada</p>
       </div>

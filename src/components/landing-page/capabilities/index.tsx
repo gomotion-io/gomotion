@@ -1,13 +1,40 @@
 "use client";
 
 import { CustomPlayer } from "@/components/custom-player";
+import { useGSAP } from "@gsap/react";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useRef } from "react";
 import Copy from "../intro/copy";
 
+gsap.registerPlugin(ScrollTrigger, useGSAP);
+
 export default function Capabilities() {
+  const capabilityPlayerRef = useRef<HTMLDivElement>(null);
+
+  useGSAP(() => {
+    if (!capabilityPlayerRef.current) return;
+
+    gsap.from(capabilityPlayerRef.current, {
+      scrollTrigger: {
+        trigger: capabilityPlayerRef.current,
+        scrub: true,
+        start: "-80px bottom",
+        end: "bottom+=400px bottom",
+      },
+      opacity: 0,
+      scale: 0.5,
+      ease: "power4.out",
+    });
+  }, []);
+
   return (
     <div className="relative text-black bg-white py-[10%] px-5 sm:px-32">
       <div className="flex flex-col lg:flex-row lg:justify-between lg:gap-[5%]">
-        <div className="relative capability-player w-full h-[60vh] mb-8 lg:mb-0 xl:w-[35%] lg:h-[85vh] lg:sticky lg:top-[8vh] lg:self-start">
+        <div
+          ref={capabilityPlayerRef}
+          className="relative capability-player w-full h-[60vh] mb-8 lg:mb-0 xl:w-[35%] lg:h-[85vh] lg:sticky lg:top-[8vh] lg:self-start"
+        >
           <CustomPlayer
             url="https://legendary.b-cdn.net/website/case.mp4"
             width="100%"
@@ -72,7 +99,7 @@ export default function Capabilities() {
             <Copy animateOnScroll={true}>
               <p className="text-xl leading-relaxed">
                 <span>
-                  What’s the <span className="font-medium">Solution</span>{" "}
+                  What&apos;s the <span className="font-medium">Solution</span>{" "}
                   ?{" "}
                 </span>
                 <span className="opacity-40">

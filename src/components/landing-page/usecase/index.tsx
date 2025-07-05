@@ -7,7 +7,7 @@ import { CallToAction } from "@/components/call-to-action";
 
 export const Usecase = () => {
   return (
-    <div className="bg-white">
+    <div className="bg-white pb-16 sm:pb-20">
       <div className="w-full flex text-black pt-16 mb-14 md:mb-16 px-5 sm:px-10">
         <div className="flex-[2] lg:flex-[2]">
           <Copy animateOnScroll={true}>
@@ -38,7 +38,9 @@ export const Usecase = () => {
               Creator.
             </div>
           </Copy>
-          <CallToAction />
+          <Copy animateOnScroll>
+            <CallToAction />
+          </Copy>
         </div>
       </div>
     </div>

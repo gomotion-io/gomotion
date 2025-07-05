@@ -1,6 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
+import Image from "next/image";
 import React, { useState } from "react";
 import type { ReactPlayerProps } from "react-player";
 
@@ -9,11 +10,17 @@ const ReactPlayer = dynamic(() => import("react-player"), { ssr: false });
 export interface CustomPlayerProps extends ReactPlayerProps {
   url: string;
   className?: string;
+  /**
+   * Optional poster image that will be displayed when the video is not playing.
+   * This is useful for displaying a thumbnail (e.g. on the landing page intro video).
+   */
+  poster?: string;
 }
 
 export const CustomPlayer: React.FC<CustomPlayerProps> = ({
   url,
   className,
+  poster,
   width = "100%",
   height = "100%",
   ...rest
@@ -43,7 +50,19 @@ export const CustomPlayer: React.FC<CustomPlayerProps> = ({
 
       {!playing && (
         <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
-          <div className="rounded-4xl h-16 w-32 bg-black/15 backdrop-blur-md p-1 hover:scale-120 transition duration-500">
+          {/* Poster image */}
+          {poster && (
+            <Image
+              src={poster}
+              alt="video-poster"
+              fill
+              className="object-contain"
+              priority
+            />
+          )}
+
+          {/* Play button overlay */}
+          <div className="rounded-4xl h-16 w-32 bg-black/15 backdrop-blur-md p-1 hover:scale-120 transition duration-500 z-10">
             <div className="rounded-4xl h-full w-full flex items-center justify-center bg-white/10 text-white ">
               <svg
                 width="36"
