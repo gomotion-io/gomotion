@@ -8,8 +8,7 @@ import Image from "next/image";
 import React from "react";
 import dynamic from "next/dynamic";
 import { CustomPlayer } from "@/components/custom-player";
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
+import { CallToAction } from "@/components/call-to-action";
 
 const neueMontreal = localFont({
   src: "../../../../public/fonts/PPNeueMontreal-Bold.otf",
@@ -47,15 +46,7 @@ export default function Intro() {
             </h3>
           </Copy>
 
-          <Link href="/register">
-            <Button
-              className="intro-button text-stone-300 text-lg px-5 cursor-pointer h-12 hover:bg-opacity-50 hover:scale-105 transition-all duration-300 mb-24"
-              size="lg"
-              variant="outline"
-            >
-              Get started for free
-            </Button>
-          </Link>
+          <CallToAction />
 
           <div className="flex -ml-5">
             <div className="relative w-[5rem] h-[5rem] flex items-center justify-center hero-icon">
@@ -132,37 +123,3 @@ export default function Intro() {
     </div>
   );
 }
-// <CustomPlayer
-//     url="https://legendary.b-cdn.net/website/works.mp4"
-//     width="100%"
-//     height="100%"
-//     playsinline
-//     config={{
-//       file: {
-//         attributes: {
-//           // style: {
-//           //   width: "100%",
-//           //   height: "100%",
-//           //   objectFit: "cover",
-//           // },
-//         },
-//       },
-//     }}
-// />
-// <CustomPlayer
-//     url="https://legendary.b-cdn.net/website/Area2.mp4"
-//     width="100%"
-//     height="100%"
-//     playsinline
-//     config={{
-//       file: {
-//         attributes: {
-//           style: {
-//             width: "100%",
-//             height: "100%",
-//             objectFit: "cover",
-//           },
-//         },
-//       },
-//     }}
-// />

@@ -30,8 +30,8 @@ export const PlanItem: FC<PlanItemProps> = ({ profile, product }) => {
   return (
     <Card
       className={clsx(
-        "flex flex-col shadow-none bg-opacity-10",
-        product.highlight && "border-neutral-200 scale-110",
+        "flex flex-col shadow-none bg-opacity-10 w-full",
+        product.highlight && "border-neutral-200 scale-110 my-4 sm:my-0",
       )}
     >
       <CardHeader>

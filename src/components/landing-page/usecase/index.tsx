@@ -3,9 +3,7 @@
 import React from "react";
 import Copy from "@/components/landing-page/intro/copy";
 import { RevealBand } from "@/components/landing-page/usecase/reveal-band";
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { ArrowRight } from "lucide-react";
+import { CallToAction } from "@/components/call-to-action";
 
 export const Usecase = () => {
   return (
@@ -40,11 +38,7 @@ export const Usecase = () => {
               Creator.
             </div>
           </Copy>
-          <Link href="/register">
-            <Button className="mb-16 bg-black" variant="secondary" size="lg">
-              Start for free <ArrowRight />
-            </Button>
-          </Link>
+          <CallToAction />
         </div>
       </div>
     </div>

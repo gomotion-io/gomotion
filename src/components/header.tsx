@@ -41,21 +41,34 @@ export const Header: FunctionComponent<HeaderProps> = ({ user }) => {
           <Profile isExplorePage={isExplorePage} />
         ) : (
           <div className="flex gap-4">
-            <Link href="/pricing">
-              <div className="text-primary text-sm underline-offset-4 hover:underline font-semibold">
-                Pricing
-              </div>
-            </Link>
-            <Link href="/sign-in">
-              <div className="text-primary text-sm underline-offset-4 hover:underline font-semibold">
-                Sign In
-              </div>
-            </Link>
-            <Link href="/register">
-              <div className="text-primary text-sm underline-offset-4 hover:underline font-semibold">
-                Register
-              </div>
-            </Link>
+            {!process.env.NEXT_PUBLIC_BETA && (
+              <Link href="/pricing">
+                <div className="text-primary text-sm underline-offset-4 hover:underline font-semibold">
+                  Pricing
+                </div>
+              </Link>
+            )}
+
+            {process.env.NEXT_PUBLIC_BETA ? (
+              <Link href="/contact-us">
+                <div className="text-primary text-sm underline-offset-4 hover:underline font-semibold">
+                  Contact us
+                </div>
+              </Link>
+            ) : (
+              <>
+                <Link href="/sign-in">
+                  <div className="text-primary text-sm underline-offset-4 hover:underline font-semibold">
+                    Sign In
+                  </div>
+                </Link>
+                <Link href="/register">
+                  <div className="text-primary text-sm underline-offset-4 hover:underline font-semibold">
+                    Register
+                  </div>
+                </Link>
+              </>
+            )}
           </div>
         )}
       </div>

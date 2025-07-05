@@ -33,7 +33,7 @@ const Pricing = async () => {
         </div>
       </div>
 
-      <div className="mx-auto max-w-6xl grid gap-6 px-4 sm:px-10 py-8 lg:grid-cols-4 mb-10">
+      <div className="mx-auto lg:max-w-6xl flex md:flex-row flex-col items-center justify-center gap-6 px-5 sm:px-10 py-8">
         {sortedProducts.map((product, index) => (
           <PlanItem key={index} product={product} profile={profile} />
         ))}

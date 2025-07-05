@@ -2,11 +2,9 @@
 
 import Copy from "@/components/landing-page/intro/copy";
 import { VideoItem } from "./video-item";
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { ArrowRight } from "lucide-react";
 import React from "react";
 import "./style.css";
+import { CallToAction } from "@/components/call-to-action";
 
 export const Showcase = () => {
   return (
@@ -98,11 +96,7 @@ export const Showcase = () => {
             </div>
           </Copy>
           <div className="mb-5">
-            <Link href="/register">
-              <Button size="lg">
-                Start for free <ArrowRight />
-              </Button>
-            </Link>
+            <CallToAction />
           </div>
         </div>
       </div>
