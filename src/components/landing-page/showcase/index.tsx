@@ -6,6 +6,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import React from "react";
+import "./style.css";
 
 export const Showcase = () => {
   return (
@@ -32,39 +33,58 @@ export const Showcase = () => {
 
       <div className="w-full">
         <div className="">
-          <div className="flex flex-col lg:flex-row gap-4 py-5 w-full">
-            <VideoItem
-              videoUrl="https://legendary.b-cdn.net/website/sample.mp4"
-              index="01"
-              workName="Azure Serenity Echoes"
-            />
-            <VideoItem
-              videoUrl="https://legendary.b-cdn.net/website/sample.mp4"
-              index="02"
-              workName="Solar Reverie"
-            />
-            <VideoItem
-              videoUrl="https://legendary.b-cdn.net/website/sample.mp4"
-              index="03"
-              workName="Crimson Symphony Memoirs"
-            />
-          </div>
-          <div className="flex flex-col lg:flex-row gap-4 py-5 w-full">
-            <VideoItem
-              videoUrl="https://legendary.b-cdn.net/website/sample.mp4"
-              index="04"
-              workName="Neon Galactic Chronicles"
-            />
-            <VideoItem
-              videoUrl="https://legendary.b-cdn.net/website/sample.mp4"
-              index="05"
-              workName="Velvet Dreamscape"
-            />
-            <VideoItem
-              videoUrl="https://legendary.b-cdn.net/website/sample.mp4"
-              index="06"
-              workName="Lunar Symphony"
-            />
+          <div className="works">
+            <div className="row">
+              <VideoItem
+                videoId={437808118}
+                index="01"
+                workName="Azure Serenity Echoes"
+              />
+              <VideoItem
+                videoId={871750630}
+                index="02"
+                workName="Solar Reverie"
+              />
+              <VideoItem
+                videoId={477068055}
+                index="03"
+                workName="Crimson Symphony Memoirs"
+              />
+            </div>
+            <div className="row">
+              <VideoItem
+                videoId={487114118}
+                index="04"
+                workName="Neon Galactic Chronicles"
+              />
+              <VideoItem
+                videoId={366780994}
+                index="05"
+                workName="Velvet Dreamscape"
+              />
+              <VideoItem
+                videoId={659334960}
+                index="06"
+                workName="Lunar Symphony"
+              />
+            </div>
+            <div className="row">
+              <VideoItem
+                videoId={533729157}
+                index="07"
+                workName="Oceanic Memoirs Echoes"
+              />
+              <VideoItem
+                videoId={500832353}
+                index="08"
+                workName="Twilight Dreamscape Saga"
+              />
+              <VideoItem
+                videoId={510814675}
+                index="09"
+                workName="Galactic Odyssey"
+              />
+            </div>
           </div>
         </div>
       </div>

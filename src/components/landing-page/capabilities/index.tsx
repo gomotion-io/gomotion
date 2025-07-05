@@ -9,7 +9,7 @@ export default function Capabilities() {
       <div className="flex flex-col lg:flex-row lg:justify-between lg:gap-[5%]">
         <div className="relative capability-player w-full h-[60vh] mb-8 lg:mb-0 xl:w-[35%] lg:h-[85vh] lg:sticky lg:top-[8vh] lg:self-start">
           <CustomPlayer
-            url="https://legendary.b-cdn.net/website/works.mp4"
+            url="https://legendary.b-cdn.net/website/case.mp4"
             width="100%"
             height="100%"
             playsinline

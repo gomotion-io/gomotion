@@ -38,6 +38,7 @@ export default function Copy({
             trigger: wrapperRef.current,
             start: "top 90%",
             end: "top 60%",
+            scrub: true,
             toggleActions: "play none none reset",
           },
         });
