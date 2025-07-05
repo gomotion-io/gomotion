@@ -1,9 +1,17 @@
 import { mock } from "@/app/api/generate/utils/mock";
 
-export async function generateVideo(
-  prompt: string,
-): Promise<Omit<Video, "id">> {
-  console.log(prompt);
+type GenerateVideo = {
+  prompt: string;
+  voiceId: string;
+  aspectRatio: string;
+};
+
+export async function generateVideo({
+  prompt,
+  voiceId,
+  aspectRatio,
+}: GenerateVideo): Promise<Omit<Video, "id">> {
+  console.log("input", prompt, voiceId, aspectRatio);
   // const response = await fetch(
   //   `${process.env.MASTRA_URL}/api/workflows/remotionWorkflow/start-async`,
   //   {

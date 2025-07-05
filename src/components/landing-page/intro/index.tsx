@@ -16,7 +16,7 @@ const neueMontreal = localFont({
 export default function Intro() {
   return (
     <div className="flex flex-col lg:flex-row w-full">
-      <section className="relative flex flex-col items-center justify-center w-full lg:w-1/2 overflow-hidden text-stone-100 h-[100svh]">
+      <section className="relative flex flex-col items-center justify-center w-full lg:w-1/2 overflow-hidden text-stone-100 h-[100svh] pt-24 sm:pt-14">
         <div className="flex flex-col justify-center lg:items-start items-center mt-20 sm:mt-28">
           <Copy animateOnScroll={false} delay={0.9}>
             <h3
@@ -34,7 +34,7 @@ export default function Intro() {
             </h3>
           </Copy>
           <Copy animateOnScroll={false} delay={0.9}>
-            <h3 className="text-stone-400 text-center lg:text-start px-5 lg:px-0 max-w-full lg:max-w-lg text-balance leading-relaxed text-xl mb-14">
+            <h3 className="text-stone-400 text-center lg:text-start px-5 lg:px-0 max-w-full lg:max-w-lg text-balance leading-relaxed text-xl mb-5 sm:mb-14">
               Create stories that stick — effortlessly. GoMotion is the first
               frontier AI model for motion-design storytelling
             </h3>
@@ -117,19 +117,6 @@ export default function Intro() {
             </Button>
           </Link>
         </div>
-
-        {/*<div className="lg:flex w-full gap-5 text-stone-400 pl-40 px-5 sm:px-10">*/}
-        {/*  <Copy animateOnScroll={false} delay={1.5}>*/}
-        {/*    <div className="font-medium leading-snug uppercase ">*/}
-        {/*      +50K subscribers{" "}*/}
-        {/*    </div>*/}
-        {/*  </Copy>*/}
-        {/*  <Copy animateOnScroll={false} delay={1.7}>*/}
-        {/*    <div className="font-medium leading-snug uppercase">*/}
-        {/*      +10k videos generated*/}
-        {/*    </div>*/}
-        {/*  </Copy>*/}
-        {/*</div>*/}
       </section>
 
       <section className="relative flex items-center justify-center w-full lg:w-1/2 h-[60vh] lg:h-[100svh] overflow-hidden">

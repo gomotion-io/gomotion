@@ -26,6 +26,18 @@ export interface FxSpec {
   translateX?: [number, number];
   /** Vertical translation in px [start, end] */
   translateY?: [number, number];
+  /** Depth field translation in px [start, end] */
+  translateZ?: [number, number];
+  /** Shear on the X axis in degrees [start, end] */
+  skewX?: [number, number];
+  /** Shear on the Y axis in degrees [start, end] */
+  skewY?: [number, number];
+  /** 3-D X rotations (deg)  [start, end] */
+  rotateX: [number, number];
+  /** 3-D Y rotations (deg)  [start, end] */
+  rotateY?: [number, number];
+  /** Optional per-FX perspective in px (fallback to default) */
+  perspective?: number;
 }
 
 /**
@@ -94,6 +106,14 @@ const Word: React.FC<{ spec: WordSpec; fps: number }> = ({ spec, fps }) => {
   const translateY = fx.translateY
     ? interpolate(progress, [0, 1], fx.translateY)
     : 0;
+  const translateZ = fx.translateZ
+    ? interpolate(progress, [0, 1], fx.translateZ)
+    : 0;
+  const skewX = fx.skewX ? interpolate(progress, [0, 1], fx.skewX) : 0;
+  const skewY = fx.skewY ? interpolate(progress, [0, 1], fx.skewY) : 0;
+  const rotX = fx.rotateX ? interpolate(progress, [0, 1], fx.rotateX) : 0;
+  const rotY = fx.rotateY ? interpolate(progress, [0, 1], fx.rotateY) : 0;
+  const perspective = fx.perspective ?? 800;
 
   return (
     <>
@@ -101,7 +121,8 @@ const Word: React.FC<{ spec: WordSpec; fps: number }> = ({ spec, fps }) => {
       <span
         style={{
           display: "inline-block",
-          transform: `translate(${translateX}px, ${translateY}px) scale(${scale}) rotate(${rotate}deg)`,
+          transform: `translateZ(${translateZ}px) translate(${translateX}px, ${translateY}px) scale(${scale}) perspective(${perspective}px) rotate(${rotate}deg) rotateX(${rotX}deg) rotateY(${rotY}deg) skew(${skewX}deg, ${skewY}deg)`,
+          transformStyle: "preserve-3d",
           opacity,
           whiteSpace: "pre",
           pointerEvents: "none",

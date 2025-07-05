@@ -14,8 +14,8 @@ export const Showcase = () => {
         <div className="flex-[2] lg:flex-[2]">
           <Copy animateOnScroll={true}>
             <h3 className="font-medium text-4xl leading-snug mb-2">
-              Some examples made by the{" "}
-              <span className="text-stone-400">community</span>
+              Start creating your own{" "}
+              <span className="text-stone-400">stories</span>
             </h3>
           </Copy>
 
