@@ -1,16 +1,22 @@
 "use client";
 
-import { CustomPlayer } from "@/components/custom-player";
 import Copy from "@/components/landing-page/intro/copy";
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
 
 import localFont from "next/font/local";
 import { cx } from "class-variance-authority";
 import Image from "next/image";
+import React from "react";
+import dynamic from "next/dynamic";
+import { CustomPlayer } from "@/components/custom-player";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
 
 const neueMontreal = localFont({
   src: "../../../../public/fonts/PPNeueMontreal-Bold.otf",
+});
+
+const ReactPlayer = dynamic(() => import("react-player"), {
+  ssr: false,
 });
 
 export default function Intro() {
@@ -34,11 +40,22 @@ export default function Intro() {
             </h3>
           </Copy>
           <Copy animateOnScroll={false} delay={0.9}>
-            <h3 className="text-stone-400 text-center lg:text-start px-5 lg:px-0 max-w-full lg:max-w-lg text-balance leading-relaxed text-xl mb-5 sm:mb-14">
-              Create stories that stick — effortlessly. GoMotion is the first
-              frontier AI model for motion-design storytelling
+            <h3 className="text-stone-400 text-center lg:text-start px-5 lg:px-0 max-w-full lg:max-w-md text-balance leading-relaxed text-xl mb-5">
+              Create stories that stick — effortlessly. <br />{" "}
+              <span className="font-medium">Gomotion</span> is the first
+              frontier AI model for motion-driven storytelling
             </h3>
           </Copy>
+
+          <Link href="/register">
+            <Button
+              className="intro-button text-stone-300 text-lg px-5 cursor-pointer h-12 hover:bg-opacity-50 hover:scale-105 transition-all duration-300 mb-24"
+              size="lg"
+              variant="outline"
+            >
+              Get started for free
+            </Button>
+          </Link>
 
           <div className="flex -ml-5">
             <div className="relative w-[5rem] h-[5rem] flex items-center justify-center hero-icon">
@@ -83,64 +100,69 @@ export default function Intro() {
           <div className="text-stone-400 italic hero-icon mb-5">
             &#34;Next Gen Motion Design. Without the Old Tools.&#34;
           </div>
-
-          <div className="flex -space-x-2 mb-10 hero-icon">
-            <img
-              className="inline-block size-10 rounded-full ring-2 ring-stone-400"
-              src="https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-              alt=""
-            />
-            <img
-              className="inline-block size-10 rounded-full ring-2 ring-stone-400"
-              src="https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-              alt=""
-            />
-            <img
-              className="inline-block size-10 rounded-full ring-2 ring-stone-400"
-              src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.25&w=256&h=256&q=80"
-              alt=""
-            />
-            <img
-              className="inline-block size-10 rounded-full ring-2 ring-stone-400"
-              src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-              alt=""
-            />
-          </div>
-
-          <Link href="/register">
-            <Button
-              className="intro-button text-lg px-5 cursor-pointer h-12 hover:bg-opacity-50 hover:scale-105 transition-all duration-300 mb-24"
-              size="lg"
-              variant="outline"
-            >
-              Get started for free
-            </Button>
-          </Link>
         </div>
       </section>
 
-      <section className="relative flex items-center justify-center w-full lg:w-1/2 h-[60vh] lg:h-[100svh] overflow-hidden">
-        <div className="relative capability-player w-full h-full">
+      <section className="relative flex flex-col items-center justify-center w-full lg:w-1/2 h-[100svh] overflow-hidden">
+        <div className="h-[70vh] w-full sm:pt-20">
           <CustomPlayer
             url="https://legendary.b-cdn.net/website/works.mp4"
             width="100%"
             height="100%"
             playsinline
             style={{ position: "absolute", top: 0, left: 0 }}
-            config={{
-              file: {
-                attributes: {
-                  style: {
-                    width: "100%",
-                    height: "100%",
-                    objectFit: "cover",
-                  },
-                },
-              },
-            }}
           />
+        </div>
+
+        <div className="h-[30vh] w-full overflow-hidden flex items-center justify-center">
+          <div className="scale-135">
+            <ReactPlayer
+              url={`https://legendary.b-cdn.net/website/prompting.mp4`}
+              controls={false}
+              autoPlay={true}
+              loop={true}
+              playing
+              muted
+              width="100%"
+              height="100%"
+            />
+          </div>
         </div>
       </section>
     </div>
   );
 }
+// <CustomPlayer
+//     url="https://legendary.b-cdn.net/website/works.mp4"
+//     width="100%"
+//     height="100%"
+//     playsinline
+//     config={{
+//       file: {
+//         attributes: {
+//           // style: {
+//           //   width: "100%",
+//           //   height: "100%",
+//           //   objectFit: "cover",
+//           // },
+//         },
+//       },
+//     }}
+// />
+// <CustomPlayer
+//     url="https://legendary.b-cdn.net/website/Area2.mp4"
+//     width="100%"
+//     height="100%"
+//     playsinline
+//     config={{
+//       file: {
+//         attributes: {
+//           style: {
+//             width: "100%",
+//             height: "100%",
+//             objectFit: "cover",
+//           },
+//         },
+//       },
+//     }}
+// />
