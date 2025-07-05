@@ -21,7 +21,7 @@ const ReactPlayer = dynamic(() => import("react-player"), {
 export default function Intro() {
   return (
     <div className="flex flex-col lg:flex-row w-full">
-      <section className="relative flex flex-col items-center justify-center w-full lg:w-1/2 overflow-hidden text-stone-100 h-[100svh] pt-24 sm:pt-14">
+      <section className="relative flex flex-col items-center pt-[1rem] sm:pt-[2rem] w-full lg:w-1/2 overflow-hidden text-stone-100 mb-20 lg:mb-0 lg:h-[100svh]">
         <div className="flex flex-col justify-center lg:items-start items-center mt-20 sm:mt-28">
           <Copy animateOnScroll={false} delay={0.9}>
             <h3
@@ -39,14 +39,11 @@ export default function Intro() {
             </h3>
           </Copy>
           <Copy animateOnScroll={false} delay={0.9}>
-            <h3 className="text-stone-400 text-center lg:text-start px-5 lg:px-0 max-w-full lg:max-w-md text-balance leading-relaxed text-xl mb-5">
-              Create stories that stick — effortlessly. <br />{" "}
-              <span className="font-medium">Gomotion</span> is the first
-              frontier AI model for motion-driven storytelling
+            <h3 className="text-stone-400 text-center lg:text-start px-5 lg:px-0 max-w-full lg:max-w-md text-balance leading-relaxed text-xl ">
+              Create stories that stick — effortlessly. <br /> First frontier AI
+              model for motion-driven storytelling
             </h3>
           </Copy>
-
-          <CallToAction />
 
           <div className="flex -ml-5">
             <div className="relative w-[5rem] h-[5rem] flex items-center justify-center hero-icon">
@@ -91,6 +88,8 @@ export default function Intro() {
           <div className="text-stone-400 italic hero-icon mb-5">
             &#34;Next Gen Motion Design. Without the Old Tools.&#34;
           </div>
+
+          <CallToAction />
         </div>
       </section>
 
