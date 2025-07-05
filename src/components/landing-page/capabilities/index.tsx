@@ -1,40 +1,13 @@
 "use client";
 
 import { CustomPlayer } from "@/components/custom-player";
-import { useGSAP } from "@gsap/react";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useRef } from "react";
 import Copy from "../intro/copy";
 
-gsap.registerPlugin(ScrollTrigger, useGSAP);
-
 export default function Capabilities() {
-  const capabilityPlayerRef = useRef<HTMLDivElement>(null);
-
-  useGSAP(() => {
-    if (!capabilityPlayerRef.current) return;
-
-    gsap.from(capabilityPlayerRef.current, {
-      scrollTrigger: {
-        trigger: capabilityPlayerRef.current,
-        scrub: true,
-        start: "-80px bottom",
-        end: "bottom+=400px bottom",
-      },
-      opacity: 0,
-      scale: 0.5,
-      ease: "power4.out",
-    });
-  }, []);
-
   return (
     <div className="relative text-black bg-white py-[10%] px-5 sm:px-32">
       <div className="flex flex-col lg:flex-row lg:justify-between lg:gap-[5%]">
-        <div
-          ref={capabilityPlayerRef}
-          className="relative capability-player w-full h-[60vh] mb-8 lg:mb-0 xl:w-[35%] lg:h-[85vh] lg:sticky lg:top-[8vh] lg:self-start"
-        >
+        <div className="relative capability-player w-full h-[60vh] mb-8 lg:mb-0 xl:w-[35%] lg:h-[85vh] lg:sticky lg:top-[8vh] lg:self-start">
           <CustomPlayer
             url="https://legendary.b-cdn.net/website/case.mp4"
             width="100%"
@@ -78,14 +51,14 @@ export default function Capabilities() {
             <Copy animateOnScroll={true}>
               <p className="text-xl leading-relaxed">
                 <span className="font-inter">
-                  The <span className="font-medium">Problem</span> is lack of
-                  Retention,{" "}
+                  The <span className="font-medium">Benefit</span> is effortless
+                  creativity at scale,{" "}
                 </span>
                 <span className="opacity-40">
-                  viewers scroll past 90 % of static posts—and half of every
-                  video drops off within 5 seconds. Meanwhile, mastering After
-                  Effects or Premiere Pro takes months, leaving brands stuck in
-                  tutorials instead of creating.
+                  reclaim hundreds of creative hours and remove technical
+                  blockers. Teams can iterate on multiple concepts in parallel,
+                  launch campaigns in real time, and stay ahead of fast-moving
+                  trends.
                 </span>
               </p>
             </Copy>
@@ -98,15 +71,14 @@ export default function Capabilities() {
           <div className="row-span-1 text-xl">
             <Copy animateOnScroll={true}>
               <p className="text-xl leading-relaxed">
-                <span>
-                  What&apos;s the <span className="font-medium">Solution</span>{" "}
-                  ?{" "}
+                <span className="font-inter">
+                  The <span className="font-medium">Solution</span> is
+                  Gomotion,{" "}
                 </span>
                 <span className="opacity-40">
-                  Stop wrestling with timelines and keyframes, puts professional
-                  motion-design in your hands with nothing more than a text
-                  prompt and our frontier AI model instantly storyboards your
-                  idea in cinematic video
+                  instead of wrestling with timelines and keyframes, you simply
+                  describe your vision in a prompt — and gomotion model
+                  instantly generates a polished animation.
                 </span>
               </p>
             </Copy>
@@ -117,14 +89,14 @@ export default function Capabilities() {
             <Copy animateOnScroll={true}>
               <p className="text-xl leading-relaxed">
                 <span className="font-inter">
-                  The <span className="font-medium">Problem</span> is lack of
-                  Retention,{" "}
+                  The <span className="font-medium">Edge</span> is real-time
+                  optimization,{" "}
                 </span>
                 <span className="opacity-40">
-                  viewers scroll past 90 % of static posts—and half of every
-                  video drops off within 5 seconds. Meanwhile, mastering After
-                  Effects or Premiere Pro takes months, leaving brands stuck in
-                  tutorials instead of creating.
+                  harnessing AI-driven insights to A/B test motion variations,
+                  refine pacing, and personalize content for each audience
+                  segment—turning every view into actionable data and ensuring
+                  your animations continually outperform the last.
                 </span>
               </p>
             </Copy>

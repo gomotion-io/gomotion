@@ -1,11 +1,11 @@
-import { GomotionCompositionProps } from "@/gomotion-composition/composition";
 import { useParamStore } from "@/store/params.store";
 import { createClient } from "@/supabase/client";
 import { create } from "zustand";
+import { GomotionCompilerProps } from "@/gomotion-compiler/composition";
 
 type RefinedVideo = Omit<Video, "composition"> & {
   composition: {
-    textStompLayer: GomotionCompositionProps["textStompLayer"];
+    textStompLayer: GomotionCompilerProps["textStompLayer"];
   };
 };
 

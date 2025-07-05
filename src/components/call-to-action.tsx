@@ -5,9 +5,13 @@ import { ScrollToPlugin } from "gsap/ScrollToPlugin";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
-import { useCallback } from "react";
+import { FC, useCallback } from "react";
 
-export const CallToAction = () => {
+type CallToActionProps = {
+  className?: string;
+};
+
+export const CallToAction: FC<CallToActionProps> = ({ className }) => {
   // Register plugins once. gsap ignores duplicate registrations.
   gsap.registerPlugin(ScrollTrigger, ScrollToPlugin, useGSAP);
 
@@ -16,11 +20,11 @@ export const CallToAction = () => {
   }, []);
 
   return process.env.NEXT_PUBLIC_BETA ? (
-    <Button size="lg" onClick={scrollTo}>
+    <Button size="lg" onClick={scrollTo} className={className}>
       Contact us <ArrowRight />
     </Button>
   ) : (
-    <Link href="/register">
+    <Link href="/register" className={className}>
       <Button size="lg">
         Start for free <ArrowRight />
       </Button>

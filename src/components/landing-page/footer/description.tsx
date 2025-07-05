@@ -10,7 +10,7 @@ const phrases = [
   "We are passionates",
   "We are storytellers",
   "We are innovators turning big ideas into motion",
-  "This is our team..",
+  "We are redefining how stories move",
 ];
 
 export default function Description() {
@@ -20,7 +20,7 @@ export default function Description() {
     if (!containerRef.current) return;
 
     const descriptions = containerRef.current.querySelectorAll<HTMLElement>(
-      ".footer-description"
+      ".footer-description",
     );
 
     descriptions.forEach((item) => {

@@ -3,8 +3,8 @@
 import { Player } from "@remotion/player";
 import { Loader } from "@/components/loader";
 import { useVideoStore } from "@/store/video.store";
-import { GomotionComposition } from "@/gomotion-composition/composition";
 import { useUserStore } from "@/store/user.store";
+import { GomotionCompiler } from "@/gomotion-compiler/composition";
 
 export const RemotionPlayer = () => {
   const { profile } = useUserStore();
@@ -34,7 +34,7 @@ export const RemotionPlayer = () => {
       <Player
         controls
         alwaysShowControls
-        component={GomotionComposition}
+        component={GomotionCompiler}
         durationInFrames={Math.floor(currentVideo.duration_in_frames) + 1}
         outFrame={Math.max(1, Math.floor(currentVideo.duration_in_frames) - 1)}
         compositionHeight={currentVideo.height}
