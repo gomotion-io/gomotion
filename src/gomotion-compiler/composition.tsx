@@ -26,14 +26,15 @@ export const GomotionCompiler: FC<GomotionCompilerProps> = ({
   return (
     <AbsoluteFill>
       {textStompLayer.sections.map((s, i) => (
-        <>
-          <TextStomp key={i} words={s.words} fps={fps} />
+        <div key={i}>
+          {/* synced text */}
+          <TextStomp words={s.words} fps={fps} />
 
           {/* synced audio */}
           <Sequence from={s.start} durationInFrames={s.duration}>
             <Audio src={s.audioUrl} />
           </Sequence>
-        </>
+        </div>
       ))}
       {watermark && <Watermark />}
     </AbsoluteFill>

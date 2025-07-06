@@ -36,7 +36,5 @@ export async function generateVideo({
     throw new Error(`Video generation failed with status: ${response.status}`);
   }
 
-  console.log(data);
-
   return data;
 }
