@@ -29,8 +29,6 @@ export interface TextStompProps {
   words: WordSpec[];
   /** Override fps; falls back to Remotion project fps when omitted. */
   fps?: number;
-  /** Space between each word in px */
-  gap?: number;
 }
 
 /**
@@ -90,41 +88,15 @@ const Word: React.FC<{ spec: WordSpec; fps: number }> = ({ spec, fps }) => {
 /**
  * Main stomp‑text composition.
  */
-export const TextStomp: React.FC<TextStompProps> = ({
-  words,
-  fps,
-  gap = 32,
-}) => {
+export const TextStomp: React.FC<TextStompProps> = ({ words, fps }) => {
   const { fps: projectFps, width, height } = useVideoConfig();
   const effectiveFps = fps ?? projectFps;
 
   return (
     <AbsoluteFill style={{ backgroundColor: "#000", width, height }}>
-      {/* centre everything */}
-      <AbsoluteFill
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          fontFamily: "Bebas Neue, Impact, sans-serif",
-          fontSize: width * 0.15,
-          fontWeight: 700,
-        }}
-      >
-        {/* keep all words in one line / wrap if too long */}
-        <div
-          style={{
-            display: "flex",
-            gap,
-            flexWrap: "wrap",
-            justifyContent: "center",
-          }}
-        >
-          {words.map((w, i) => (
-            <Word key={i} spec={w} fps={effectiveFps} />
-          ))}
-        </div>
-      </AbsoluteFill>
+      {words.map((w, i) => (
+        <Word key={i} spec={w} fps={effectiveFps} />
+      ))}
     </AbsoluteFill>
   );
 };
