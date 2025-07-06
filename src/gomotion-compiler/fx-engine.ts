@@ -31,10 +31,8 @@ export interface FxSpec {
 }
 
 export interface ComputeFxResult {
-  /** Styles to apply to the main foreground element (e.g. text span, image, etc.). */
-  foregroundStyle: CSSProperties;
-  /** Styles to apply to the background container if required. If not used simply ignore. */
-  backgroundStyle: CSSProperties;
+  /** Styles to apply to the main element (e.g. text span, image, container etc.). */
+  style: CSSProperties;
 }
 
 /**
@@ -46,7 +44,7 @@ export interface ComputeFxResult {
  */
 export const computeFxStyle = (
   fx: FxSpec,
-  progress: number,
+  progress: number
 ): ComputeFxResult => {
   const scale = fx.scale ? interpolate(progress, [0, 1], fx.scale) : 1;
   const rotate = fx.rotation ? interpolate(progress, [0, 1], fx.rotation) : 0;
@@ -72,16 +70,13 @@ export const computeFxStyle = (
   const rotY = fx.rotateY ? interpolate(progress, [0, 1], fx.rotateY) : 0;
   const perspective = fx.perspective ?? 800;
 
-  const foregroundStyle: CSSProperties = {
-    transform: `translateZ(${translateZ}px) translate(${translateX}px, ${translateY}px) scale(${scale}) perspective(${perspective}px) rotate(${rotate}deg) rotateX(${rotX}deg) rotateY(${rotY}deg) skew(${skewX}deg, ${skewY}deg)`,
+  const style: CSSProperties = {
+    backgroundColor: bgColor,
+    transform: `perspective(${perspective}px) translateZ(${translateZ}px) translate(${translateX}px, ${translateY}px) scale(${scale}) rotate(${rotate}deg) rotateX(${rotX}deg) rotateY(${rotY}deg) skew(${skewX}deg, ${skewY}deg)`,
     transformStyle: "preserve-3d",
     opacity,
     color,
   };
 
-  const backgroundStyle: CSSProperties = {
-    backgroundColor: bgColor,
-  };
-
-  return { foregroundStyle, backgroundStyle };
+  return { style };
 };
