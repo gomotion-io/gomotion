@@ -1,12 +1,10 @@
 import { useParamStore } from "@/store/params.store";
 import { createClient } from "@/supabase/client";
 import { create } from "zustand";
-import { GomotionCompilerProps } from "@/gomotion-compiler/composition";
+import type { AnimationSpec } from "@/gomotion-compiler/spec";
 
 type RefinedVideo = Omit<Video, "composition"> & {
-  composition: {
-    textStompLayer: GomotionCompilerProps["textStompLayer"];
-  };
+  composition: AnimationSpec;
 };
 
 interface VideoState {

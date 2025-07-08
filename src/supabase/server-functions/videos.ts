@@ -18,17 +18,3 @@ export const saveVideo = async ({ profileId, video }: SaveVideo) => {
 
   return data;
 };
-
-export const getVideoById = async (id: string) => {
-  const supabase = await createAdminClient();
-
-  const { data, error } = await supabase
-    .from("videos")
-    .select("*")
-    .eq("id", id)
-    .single();
-
-  if (error) throw error;
-
-  return data;
-};

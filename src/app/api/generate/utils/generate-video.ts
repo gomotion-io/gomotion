@@ -11,7 +11,7 @@ export async function generateVideo({
   voiceId,
   aspectRatio,
 }: GenerateVideo): Promise<Omit<Video, "id">> {
-  // console.log("input", prompt, voiceId, aspectRatio);
+  console.log("input", prompt, voiceId, aspectRatio);
   //
   // const response = await fetch(
   //   `${process.env.MASTRA_URL}/api/workflows/remotionWorkflow/start-async`,
@@ -38,5 +38,7 @@ export async function generateVideo({
   //   throw new Error(`Video generation failed with status: ${response.status}`);
   // }
 
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-expect-error
   return mock;
 }
