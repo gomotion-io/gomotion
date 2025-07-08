@@ -35,14 +35,24 @@ export const samples = {
       },
       animations: [
         {
-          name: "scale-bounce",
           startMs: 0,
           endMs: 700,
+          fx: {
+            scale: [0, 1],
+            rotation: [-20, 0],
+            opacity: [0, 1],
+            color: ["#ffffff", "#ffffff"],
+          },
         },
         {
-          name: "fade-out",
           startMs: 1200,
           endMs: 1500,
+          fx: {
+            scale: [1, 1],
+            rotation: [0, 0],
+            opacity: [1, 1],
+            color: ["#ffffff", "#ffffff"],
+          },
         },
       ],
     },
@@ -68,12 +78,14 @@ export const samples = {
       },
       animations: [
         {
-          name: "wipe",
-          params: {
-            direction: "left",
-          },
           startMs: 1600,
           endMs: 1900,
+          fx: {
+            scale: [0, 1],
+            rotation: [20, 0],
+            opacity: [0, 1],
+            color: ["#ffffff", "#fcd34d"],
+          },
         },
       ],
     },

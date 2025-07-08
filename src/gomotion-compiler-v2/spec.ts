@@ -1,3 +1,5 @@
+import { FxSpec } from "@/gomotion-compiler-v2/animations/fx-engine";
+
 export interface AnimationSpec {
   meta: {
     version: string;
@@ -25,8 +27,7 @@ export interface LayerSpec {
 }
 
 export interface AnimationDef {
-  name: "fade-in" | "fade-out" | "scale-bounce" | "wipe" | "word-by-word";
-  easing?: "ease" | "ease-out" | "spring";
+  fx: FxSpec;
   startMs?: number;
   endMs?: number;
   params?: Record<string, unknown>;
