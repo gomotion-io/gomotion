@@ -2,11 +2,12 @@ import { AbsoluteFill, Sequence } from "remotion";
 import type { AnimationSpec, LayerSpec } from "./spec";
 import { FC } from "react";
 import { Watermark } from "@/gomotion-compiler/watermark";
-import { TextLayer } from "@/gomotion-compiler-v2/layers/text";
-import { ImageLayer } from "@/gomotion-compiler-v2/layers/image";
-import { VideoLayer } from "@/gomotion-compiler-v2/layers/video";
-import { ShapeLayer } from "@/gomotion-compiler-v2/layers/shape";
-import { ms2f } from "@/gomotion-compiler-v2/utils";
+import { TextLayer } from "@/gomotion-compiler/layers/text";
+import { ImageLayer } from "@/gomotion-compiler/layers/image";
+import { VideoLayer } from "@/gomotion-compiler/layers/video";
+import { ShapeLayer } from "@/gomotion-compiler/layers/shape";
+import { ms2f } from "@/gomotion-compiler/utils";
+import { AudioLayer } from "@/gomotion-compiler/layers/audio";
 
 interface CompilerProps {
   spec: AnimationSpec;
@@ -44,6 +45,8 @@ function renderLayer(layer: LayerSpec, fps: number) {
       return <VideoLayer /* … */ />;
     case "shape":
       return <ShapeLayer /* … */ />;
+    case "audio":
+      return <AudioLayer layer={layer as LayerSpec & { type: "audio" }} />;
     default:
       return null;
   }

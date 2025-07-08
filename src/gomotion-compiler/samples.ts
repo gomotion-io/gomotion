@@ -2,15 +2,10 @@ import type { AnimationSpec } from "./spec";
 
 export const samples = {
   meta: {
-    version: "1.0",
+    name: "hello world sample",
     fps: 30,
     width: 1920,
     height: 1080,
-    theme: {
-      primary: "#ffe600",
-      secondary: "#ffffff",
-      background: "#000000",
-    },
   },
   layers: [
     {
@@ -41,7 +36,6 @@ export const samples = {
             scale: [0, 1],
             rotation: [-20, 0],
             opacity: [0, 1],
-            color: ["#ffffff", "#ffffff"],
           },
         },
         {
@@ -50,8 +44,7 @@ export const samples = {
           fx: {
             scale: [1, 1],
             rotation: [0, 0],
-            opacity: [1, 1],
-            color: ["#ffffff", "#ffffff"],
+            opacity: [1, 0],
           },
         },
       ],
@@ -84,10 +77,18 @@ export const samples = {
             scale: [0, 1],
             rotation: [20, 0],
             opacity: [0, 1],
-            color: ["#ffffff", "#fcd34d"],
           },
         },
       ],
+    },
+    {
+      id: "a1",
+      type: "audio",
+      startMs: 0,
+      durationMs: 1500,
+      payload: {
+        url: "",
+      },
     },
   ],
 } satisfies AnimationSpec;

@@ -1,29 +1,27 @@
-import { FxSpec } from "@/gomotion-compiler-v2/animations/fx-engine";
+import { FxSpec } from "@/gomotion-compiler/fx-engine";
 
 export interface AnimationSpec {
   meta: {
-    version: string;
+    name: string;
     fps: number;
     width: number;
     height: number;
-    theme?: ThemeSpec;
   };
   layers: LayerSpec[];
 }
 
-export interface ThemeSpec {
-  primary: string;
-  secondary: string;
-  background: string;
-}
-
 export interface LayerSpec {
   id: string;
-  type: "text" | "image" | "video" | "shape";
+  type: "text" | "image" | "video" | "shape" | "audio";
   startMs: number;
   durationMs: number;
-  payload: TextPayload | ImagePayload | VideoPayload | ShapePayload;
-  animations: AnimationDef[];
+  payload:
+    | TextPayload
+    | ImagePayload
+    | VideoPayload
+    | ShapePayload
+    | AudioPayload;
+  animations?: AnimationDef[];
 }
 
 export interface AnimationDef {
@@ -74,8 +72,7 @@ export interface TextPayload {
  * ImagePayload
  * ------------—
  */
-
-type ImagePayload = {
+export type ImagePayload = {
   url: string;
 };
 
@@ -83,7 +80,7 @@ type ImagePayload = {
  * VideoPayload
  * ------------—
  */
-type VideoPayload = {
+export type VideoPayload = {
   url: string;
 };
 
@@ -91,6 +88,14 @@ type VideoPayload = {
  * ShapePayload
  * ------------—
  */
-type ShapePayload = {
+export type ShapePayload = {
   name: string;
+};
+
+/**
+ * AudioPayload
+ * ------------—
+ */
+export type AudioPayload = {
+  url: string;
 };

@@ -8,8 +8,6 @@ export interface FxSpec {
   rotation?: [number, number];
   /** Opacity animation range [start, end]. */
   opacity?: [number, number];
-  /** Color animation */
-  color?: [string, string];
   /** Background color animation */
   bgColor?: [string, string];
   /** Horizontal translation in px [start, end] */
@@ -44,14 +42,11 @@ export interface ComputeFxResult {
  */
 export const computeFxStyle = (
   fx: FxSpec,
-  progress: number
+  progress: number,
 ): ComputeFxResult => {
   const scale = fx.scale ? interpolate(progress, [0, 1], fx.scale) : 1;
   const rotate = fx.rotation ? interpolate(progress, [0, 1], fx.rotation) : 0;
   const opacity = fx.opacity ? interpolate(progress, [0, 1], fx.opacity) : 1;
-  const color = fx.color
-    ? interpolateColors(progress, [0, 1], fx.color)
-    : undefined;
   const bgColor = fx.bgColor
     ? interpolateColors(progress, [0, 1], fx.bgColor)
     : undefined;
@@ -75,7 +70,6 @@ export const computeFxStyle = (
     transform: `perspective(${perspective}px) translateZ(${translateZ}px) translate(${translateX}px, ${translateY}px) scale(${scale}) rotate(${rotate}deg) rotateX(${rotX}deg) rotateY(${rotY}deg) skew(${skewX}deg, ${skewY}deg)`,
     transformStyle: "preserve-3d",
     opacity,
-    color,
   };
 
   return { style };
