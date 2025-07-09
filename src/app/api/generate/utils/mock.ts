@@ -1,10 +1,10 @@
-import { AnimationSpec } from "@/gomotion-compiler/spec";
+import { GomotionSpec } from "@/gomotion-compiler/spec";
 import { samples } from "@/gomotion-compiler/samples";
 
 type Mock = {
   created_at: Video["created_at"];
   profile_id: string;
-  composition: AnimationSpec;
+  composition: GomotionSpec;
 };
 
 export const mock: Mock = {

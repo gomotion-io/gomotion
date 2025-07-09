@@ -1,5 +1,5 @@
 // convert milliseconds in frames
-export function ms2f(ms: number, fps: number) {
+export function msToFrame(ms: number, fps: number) {
   return Math.round((ms / 1000) * fps);
 }
 

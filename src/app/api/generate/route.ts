@@ -4,6 +4,7 @@ import { validateCredit } from "@/app/api/generate/utils/validate-credits";
 import { generateVideo } from "@/app/api/generate/utils/generate-video";
 import { createCount } from "@/supabase/server-functions/counts";
 import { saveVideo } from "@/supabase/server-functions/videos";
+import { Json } from "@/supabase/generated/database.types";
 
 interface GenerationRequest {
   prompt: string;
@@ -23,14 +24,14 @@ export async function POST(request: NextRequest) {
     const { profile } = await validateCredit(user.id);
 
     // Step 3: Generate video via mastra api
-    const videoData = await generateVideo({ prompt, voiceId, aspectRatio });
+    const gomotionSpec = await generateVideo({ prompt, voiceId, aspectRatio });
 
     // Step 4: Record usage and save video to database
     await createCount(profile.id);
 
     const result = await saveVideo({
       profileId: profile.id,
-      video: videoData,
+      composition: gomotionSpec as unknown as Json,
     });
 
     return Response.json(result);

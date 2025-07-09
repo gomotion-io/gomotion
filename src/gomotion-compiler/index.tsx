@@ -1,16 +1,16 @@
 import { AbsoluteFill, Sequence } from "remotion";
-import type { AnimationSpec, LayerSpec } from "./spec";
+import type { GomotionSpec, LayerSpec } from "./spec";
 import { FC } from "react";
 import { Watermark } from "@/gomotion-compiler/watermark";
 import { TextLayer } from "@/gomotion-compiler/layers/text";
 import { ImageLayer } from "@/gomotion-compiler/layers/image";
 import { VideoLayer } from "@/gomotion-compiler/layers/video";
 import { ShapeLayer } from "@/gomotion-compiler/layers/shape";
-import { ms2f } from "@/gomotion-compiler/utils";
+import { msToFrame } from "@/gomotion-compiler/utils";
 import { AudioLayer } from "@/gomotion-compiler/layers/audio";
 
 interface CompilerProps {
-  spec: AnimationSpec;
+  spec: GomotionSpec;
   watermark: boolean;
 }
 
@@ -19,8 +19,8 @@ export const GomotionCompiler: FC<CompilerProps> = ({ spec, watermark }) => {
   return (
     <AbsoluteFill>
       {spec.layers.map((layer) => {
-        const start = ms2f(layer.startMs, fps);
-        const duration = ms2f(layer.durationMs, fps);
+        const start = msToFrame(layer.startMs, fps);
+        const duration = msToFrame(layer.durationMs, fps);
         return (
           <Sequence key={layer.id} from={start} durationInFrames={duration}>
             {renderLayer(layer, fps)}

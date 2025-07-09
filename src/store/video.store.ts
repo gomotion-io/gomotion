@@ -1,10 +1,10 @@
 import { useParamStore } from "@/store/params.store";
 import { createClient } from "@/supabase/client";
 import { create } from "zustand";
-import type { AnimationSpec } from "@/gomotion-compiler/spec";
+import type { GomotionSpec } from "@/gomotion-compiler/spec";
 
 type RefinedVideo = Omit<Video, "composition"> & {
-  composition: AnimationSpec;
+  composition: GomotionSpec;
 };
 
 interface VideoState {

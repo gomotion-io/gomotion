@@ -48,14 +48,14 @@ const GetStarted = () => {
     >
       <div
         className={cx(
-          "text-white -ml-2 font-bold text-center md:text-start leading-relaxed text-5xl md:text-8xl",
+          "text-white -ml-2 font-bold text-start leading-relaxed text-5xl md:text-8xl",
           neueMontreal.className,
         )}
       >
         Try Gomotion today
       </div>
 
-      <div className="flex md:justify-start justify-center">
+      <div className="flex justify-start">
         <CallToAction className="h-12 w-44 text-md font-medium" />
       </div>
     </div>

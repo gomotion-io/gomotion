@@ -29,7 +29,7 @@ export const VoiceSelection = () => {
 
   const displayLabel = useMemo(
     () => voices.find((v) => v.voice_id === currentVoice?.voice_id)?.name,
-    [currentVoice?.voice_id, voices]
+    [currentVoice?.voice_id, voices],
   );
 
   useEffect(() => {
@@ -39,6 +39,8 @@ export const VoiceSelection = () => {
   if (!displayLabel) {
     return <Loader />;
   }
+
+  console.log(voices);
 
   return (
     <Tooltip>

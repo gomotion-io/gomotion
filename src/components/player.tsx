@@ -3,10 +3,10 @@
 import { Player } from "@remotion/player";
 import { GomotionCompiler } from "@/gomotion-compiler";
 import { FC, useMemo } from "react";
-import { AnimationSpec } from "@/gomotion-compiler/spec";
+import { GomotionSpec } from "@/gomotion-compiler/spec";
 
 type RemotionPlayerProps = {
-  composition: AnimationSpec;
+  composition: GomotionSpec;
   watermark: boolean;
 };
 
@@ -32,7 +32,7 @@ export const RemotionPlayer: FC<RemotionPlayerProps> = ({
         controls
         alwaysShowControls
         component={GomotionCompiler}
-        durationInFrames={durationInFrames}
+        durationInFrames={Math.round(durationInFrames)}
         compositionHeight={height}
         compositionWidth={width}
         fps={fps}

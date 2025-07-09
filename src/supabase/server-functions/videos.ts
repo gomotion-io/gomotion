@@ -1,16 +1,17 @@
 import { createAdminClient } from "@/supabase/admin";
+import { Json } from "@/supabase/generated/database.types";
 
 type SaveVideo = {
   profileId: string;
-  video: Omit<Video, "id">;
+  composition: Json;
 };
 
-export const saveVideo = async ({ profileId, video }: SaveVideo) => {
+export const saveVideo = async ({ profileId, composition }: SaveVideo) => {
   const supabase = await createAdminClient();
 
   const { data, error } = await supabase
     .from("videos")
-    .insert([{ ...video, profile_id: profileId }])
+    .insert([{ composition, profile_id: profileId }])
     .select()
     .single();
 
