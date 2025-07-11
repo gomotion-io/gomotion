@@ -1,6 +1,7 @@
 import type { LayerSpec, TextPayload } from "@/gomotion-compiler/spec";
-import { FC } from "react";
 import useInterpolatedStyles from "@/gomotion-compiler/useInterpolatedStyles";
+import { FC } from "react";
+import { AbsoluteFill } from "remotion";
 
 interface TextLayerProps {
   layer: LayerSpec & { type: "text" };
@@ -12,13 +13,22 @@ export const TextLayer: FC<TextLayerProps> = ({ layer, fps }) => {
   const style = useInterpolatedStyles(animations, fps);
 
   return (
-    <span
+    <AbsoluteFill
       style={{
-        display: "inline-block", // width and height work on a span now
-        ...style,
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
       }}
     >
-      {text}
-    </span>
+      <span
+        style={{
+          ...style,
+          fontFamily: '"Bangers, Impact, sans-serif",',
+          textAlign: "center",
+        }}
+      >
+        {text}
+      </span>
+    </AbsoluteFill>
   );
 };

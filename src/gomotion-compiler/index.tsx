@@ -18,11 +18,15 @@ export const GomotionCompiler: FC<CompilerProps> = ({ spec, watermark }) => {
   const { fps } = spec.meta;
   return (
     <AbsoluteFill>
-      {spec.layers.map((layer) => {
+      {spec.layers.map((layer, index) => {
         const start = msToFrame(layer.startMs, fps);
         const duration = msToFrame(layer.durationMs, fps);
         return (
-          <Sequence key={layer.id} from={start} durationInFrames={duration}>
+          <Sequence
+            key={`${index}-${layer.id}`}
+            from={start}
+            durationInFrames={duration}
+          >
             {renderLayer(layer, fps)}
           </Sequence>
         );

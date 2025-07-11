@@ -1,11 +1,11 @@
 "use client";
 
-import { CallToAction } from "@/components/call-to-action";
-import Copy from "@/components/landing-page/intro/copy";
 import { useGSAP } from "@gsap/react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { VideoItem } from "./video-item";
+import { VideoItem } from "./sub/video-item";
+import { ShuffleText } from "@/components/shuffle-text";
+import React from "react";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
@@ -33,23 +33,21 @@ export const Showcase = () => {
   }, []);
 
   return (
-    <div className="flex flex-col pb-16 sm:pb-20 px-5 sm:px-10 bg-black">
+    <div className="flex flex-col pb-16 sm:pb-20 block-layout mb-60">
       <div className="w-full flex gap-5 text-stone-100 pt-16 mb-14">
-        <div className="flex-[2] lg:flex-[2]">
-          <Copy animateOnScroll={true}>
-            <h3 className="font-medium text-4xl leading-snug mb-2">
-              Start creating your own{" "}
-              <span className="text-stone-400">stories</span>
-            </h3>
-          </Copy>
+        <div className="w-full text-center flex items-center justify-center">
+          <ShuffleText
+            as="h3"
+            text="Create your own stories"
+            className="font-bold text-5xl sm:text-6xl uppercase mb-10"
+            triggerOnScroll
+          />
 
-          <Copy animateOnScroll={true}>
-            <h3 className="text-balance leading-relaxed ">
-              Below, explore a dynamic showcase of real clips our users
-              generated — each crafted to maximize watch time and social
-              shares—each crafted to maximize watch time and social shares.
-            </h3>
-          </Copy>
+          <h3 className="text-balance leading-relaxed text-muted-foreground">
+            Below, explore a dynamic showcase of real clips our users generated
+            — each crafted to maximize watch time and social shares—each crafted
+            to maximize watch time and social shares.
+          </h3>
         </div>
         <div className="hidden lg:flex flex-[4]"></div>
       </div>
@@ -108,22 +106,6 @@ export const Showcase = () => {
                 workName="Galactic Odyssey"
               />
             </div>
-          </div>
-        </div>
-      </div>
-
-      <div className="flex mt-5">
-        <div className="flex-[2] lg:flex-[4]"></div>
-        <div className="lg:flex flex-[3] md:flex-[1] flex-col gap-5 justify-end">
-          <Copy animateOnScroll={true}>
-            <div className=" leading-snug uppercase text-stone-400  mb-5 lg:mb-2">
-              You&apos;re one prompt away from the next viral video.
-            </div>
-          </Copy>
-          <div className="mb-5">
-            <Copy animateOnScroll>
-              <CallToAction />
-            </Copy>
           </div>
         </div>
       </div>

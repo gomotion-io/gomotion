@@ -125,7 +125,7 @@ export default function Line() {
       <div className="flex flex-col items-end z-50 mb-14">
         <div className="flex gap-5">
           <p className="text-sm mt-2 font-medium">Agentic Labs</p>
-          <p className="text-xl w-3/4 opacity-60 pt-1">
+          <p className=" w-3/4 text-muted-foreground pt-1">
             Combining unique design and rich technology, we build immersive
             storytelling exactly as they were humanly told, without shortcuts or
             compromises.

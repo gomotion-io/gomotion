@@ -22,10 +22,8 @@ export async function generateVideo({
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         inputData: {
-          userRequest: {
-            prompt,
-            meta: { voiceId, width, height, fps: DEFAULT_FPS },
-          },
+          prompt,
+          meta: { width, height, fps: DEFAULT_FPS, voiceId },
         },
         runtimeContext: {},
       }),
