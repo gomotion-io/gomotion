@@ -6,16 +6,13 @@ import { VideoHistory } from "@/components/video-history";
 import { formatCredits } from "@/lib/utils";
 import { useCountStore } from "@/store/count.store";
 import { useUserStore } from "@/store/user.store";
-import { useRouter } from "next/navigation";
-import { FC } from "react";
+import { usePathname, useRouter } from "next/navigation";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 
-type ProfileProps = {
-  isExplorePage: boolean;
-};
-
-export const Profile: FC<ProfileProps> = ({ isExplorePage }) => {
+export const Profile = () => {
+  const pathname = usePathname();
+  const isExplorePage = pathname.startsWith("/explore");
   const router = useRouter();
   const { user, profile, signOut } = useUserStore();
   const { credits } = useCountStore();

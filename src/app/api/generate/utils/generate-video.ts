@@ -15,6 +15,8 @@ export async function generateVideo({
 }: GenerateVideo): Promise<GomotionSpec> {
   const [width, height] = aspectRatio.split(":").map(Number);
 
+  console.log({ voiceId, width, height, fps: DEFAULT_FPS });
+
   const response = await fetch(
     `${process.env.MASTRA_URL}/api/workflows/remotionWorkflow/start-async`,
     {
@@ -22,10 +24,8 @@ export async function generateVideo({
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         inputData: {
-          userRequest: {
-            prompt,
-            meta: { voiceId, width, height, fps: DEFAULT_FPS },
-          },
+          prompt,
+          meta: { width, height, fps: DEFAULT_FPS, voiceId },
         },
         runtimeContext: {},
       }),
