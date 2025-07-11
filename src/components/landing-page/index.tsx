@@ -1,18 +1,18 @@
 "use client";
 
-import Capabilities from "@/components/landing-page/capabilities";
-import Footer from "@/components/landing-page/footer";
-import Intro from "@/components/landing-page/intro";
+import { Hero } from "@/components/landing-page/hero";
+import { Intro } from "@/components/landing-page/intro";
+import { CaseStudies } from "@/components/landing-page/case-studies";
 import { Showcase } from "@/components/landing-page/showcase";
-import { Usecase } from "@/components/landing-page/usecase";
+import { Footer } from "@/components/landing-page/footer";
 
 export default function LandingPage() {
   return (
     <div>
+      <Hero />
       <Intro />
-      <Capabilities />
+      <CaseStudies />
       <Showcase />
-      <Usecase />
       <Footer />
     </div>
   );

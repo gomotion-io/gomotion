@@ -6,13 +6,45 @@ import { getProfile } from "@/supabase/server-functions/profile";
 import { getUser } from "@/supabase/server-functions/users";
 import { Analytics } from "@vercel/analytics/next";
 import type { Metadata } from "next";
-import { Roboto } from "next/font/google";
 import { ReactNode } from "react";
+import localFont from "next/font/local";
 import "./globals.css";
 
-const roboto = Roboto({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+const neueMontreal = localFont({
+  src: [
+    {
+      path: "../../public/fonts/neue-montreal/ppneuemontreal-thin.otf",
+      weight: "100",
+      style: "normal",
+    },
+    {
+      path: "../../public/fonts/neue-montreal/ppneuemontreal-book.otf",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "../../public/fonts/neue-montreal/ppneuemontreal-medium.otf",
+      weight: "500",
+      style: "normal",
+    },
+    {
+      path: "../../public/fonts/neue-montreal/ppneuemontreal-bold.otf",
+      weight: "700",
+      style: "normal",
+    },
+    {
+      path: "../../public/fonts/neue-montreal/ppneuemontreal-italic.otf",
+      weight: "400",
+      style: "italic",
+    },
+    {
+      path: "../../public/fonts/neue-montreal/ppneuemontreal-semibolditalic.otf",
+      weight: "600",
+      style: "italic",
+    },
+  ],
+  variable: "--font-neue-montreal", // Define a CSS variable
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -72,7 +104,9 @@ export default async function RootLayout({
 
   return (
     <html lang="en">
-      <body className={`${roboto.variable} antialiased relative`}>
+      <body
+        className={`${neueMontreal.variable} font-sans font-medium antialiased relative`}
+      >
         <HeaderWrapper />
         <AuthProvider initialUser={user} initialProfile={profile}>
           <LayoutProvider>{children}</LayoutProvider>
