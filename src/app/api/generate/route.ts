@@ -24,14 +24,14 @@ export async function POST(request: NextRequest) {
     const { profile } = await validateCredit(user.id);
 
     // Step 3: Generate video via mastra api
-    const gomotionSpec = await generateVideo({ prompt, voiceId, aspectRatio });
+    const mastraOutput = await generateVideo({ prompt, voiceId, aspectRatio });
 
     // Step 4: Record usage and save video to database
     await createCount(profile.id);
 
     const result = await saveVideo({
       profileId: profile.id,
-      composition: gomotionSpec as unknown as Json,
+      composition: mastraOutput as unknown as Json,
     });
 
     return Response.json(result);
