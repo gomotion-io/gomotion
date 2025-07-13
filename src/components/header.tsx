@@ -9,7 +9,7 @@ import { ScrollToPlugin } from "gsap/ScrollToPlugin";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Image from "next/image";
 import Link from "next/link";
-import { FunctionComponent, useCallback, useRef } from "react";
+import { FunctionComponent, useRef } from "react";
 
 type HeaderProps = {
   user: User | null;
@@ -32,10 +32,6 @@ export const Header: FunctionComponent<HeaderProps> = ({ user }) => {
       delay: 0.3,
       ease: "power4.out",
     });
-  }, []);
-
-  const scrollToContact = useCallback(() => {
-    gsap.to(window, { duration: 2, scrollTo: "#our-team" });
   }, []);
 
   return (
@@ -70,9 +66,12 @@ export const Header: FunctionComponent<HeaderProps> = ({ user }) => {
             )}
 
             {process.env.NEXT_PUBLIC_BETA ? (
-              <Button onClick={scrollToContact} variant="link">
-                Contact us
-              </Button>
+              <Link
+                href="https://www.linkedin.com/company/gomotion-io"
+                target="_blank"
+              >
+                <Button>Contact us</Button>
+              </Link>
             ) : (
               <>
                 <Link href="/sign-in">

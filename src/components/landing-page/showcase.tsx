@@ -1,25 +1,65 @@
 "use client";
 
+import { ShuffleText } from "@/components/shuffle-text";
 import { useGSAP } from "@gsap/react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { VideoItem } from "./sub/video-item";
-import { ShuffleText } from "@/components/shuffle-text";
-import React from "react";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
+
+type VideoData = { videoUrl: string; index: string; prompt: string };
+
+const VIDEO_ITEMS: VideoData[] = [
+  {
+    videoUrl: "https://legendary.b-cdn.net/site/placeholder.mov",
+    index: "01",
+    prompt:
+      "A bold typographic animation with smooth morphing transitions featuring the brand NOVA, synced with a futuristic voiceover saying 'Design the future now.",
+  },
+  {
+    videoUrl: "https://legendary.b-cdn.net/site/placeholder.mov",
+    index: "02",
+    prompt:
+      "A bold typographic animation with smooth morphing transitions featuring the brand NOVA, synced with a futuristic voiceover saying 'Design the future now.",
+  },
+  {
+    videoUrl: "https://legendary.b-cdn.net/site/placeholder.mov",
+    index: "03",
+    prompt:
+      "A bold typographic animation with smooth morphing transitions featuring the brand NOVA, synced with a futuristic voiceover saying 'Design the future now.",
+  },
+  {
+    videoUrl: "https://legendary.b-cdn.net/site/placeholder.mov",
+    index: "04",
+    prompt:
+      "A bold typographic animation with smooth morphing transitions featuring the brand NOVA, synced with a futuristic voiceover saying 'Design the future now.",
+  },
+  {
+    videoUrl: "https://legendary.b-cdn.net/site/placeholder.mov",
+    index: "05",
+    prompt:
+      "A bold typographic animation with smooth morphing transitions featuring the brand NOVA, synced with a futuristic voiceover saying 'Design the future now.",
+  },
+  {
+    videoUrl: "https://legendary.b-cdn.net/site/placeholder.mov",
+    index: "06",
+    prompt:
+      "A bold typographic animation with smooth morphing transitions featuring the brand NOVA, synced with a futuristic voiceover saying 'Design the future now.",
+  },
+];
 
 export const Showcase = () => {
   useGSAP(() => {
     const items = gsap.utils.toArray<HTMLElement>(".showcase-item");
 
     items.forEach((item, i) => {
-      gsap.set(item, { y: 40 * (i + 0.5), opacity: 0 });
+      gsap.set(item, { y: 25 * (i + 0.5), opacity: 0 });
       gsap
         .timeline({
           scrollTrigger: {
             trigger: item,
-            start: "top 105%",
+            start: "top 110%",
             end: "top 50%",
             scrub: true,
           },
@@ -31,6 +71,11 @@ export const Showcase = () => {
         });
     });
   }, []);
+
+  const rows: VideoData[][] = [];
+  for (let i = 0; i < VIDEO_ITEMS.length; i += 3) {
+    rows.push(VIDEO_ITEMS.slice(i, i + 3));
+  }
 
   return (
     <div className="flex flex-col pb-16 sm:pb-20 block-layout mb-60">
@@ -52,62 +97,22 @@ export const Showcase = () => {
         <div className="hidden lg:flex flex-[4]"></div>
       </div>
 
-      <div className="w-full">
-        <div className="">
-          <div className="w-full">
-            <div className="flex w-full flex-col gap-4 my-4 lg:flex-row">
+      <div className="w-full flex flex-col gap-5">
+        {rows.map((row, rowIdx) => (
+          <div
+            key={rowIdx}
+            className="flex w-full flex-col gap-7 my-4 lg:flex-row"
+          >
+            {row.map((item) => (
               <VideoItem
-                videoUrl="https://vimeo.com/437808118"
-                index="01"
-                workName="Azure Serenity Echoes"
+                key={item.index}
+                videoUrl={item.videoUrl}
+                index={item.index}
+                prompt={item.prompt}
               />
-              <VideoItem
-                videoUrl="https://vimeo.com/871750630"
-                index="02"
-                workName="Solar Reverie"
-              />
-              <VideoItem
-                videoUrl="https://vimeo.com/477068055"
-                index="03"
-                workName="Crimson Symphony Memoirs"
-              />
-            </div>
-            <div className="flex w-full flex-col gap-4 my-4 lg:flex-row">
-              <VideoItem
-                videoUrl="https://vimeo.com/487114118"
-                index="04"
-                workName="Neon Galactic Chronicles"
-              />
-              <VideoItem
-                videoUrl="https://vimeo.com/366780994"
-                index="05"
-                workName="Velvet Dreamscape"
-              />
-              <VideoItem
-                videoUrl="https://vimeo.com/659334960"
-                index="06"
-                workName="Lunar Symphony"
-              />
-            </div>
-            <div className="flex w-full flex-col gap-4 my-4 lg:flex-row">
-              <VideoItem
-                videoUrl="https://vimeo.com/533729157"
-                index="07"
-                workName="Oceanic Memoirs Echoes"
-              />
-              <VideoItem
-                videoUrl="https://vimeo.com/500832353"
-                index="08"
-                workName="Twilight Dreamscape Saga"
-              />
-              <VideoItem
-                videoUrl="https://vimeo.com/510814675"
-                index="09"
-                workName="Galactic Odyssey"
-              />
-            </div>
+            ))}
           </div>
-        </div>
+        ))}
       </div>
     </div>
   );

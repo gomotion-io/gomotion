@@ -23,12 +23,12 @@ export const Hero = () => {
         <div className="sm:w-[55%]">
           <ShuffleText
             as="h3"
-            text="The Fusion of AI"
+            text="The AI Motion"
             className="relative font-bold text-5xl sm:text-7xl uppercase"
           />
           <ShuffleText
             as="h3"
-            text="and motion design"
+            text="Designer"
             className="relative font-bold text-5xl sm:text-7xl uppercase"
           />
         </div>

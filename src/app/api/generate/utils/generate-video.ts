@@ -1,4 +1,4 @@
-import type { GomotionSpec } from "@/gomotion-compiler/spec";
+import { MastraOutput } from "@/_type";
 
 type GenerateVideo = {
   prompt: string;
@@ -6,13 +6,11 @@ type GenerateVideo = {
   aspectRatio: string;
 };
 
-const DEFAULT_FPS = 30;
-
 export async function generateVideo({
   prompt,
   voiceId,
   aspectRatio,
-}: GenerateVideo): Promise<GomotionSpec> {
+}: GenerateVideo): Promise<MastraOutput> {
   const [width, height] = aspectRatio.split(":").map(Number);
 
   const response = await fetch(
@@ -22,8 +20,8 @@ export async function generateVideo({
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         inputData: {
-          prompt,
-          meta: { width, height, fps: DEFAULT_FPS, voiceId },
+          instruction: prompt,
+          metadata: `width: ${width}, height: ${height}, voiceId: ${voiceId}`,
         },
         runtimeContext: {},
       }),
@@ -37,13 +35,5 @@ export async function generateVideo({
     throw new Error(`Video generation failed with status: ${response.status}`);
   }
 
-  return {
-    meta: {
-      name: data.name as string,
-      width,
-      height,
-      fps: DEFAULT_FPS,
-    },
-    layers: data.layers ?? [],
-  };
+  return data.result;
 }

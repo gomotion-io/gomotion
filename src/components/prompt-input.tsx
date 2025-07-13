@@ -23,7 +23,7 @@ export const PromptInput = () => {
 
   const canGenerate = useMemo(
     () => prompt.trim().length > 0 && !!currentVoice,
-    [prompt, currentVoice]
+    [prompt, currentVoice],
   );
 
   const handleSubmit = useCallback(async () => {
@@ -60,8 +60,8 @@ export const PromptInput = () => {
         <VoiceSelection />
         <RatioSelection />
         {generating ? (
-          <Button className="rounded-full w-14" onClick={() => {}}>
-            <StopIcon className="w-5 h-5" />
+          <Button className="rounded-full w-14" disabled>
+            <StopIcon className="w-5 h-5 animate-spin" />
           </Button>
         ) : (
           <Button
