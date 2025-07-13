@@ -1,16 +1,10 @@
 import { useGSAP } from "@gsap/react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useRef } from "react";
-import localFont from "next/font/local";
-import { cx } from "class-variance-authority";
+import React, { useRef } from "react";
 import { CallToAction } from "@/components/call-to-action";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
-
-const neueMontreal = localFont({
-  src: "../../../../public/fonts/PPNeueMontreal-Bold.otf",
-});
 
 const GetStarted = () => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -46,15 +40,9 @@ const GetStarted = () => {
       id="our-team"
       className="flex flex-col gap-10 px-5 sm:px-20 lg:px-40 mt-24 z-50"
     >
-      <div
-        className={cx(
-          "text-white -ml-2 font-bold text-start leading-relaxed text-5xl md:text-8xl",
-          neueMontreal.className,
-        )}
-      >
+      <h3 className="font-neue-montreal text-white -ml-2 font-bold text-start leading-relaxed text-5xl md:text-8xl">
         Try Gomotion today
-      </div>
-
+      </h3>
       <div className="flex justify-start">
         <CallToAction className="h-12 w-44 text-md font-medium" />
       </div>

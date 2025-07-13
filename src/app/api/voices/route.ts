@@ -1,9 +1,5 @@
 const VOICES = [
   {
-    name: "Declan",
-    voice_id: "kqVT88a5QfII1HNAEPTJ",
-  },
-  {
     name: "Mark",
     voice_id: "1SM7GgM6IMuvQlz2BwM3",
   },

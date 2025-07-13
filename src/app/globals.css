@@ -6,8 +6,7 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-neue-montreal: var(--font-neue-montreal);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -83,8 +82,11 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply text-stone-100;
-    background: black;
-    font-family: "Roboto", sans-serif;
+    @apply text-stone-100 bg-background;
   }
+}
+
+
+.block-layout {
+  @apply px-5 sm:px-16
 }

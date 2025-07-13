@@ -40,8 +40,6 @@ export const VoiceSelection = () => {
     return <Loader />;
   }
 
-  console.log(voices);
-
   return (
     <Tooltip>
       <DropdownMenu>

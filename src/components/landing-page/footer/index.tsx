@@ -5,7 +5,7 @@ import Description from "@/components/landing-page/footer/description";
 import Line from "@/components/landing-page/footer/line";
 import GetStarted from "@/components/landing-page/footer/get-started";
 
-export default function Footer() {
+export const Footer = () => {
   return (
     <>
       <VideoReveal />
@@ -14,4 +14,4 @@ export default function Footer() {
       <Line />
     </>
   );
-}
+};

@@ -2,7 +2,6 @@
 
 import { Profile } from "@/components/profile";
 import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
 import { useGSAP } from "@gsap/react";
 import { User } from "@supabase/auth-js";
 import { gsap } from "gsap";
@@ -10,7 +9,6 @@ import { ScrollToPlugin } from "gsap/ScrollToPlugin";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { FunctionComponent, useCallback, useRef } from "react";
 
 type HeaderProps = {
@@ -18,9 +16,6 @@ type HeaderProps = {
 };
 
 export const Header: FunctionComponent<HeaderProps> = ({ user }) => {
-  const pathname = usePathname();
-  const isExplorePage = pathname.startsWith("/explore");
-
   const headerRef = useRef<HTMLDivElement>(null);
 
   // Register plugins once. gsap ignores duplicate registrations.
@@ -34,7 +29,7 @@ export const Header: FunctionComponent<HeaderProps> = ({ user }) => {
       y: 0,
       opacity: 1,
       duration: 1,
-      delay: 1.5,
+      delay: 0.3,
       ease: "power4.out",
     });
   }, []);
@@ -46,10 +41,7 @@ export const Header: FunctionComponent<HeaderProps> = ({ user }) => {
   return (
     <div
       ref={headerRef}
-      className={cn(
-        "absolute z-50 flex items-center gap-10 h-[5rem] w-full px-5 sm:px-10 header",
-        isExplorePage && "justify-between"
-      )}
+      className="absolute z-50 flex items-center gap-10 h-[5rem] w-full px-5 sm:px-10 header justify-between"
     >
       <Link href="/">
         <div className="flex items-center gap-2">
@@ -66,7 +58,7 @@ export const Header: FunctionComponent<HeaderProps> = ({ user }) => {
       </Link>
       <div className="flex items-center">
         {user ? (
-          <Profile isExplorePage={isExplorePage} />
+          <Profile />
         ) : (
           <div className="flex gap-4">
             {!process.env.NEXT_PUBLIC_BETA && (
