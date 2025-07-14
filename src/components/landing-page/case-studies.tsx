@@ -55,11 +55,11 @@ export const CaseStudies = () => {
   return (
     <div ref={containerRef}>
       <section className="relative w-full h-full block-layout">
-        <div className="w-full sm:w-[65%] sm:h-[20rem] mb-20 sm:mb-0 ">
+        <div className="w-full sm:w-[65%]">
           <ShuffleText
             as="h3"
             text="Dive Into New Success Stories"
-            className="relative font-bold text-5xl sm:text-7xl uppercase"
+            className="relative font-bold text-5xl sm:text-7xl uppercase mb-10"
             triggerOnScroll
           />
         </div>

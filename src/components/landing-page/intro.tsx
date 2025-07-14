@@ -91,11 +91,13 @@ export const Intro = () => {
 
             <div className="space-y-8">
               <h4 className="leading-relaxed sm:w-2/3 ">
-                <span className="font-semibold underline">PROMPT</span>{" "}
-                <span className="">
-                  : &#34; A glitch and kinetic effect featuring the brand
-                  GOMOTION, accompanied by a voiceover saying Unleash your
-                  creativity &#34;
+                <span className="font-semibold underline underline-offset-4">
+                  PROMPT
+                </span>
+                :{" "}
+                <span className="italic  ">
+                  A glitch and kinetic effect featuring the brand GOMOTION,
+                  accompanied by a voiceover saying Unleash your creativity
                 </span>
               </h4>
 

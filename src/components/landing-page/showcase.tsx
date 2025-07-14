@@ -8,42 +8,35 @@ import { VideoItem } from "./sub/video-item";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
-type VideoData = { videoUrl: string; index: string; prompt: string };
+type VideoData = { videoUrl: string; prompt: string };
 
 const VIDEO_ITEMS: VideoData[] = [
   {
+    videoUrl: "https://legendary.b-cdn.net/site/showcase-video/astra.mov",
+    prompt: "A cinematic 3D particle explosion revealing the logo for ASTRA",
+  },
+  {
     videoUrl: "https://legendary.b-cdn.net/site/placeholder.mov",
-    index: "01",
     prompt:
       "A bold typographic animation with smooth morphing transitions featuring the brand NOVA, synced with a futuristic voiceover saying 'Design the future now.",
   },
   {
     videoUrl: "https://legendary.b-cdn.net/site/placeholder.mov",
-    index: "02",
     prompt:
       "A bold typographic animation with smooth morphing transitions featuring the brand NOVA, synced with a futuristic voiceover saying 'Design the future now.",
   },
   {
     videoUrl: "https://legendary.b-cdn.net/site/placeholder.mov",
-    index: "03",
     prompt:
       "A bold typographic animation with smooth morphing transitions featuring the brand NOVA, synced with a futuristic voiceover saying 'Design the future now.",
   },
   {
     videoUrl: "https://legendary.b-cdn.net/site/placeholder.mov",
-    index: "04",
     prompt:
       "A bold typographic animation with smooth morphing transitions featuring the brand NOVA, synced with a futuristic voiceover saying 'Design the future now.",
   },
   {
     videoUrl: "https://legendary.b-cdn.net/site/placeholder.mov",
-    index: "05",
-    prompt:
-      "A bold typographic animation with smooth morphing transitions featuring the brand NOVA, synced with a futuristic voiceover saying 'Design the future now.",
-  },
-  {
-    videoUrl: "https://legendary.b-cdn.net/site/placeholder.mov",
-    index: "06",
     prompt:
       "A bold typographic animation with smooth morphing transitions featuring the brand NOVA, synced with a futuristic voiceover saying 'Design the future now.",
   },
@@ -78,23 +71,18 @@ export const Showcase = () => {
   }
 
   return (
-    <div className="flex flex-col pb-16 sm:pb-20 block-layout mb-60">
-      <div className="w-full flex gap-5 text-stone-100 pt-16 mb-14">
-        <div className="w-full text-center flex items-center justify-center">
-          <ShuffleText
-            as="h3"
-            text="Create your own stories"
-            className="font-bold text-5xl sm:text-6xl uppercase mb-10"
-            triggerOnScroll
-          />
+    <div className="flex flex-col pb-16 sm:pb-20 block-layout ">
+      <div className="w-full sm:w-[65%] sm:h-[20rem]">
+        <ShuffleText
+          as="h3"
+          text="Timeless Art Through a New Lens"
+          className="relative font-bold text-5xl sm:text-7xl uppercase mb-10"
+          triggerOnScroll
+        />
 
-          <h3 className="text-balance leading-relaxed text-muted-foreground">
-            Below, explore a dynamic showcase of real clips our users generated
-            — each crafted to maximize watch time and social shares—each crafted
-            to maximize watch time and social shares.
-          </h3>
-        </div>
-        <div className="hidden lg:flex flex-[4]"></div>
+        <h3 className="uppercase text-xl tracking-wide mb-5">
+          [ Creative Explorations ]
+        </h3>
       </div>
 
       <div className="w-full flex flex-col gap-5">
@@ -103,11 +91,10 @@ export const Showcase = () => {
             key={rowIdx}
             className="flex w-full flex-col gap-7 my-4 lg:flex-row"
           >
-            {row.map((item) => (
+            {row.map((item, index) => (
               <VideoItem
-                key={item.index}
+                key={index}
                 videoUrl={item.videoUrl}
-                index={item.index}
                 prompt={item.prompt}
               />
             ))}
