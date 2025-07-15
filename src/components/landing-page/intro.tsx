@@ -2,6 +2,7 @@ import { useGSAP } from "@gsap/react";
 import { gsap } from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
 import { useRef } from "react";
+import { CustomPlayer } from "@/components/custom-player";
 
 gsap.registerPlugin(useGSAP);
 gsap.registerPlugin(ScrollTrigger);
@@ -71,37 +72,44 @@ export const Intro = () => {
           <div className="flex-1 space-y-16">
             <div className="w-full sm:w-[70%] space-y-16">
               <p className="leading-relaxed text-muted-foreground">
-                Gomotion has revolutionized the creative potential of AI,
-                advancing from basic, low-resolution outputs to producing
-                hyper-realistic, high-definition visuals that push the
-                boundaries of imagination and innovation.
+                GoMotion is redefining the future of motion design through the
+                power of AI, transforming a simple idea into fully-realized
+                motion videos complete with visuals and sound. What once took
+                hours of manual design work with after effect is now achieved in
+                moments.
               </p>
               <p className="leading-relaxed text-muted-foreground">
-                This progress has opened the doors to powerful visual creation
-                tools for users of all skill levels, from seasoned professionals
-                to casual creators. Yet, it has also raised critical debates
-                around the ethical challenges of AI-generated content, such as
-                intellectual property disputes, the spread of false information,
-                and questions surrounding the essence of true artistic
-                expression.
+                This innovation opens new creative possibilities for designers,
+                marketers, and storytellers alike, while also sparking important
+                conversations about authorship, originality, and the evolving
+                role of human input in design. As GoMotion expands the
+                boundaries of what AI can achieve in motion graphics, it
+                challenges us to rethink not just how we create — but what it
+                truly means to be a creator.
               </p>
             </div>
 
             <div className="space-y-8">
-              <h4 className="leading-relaxed uppercase sm:w-1/2 text-lg font-semibold">
-                PROMPT: A sci-fi fashion portrait of a person in futuristic
-                attire
+              <h4 className="leading-relaxed sm:w-2/3 ">
+                <span className="font-semibold underline underline-offset-4">
+                  PROMPT
+                </span>
+                :{" "}
+                <span className="italic  ">
+                  A glitch and kinetic effect featuring the brand GOMOTION,
+                  accompanied by a voiceover saying Unleash your creativity
+                </span>
               </h4>
 
               <div className="flex flex-col gap-8 sm:flex-row">
                 {[
                   {
-                    src: "/images/landing/prompt-1.jpeg",
-                    title: "— Built with pioneering generative tools",
+                    src: "https://legendary.b-cdn.net/site/placeholder.mov",
+                    title: "— Created with Gomotion G-Zero (G-0)",
                   },
                   {
-                    src: "/images/landing/prompt-2.jpeg",
-                    title: "— Created with Gomotion V2",
+                    src: "https://legendary.b-cdn.net/site/placeholder.mov",
+                    title: "— Created with Gomotion G-Zero (G-0)",
                   },
                 ].map(({ src, title }, idx) => (
                   <div key={idx} className="flex-1">
@@ -112,12 +120,24 @@ export const Intro = () => {
                           "polygon(0 0, 80% 0, 100% 20%, 100% 70%, 100% 100%, 10% 100%, 0 90%, 0% 30%)",
                       }}
                     >
-                      <img
-                        src={src}
-                        alt="prompt example"
-                        className="w-full h-full object-cover"
+                      <CustomPlayer
+                        url={src}
+                        width="100%"
+                        height="100%"
+                        playsinline
+                        style={{ position: "absolute", top: 0, left: 0 }}
+                        config={{
+                          file: {
+                            attributes: {
+                              style: {
+                                width: "100%",
+                                height: "100%",
+                                objectFit: "cover",
+                              },
+                            },
+                          },
+                        }}
                       />
-                      <div className="absolute inset-0 bg-black/10" />
                     </div>
                     <h4 className="font-medium">{title}</h4>
                   </div>

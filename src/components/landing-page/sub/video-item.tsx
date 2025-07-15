@@ -7,17 +7,10 @@ const ReactPlayer = dynamic(() => import("react-player"), {
 
 type WorkItemProps = {
   videoUrl: string;
-  index: string;
-  workName: string;
-  showMeta?: boolean;
+  prompt: string;
 };
 
-export const VideoItem: React.FC<WorkItemProps> = ({
-  videoUrl,
-  index,
-  workName,
-  showMeta = true,
-}) => {
+export const VideoItem: React.FC<WorkItemProps> = ({ videoUrl, prompt }) => {
   return (
     <div className="relative flex-1 group showcase-item">
       <div className="absolute inset-0 z-20 pointer-events-auto"></div>
@@ -35,20 +28,15 @@ export const VideoItem: React.FC<WorkItemProps> = ({
           />
         </div>
       </div>
-      {showMeta && (
-        <div className="flex gap-4 mt-2">
-          <div>
-            <p className="relative text-xs text-gray-400 transition-all duration-300 group-hover:translate-x-4 group-hover:text-white">
-              {index}
-            </p>
-          </div>
-          <div className="uppercase font-semibold">
-            <p className="relative text-xs text-gray-400 transition-all duration-300 group-hover:translate-x-4 group-hover:text-white">
-              {workName}
-            </p>
-          </div>
-        </div>
-      )}
+
+      <div className="flex gap-2 mt-4 h-16">
+        <p className="relative text-xs text-muted-foreground transition-all duration-300 group-hover:translate-x-4 group-hover:text-white">
+          Prompt:
+        </p>
+        <p className="relative font-semibold text-balance  text-xs text-muted-foreground transition-all duration-300 group-hover:translate-x-4 group-hover:text-white">
+          {prompt}
+        </p>
+      </div>
     </div>
   );
 };

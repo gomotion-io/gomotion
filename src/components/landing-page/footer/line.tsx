@@ -114,7 +114,7 @@ export default function Line() {
           }}
           className="relative z-10 h-10 w-full top-[-40px]"
         ></div>
-        <svg className="absolute w-full h-[440px] top-[-250px]">
+        <svg className="absolute w-full h-[440px] top-[-250px] -z-10">
           <path
             ref={path}
             className="stroke-current text-white stroke-[1px] fill-none"
@@ -133,29 +133,33 @@ export default function Line() {
         </div>
       </div>
 
-      <div className="flex gap-5 items-center z-50 mb-10 sm:mb-5">
-        <Link href="https://www.linkedin.com/company/gomotion-io">
-          <p className="text-sm mt-2 font-medium underline-offset-4 hover:underline">
-            Linkedin
-          </p>
-        </Link>
-        <Link href="https://www.youtube.com/@gomotion-io">
-          <p className="text-sm mt-2 font-medium underline-offset-4 hover:underline">
-            Youtube
-          </p>
-        </Link>
-        <Link href="https://www.tiktok.com/@gomotion.io">
-          <p className="text-sm mt-2 font-medium underline-offset-4 hover:underline">
-            Tiktok
-          </p>
-        </Link>
-        <Link href="https://discord.gg/Wd4nCJhCgd" target="_blank">
-          <p className="text-sm mt-2 font-medium underline-offset-4 hover:underline">
-            Discord
-          </p>
-        </Link>
-        <div className="pt-1">|</div>
-        <p className="text-sm mt-2 font-medium">Montreal - Canada</p>
+      <div className="flex sm:flex-row flex-col gap-2 sm:gap-5 items-center z-50 mb-10 sm:mb-5">
+        <div className="flex gap-5">
+          <Link href="https://www.linkedin.com/company/gomotion-io">
+            <p className="text-sm mt-2 font-medium underline-offset-4 hover:underline">
+              Linkedin
+            </p>
+          </Link>
+          <Link href="https://www.youtube.com/@gomotion-io">
+            <p className="text-sm mt-2 font-medium underline-offset-4 hover:underline">
+              Youtube
+            </p>
+          </Link>
+          <Link href="https://www.tiktok.com/@gomotion.io">
+            <p className="text-sm mt-2 font-medium underline-offset-4 hover:underline">
+              Tiktok
+            </p>
+          </Link>
+          <Link href="https://discord.gg/Wd4nCJhCgd" target="_blank">
+            <p className="text-sm mt-2 font-medium underline-offset-4 hover:underline">
+              Discord
+            </p>
+          </Link>
+        </div>
+        <div className="flex justify-end w-full gap-5 text-muted-foreground">
+          <div className="pt-1 hidden sm:block">|</div>
+          <p className="text-sm mt-2 font-medium">Toronto - Canada</p>
+        </div>
       </div>
     </div>
   );
