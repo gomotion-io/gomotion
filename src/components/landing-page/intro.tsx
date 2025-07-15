@@ -71,21 +71,27 @@ export const Intro = () => {
 
           <div className="flex-1 space-y-16">
             <div className="w-full sm:w-[70%] space-y-16">
+              <h2 className="leading-relaxed text-3xl">
+                Expressing your creativity should be simple. 
+              </h2>
               <p className="leading-relaxed text-muted-foreground">
+                We believe motion graphics should take minutes, not ages. 
+                Gomotion puts professional-grade animation at everyone’s fingertips, 
+                removing the technical barriers so you can focus on telling your story, 
+                not drawing circles and managing keyframes.
+                
+              </p>
+              
+              <p className="leading-relaxed text-muted-foreground">
+              <h2 className="text-white font-bold">
+                What if a motion design process could take minutes and not days. 
+              </h2>
+
                 GoMotion is redefining the future of motion design through the
                 power of AI, transforming a simple idea into fully-realized
                 motion videos complete with visuals and sound. What once took
                 hours of manual design work with after effect is now achieved in
-                moments.
-              </p>
-              <p className="leading-relaxed text-muted-foreground">
-                This innovation opens new creative possibilities for designers,
-                marketers, and storytellers alike, while also sparking important
-                conversations about authorship, originality, and the evolving
-                role of human input in design. As GoMotion expands the
-                boundaries of what AI can achieve in motion graphics, it
-                challenges us to rethink not just how we create — but what it
-                truly means to be a creator.
+                minutes.
               </p>
             </div>
 
