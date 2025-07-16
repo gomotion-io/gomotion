@@ -58,7 +58,7 @@ export const CaseStudies = () => {
         <div className="w-full sm:w-[65%]">
           <ShuffleText
             as="h3"
-            text="Dive Into New Success Stories"
+            text="Unlock your creativity with gomotion"
             className="relative font-bold text-5xl sm:text-7xl uppercase mb-10"
             triggerOnScroll
           />
@@ -67,20 +67,22 @@ export const CaseStudies = () => {
           <div className="mx-auto flex flex-col gap-8 md:flex-row">
             <div className="flex-1">
               <h3 className="uppercase text-xl tracking-wide mb-2">
-                [ Case Studies ]
+                [ What you can do ]
               </h3>
             </div>
 
             <div className="flex-1 space-y-16">
               <div className="w-full sm:w-[70%] space-y-8 sm:space-y-16">
                 <h2 className="text-4xl sm:text-6xl font-neue-montreal font-semibold">
-                  How is AI Reshaping Artistic Boundaries?
+                  Create complex animations
                 </h2>
                 <p className="leading-relaxed text-muted-foreground">
-                  Generative AI has rapidly advanced, moving beyond its humble
-                  beginnings of basic visual outputs to now creating stunning,
-                  lifelike artworks that challenge our perceptions of creativity
-                  and technology.
+                  Create stunning motion graphics in record time. Animate text, logos, and shapes. 
+                  Build complex scenes, add visual effects, and synchronize with voice-overs—all from a single prompt. 
+                  GoMotion makes it effortless to bring your ideas to life with smooth, cinematic motion. 
+                  Whether you're producing content for social media, presentations, product demos, or full-length videos, 
+                  GoMotion adapts to your style and vision
+                  — no technical skills required.
                 </p>
               </div>
             </div>
@@ -141,24 +143,22 @@ export const CaseStudies = () => {
 
 const caseStudies = [
   {
-    title: "Art in the Age of Algorithms",
-    primary: "[ Lumina Horizon — Zara Lee ]",
-    description:
-      "Zara Lee’s AI-powered installation captivates audiences at the Global Digital Arts Forum, raising questions about the fusion of human intent and machine precision. The work highlights the limitless potential of AI as a creative partner in the world of modern art.",
-    landingImg: "/images/landing/process_004.jpeg",
+    "title": "Animate text in complex scenes from prompt.",
+    "primary": "[ Transform Words Into Motion ]",
+    "description": "Skip the keyframes—just describe how you want your text to move. GoMotion instantly animates titles, captions, and logos with cinematic flair. Perfect for product demo and creators who want professional results without the hassle.",
+    "landingImg": "/images/landing/process_004.jpeg"
   },
   {
-    title: "The Dawn of AI-Driven Fashion",
-    primary: "[ Visionary Threads — Elena Marquez ]",
-    description:
-      "Elena Marquez launches the first fashion magazine curated entirely by AI, featuring futuristic designs and concepts that redefine the boundaries of creativity. While widely praised for its innovation, the magazine ignites debates over the role of human designers in a machine-led creative process.",
-    landingImg: "/images/landing/process_002.jpeg",
+    "title": "Move shapes in complex animations.",
+    "primary": "[ Master Complex Shape Dynamics ]",
+    "description": "Create advanced shape animations in seconds. From geometric morphs to fluid motion, GoMotion handles the complexity so you can focus on creativity. Great for explainers, data viz, and artistic visuals.",
+    "landingImg": "/images/landing/process_002.jpeg"
   },
   {
-    title: "The Rise of AI-Curated Art Awards",
-    primary: "[ Synthetic Realities — Sophia Armitage ]",
-    description:
-      "Sophia Armitage’s groundbreaking AI-curated exhibition highlights the creative potential of machine-generated art. The event features photorealistic works of entirely fictional subjects, sparking a discussion about bias, authenticity, and AI’s role in shaping the future of artistic recognition.",
-    landingImg: "/images/landing/process_003.jpeg",
-  },
+    "title": "Create end-to-end animations with voice-over",
+    "primary": "[ Complete Visual Storytelling ]",
+    "description": "Turn your script into full animated stories with synced voice-overs. Ideal for educators, founders, and creatives who need polished content fast—without the manual editing.",
+    "landingImg": "/images/landing/process_003.jpeg"
+  }
+  
 ];

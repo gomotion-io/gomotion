@@ -19,7 +19,7 @@ export const Hero = () => {
         />
       </div>
 
-      <div className="z-50 w-full flex justify-between items-end block-layout pb-14">
+      <div className="z-50 w-full fle  flex-col justify-between items-end block-layout pb-14">
         <div className="sm:w-[55%]">
           <ShuffleText
             as="h3"
@@ -31,6 +31,11 @@ export const Hero = () => {
             text="Designer"
             className="relative font-bold text-5xl sm:text-7xl uppercase"
           />
+        </div>
+        <div>
+
+          
+
         </div>
       </div>
     </section>
