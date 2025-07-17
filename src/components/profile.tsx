@@ -2,13 +2,16 @@
 
 import { Menu } from "@/components/menu";
 import { Button } from "@/components/ui/button";
+import { CircularProgress } from "@/components/ui/circular-progress";
 import { VideoHistory } from "@/components/video-history";
 import { formatCredits } from "@/lib/utils";
 import { useCountStore } from "@/store/count.store";
+import { useRenderStore } from "@/store/render.store";
 import { useUserStore } from "@/store/user.store";
-import { usePathname, useRouter } from "next/navigation";
+import { useVideoStore } from "@/store/video.store";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
 
 export const Profile = () => {
   const pathname = usePathname();
@@ -16,6 +19,10 @@ export const Profile = () => {
   const router = useRouter();
   const { user, profile, signOut } = useUserStore();
   const { credits } = useCountStore();
+  const video = useVideoStore((state) => state.currentVideo);
+  const renderVideo = useRenderStore((state) => state.renderVideo);
+  const progress = useRenderStore((state) => state.state);
+  console.log(progress);
 
   const logout = async () => {
     await signOut();
@@ -31,6 +38,36 @@ export const Profile = () => {
             Upgrade
           </Button>
         )}
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={renderVideo}
+          disabled={
+            !video ||
+            !video.composition ||
+            progress.status === "rendering" ||
+            progress.status === "invoking"
+          }
+        >
+          {progress.status === "invoking" ? (
+            <div className="flex items-center">
+              <span>Preparing...</span>
+            </div>
+          ) : progress.status === "rendering" ? (
+            <div className="flex items-center gap-2">
+              <CircularProgress
+                progress={
+                  "progress" in progress
+                    ? Math.round(progress.progress * 100)
+                    : 0
+                }
+              />
+              <span>Exporting...</span>
+            </div>
+          ) : (
+            "Export video"
+          )}
+        </Button>
         <Button variant="outline" size="sm">
           {formatCredits(credits)}
         </Button>

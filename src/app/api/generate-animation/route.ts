@@ -1,12 +1,11 @@
 import { NextRequest } from "next/server";
-import { validateUser } from "@/app/api/generate/utils/validate-user";
-import { validateCredit } from "@/app/api/generate/utils/validate-credits";
-import { generateVideo } from "@/app/api/generate/utils/generate-video";
+import { validateUser } from "@/app/api/utils/validate-user";
+import { validateCredit } from "@/app/api/utils/validate-credits";
 import { createCount } from "@/supabase/server-functions/counts";
 import { saveVideo } from "@/supabase/server-functions/videos";
 import { Json } from "@/supabase/generated/database.types";
 
-interface GenerationRequest {
+interface GenerateAnimationRequest {
   prompt: string;
   voiceId: string;
   aspectRatio: string;
@@ -14,7 +13,7 @@ interface GenerationRequest {
 
 export async function POST(request: NextRequest) {
   try {
-    const { prompt, voiceId, aspectRatio }: GenerationRequest =
+    const { prompt, voiceId, aspectRatio }: GenerateAnimationRequest =
       await request.json();
 
     // Step 1: Validate user authentication
@@ -24,14 +23,33 @@ export async function POST(request: NextRequest) {
     const { profile } = await validateCredit(user.id);
 
     // Step 3: Generate video via mastra api
-    const mastraOutput = await generateVideo({ prompt, voiceId, aspectRatio });
+    const [width, height] = aspectRatio.split(":").map(Number);
 
-    // Step 4: Record usage and save video to database
+    const response = await fetch(
+      `${process.env.EXPRESS_URL}/generate/animation`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          inputData: {
+            instruction: prompt,
+            voiceId,
+            metadata: `width: ${width}, height: ${height}`,
+          },
+          runtimeContext: {},
+        }),
+      },
+    );
+
+    const data = await response.json();
+
+    // Step 4: Record usage
     await createCount(profile.id);
 
+    // Step 5: Save video to a database
     const result = await saveVideo({
       profileId: profile.id,
-      composition: mastraOutput as unknown as Json,
+      composition: data as unknown as Json,
     });
 
     return Response.json(result);

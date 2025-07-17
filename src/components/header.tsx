@@ -18,7 +18,6 @@ type HeaderProps = {
 export const Header: FunctionComponent<HeaderProps> = ({ user }) => {
   const headerRef = useRef<HTMLDivElement>(null);
 
-  // Register plugins once. gsap ignores duplicate registrations.
   gsap.registerPlugin(ScrollTrigger, ScrollToPlugin, useGSAP);
 
   useGSAP(() => {
