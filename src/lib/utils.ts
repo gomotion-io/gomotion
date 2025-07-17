@@ -26,5 +26,3 @@ export const formatCredits = (credits: number | null): string => {
   const formatted = Number(valueInThousands.toFixed(1)).toString();
   return `${formatted}k credits`;
 };
-
-export const isDevMode = process.env.NODE_ENV === "development";

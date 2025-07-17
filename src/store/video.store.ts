@@ -85,7 +85,7 @@ export const useVideoStore = create<VideoState>((set) => ({
     try {
       set({ generating: true, currentVideo: null });
 
-      const res = await fetch("/api/generate", {
+      const res = await fetch("/api/generate-animation", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

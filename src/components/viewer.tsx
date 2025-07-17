@@ -12,6 +12,7 @@ export const Viewer = () => {
   const { profile } = useUserStore();
   const loadVideo = useVideoStore((state) => state.load);
   const video = useVideoStore((state) => state.currentVideo);
+  const generating = useVideoStore((state) => state.generating);
 
   useEffect(() => {
     if (params?.id) {
@@ -25,6 +26,10 @@ export const Viewer = () => {
         {!video || !video.composition ? (
           <div className="w-full flex-1 flex items-center justify-center">
             <p className="text-neutral-500">No generation yet..</p>
+          </div>
+        ) : generating ? (
+          <div className="w-full flex-1 flex items-center justify-center">
+            <p className="text-neutral-500">Building motion design...</p>
           </div>
         ) : (
           <RemotionPlayer

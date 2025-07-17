@@ -3,7 +3,7 @@ import { cn } from "@/lib/utils";
 
 export const Loader = ({ className }: { className?: string }) => (
   <svg
-    className={cn("mr-3 -ml-1 size-5 animate-spin text-white", className)}
+    className={cn("mr-3 -ml-1 size-4 animate-spin text-white", className)}
     xmlns="http://www.w3.org/2000/svg"
     fill="none"
     viewBox="0 0 24 24"

@@ -6,12 +6,15 @@ export interface ProfileData extends Profile {
 }
 
 export type MastraOutput = {
-  title: string;
-  component: string;
-  meta: {
-    width: number;
-    height: number;
-    fps: number;
-    durationInFrames: number;
+  runId: string;
+  result: {
+    meta: {
+      fps: number;
+      width: number;
+      height: number;
+      durationInFrames: number;
+    };
+    title: string;
+    component: string;
   };
 };
