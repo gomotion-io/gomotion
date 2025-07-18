@@ -1,5 +1,9 @@
 const VOICES = [
   {
+    name: "Emilia",
+    voice_id: "ZF6FPAbjXT4488VcRRnw",
+  },
+  {
     name: "Mark",
     voice_id: "1SM7GgM6IMuvQlz2BwM3",
   },
@@ -18,10 +22,6 @@ const VOICES = [
   {
     name: "Paul",
     voice_id: "tKaoyJLW05zqV0tIH9FD",
-  },
-  {
-    name: "Emilia",
-    voice_id: "ZF6FPAbjXT4488VcRRnw",
   },
 ];
 

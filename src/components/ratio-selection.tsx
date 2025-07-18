@@ -28,14 +28,17 @@ export const RatioSelection = () => {
     <Tooltip>
       <DropdownMenu>
         <TooltipTrigger asChild>
-          <DropdownMenuTrigger asChild>
+          <DropdownMenuTrigger
+            className="backdrop-blur-3xl bg-transparent"
+            asChild
+          >
             <Button className="rounded-full p-1.5" variant="outline">
               {displayLabel}
               <ChevronDownIcon className="w-5 h-5" />
             </Button>
           </DropdownMenuTrigger>
         </TooltipTrigger>
-        <DropdownMenuContent className="w-24">
+        <DropdownMenuContent className="w-24 backdrop-blur-3xl bg-transparent">
           <DropdownMenuRadioGroup
             value={aspectRatio}
             onValueChange={(value) => {

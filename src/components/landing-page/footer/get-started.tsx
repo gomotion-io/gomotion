@@ -2,7 +2,8 @@ import { useGSAP } from "@gsap/react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import React, { useRef } from "react";
-import { CallToAction } from "@/components/call-to-action";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
@@ -44,7 +45,14 @@ const GetStarted = () => {
         Try Gomotion today
       </h3>
       <div className="flex justify-start">
-        <CallToAction className="h-12 w-44 text-md font-medium" />
+        <Link
+          href="https://www.linkedin.com/company/gomotion-io"
+          target="_blank"
+        >
+          <Button size="sm" className="h-12 w-44 text-md font-medium">
+            Contact us
+          </Button>
+        </Link>
       </div>
     </div>
   );

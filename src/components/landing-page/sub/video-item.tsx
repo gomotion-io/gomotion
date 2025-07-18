@@ -33,7 +33,7 @@ export const VideoItem: React.FC<WorkItemProps> = ({ videoUrl, prompt }) => {
         <p className="relative text-xs text-muted-foreground transition-all duration-300 group-hover:translate-x-4 group-hover:text-white">
           Prompt:
         </p>
-        <p className="relative font-semibold text-balance  text-xs text-muted-foreground transition-all duration-300 group-hover:translate-x-4 group-hover:text-white">
+        <p className="relative font-semibold text-xs text-muted-foreground transition-all duration-300 group-hover:translate-x-4 group-hover:text-white">
           {prompt}
         </p>
       </div>

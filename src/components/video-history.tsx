@@ -11,7 +11,6 @@ import { useVideoStore } from "@/store/video.store";
 import { format } from "date-fns";
 import { useRouter } from "next/navigation";
 import { MastraOutput } from "@/_type";
-import { ChevronDownIcon } from "@heroicons/react/20/solid";
 
 export function VideoHistory() {
   const router = useRouter();
@@ -21,11 +20,12 @@ export function VideoHistory() {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="outline" size="sm">
-          History <ChevronDownIcon />
+          History
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent
-        className="w-64 h-80 overflow-y-auto flex flex-col gap-1"
+        data-lenis-prevent
+        className="w-64 h-96 overflow-y-auto flex flex-col gap-1.5"
         align="end"
       >
         {loading && (
@@ -40,10 +40,10 @@ export function VideoHistory() {
           <button
             key={video.id}
             onClick={() => router.push(`/explore/${video.id}`)}
-            className="flex flex-col gap-0.5 px-3 bg-accent/50 hover:bg-accent h-14 rounded-lg justify-center border"
+            className="flex flex-col gap-0.5 px-3 bg-accent/50 hover:bg-accent min-h-14  rounded-lg justify-center border"
           >
             <div className="text-sm w-52 truncate text-start font-medium">
-              {(video?.composition as unknown as MastraOutput).result.title}
+              {(video?.composition as unknown as MastraOutput)?.result?.title}
             </div>
             <div className="text-xs text-start w-52 truncate text-stone-100/50 font-medium">
               {format(new Date(video.created_at), "d MMMM HH:mm")}

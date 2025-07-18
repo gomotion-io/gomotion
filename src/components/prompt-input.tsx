@@ -9,9 +9,20 @@ import { useParamStore } from "@/store/params.store";
 import { useVideoStore } from "@/store/video.store";
 import { ArrowUpIcon, StopIcon } from "@heroicons/react/16/solid";
 import { useRouter } from "next/navigation";
-import { useCallback, useMemo, useRef } from "react";
+import { FC, useCallback, useMemo, useRef } from "react";
+import { cn } from "@/lib/utils";
 
-export const PromptInput = () => {
+type PromptInputProps = {
+  placeholder?: string;
+  className?: string;
+  isLandingPage?: boolean;
+};
+
+export const PromptInput: FC<PromptInputProps> = ({
+  className,
+  placeholder = "Describe your animations...",
+  isLandingPage = false,
+}) => {
   const router = useRouter();
   const textareaRef = useRef(null);
 
@@ -27,20 +38,27 @@ export const PromptInput = () => {
   );
 
   const handleSubmit = useCallback(async () => {
+    if (isLandingPage) {
+      router.push("/explore");
+    }
+
     const video = await createVideo({ prompt });
     if (video?.id) {
       router.push(`/explore/${video.id}`);
     }
-  }, [createVideo, prompt, router]);
+  }, [createVideo, isLandingPage, prompt, router]);
 
   return (
     <div className="relative w-full flex flex-col gap-4">
       <Textarea
         ref={textareaRef}
-        placeholder="Describe your video..."
+        placeholder={placeholder}
         value={prompt}
         onChange={(e) => setPrompt(e.target.value)}
-        className="min-h-[95px] text-sm max-h-[calc(75dvh)] overflow-hidden resize-none rounded-3xl font-medium backdrop-blur-md pl-5 pt-4 pb-10"
+        className={cn(
+          "min-h-[105px] text-sm max-h-[calc(75dvh)] overflow-hidden resize-none rounded-3xl font-medium backdrop-blur-2xl pl-5 pt-4 pb-10",
+          className,
+        )}
         rows={2}
         autoFocus
         onKeyDown={(event) => {

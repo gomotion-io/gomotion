@@ -33,8 +33,8 @@ export async function POST(request: NextRequest) {
         body: JSON.stringify({
           inputData: {
             instruction: prompt,
-            voiceId,
             metadata: `width: ${width}, height: ${height}`,
+            voiceId,
           },
           runtimeContext: {},
         }),

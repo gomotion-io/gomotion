@@ -34,7 +34,7 @@ export default function VideoReveal() {
         className="footerBg w-full h-[70vh] sm:h-[100vh] absolute filter brightness-50"
       >
         <video
-          src="https://legendary.b-cdn.net/website/motion-wall.mp4"
+          src="https://legendary.b-cdn.net/site/drop.mp4"
           autoPlay
           loop
           muted

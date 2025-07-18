@@ -14,8 +14,6 @@ export const RemotionPlayer: FC<RemotionPlayerProps> = ({ composition }) => {
   const data = composition.result;
   const { component } = useComponent(data.component);
 
-  console.log(data.component);
-
   if (!component) {
     return <div className="w-full flex-1" />;
   }

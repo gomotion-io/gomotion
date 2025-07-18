@@ -1,4 +1,6 @@
 import { initialize, transform } from "esbuild-wasm";
+import gsap from "gsap";
+import SplitText from "gsap/SplitText";
 import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom";
 import * as R from "remotion";
@@ -22,18 +24,20 @@ const createComponent = async (code: string) => {
     sourcefile: "index.tsx",
   });
 
-  // Remove React and Remotion imports since we provide them globally at runtime.
+  // Remove React, Remotion, and GSAP imports since we provide them globally at runtime.
   const strippedImports = result.code
     // Strip any kind of React import (default, namespace, named)
     .replace(/import\s+[^;]*from\s+["']react["'];?\n?/g, "")
     // Strip any React DOM import just in case
     .replace(/import\s+[^;]*from\s+["']react-dom[^"']*["'];?\n?/g, "")
     // Strip any Remotion import (including sub-paths)
-    .replace(/import\s+[^;]*from\s+["']remotion[^"']*["'];?\n?/g, "");
+    .replace(/import\s+[^;]*from\s+["']remotion[^"']*["'];?\n?/g, "")
+    // Strip any GSAP import (including sub-paths)
+    .replace(/import\s+[^;]*from\s+["']gsap[^"']*["'];?\n?/g, "");
 
-  // Prepend global references so the code can access React and Remotion
+  // Prepend global references so the code can access React, Remotion, and GSAP
   const wrappedCode =
-    `const React = window.React;\nconst Remotion = window.Remotion;\nconst R = window.Remotion;\n` +
+    `const React = window.React;\nconst { useState, useEffect, useRef, useMemo, useCallback } = window.React;\nconst Remotion = window.Remotion;\nconst R = window.Remotion;\nconst gsap = window.gsap;\nconst SplitText = window.SplitText;\n` +
     strippedImports;
 
   console.debug("[useComponent] Transformed component code:", wrappedCode);
@@ -44,11 +48,15 @@ export const useComponent = (content: string) => {
   const [component, setComponent] = useState<React.ComponentType | null>(null);
 
   useEffect(() => {
-    // Make React and Remotion available globally for the dynamic component
+    // Make React, Remotion, and GSAP available globally for the dynamic component
     window.React = React;
     window.ReactDOM = ReactDOM;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (window as any).Remotion = R;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (window as any).gsap = gsap;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (window as any).SplitText = SplitText;
   }, []);
 
   useEffect(() => {

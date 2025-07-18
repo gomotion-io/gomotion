@@ -31,6 +31,9 @@ export const Menu: FC<MenuProps> = ({ user, logout }) => {
         <DropdownMenuSeparator />
         <Link href="/explore">
           <DropdownMenuItem>Explore</DropdownMenuItem>
+        </Link>{" "}
+        <Link href="/explore">
+          <DropdownMenuItem>Our story</DropdownMenuItem>
         </Link>
         <Link href="/pricing">
           <DropdownMenuItem>Pricing</DropdownMenuItem>

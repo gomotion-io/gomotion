@@ -1,7 +1,6 @@
 "use client";
 
 import { Profile } from "@/components/profile";
-import { Button } from "@/components/ui/button";
 import { useGSAP } from "@gsap/react";
 import { User } from "@supabase/auth-js";
 import { gsap } from "gsap";
@@ -10,6 +9,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Image from "next/image";
 import Link from "next/link";
 import { FunctionComponent, useRef } from "react";
+import { Button } from "@/components/ui/button";
 
 type HeaderProps = {
   user: User | null;
@@ -51,40 +51,29 @@ export const Header: FunctionComponent<HeaderProps> = ({ user }) => {
           </div>
         </div>
       </Link>
-      <div className="flex items-center">
+      <div className="flex items-center gap-4">
         {user ? (
           <Profile />
         ) : (
-          <div className="flex gap-4">
-            {!process.env.NEXT_PUBLIC_BETA && (
-              <Link href="/pricing">
-                <div className="text-primary text-sm underline-offset-4 hover:underline font-semibold">
-                  Pricing
-                </div>
-              </Link>
-            )}
-
-            {process.env.NEXT_PUBLIC_BETA ? (
-              <Link
-                href="https://www.linkedin.com/company/gomotion-io"
-                target="_blank"
-              >
-                <Button>Contact us</Button>
-              </Link>
-            ) : (
-              <>
-                <Link href="/sign-in">
-                  <div className="text-primary text-sm underline-offset-4 hover:underline font-semibold">
-                    Sign In
-                  </div>
-                </Link>
-                <Link href="/register">
-                  <div className="text-primary text-sm underline-offset-4 hover:underline font-semibold">
-                    Register
-                  </div>
-                </Link>
-              </>
-            )}
+          <div className="flex gap-4 items-center">
+            <Link href="/story">
+              <div className="text-primary text-sm underline-offset-4 hover:underline font-semibold">
+                Our story
+              </div>
+            </Link>
+            <Link href="/pricing">
+              <div className="text-primary text-sm underline-offset-4 hover:underline font-semibold">
+                Pricing
+              </div>
+            </Link>
+            <Link href="/sign-in">
+              <div className="text-primary text-sm underline-offset-4 hover:underline font-semibold">
+                Sign In
+              </div>
+            </Link>
+            <Link href="/explore">
+              <Button size="sm">Get started</Button>
+            </Link>
           </div>
         )}
       </div>

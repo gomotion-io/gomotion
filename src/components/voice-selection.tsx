@@ -44,14 +44,17 @@ export const VoiceSelection = () => {
     <Tooltip>
       <DropdownMenu>
         <TooltipTrigger asChild>
-          <DropdownMenuTrigger asChild>
+          <DropdownMenuTrigger
+            className="backdrop-blur-3xl bg-transparent"
+            asChild
+          >
             <Button className="rounded-full p-1.5" variant="outline">
               <div className="truncate w-24 md:w-48">{displayLabel}</div>
               <ChevronDownIcon className="w-5 h-5" />
             </Button>
           </DropdownMenuTrigger>
         </TooltipTrigger>
-        <DropdownMenuContent className="w-60">
+        <DropdownMenuContent className="w-60 backdrop-blur-3xl bg-transparent">
           <DropdownMenuRadioGroup
             value={currentVoice?.voice_id}
             onValueChange={(value) => {

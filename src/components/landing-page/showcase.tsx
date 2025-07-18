@@ -16,24 +16,24 @@ const VIDEO_ITEMS: VideoData[] = [
     prompt: "A cinematic 3D particle explosion revealing the logo for ASTRA",
   },
   {
-    videoUrl: "https://legendary.b-cdn.net/site/placeholder.mov",
+    videoUrl: "https://legendary.b-cdn.net/site/text_stomp.mp4",
     prompt:
-      "A bold typographic animation with smooth morphing transitions featuring the brand NOVA, synced with a futuristic voiceover saying 'Design the future now.",
+      "A vibrant, highly dynamic kinetic typography for 'gomotion the new after effect' ",
   },
   {
-    videoUrl: "https://legendary.b-cdn.net/site/placeholder.mov",
+    videoUrl:
+      "https://legendary.b-cdn.net/site/showcase-video/fireship_intro.mp4",
     prompt:
-      "A bold typographic animation with smooth morphing transitions featuring the brand NOVA, synced with a futuristic voiceover saying 'Design the future now.",
+      "A fireship-style intro to the brand Fireship, featuring a futuristic voiceover saying '100 second of code",
   },
   {
-    videoUrl: "https://legendary.b-cdn.net/site/placeholder.mov",
-    prompt:
-      "A bold typographic animation with smooth morphing transitions featuring the brand NOVA, synced with a futuristic voiceover saying 'Design the future now.",
+    videoUrl: "https://legendary.b-cdn.net/site/showcase-video/cryptic.mp4",
+    prompt: "Generate a 10‑second cyberpunk logo sting on a black background.",
   },
   {
-    videoUrl: "https://legendary.b-cdn.net/site/placeholder.mov",
+    videoUrl: "https://legendary.b-cdn.net/site/showcase-video/eclipse.mp4",
     prompt:
-      "A bold typographic animation with smooth morphing transitions featuring the brand NOVA, synced with a futuristic voiceover saying 'Design the future now.",
+      "The word 'Eclipse' in a retro-futuristic style with letter glitching effects.",
   },
   {
     videoUrl: "https://legendary.b-cdn.net/site/placeholder.mov",
