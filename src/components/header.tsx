@@ -1,6 +1,7 @@
 "use client";
 
 import { Profile } from "@/components/profile";
+import { Button } from "@/components/ui/button";
 import { useGSAP } from "@gsap/react";
 import { User } from "@supabase/auth-js";
 import { gsap } from "gsap";
@@ -9,7 +10,6 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Image from "next/image";
 import Link from "next/link";
 import { FunctionComponent, useRef } from "react";
-import { Button } from "@/components/ui/button";
 
 type HeaderProps = {
   user: User | null;
@@ -56,6 +56,11 @@ export const Header: FunctionComponent<HeaderProps> = ({ user }) => {
           <Profile />
         ) : (
           <div className="flex gap-4 items-center">
+            <Link href="/models">
+              <div className="text-primary text-sm underline-offset-4 hover:underline font-semibold">
+                Models
+              </div>
+            </Link>
             <Link href="/story">
               <div className="text-primary text-sm underline-offset-4 hover:underline font-semibold">
                 Our story
