@@ -5,6 +5,7 @@ import { ShuffleText } from "@/components/shuffle-text";
 import { useGSAP } from "@gsap/react";
 import { gsap } from "gsap";
 import { useRef } from "react";
+import { BackgroundGradient } from "@/components/background-gradient";
 
 export const Hero = () => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -42,7 +43,7 @@ export const Hero = () => {
       <div className="absolute bg-gradient-to-t from-background/70 to-transparent w-full h-full z-10"></div>
       <div className="absolute top-0 left-0 w-full h-full z-1">
         <video
-          src="https://legendary.b-cdn.net/site/hero.mp4"
+          src="https://videos.pexels.com/video-files/5636815/5636815-uhd_2560_1440_30fps.mp4"
           autoPlay
           loop
           muted
@@ -58,7 +59,7 @@ export const Hero = () => {
             <ShuffleText
               as="h3"
               text="The AI Motion"
-              className="relative font-bold text-5xl sm:text-7xl uppercase"
+              className="relative font-bold text-5xl leading-relaxed sm:text-7xl uppercase"
             />
             <ShuffleText
               as="h3"
@@ -73,11 +74,13 @@ export const Hero = () => {
           </div>
 
           <div className="prompt-container w-full md:w-[45rem] lg:w-[50rem] ">
-            <PromptInput
-              placeholder="Describe your animation..."
-              className="min-h-[130px] text-white placeholder:text-[15px]"
-              isLandingPage
-            />
+            <BackgroundGradient>
+              <PromptInput
+                placeholder="Describe your animation..."
+                className="min-h-[130px] text-white placeholder:text-[15px] bg-black"
+                isLandingPage
+              />
+            </BackgroundGradient>
           </div>
         </div>
       </div>
