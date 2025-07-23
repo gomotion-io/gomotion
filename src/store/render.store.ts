@@ -1,5 +1,6 @@
 import { useVideoStore } from "@/store/video.store";
 import { create } from "zustand";
+import { MastraOutput } from "@/_type";
 
 interface ProgressResponseProgress {
   type: "progress";
@@ -21,19 +22,6 @@ type ProgressResponse =
   | ProgressResponseProgress
   | ProgressResponseDone
   | ProgressResponseError;
-
-interface Composition {
-  runId: string;
-  result: {
-    meta: {
-      width: number;
-      height: number;
-      fps: number;
-      durationInFrames: number;
-    };
-    component: string;
-  };
-}
 
 export type State =
   | {
@@ -85,7 +73,7 @@ export const useRenderStore = create<RenderStoreState>((set) => ({
       return;
     }
 
-    const composition = currentVideo.composition as unknown as Composition;
+    const composition = currentVideo.composition as unknown as MastraOutput;
 
     const runId: string = composition.runId;
     const fileContent: string = composition.result?.component ?? "";
@@ -175,7 +163,7 @@ export const useRenderStore = create<RenderStoreState>((set) => ({
               } catch (downloadError) {
                 console.error(
                   "Failed to automatically download the video:",
-                  downloadError
+                  downloadError,
                 );
               }
             }

@@ -56,11 +56,11 @@ export const Header: FunctionComponent<HeaderProps> = ({ user }) => {
           <Profile />
         ) : (
           <div className="flex gap-4 items-center">
-            <Link href="/models">
-              <div className="text-primary text-sm underline-offset-4 hover:underline font-semibold">
-                Models
-              </div>
-            </Link>
+            {/*<Link href="/models">*/}
+            {/*  <div className="text-primary text-sm underline-offset-4 hover:underline font-semibold">*/}
+            {/*    Models*/}
+            {/*  </div>*/}
+            {/*</Link>*/}
             <Link href="/story">
               <div className="text-primary text-sm underline-offset-4 hover:underline font-semibold">
                 Our story

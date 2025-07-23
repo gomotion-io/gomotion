@@ -1,3 +1,4 @@
+import { useGsapTimeline } from "@/lib/use-gsap-timeline";
 import { initialize, transform } from "esbuild-wasm";
 import gsap from "gsap";
 import SplitText from "gsap/SplitText";
@@ -33,11 +34,14 @@ const createComponent = async (code: string) => {
     // Strip any Remotion import (including sub-paths)
     .replace(/import\s+[^;]*from\s+["']remotion[^"']*["'];?\n?/g, "")
     // Strip any GSAP import (including sub-paths)
-    .replace(/import\s+[^;]*from\s+["']gsap[^"']*["'];?\n?/g, "");
+    .replace(/import\s+[^;]*from\s+["']gsap[^"']*["'];?\n?/g, "")
+    // Strip useGsapTimeline imports that reference a local path
+    .replace(/import\s+[^;]*from\s+["']\.\/useGsapTimeline["'];?\n?/g, "")
+    .replace(/import\s+[^;]*from\s+["']\.\/use-gsap-timeline["'];?\n?/g, "");
 
   // Prepend global references so the code can access React, Remotion, and GSAP
   const wrappedCode =
-    `const React = window.React;\nconst { useState, useEffect, useRef, useMemo, useCallback } = window.React;\nconst Remotion = window.Remotion;\nconst R = window.Remotion;\nconst gsap = window.gsap;\nconst SplitText = window.SplitText;\n` +
+    `const React = window.React;\nconst { useState, useEffect, useRef, useMemo, useCallback } = window.React;\nconst Remotion = window.Remotion;\nconst R = window.Remotion;\nconst gsap = window.gsap;\nconst SplitText = window.SplitText;\nconst { useGsapTimeline } = window;\n` +
     strippedImports;
 
   console.debug("[useComponent] Transformed component code:", wrappedCode);
@@ -57,6 +61,9 @@ export const useComponent = (content: string) => {
     (window as any).gsap = gsap;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (window as any).SplitText = SplitText;
+    // Expose custom hooks/utilities
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (window as any).useGsapTimeline = useGsapTimeline;
   }, []);
 
   useEffect(() => {
