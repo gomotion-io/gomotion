@@ -89,7 +89,7 @@ export const useRenderStore = create<RenderStoreState>((set) => ({
     set({ state: { status: "invoking" } });
 
     try {
-      const render_res = await fetch("/api/render-video", {
+      const render_res = await fetch("/api/render/render-video", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -110,7 +110,7 @@ export const useRenderStore = create<RenderStoreState>((set) => ({
 
       let pending = true;
       while (pending) {
-        const progress_res = await fetch("/api/render-progress", {
+        const progress_res = await fetch("/api/render/progress", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

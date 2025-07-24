@@ -1,6 +1,5 @@
 import { MastraOutput } from "@/_type";
 import { useParamStore } from "@/store/params.store";
-import { createClient } from "@/supabase/client";
 import { create } from "zustand";
 
 export type RefinedVideo = Omit<Video, "composition"> & {
@@ -30,21 +29,27 @@ export const useVideoStore = create<VideoState>((set) => ({
   generating: false,
 
   fetchVideos: async (profileId) => {
-    const supabase = createClient();
-
     set({ loading: true });
 
-    const { data, error } = await supabase
-      .from("videos")
-      .select("*")
-      .eq("profile_id", profileId)
-      .order("created_at", { ascending: false });
+    try {
+      const res = await fetch("/api/animations/fetch-all", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ profileId }),
+      });
 
-    if (!error && data) {
-      set({ videos: data });
+      const data: Video[] = await res.json();
+
+      if (data) {
+        set({ videos: data });
+      }
+    } catch (error) {
+      console.error("fetchVideos error:", error);
+    } finally {
+      set({ loading: false });
     }
-
-    set({ loading: false });
   },
 
   create: async ({ prompt }) => {
@@ -71,17 +76,15 @@ export const useVideoStore = create<VideoState>((set) => ({
 
       const data: Video = await res.json();
 
-      if (data) {
-        const refinedData = data as unknown as RefinedVideo;
-
-        set((state) => ({ videos: [data, ...state.videos] }));
-
-        set({ currentVideo: refinedData });
-
-        return refinedData;
+      if (!data) {
+        return null;
       }
 
-      return null;
+      const refinedData = data as unknown as RefinedVideo;
+      set((state) => ({ videos: [data, ...state.videos] }));
+      set({ currentVideo: refinedData });
+
+      return refinedData;
     } catch (error) {
       console.error(error);
       throw error;
@@ -147,36 +150,31 @@ export const useVideoStore = create<VideoState>((set) => ({
     set((state) => ({ videos: state.videos.filter((v) => v.id !== id) })),
 
   load: async (id) => {
-    const supabase = createClient();
-
     set({ loading: true, currentVideo: null });
 
-    const { data, error } = await supabase
-      .from("videos")
-      .select("*")
-      .eq("id", id)
-      .single();
-
-    if (error) {
-      console.error(error);
-      set({ loading: false });
-      return null;
-    }
-
-    if (!data) {
-      set({ loading: false });
-      return null;
-    }
-
     try {
+      const res = await fetch("/api/animations/fetch", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ id }),
+      });
+
+      const data: Video = await res.json();
+
+      if (!data) {
+        return null;
+      }
+
       const refinedData = data as unknown as RefinedVideo;
       set({ currentVideo: refinedData });
-    } catch (err) {
-      console.error(err);
+      return refinedData;
+    } catch (error) {
+      console.error(error);
+      throw error;
     } finally {
       set({ loading: false });
     }
-
-    return data as unknown as RefinedVideo;
   },
 }));

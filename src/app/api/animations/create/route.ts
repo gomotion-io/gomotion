@@ -4,7 +4,6 @@ import { validateCredit } from "@/app/api/utils/validate-credits";
 import { createCount } from "@/supabase/server-functions/counts";
 import { createVideo } from "@/supabase/server-functions/videos";
 import { Json } from "@/supabase/generated/database.types";
-import { example } from "@/app/api/animations/create/example";
 
 interface GenerateAnimationRequest {
   prompt: string;
@@ -26,25 +25,23 @@ export async function POST(request: NextRequest) {
     // Step 3: Generate video via mastra api
     const [width, height] = aspectRatio.split(":").map(Number);
 
-    // const response = await fetch(
-    //   `${process.env.EXPRESS_URL}/generate/animation`,
-    //   {
-    //     method: "POST",
-    //     headers: { "Content-Type": "application/json" },
-    //     body: JSON.stringify({
-    //       inputData: {
-    //         instruction: prompt,
-    //         metadata: `width: ${width}, height: ${height}`,
-    //         voiceId,
-    //       },
-    //       runtimeContext: {},
-    //     }),
-    //   },
-    // );
+    const response = await fetch(
+      `${process.env.EXPRESS_URL}/generate/animation`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          inputData: {
+            instruction: prompt,
+            metadata: `width: ${width}, height: ${height}`,
+            voiceId,
+          },
+          runtimeContext: {},
+        }),
+      },
+    );
 
-    // const data = await response.json();
-
-    const data = example;
+    const data = await response.json();
 
     // Step 4: Record usage
     await createCount(profile.id);
