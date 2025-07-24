@@ -1,9 +1,9 @@
+import { MastraOutput } from "@/_type";
 import { useParamStore } from "@/store/params.store";
 import { createClient } from "@/supabase/client";
 import { create } from "zustand";
-import { MastraOutput } from "@/_type";
 
-type RefinedVideo = Omit<Video, "composition"> & {
+export type RefinedVideo = Omit<Video, "composition"> & {
   composition: MastraOutput;
 };
 
@@ -13,8 +13,12 @@ interface VideoState {
   loading: boolean;
   generating: boolean;
   fetchVideos: (profileId: string) => Promise<void>;
-  subscribe: (profileId: string) => void;
   create: (payload: { prompt: string }) => Promise<RefinedVideo | null>;
+  update: (payload: {
+    id: string;
+    prompt: string;
+    previousVideo: Partial<Video>;
+  }) => Promise<RefinedVideo | null>;
   remove: (id: string) => void;
   load: (id: string) => Promise<RefinedVideo | null>;
 }
@@ -43,38 +47,6 @@ export const useVideoStore = create<VideoState>((set) => ({
     set({ loading: false });
   },
 
-  subscribe: (profileId) => {
-    const supabase = createClient();
-
-    supabase
-      .channel(`videos-list-${profileId}`)
-      .on(
-        "postgres_changes",
-        {
-          event: "*",
-          schema: "public",
-          table: "videos",
-          filter: `profile_id=eq.${profileId}`,
-        },
-        (payload) => {
-          if (payload.eventType === "INSERT") {
-            set((state) => ({
-              videos: [payload.new as Video, ...state.videos],
-            }));
-          }
-
-          if (payload.eventType === "DELETE") {
-            set((state) => ({
-              videos: state.videos.filter(
-                (v) => v.id !== (payload.old as Video).id,
-              ),
-            }));
-          }
-        },
-      )
-      .subscribe();
-  },
-
   create: async ({ prompt }) => {
     const { aspectRatio, currentVoice } = useParamStore.getState();
 
@@ -85,7 +57,7 @@ export const useVideoStore = create<VideoState>((set) => ({
     try {
       set({ generating: true, currentVideo: null });
 
-      const res = await fetch("/api/generate-animation", {
+      const res = await fetch("/api/animations/create", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -110,6 +82,59 @@ export const useVideoStore = create<VideoState>((set) => ({
       }
 
       return null;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    } finally {
+      set({ generating: false });
+    }
+  },
+
+  update: async ({ id, prompt, previousVideo }) => {
+    const { aspectRatio, currentVoice } = useParamStore.getState();
+
+    if (!currentVoice) {
+      throw new Error("currentVoice was not provided");
+    }
+
+    if (
+      !prompt &&
+      (!previousVideo || Object.keys(previousVideo).length === 0)
+    ) {
+      throw new Error("neither prompt nor video updates are provided");
+    }
+
+    try {
+      set({ generating: true });
+
+      const res = await fetch("/api/animations/update", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          videoId: id,
+          prompt,
+          voiceId: currentVoice.voice_id,
+          aspectRatio,
+          previousVideo,
+        }),
+      });
+
+      const data: Video = await res.json();
+
+      if (!data) {
+        return null;
+      }
+
+      const refinedData = data as unknown as RefinedVideo;
+
+      set((state) => ({
+        videos: state.videos.map((v) => (v.id === id ? (data as Video) : v)),
+        currentVideo: refinedData,
+      }));
+
+      return refinedData;
     } catch (error) {
       console.error(error);
       throw error;

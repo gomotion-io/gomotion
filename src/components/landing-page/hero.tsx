@@ -37,7 +37,7 @@ export const Hero = () => {
   return (
     <section
       ref={containerRef}
-      className="relative h-[100svh] w-[100vw] overflow-hidden flex justify-center items-center"
+      className="relative h-[100dvh] w-[100vw] overflow-hidden flex justify-center items-center"
     >
       <div className="absolute bg-gradient-to-t from-background to-transparent w-full h-full z-10"></div>
       <div className="absolute bg-gradient-to-t from-background/70 to-transparent w-full h-full z-10"></div>
@@ -59,12 +59,12 @@ export const Hero = () => {
             <ShuffleText
               as="h3"
               text="The AI Motion"
-              className="relative font-bold text-5xl leading-relaxed sm:text-7xl uppercase"
+              className="relative font-bold text-5xl sm:leading-[5.5rem] sm:text-7xl uppercase"
             />
             <ShuffleText
               as="h3"
               text="Designer"
-              className="relative font-bold text-5xl sm:text-7xl uppercase"
+              className="relative font-bold text-5xl sm:leading-[5.5rem] sm:text-7xl uppercase"
             />
           </div>
 
@@ -76,7 +76,6 @@ export const Hero = () => {
           <div className="prompt-container w-full md:w-[45rem] lg:w-[50rem] ">
             <BackgroundGradient>
               <PromptInput
-                placeholder="Describe your animation..."
                 className="min-h-[130px] text-white placeholder:text-[15px] bg-black"
                 isLandingPage
               />

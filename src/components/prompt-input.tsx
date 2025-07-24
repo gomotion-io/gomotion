@@ -5,22 +5,20 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 
 import { VoiceSelection } from "@/components/voice-selection";
+import { cn } from "@/lib/utils";
 import { useParamStore } from "@/store/params.store";
-import { useVideoStore } from "@/store/video.store";
+import { RefinedVideo, useVideoStore } from "@/store/video.store";
 import { ArrowUpIcon, StopIcon } from "@heroicons/react/16/solid";
 import { useRouter } from "next/navigation";
 import { FC, useCallback, useMemo, useRef } from "react";
-import { cn } from "@/lib/utils";
 
 type PromptInputProps = {
-  placeholder?: string;
   className?: string;
   isLandingPage?: boolean;
 };
 
 export const PromptInput: FC<PromptInputProps> = ({
   className,
-  placeholder = "Describe your animations...",
   isLandingPage = false,
 }) => {
   const router = useRouter();
@@ -28,6 +26,8 @@ export const PromptInput: FC<PromptInputProps> = ({
 
   const generating = useVideoStore((state) => state.generating);
   const createVideo = useVideoStore((state) => state.create);
+  const updateVideo = useVideoStore((state) => state.update);
+  const currentVideo = useVideoStore((state) => state.currentVideo);
   const setPrompt = useParamStore((state) => state.setPrompt);
   const prompt = useParamStore((state) => state.prompt);
   const currentVoice = useParamStore((state) => state.currentVoice);
@@ -37,22 +37,36 @@ export const PromptInput: FC<PromptInputProps> = ({
     [prompt, currentVoice],
   );
 
-  const handleSubmit = useCallback(async () => {
-    if (isLandingPage) {
-      router.push("/explore");
-    }
+  const handleSubmit = useCallback(
+    async (video: RefinedVideo | null) => {
+      if (isLandingPage) {
+        router.push("/explore");
+      }
 
-    const video = await createVideo({ prompt });
-    if (video?.id) {
-      router.push(`/explore/${video.id}`);
-    }
-  }, [createVideo, isLandingPage, prompt, router]);
+      if (video) {
+        // update the current video
+        await updateVideo({ id: video.id, prompt, previousVideo: video });
+        return;
+      }
+
+      // else create a new video
+      const data = await createVideo({ prompt });
+      if (data?.id) {
+        router.push(`/explore/${data.id}`);
+      }
+    },
+    [createVideo, isLandingPage, prompt, router, updateVideo],
+  );
 
   return (
     <div className="relative w-full flex flex-col gap-4">
       <Textarea
         ref={textareaRef}
-        placeholder={placeholder}
+        placeholder={
+          currentVideo
+            ? "Describe the change you want to make..."
+            : "Describe your animation..."
+        }
         value={prompt}
         onChange={(e) => setPrompt(e.target.value)}
         className={cn(
@@ -69,7 +83,7 @@ export const PromptInput: FC<PromptInputProps> = ({
           ) {
             if (canGenerate) {
               event.preventDefault();
-              handleSubmit().catch(console.error);
+              handleSubmit(currentVideo).catch(console.error);
             }
           }
         }}
@@ -84,10 +98,14 @@ export const PromptInput: FC<PromptInputProps> = ({
         ) : (
           <Button
             disabled={!canGenerate}
-            className="rounded-full w-14"
-            onClick={handleSubmit}
+            className="rounded-full"
+            onClick={() => handleSubmit(currentVideo)}
           >
-            <ArrowUpIcon className="w-5 h-5" />
+            {currentVideo ? (
+              <div className="mx-2">Remix</div>
+            ) : (
+              <ArrowUpIcon className="w-5 h-5" />
+            )}
           </Button>
         )}
       </div>
