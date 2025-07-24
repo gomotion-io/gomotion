@@ -18,11 +18,11 @@ export const getEnvUrl = () => {
 };
 
 export const formatCredits = (credits: number | null): string => {
-  if (!credits) return "0 credits";
-  if (credits < 1000) return `${credits} credits`;
+  if (!credits) return "0";
+  if (credits < 1000) return `${credits}`;
 
   const valueInThousands = credits / 1000;
   // Keep one decimal place but trim trailing ".0" when not needed
   const formatted = Number(valueInThousands.toFixed(1)).toString();
-  return `${formatted}k credits`;
+  return `${formatted}K`;
 };

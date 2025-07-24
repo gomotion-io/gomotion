@@ -10,6 +10,8 @@ import {
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { User } from "@supabase/auth-js";
+import { useCountStore } from "@/store/count.store";
+import { formatCredits } from "@/lib/utils";
 
 type MenuProps = {
   user: User | null;
@@ -17,6 +19,8 @@ type MenuProps = {
 };
 
 export const Menu: FC<MenuProps> = ({ user, logout }) => {
+  const credits = useCountStore((state) => state.credits);
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -25,8 +29,8 @@ export const Menu: FC<MenuProps> = ({ user, logout }) => {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="min-w-60" align="end">
-        <DropdownMenuLabel className="text-stone-100/50 truncate max-w-[14rem]">
-          {user?.email}
+        <DropdownMenuLabel className="text-stone-100/50 font-medium truncate max-w-[14rem] flex justify-between">
+          <div>Available credits</div> <div>{formatCredits(credits)}</div>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <Link href="/explore">

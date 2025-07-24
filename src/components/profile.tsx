@@ -4,11 +4,11 @@ import { Menu } from "@/components/menu";
 import { Button } from "@/components/ui/button";
 import { CircularProgress } from "@/components/ui/circular-progress";
 import { VideoHistory } from "@/components/video-history";
-import { formatCredits } from "@/lib/utils";
-import { useCountStore } from "@/store/count.store";
+import { useParamStore } from "@/store/params.store";
 import { useRenderStore } from "@/store/render.store";
 import { useUserStore } from "@/store/user.store";
 import { useVideoStore } from "@/store/video.store";
+import { PlusIcon } from "@heroicons/react/16/solid";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
@@ -18,10 +18,20 @@ export const Profile = () => {
   const isExplorePage = pathname.startsWith("/explore");
   const router = useRouter();
   const { user, profile, signOut } = useUserStore();
-  const { credits } = useCountStore();
   const video = useVideoStore((state) => state.currentVideo);
   const renderVideo = useRenderStore((state) => state.renderVideo);
   const progress = useRenderStore((state) => state.state);
+
+  // stores actions
+  const resetVideo = useVideoStore((state) => state.reset);
+  const setPrompt = useParamStore((state) => state.setPrompt);
+
+  const handleCreateNew = () => {
+    // Clear current video and prompt then navigate to a clean explorer page
+    resetVideo();
+    setPrompt("");
+    router.push("/explore");
+  };
 
   const logout = async () => {
     await signOut();
@@ -37,6 +47,9 @@ export const Profile = () => {
             Upgrade
           </Button>
         )}
+        <Button variant="outline" size="sm" onClick={handleCreateNew}>
+          Create new <PlusIcon />
+        </Button>
         <Button
           variant="outline"
           size="sm"
@@ -67,9 +80,6 @@ export const Profile = () => {
           ) : (
             "Export video"
           )}
-        </Button>
-        <Button variant="outline" size="sm">
-          {formatCredits(credits)}
         </Button>
         <VideoHistory />
       </div>

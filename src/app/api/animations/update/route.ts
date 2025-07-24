@@ -2,19 +2,26 @@ import { NextRequest } from "next/server";
 import { validateUser } from "@/app/api/utils/validate-user";
 import { validateCredit } from "@/app/api/utils/validate-credits";
 import { createCount } from "@/supabase/server-functions/counts";
-import { saveVideo } from "@/supabase/server-functions/videos";
+import { updateVideo } from "@/supabase/server-functions/videos";
 import { Json } from "@/supabase/generated/database.types";
 
 interface GenerateAnimationRequest {
+  videoId: string;
   prompt: string;
   voiceId: string;
   aspectRatio: string;
+  previousVideo: string;
 }
 
 export async function POST(request: NextRequest) {
   try {
-    const { prompt, voiceId, aspectRatio }: GenerateAnimationRequest =
-      await request.json();
+    const {
+      videoId,
+      prompt,
+      voiceId,
+      aspectRatio,
+      previousVideo,
+    }: GenerateAnimationRequest = await request.json();
 
     // Step 1: Validate user authentication
     const user = await validateUser();
@@ -24,6 +31,9 @@ export async function POST(request: NextRequest) {
 
     // Step 3: Generate video via mastra api
     const [width, height] = aspectRatio.split(":").map(Number);
+
+    //TODO: SEND PAYLOAD TO THE BACKEND
+    console.log("previousVideo & videoId", previousVideo, videoId);
 
     const response = await fetch(
       `${process.env.EXPRESS_URL}/generate/animation`,
@@ -46,9 +56,9 @@ export async function POST(request: NextRequest) {
     // Step 4: Record usage
     await createCount(profile.id);
 
-    // Step 5: Save video to a database
-    const result = await saveVideo({
-      profileId: profile.id,
+    // Step 5: Update video from db
+    const result = await updateVideo({
+      id: videoId,
       composition: data as unknown as Json,
     });
 
