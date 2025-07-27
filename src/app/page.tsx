@@ -1,5 +1,5 @@
-import LandingPage from "@/components/landing-page";
 import type { Metadata } from "next";
+import HomePage from "@/components/home-page";
 
 export const metadata: Metadata = {
   title: "Gomotion",
@@ -8,5 +8,5 @@ export const metadata: Metadata = {
 };
 
 export default function Home() {
-  return <LandingPage />;
+  return <HomePage />;
 }
