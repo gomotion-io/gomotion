@@ -1,8 +1,16 @@
 import React from "react";
-import { Sign } from "@/components/sign";
+import { SignIn } from "@/components/sign-in";
+import { getUser } from "@/supabase/server-functions/users";
+import { redirect } from "next/navigation";
 
-const SignIn = () => {
-  return <Sign type="Login" />;
+const SignInPage = async () => {
+  const user = await getUser();
+
+  if (user) {
+    redirect("/explore");
+  }
+
+  return <SignIn />;
 };
 
-export default SignIn;
+export default SignInPage;

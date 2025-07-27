@@ -1,6 +1,5 @@
 import { AuthProvider } from "@/components/auth-provider";
 import { LayoutProvider } from "@/components/layout-provider";
-import { HeaderWrapper } from "@/components/ssr/header-wrapper";
 import { getEnvUrl } from "@/lib/utils";
 import { getProfile } from "@/supabase/server-functions/profile";
 import { getUser } from "@/supabase/server-functions/users";
@@ -9,6 +8,7 @@ import type { Metadata } from "next";
 import { ReactNode } from "react";
 import localFont from "next/font/local";
 import "./globals.css";
+import { HeaderWrapper } from "@/components/ssr/header-wrapper";
 
 const neueMontreal = localFont({
   src: [

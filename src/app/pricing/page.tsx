@@ -1,4 +1,3 @@
-import React from "react";
 import { PlanItem } from "@/components/plan-item";
 import { getProducts } from "@/supabase/server-functions/products";
 import { getProfile } from "@/supabase/server-functions/profile";
@@ -14,26 +13,20 @@ const Pricing = async () => {
 
   const order = ["Free", "Standard", "Pro", "Enterprise"];
   const sortedProducts = products.sort(
-    (a, b) => order.indexOf(a.name) - order.indexOf(b.name),
+    (a, b) => order.indexOf(a.name) - order.indexOf(b.name)
   );
 
   return (
-    <div className="mx-auto px-2 pt-[5rem]">
-      <div className="mx-auto max-w-lg sm:max-w-3xl space-y-4 pt-6 pb-3 text-center flex flex-col items-center">
-        <h4 className="mx-auto mb-2 text-balance text-[42px] font-semibold text-stone-100">
-          Pricing
-        </h4>
-        <p className="text-center max-w-lg text-lg leading-8 text-muted-foreground mb-7">
-          Choose the perfect plan for your video creation needs. Start building
-          amazing content today with our flexible pricing options.
-        </p>
+    <div className="mx-auto flex flex-col gap-5 justify-center items-center px-2 pt-[5rem]">
+      <h2 className="text-5xl mt-10 font-neue-montreal text-center font-bold max-w-3xl leading-[1.2em]">
+        Lorem ipsum
+      </h2>
+      <h3 className="text-xl text-muted-foreground text-center max-w-3xl leading-[1.2em]">
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Porro, nihil.
+        Ab harum quis error blanditiis.
+      </h3>
 
-        <div className="text-sm font-medium text-emerald-400">
-          The future of motion design today
-        </div>
-      </div>
-
-      <div className="mx-auto lg:max-w-6xl flex md:flex-row flex-col items-center justify-center gap-6 px-5 sm:px-10 py-8">
+      <div className="mx-auto lg:max-w-7xl flex md:flex-row flex-col items-center justify-center gap-6 px-5 py-8">
         {sortedProducts.map((product, index) => (
           <PlanItem key={index} product={product} profile={profile} />
         ))}

@@ -11,6 +11,7 @@ import { RefinedVideo, useVideoStore } from "@/store/video.store";
 import { ArrowUpIcon, StopIcon } from "@heroicons/react/16/solid";
 import { useRouter } from "next/navigation";
 import { FC, useCallback, useMemo, useRef } from "react";
+import Link from "next/link";
 
 type PromptInputProps = {
   className?: string;
@@ -39,10 +40,6 @@ export const PromptInput: FC<PromptInputProps> = ({
 
   const handleSubmit = useCallback(
     async (video: RefinedVideo | null) => {
-      if (isLandingPage) {
-        router.push("/explore");
-      }
-
       if (video) {
         // update the current video
         await updateVideo({ id: video.id, prompt, previousVideo: video });
@@ -55,7 +52,7 @@ export const PromptInput: FC<PromptInputProps> = ({
         router.push(`/explore/${data.id}`);
       }
     },
-    [createVideo, isLandingPage, prompt, router, updateVideo],
+    [createVideo, prompt, router, updateVideo],
   );
 
   return (
@@ -70,7 +67,7 @@ export const PromptInput: FC<PromptInputProps> = ({
         value={prompt}
         onChange={(e) => setPrompt(e.target.value)}
         className={cn(
-          "min-h-[105px] text-sm max-h-[calc(75dvh)] overflow-hidden resize-none rounded-3xl font-medium backdrop-blur-2xl pl-5 pt-4 pb-10",
+          "min-h-[105px] bg-white text-sm max-h-[calc(75dvh)] overflow-hidden resize-none rounded-3xl font-medium backdrop-blur-2xl pl-5 pt-4 pb-10",
           className,
         )}
         rows={2}
@@ -91,7 +88,17 @@ export const PromptInput: FC<PromptInputProps> = ({
       <div className="absolute bottom-0 right-0 p-2 w-fit flex flex-row justify-end gap-2 items-center">
         <VoiceSelection />
         <RatioSelection />
-        {generating ? (
+
+        {isLandingPage ? (
+          <Link href="/register">
+            <Button
+              variant="ghost"
+              className="rounded-full  bg-emerald-100 font-medium text-emerald-900 hover:bg-emerald-200"
+            >
+              Request access
+            </Button>
+          </Link>
+        ) : generating ? (
           <Button className="rounded-full w-14" disabled>
             <StopIcon className="w-5 h-5 animate-spin" />
           </Button>

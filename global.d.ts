@@ -7,3 +7,5 @@ declare global {
   type Count = Database["public"]["Tables"]["counts"]["Row"];
   type Video = Database["public"]["Tables"]["videos"]["Row"];
 }
+
+declare module "matter-js";
