@@ -1,30 +1,74 @@
-import { create } from "zustand/index";
 import { getEnvUrl } from "@/lib/utils";
 import { createClient } from "@/supabase/client";
+import { create } from "zustand/index";
 
 type AuthState = {
   loading: boolean;
   error: string | null;
-  signIn: ({ email }: { email: string }) => Promise<void>;
+  mailSent: boolean;
+  register: ({
+    email,
+    password,
+  }: {
+    email: string;
+    password: string;
+  }) => Promise<void>;
+  signIn: ({
+    email,
+    password,
+  }: {
+    email: string;
+    password: string;
+  }) => Promise<void>;
 };
 
 export const useAuthStore = create<AuthState>((set) => ({
   loading: false,
   error: null,
-  signIn: async ({ email }) => {
+  mailSent: false,
+  register: async ({ email, password }) => {
     const supabase = createClient();
-    set({ loading: true });
+    set({ mailSent: false, loading: true, error: null });
 
-    const { data, error } = await supabase.auth.signInWithOtp({
+    const { data, error } = await supabase.auth.signUp({
       email,
+      password,
       options: {
-        shouldCreateUser: true,
         emailRedirectTo: getEnvUrl(),
       },
     });
-    if (!error && !data.user) {
-      window.location.href = `/mail-sent`;
+
+    if (!error && data.user) {
+      set({ mailSent: true, loading: false });
+      return;
     }
+
+    if (error) {
+      set({ error: error.message, loading: false });
+      return;
+    }
+
+    set({ loading: false });
+  },
+  signIn: async ({ email, password }) => {
+    set({ loading: true, error: null });
+    const supabase = createClient();
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+
+    if (error) {
+      set({ error: error.message, loading: false });
+      return;
+    }
+
+    console.log(data, error);
+    if (data.user) {
+      window.location.href = "/explore";
+      return;
+    }
+
     set({ loading: false });
   },
 }));

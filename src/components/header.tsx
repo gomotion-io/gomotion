@@ -7,9 +7,10 @@ import { User } from "@supabase/auth-js";
 import { gsap } from "gsap";
 import { ScrollToPlugin } from "gsap/ScrollToPlugin";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { Menu as MenuIcon, X } from "lucide-react";
+import { ArrowRight, Menu as MenuIcon, X } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { FunctionComponent, useRef, useState } from "react";
 
 type HeaderProps = {
@@ -17,6 +18,12 @@ type HeaderProps = {
 };
 
 export const Header: FunctionComponent<HeaderProps> = ({ user }) => {
+  const pathname = usePathname();
+  const shouldHide =
+    pathname.startsWith("/sign-in") ||
+    pathname.startsWith("/explore") ||
+    pathname.startsWith("/register");
+
   const headerRef = useRef<HTMLDivElement>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -35,12 +42,16 @@ export const Header: FunctionComponent<HeaderProps> = ({ user }) => {
     });
   }, []);
 
+  if (shouldHide) {
+    return null;
+  }
+
   return (
-    <>
+    <div className="absolute z-50 top-0 w-full h-20 flex items-center border-b border-dashed">
       {/* Desktop / base header */}
       <div
+        className="flex items-center justify-between max-w-7xl w-full h-full mx-auto px-5 lg:px-12"
         ref={headerRef}
-        className="absolute z-50 flex items-center gap-10 h-[5rem] w-full px-5 sm:px-10 header justify-between"
       >
         <Link href="/">
           <div className="flex items-center gap-2">
@@ -59,7 +70,19 @@ export const Header: FunctionComponent<HeaderProps> = ({ user }) => {
         {/* Desktop navigation */}
         <div className="hidden sm:flex items-center gap-4">
           {user ? (
-            <Profile />
+            <div className="flex items-center gap-4">
+              <Link href="/pricing">
+                <div className="text-primary text-sm underline-offset-4 hover:underline font-semibold">
+                  Pricing
+                </div>
+              </Link>
+
+              <Link href="/explore">
+                <Button size="sm">
+                  Go to app <ArrowRight />{" "}
+                </Button>
+              </Link>
+            </div>
           ) : (
             <>
               <Link href="/story">
@@ -67,18 +90,26 @@ export const Header: FunctionComponent<HeaderProps> = ({ user }) => {
                   Our story
                 </div>
               </Link>
-              <Link href="/pricing">
+              <Link
+                href="https://discord.gg/emD6h74Fh7"
+                onClick={() => setMobileMenuOpen(false)}
+              >
                 <div className="text-primary text-sm underline-offset-4 hover:underline font-semibold">
-                  Pricing
+                  Join community
                 </div>
               </Link>
-              <Link href="/sign-in">
+              <Link
+                href="/sign-in"
+                className="hover:underline underline-offset-4"
+              >
                 <div className="text-primary text-sm underline-offset-4 hover:underline font-semibold">
-                  Sign In
+                  Login
                 </div>
               </Link>
-              <Link href="/explore">
-                <Button size="sm">Get started</Button>
+              <Link href="/register">
+                <Button className="font-medium py-2 px-5 text-sm rounded-full">
+                  Request access
+                </Button>
               </Link>
             </>
           )}
@@ -94,7 +125,7 @@ export const Header: FunctionComponent<HeaderProps> = ({ user }) => {
               type="button"
               onClick={() => setMobileMenuOpen(true)}
               aria-label="Open menu"
-              className="rounded-md p-2 hover:bg-primary/10 focus:outline-none focus:ring-2 focus:ring-primary"
+              className=""
             >
               <MenuIcon className="h-6 w-6" />
             </button>
@@ -105,7 +136,7 @@ export const Header: FunctionComponent<HeaderProps> = ({ user }) => {
       {/* Mobile menu overlay */}
       {mobileMenuOpen && !user?.id && (
         <div className="fixed inset-0 z-[60] bg-background/95 backdrop-blur-sm flex flex-col">
-          <div className="flex items-center justify-between px-5 h-[5rem]">
+          <div className="flex items-center justify-between px-5 h-20">
             <Link href="/" onClick={() => setMobileMenuOpen(false)}>
               <div>
                 <Image
@@ -121,7 +152,7 @@ export const Header: FunctionComponent<HeaderProps> = ({ user }) => {
               type="button"
               onClick={() => setMobileMenuOpen(false)}
               aria-label="Close menu"
-              className="rounded-md p-2 hover:bg-primary/10 focus:outline-none focus:ring-2 focus:ring-primary"
+              className=""
             >
               <X className="h-6 w-6" />
             </button>
@@ -136,11 +167,11 @@ export const Header: FunctionComponent<HeaderProps> = ({ user }) => {
               Our story
             </Link>
             <Link
-              href="/pricing"
+              href="https://discord.gg/emD6h74Fh7"
               onClick={() => setMobileMenuOpen(false)}
               className="hover:underline underline-offset-4"
             >
-              Pricing
+              Join community
             </Link>
             {user ? (
               <Link
@@ -157,16 +188,21 @@ export const Header: FunctionComponent<HeaderProps> = ({ user }) => {
                   onClick={() => setMobileMenuOpen(false)}
                   className="hover:underline underline-offset-4"
                 >
-                  Sign In
+                  Login
                 </Link>
-                <Link href="/explore" onClick={() => setMobileMenuOpen(false)}>
-                  <Button size="sm">Get started</Button>
+                <Link href="/register" onClick={() => setMobileMenuOpen(false)}>
+                  <Button
+                    size="lg"
+                    className="font-medium py-2 px-5 text-sm rounded-full"
+                  >
+                    Request access
+                  </Button>
                 </Link>
               </>
             )}
           </nav>
         </div>
       )}
-    </>
+    </div>
   );
 };

@@ -14,14 +14,12 @@ export const RemotionPlayer: FC<RemotionPlayerProps> = ({ composition }) => {
   const data = composition.result;
   const { component } = useComponent(data.component);
 
-  console.log(composition);
-
   if (!component) {
-    return <div className="w-full flex-1" />;
+    return <div className="w-full flex-1 border border-dashed" />;
   }
 
   return (
-    <div className="w-full flex-1">
+    <div className="w-full flex-1 border border-dashed">
       <Player
         controls
         alwaysShowControls

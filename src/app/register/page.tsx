@@ -1,8 +1,16 @@
 import React from "react";
-import { Sign } from "@/components/sign";
+import { Register } from "@/components/register";
+import { getUser } from "@/supabase/server-functions/users";
+import { redirect } from "next/navigation";
 
-const Register = () => {
-  return <Sign type="Register" />;
+const RegisterPage = async () => {
+  const user = await getUser();
+
+  if (user) {
+    redirect("/explore");
+  }
+
+  return <Register />;
 };
 
-export default Register;
+export default RegisterPage;

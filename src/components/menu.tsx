@@ -29,20 +29,23 @@ export const Menu: FC<MenuProps> = ({ user, logout }) => {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="min-w-60" align="end">
-        <DropdownMenuLabel className="text-stone-100/50 font-medium truncate max-w-[14rem] flex justify-between">
+        <DropdownMenuLabel className="font-medium truncate max-w-[14rem] flex justify-between">
           <div>Available credits</div> <div>{formatCredits(credits)}</div>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <Link href="/explore">
-          <DropdownMenuItem>Explore</DropdownMenuItem>
-        </Link>{" "}
-        <Link href="/explore">
-          <DropdownMenuItem>Our story</DropdownMenuItem>
+          <DropdownMenuItem className="text-muted-foreground">
+            Our story
+          </DropdownMenuItem>
         </Link>
         <Link href="/pricing">
-          <DropdownMenuItem>Pricing</DropdownMenuItem>
+          <DropdownMenuItem className="text-muted-foreground">
+            Pricing
+          </DropdownMenuItem>
         </Link>
-        <DropdownMenuItem onClick={logout}>Log out</DropdownMenuItem>
+        <DropdownMenuItem className="text-muted-foreground" onClick={logout}>
+          Log out
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );

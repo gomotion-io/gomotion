@@ -30,7 +30,7 @@ export const PlanItem: FC<PlanItemProps> = ({ profile, product }) => {
   return (
     <Card
       className={clsx(
-        "flex flex-col shadow-none bg-opacity-10 w-full",
+        "flex flex-col rounded-3xl shadow-none bg-neutral-50 w-full",
         product.highlight && "border-neutral-200 scale-110 my-4 sm:my-0",
       )}
     >
@@ -61,7 +61,7 @@ export const PlanItem: FC<PlanItemProps> = ({ profile, product }) => {
         <ul className="mt-4 space-y-2">
           {product.name !== "Enterprise" && (
             <li className="flex items-center">
-              <Check className="mr-2 h-4 w-4 text-emerald-400" />
+              <Check className="mr-2 h-4 w-4" />
               <span className={product.highlight ? "text-sm" : "text-[14px]"}>
                 {formatCredits(product.limit * CREDIT_FACTOR)} per month
               </span>
@@ -70,7 +70,7 @@ export const PlanItem: FC<PlanItemProps> = ({ profile, product }) => {
 
           {((product.features as []) || [])?.map((feature, index) => (
             <li key={index} className="flex items-center">
-              {feature && <Check className="mr-2 h-4 w-4 text-emerald-400" />}
+              {feature && <Check className="mr-2 h-4 w-4" />}
               <span className={product.highlight ? "text-sm" : "text-[14px]"}>
                 {feature}
               </span>
@@ -91,7 +91,7 @@ export const PlanItem: FC<PlanItemProps> = ({ profile, product }) => {
           </Button>
         ) : (
           <Button
-            className="w-full gap-2 flex items-center"
+            className="w-full gap-2 flex items-center rounded-full"
             disabled={loading}
             onClick={() => checkout(product, profile)}
           >

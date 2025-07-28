@@ -7,6 +7,7 @@ import { useParams } from "next/navigation";
 import { useEffect } from "react";
 import { useUserStore } from "@/store/user.store";
 import { Loader } from "@/components/loader";
+import { Profile } from "@/components/profile";
 
 export const Viewer = () => {
   const params = useParams() as { id?: string };
@@ -22,14 +23,15 @@ export const Viewer = () => {
   }, [loadVideo, params.id]);
 
   return (
-    <div className="flex flex-col min-w-0 h-[100svh] items-center gap-5  px-5 sm:px-10">
-      <div className="w-full max-w-4xl flex flex-col min-w-0 flex-1 items-center sm:px-5 py-5 gap-5">
+    <div className="flex flex-col min-w-0 h-[100svh] items-center px-5 sm:px-10 bg-neutral-50">
+      <Profile />
+      <div className="w-full max-w-4xl flex flex-col min-w-0 flex-1 items-center sm:px-5 pb-5 gap-5">
         {generating ? (
           <div className="w-full flex-1 flex items-center justify-center">
             <Loader />
           </div>
         ) : !video || !video.composition ? (
-          <div className="w-full flex-1 flex items-center justify-center">
+          <div className="w-full flex-1 flex items-center justify-center border border-dashed">
             <p className="text-neutral-500">No generation yet..</p>
           </div>
         ) : (
