@@ -1,5 +1,7 @@
 "use client";
 
+import Image from "next/image";
+
 export default function StoryPage() {
   return (
     <div className="max-w-7xl mx-auto border-x border-dashed pt-5 px-5 lg:px-12">
@@ -20,6 +22,34 @@ export default function StoryPage() {
           weeks—of production time. We want to make it possible to craft motion
           animations in minutes and give everyone the power to express ideas
           with no technical barriers, just creativity.
+        </p>
+
+        <div className="flex gap-5">
+          <div className="rounded-md w-32 h-44 overflow-hidden">
+            <Image
+              width={1080}
+              height={720}
+              alt="gomotion"
+              className="object-cover w-full h-full align-middle"
+              src="/images/team-philippe.jpg"
+            />{" "}
+          </div>
+          <div className="rounded-md rounded w-32 h-44 overflow-hidden">
+            <Image
+              width={1080}
+              height={720}
+              alt="gomotion"
+              className="object-cover w-full h-full align-middle"
+              src="/images/team-lionel.jpg"
+            />
+          </div>
+        </div>
+
+        <p className="text-xl leading-relaxed font-semibold">
+          — Lionel &amp; Philippe
+          <br />
+          Co-founders, former timeline hostages, still pressing
+          &quot;publish&quot;
         </p>
 
         {/* call-to-action */}

@@ -37,7 +37,7 @@ export const VoiceSelection = () => {
   }, [getVoices]);
 
   if (!displayLabel) {
-    return <Loader />;
+    return <Loader className="text-neutral-900" />;
   }
 
   return (

@@ -103,7 +103,6 @@ export const Register = () => {
                     <FormControl>
                       <Input
                         placeholder="Email"
-                        type="password"
                         {...field}
                         className="shadow-none px-4 h-12 focus:ring-offset-0 focus:outline-none focus:ring-0"
                       />
@@ -118,7 +117,7 @@ export const Register = () => {
                 name="password"
                 render={({ field }) => (
                   <FormItem>
-                    <Label htmlFor="email">Password</Label>
+                    <Label htmlFor="password">Password</Label>
                     <FormControl>
                       <Input
                         placeholder="Password"

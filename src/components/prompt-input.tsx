@@ -10,17 +10,16 @@ import { useParamStore } from "@/store/params.store";
 import { RefinedVideo, useVideoStore } from "@/store/video.store";
 import { ArrowUpIcon, StopIcon } from "@heroicons/react/16/solid";
 import { useRouter } from "next/navigation";
-import { FC, useCallback, useMemo, useRef } from "react";
-import Link from "next/link";
+import { FC, ReactNode, useCallback, useMemo, useRef } from "react";
 
 type PromptInputProps = {
   className?: string;
-  isLandingPage?: boolean;
+  landingButton?: ReactNode;
 };
 
 export const PromptInput: FC<PromptInputProps> = ({
   className,
-  isLandingPage = false,
+  landingButton,
 }) => {
   const router = useRouter();
   const textareaRef = useRef(null);
@@ -85,19 +84,12 @@ export const PromptInput: FC<PromptInputProps> = ({
           }
         }}
       />
-      <div className="absolute bottom-0 right-0 p-2 w-fit flex flex-row justify-end gap-2 items-center">
+      <div className="absolute bottom-0 z-50 right-0 p-2 w-fit flex flex-row justify-end gap-2 items-center">
         <VoiceSelection />
         <RatioSelection />
 
-        {isLandingPage ? (
-          <Link href="/register">
-            <Button
-              variant="ghost"
-              className="rounded-full  bg-emerald-100 font-medium text-emerald-900 hover:bg-emerald-200"
-            >
-              Request access
-            </Button>
-          </Link>
+        {landingButton ? (
+          landingButton
         ) : generating ? (
           <Button className="rounded-full w-14" disabled>
             <StopIcon className="w-5 h-5 animate-spin" />

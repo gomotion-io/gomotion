@@ -28,7 +28,7 @@ export const Viewer = () => {
       <div className="w-full max-w-4xl flex flex-col min-w-0 flex-1 items-center sm:px-5 pb-5 gap-5">
         {generating ? (
           <div className="w-full flex-1 flex items-center justify-center">
-            <Loader />
+            <Loader className="text-neutral-950" />
           </div>
         ) : !video || !video.composition ? (
           <div className="w-full flex-1 flex items-center justify-center border border-dashed">
