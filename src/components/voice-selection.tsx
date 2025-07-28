@@ -49,7 +49,7 @@ export const VoiceSelection = () => {
             asChild
           >
             <Button className="rounded-full p-1.5" variant="outline">
-              <div className="truncate w-24 md:w-48">{displayLabel}</div>
+              <div className="truncate w-32">{displayLabel}</div>
               <ChevronDownIcon className="w-5 h-5" />
             </Button>
           </DropdownMenuTrigger>

@@ -13,18 +13,25 @@ if (typeof window !== "undefined") {
 }
 
 const LABELS = [
-  "Codegrid",
-  "HTML",
-  "CSS",
-  "JavaScript",
-  "GSAP",
-  "ScrollTrigger",
-  "Lenis",
-  "React",
-  "Next.js",
-  "WebGL",
-  "Three.js",
-  "Creative Dev",
+  "After Effects",
+  "Cinema 4D",
+  "Blender",
+  "Figma",
+  "Lottie",
+  "SVG Animation",
+  "Spline",
+  "Easing",
+  "Motion Graphics",
+  "Transitions",
+  "Timing Curves",
+  "Rive",
+] as const;
+
+const COLOR_CLASSES = [
+  "text-fuchsia-900 bg-fuchsia-100",
+  "text-emerald-900 bg-emerald-100",
+  "text-amber-900 bg-amber-100",
+  "text-black bg-stone-100",
 ] as const;
 
 export default function MotionFooter() {
@@ -299,14 +306,17 @@ export default function MotionFooter() {
       className="relative w-full h-[100svh] bg-neutral-50 overflow-hidden rounded-t-3xl"
     >
       <div className="object-container absolute inset-0">
-        {LABELS.map((label) => (
-          <div
-            key={label}
-            className="object absolute w-max px-6 py-4 rounded-full bg-black text-white font-medium text-2xl cursor-grab select-none pointer-events-auto z-20"
-          >
-            <p>{label}</p>
-          </div>
-        ))}
+        {LABELS.map((label, index) => {
+          const colorClass = COLOR_CLASSES[index % COLOR_CLASSES.length];
+          return (
+            <div
+              key={label}
+              className={`object absolute w-max px-6 py-4 rounded-full font-medium text-2xl cursor-grab select-none pointer-events-auto z-20 ${colorClass}`}
+            >
+              <p>{label}</p>
+            </div>
+          );
+        })}
       </div>
 
       <div className="footer-content absolute inset-0 flex flex-col px-10 gap-8 py-24 px-4 pointer-events-auto">
@@ -314,13 +324,13 @@ export default function MotionFooter() {
           Crafting motion stories that move ideas forward
         </h2>
 
-        <h3 className="text-xl leading-relaxed max-w-2xl text-muted-foreground">
+        <h3 className="text-xl leading-relaxed max-w-xl text-muted-foreground">
           Combining unique design and rich technology, we build immersive
           stories exactly as they were meant to be told—without shortcuts or
           compromises.
         </h3>
 
-        <div className="flex flex-wrap gap-6 font-medium">
+        <div className="flex flex-wrap text-2xl font-semibold gap-6 sm:flex-col sm:self-end sm:items-end">
           <Link
             href="https://www.linkedin.com/company/gomotion-io"
             className="hover:underline underline-offset-4"

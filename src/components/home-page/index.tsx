@@ -46,12 +46,12 @@ export const HomePage = () => {
       className="max-w-7xl mx-auto border-x border-dashed pt-5 px-5 lg:px-12"
     >
       {/* hero */}
-      <section className="reveal gap-10 sm:gap-2 flex flex-col md:flex-row pt-40 pb-32">
+      <section className="reveal gap-10 sm:gap-2 flex flex-col lg:flex-row pt-40 pb-32">
         <div className="gap-10 flex flex-col">
           <h1 className="text-5xl sm:text-6xl lg:text-8xl max-w-3xl font-neue-montreal font-bold">
             The AI Motion Designer
           </h1>
-          <p className="text-2xl max-w-xl font-light text-muted-foreground">
+          <p className="text-2xl max-w-xl text-muted-foreground">
             AI-powered motion graphics generation for creators and marketers.
           </p>
         </div>
@@ -160,7 +160,6 @@ export const HomePage = () => {
             content fast—without the manual editing.
           </h3>
         </div>
-
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-6 md:grid-rows-4 auto-rows-fr gap-4 h-[32rem] sm:h-[40rem] my-10 md:my-20">
           <div className="col-span-2 md:col-span-4 row-span-1 md:row-span-2 rounded-3xl p-2 bg-neutral-100">
             <video
