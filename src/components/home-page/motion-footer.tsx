@@ -97,21 +97,21 @@ export default function MotionFooter() {
             containerRect.height + wallT / 2,
             containerRect.width + wallT * 2,
             wallT,
-            { isStatic: true },
+            { isStatic: true }
           ),
           Bodies.rectangle(
             -wallT / 2,
             containerRect.height / 2,
             wallT,
             containerRect.height + wallT * 2,
-            { isStatic: true },
+            { isStatic: true }
           ),
           Bodies.rectangle(
             containerRect.width + wallT / 2,
             containerRect.height / 2,
             wallT,
             containerRect.height + wallT * 2,
-            { isStatic: true },
+            { isStatic: true }
           ),
         ];
         World.add(engine.world, walls);
@@ -136,7 +136,7 @@ export default function MotionFooter() {
               friction: config.friction,
               frictionAir: config.frictionAir,
               density: config.density,
-            },
+            }
           );
 
           Body.setAngle(body, startRotation);
@@ -158,7 +158,7 @@ export default function MotionFooter() {
             -wallT / 2,
             containerRect.width + wallT * 2,
             wallT,
-            { isStatic: true },
+            { isStatic: true }
           );
           World.add(engine.world, topWall);
         }, 3000);
@@ -167,11 +167,11 @@ export default function MotionFooter() {
         const mouse = Mouse.create(container);
         mouse.element.removeEventListener(
           "mousewheel",
-          (mouse as any).mousewheel,
+          (mouse as any).mousewheel
         );
         mouse.element.removeEventListener(
           "DOMMouseScroll",
-          (mouse as any).mousewheel,
+          (mouse as any).mousewheel
         );
 
         const mouseConstraint = MouseConstraint.create(engine, {
@@ -246,12 +246,12 @@ export default function MotionFooter() {
             const x = clamp(
               body.position.x - width / 2,
               0,
-              containerRect.width - width,
+              containerRect.width - width
             );
             const y = clamp(
               body.position.y - height / 2,
               -height * 3,
-              containerRect.height - height,
+              containerRect.height - height
             );
 
             element.style.left = `${x}px`;
@@ -319,7 +319,7 @@ export default function MotionFooter() {
         })}
       </div>
 
-      <div className="footer-content absolute inset-0 flex flex-col px-10 gap-8 py-24 px-4 pointer-events-auto">
+      <div className="footer-content absolute inset-0 flex flex-col px-10 gap-8 py-24 pointer-events-auto">
         <h2 className="text-5xl sm:text-6xl font-neue-montreal font-bold max-w-3xl leading-[1.2em] ">
           Crafting motion stories that move ideas forward
         </h2>

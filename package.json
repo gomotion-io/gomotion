@@ -48,6 +48,7 @@
     "leva": "^0.10.0",
     "lucide-react": "^0.511.0",
     "matter-js": "^0.20.0",
+    "mixpanel-browser": "^2.67.0",
     "motion": "^12.19.1",
     "next": "15.3.3",
     "next-nprogress-bar": "^2.4.7",

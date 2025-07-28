@@ -1,6 +1,28 @@
 import { cn } from "@/lib/utils";
-import React from "react";
 import { motion } from "motion/react";
+import React from "react";
+
+// Gradient color palette – tweak these values to adjust the gradient theme in one place
+const GRADIENT_COLORS = {
+  teal: "#00ccb1",
+  purple: "#7b61ff",
+  yellow: "#ffc414",
+  blue: "#1ca0fb",
+  dark: "#141316",
+} as const;
+
+// CSS variables map derived from GRADIENT_COLORS
+const GRADIENT_CSS_VARS = {
+  "--color-teal": GRADIENT_COLORS.teal,
+  "--color-purple": GRADIENT_COLORS.purple,
+  "--color-yellow": GRADIENT_COLORS.yellow,
+  "--color-blue": GRADIENT_COLORS.blue,
+  "--color-dark": GRADIENT_COLORS.dark,
+} as React.CSSProperties;
+
+// Static Tailwind class using CSS vars (keeps Tailwind JIT happy while enabling runtime color tweaks)
+const GRADIENT_BG_CLASS =
+  "bg-[radial-gradient(circle_farthest-side_at_0_100%,var(--color-teal),transparent),radial-gradient(circle_farthest-side_at_100%_0,var(--color-purple),transparent),radial-gradient(circle_farthest-side_at_100%_100%,var(--color-yellow),transparent),radial-gradient(circle_farthest-side_at_0_0,var(--color-blue),var(--color-dark))]";
 
 export const BackgroundGradient = ({
   children,
@@ -38,10 +60,11 @@ export const BackgroundGradient = ({
         }
         style={{
           backgroundSize: animate ? "400% 400%" : undefined,
+          ...GRADIENT_CSS_VARS,
         }}
         className={cn(
-          "absolute inset-0 rounded-[28px] z-[1] opacity-60 group-hover:opacity-100 blur-xl  transition duration-500 will-change-transform",
-          " bg-[radial-gradient(circle_farthest-side_at_0_100%,#00ccb1,transparent),radial-gradient(circle_farthest-side_at_100%_0,#7b61ff,transparent),radial-gradient(circle_farthest-side_at_100%_100%,#ffc414,transparent),radial-gradient(circle_farthest-side_at_0_0,#1ca0fb,#141316)]",
+          "absolute inset-0 rounded-[28px] z-[1] opacity-60 group-hover:opacity-100 blur-2xl  transition duration-500 will-change-transform",
+          GRADIENT_BG_CLASS
         )}
       />
       <motion.div
@@ -59,10 +82,11 @@ export const BackgroundGradient = ({
         }
         style={{
           backgroundSize: animate ? "400% 400%" : undefined,
+          ...GRADIENT_CSS_VARS,
         }}
         className={cn(
           "absolute inset-0 rounded-[28px] z-[1] will-change-transform",
-          "bg-[radial-gradient(circle_farthest-side_at_0_100%,#00ccb1,transparent),radial-gradient(circle_farthest-side_at_100%_0,#7b61ff,transparent),radial-gradient(circle_farthest-side_at_100%_100%,#ffc414,transparent),radial-gradient(circle_farthest-side_at_0_0,#1ca0fb,#141316)]",
+          GRADIENT_BG_CLASS
         )}
       />
 

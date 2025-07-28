@@ -1,7 +1,8 @@
 "use client";
 
-import { FC, ReactNode } from "react";
+import { FC, ReactNode, useEffect } from "react";
 import { ReactLenis } from "lenis/react";
+import { initMixpanel } from "@/lib/mixpanelClient";
 
 export const LayoutProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const scrollSettings = {
@@ -10,6 +11,10 @@ export const LayoutProvider: FC<{ children: ReactNode }> = ({ children }) => {
     smoothTouch: false,
     smooth: true,
   };
+
+  useEffect(() => {
+    initMixpanel();
+  }, []);
 
   return (
     <ReactLenis root options={scrollSettings}>

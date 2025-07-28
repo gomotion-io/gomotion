@@ -4,6 +4,10 @@ Gomotion is a research-led motion–animation video generation platform.The goal
 
 ---
 
+## Analytics
+
+[Mixpanel link](https://mixpanel.com/project/3811560/view/4307644/app/boards#id=10406652)
+
 ## Architecture
 
 ![Architecture diagram](architecture.svg)
