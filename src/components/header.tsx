@@ -1,6 +1,5 @@
 "use client";
 
-import { Profile } from "@/components/profile";
 import { Button } from "@/components/ui/button";
 import { useGSAP } from "@gsap/react";
 import { User } from "@supabase/auth-js";
@@ -72,6 +71,19 @@ export const Header: FunctionComponent<HeaderProps> = ({ user }) => {
         <div className="hidden sm:flex items-center gap-4">
           {user ? (
             <div className="flex items-center gap-4">
+              <Link href="/story">
+                <div className="text-primary text-sm underline-offset-4 hover:underline font-semibold">
+                  Our story
+                </div>
+              </Link>
+              <Link
+                href="https://discord.gg/emD6h74Fh7"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                <div className="text-primary text-sm underline-offset-4 hover:underline font-semibold">
+                  Join community
+                </div>
+              </Link>
               <Link href="/pricing">
                 <div className="text-primary text-sm underline-offset-4 hover:underline font-semibold">
                   Pricing
@@ -121,11 +133,8 @@ export const Header: FunctionComponent<HeaderProps> = ({ user }) => {
         </div>
 
         {/* Mobile actions */}
-
         <div className="flex items-center gap-4 sm:hidden">
-          {user && <Profile />}
-
-          {!user?.id && (
+          {!user?.id ? (
             <button
               type="button"
               onClick={() => setMobileMenuOpen(true)}
@@ -134,6 +143,12 @@ export const Header: FunctionComponent<HeaderProps> = ({ user }) => {
             >
               <MenuIcon className="h-6 w-6" />
             </button>
+          ) : (
+            <Link href="/explore">
+              <Button size="sm">
+                Go to app <ArrowRight />{" "}
+              </Button>
+            </Link>
           )}
         </div>
       </div>

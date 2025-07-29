@@ -13,7 +13,7 @@ const Pricing = async () => {
 
   const order = ["Free", "Standard", "Pro", "Enterprise"];
   const sortedProducts = products.sort(
-    (a, b) => order.indexOf(a.name) - order.indexOf(b.name),
+    (a, b) => order.indexOf(a.name) - order.indexOf(b.name)
   );
 
   return (
@@ -26,7 +26,7 @@ const Pricing = async () => {
         files in 4k, remove the watermark, create unlimited video and more.
       </h3>
 
-      <div className="mx-auto lg:max-w-7xl flex md:flex-row flex-col items-center justify-center gap-6 px-5 py-8">
+      <div className="mx-auto lg:max-w-7xl flex-wrap flex md:flex-row flex-col items-center justify-center gap-6 px-5 py-8">
         {sortedProducts.map((product, index) => (
           <PlanItem key={index} product={product} profile={profile} />
         ))}

@@ -35,7 +35,7 @@ export const HomePage = () => {
               end: "top 60%",
               toggleActions: "play none none reverse",
             },
-          },
+          }
         );
       });
 
@@ -54,7 +54,7 @@ export const HomePage = () => {
               start: "top 90%",
               toggleActions: "play none none reverse",
             },
-          },
+          }
         );
       });
 
@@ -74,7 +74,7 @@ export const HomePage = () => {
               start: "top 90%",
               toggleActions: "play none none reverse",
             },
-          },
+          }
         );
       });
     }, containerRef);
@@ -304,8 +304,40 @@ export const HomePage = () => {
               />
             </VideoDialog>
           </div>
-          <div className="col-span-2 row-span-1 md:col-span-2 md:row-span-4 md:col-start-5 rounded-3xl p-2 bg-neutral-100"></div>
-          <div className="col-span-2 row-span-1 md:col-span-2 md:row-span-2 md:row-start-3 rounded-3xl p-2 bg-neutral-100"></div>
+          <div className="col-span-2 row-span-1 md:col-span-2 md:row-span-4 md:col-start-5 rounded-3xl p-2 bg-neutral-100">
+            <VideoDialog
+              src="https://legendary.b-cdn.net/site/morph.mp4"
+              title="Morph"
+              description="Create morphing rainbow explainer animation."
+            >
+              <video
+                src="https://legendary.b-cdn.net/site/morph.mp4"
+                preload="metadata"
+                playsInline
+                autoPlay
+                muted
+                loop
+                className="w-full h-full object-cover rounded-lg"
+              />
+            </VideoDialog>
+          </div>
+          <div className="col-span-2 row-span-1 md:col-span-2 md:row-span-2 md:row-start-3 rounded-3xl p-2 bg-neutral-100">
+            <VideoDialog
+              src="https://legendary.b-cdn.net/site/paypal.mp4"
+              title="Paypal"
+              description="Create presentation paypal animation."
+            >
+              <video
+                src="https://legendary.b-cdn.net/site/paypal.mp4"
+                preload="metadata"
+                playsInline
+                autoPlay
+                muted
+                loop
+                className="w-full h-full object-cover rounded-lg"
+              />
+            </VideoDialog>
+          </div>
           <div className="cursor-pointer col-span-2 row-span-1 md:col-span-2 md:row-span-2 md:col-start-3 md:row-start-3 rounded-3xl p-2 bg-neutral-100">
             <VideoDialog
               src="https://legendary.b-cdn.net/site/showcase-video/cryptic.mp4"

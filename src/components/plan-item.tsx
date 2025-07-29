@@ -1,20 +1,20 @@
 "use client";
 
-import React, { FC } from "react";
-import clsx from "clsx";
+import { ProfileData } from "@/_type";
+import { Spinner } from "@/components/spinner";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardFooter,
   CardHeader,
 } from "@/components/ui/card";
-import { cn, formatCredits } from "@/lib/utils";
-import { ArrowRight, Check } from "lucide-react";
 import { CREDIT_FACTOR } from "@/constant";
-import { Button } from "@/components/ui/button";
-import { Spinner } from "@/components/spinner";
-import { ProfileData } from "@/_type";
+import { cn, formatCredits } from "@/lib/utils";
 import { useCheckoutStore } from "@/store/checkout.store";
+import clsx from "clsx";
+import { ArrowRight, Check } from "lucide-react";
+import { FC } from "react";
 
 type PlanItemProps = {
   product: Product;
@@ -30,11 +30,19 @@ export const PlanItem: FC<PlanItemProps> = ({ profile, product }) => {
     <Card
       className={clsx(
         "flex flex-col rounded-3xl shadow-none bg-white w-64",
-        product.highlight && "border-neutral-200 scale-110 my-4 sm:my-0",
+        product.highlight && "border-neutral-200 scale-110 my-4 sm:my-0"
       )}
     >
       <CardHeader>
-        <div className="text-xl font-semibold">{product.name}</div>
+        <div
+          className={cn(
+            "text-xl font-semibold",
+            product.highlight && "text-emerald-900",
+            product.name === "Pro" && "text-fuchsia-900"
+          )}
+        >
+          {product.name}
+        </div>
       </CardHeader>
       <CardContent className="flex-grow">
         <div className="text-3xl font-bold">
@@ -52,16 +60,30 @@ export const PlanItem: FC<PlanItemProps> = ({ profile, product }) => {
         <ul className="mt-4 space-y-2">
           {product.name !== "Enterprise" && (
             <li className="flex items-center">
-              <Check className="mr-2 h-4 w-4" />
+              <Check
+                className={cn(
+                  "mr-2 h-4 w-4",
+                  product.highlight && "text-emerald-700",
+                  product.name === "Pro" && "text-fuchsia-700"
+                )}
+              />
               <span className={product.highlight ? "text-lg" : "text-lg"}>
-                {formatCredits(product.limit * CREDIT_FACTOR)} per month
+                {formatCredits(product.limit * CREDIT_FACTOR)} credits
               </span>
             </li>
           )}
 
           {((product.features as []) || [])?.map((feature, index) => (
             <li key={index} className="flex items-center">
-              {feature && <Check className="mr-2 h-4 w-4" />}
+              {feature && (
+                <Check
+                  className={cn(
+                    "mr-2 h-4 w-4",
+                    product.highlight && "text-emerald-700",
+                    product.name === "Pro" && "text-fuchsia-700"
+                  )}
+                />
+              )}
               <span className={product.highlight ? "text-lg" : "text-lg"}>
                 {feature}
               </span>
@@ -86,6 +108,8 @@ export const PlanItem: FC<PlanItemProps> = ({ profile, product }) => {
               "w-full gap-2 flex items-center rounded-full h-12 bg-stone-100 text-black",
               product.highlight &&
                 "text-emerald-900 bg-emerald-100 hover:bg-emerald-200",
+              product.name === "Pro" &&
+                "text-fuchsia-900 bg-fuchsia-100 hover:bg-fuchsia-200"
             )}
             variant="ghost"
             disabled={loading}
