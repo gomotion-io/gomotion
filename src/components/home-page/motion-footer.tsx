@@ -356,6 +356,10 @@ export default function MotionFooter() {
           >
             Discord
           </Link>
+          {/* Terms & Legal */}
+          <Link href="/terms" className="hover:underline underline-offset-4">
+            Terms &amp; Legal
+          </Link>
         </div>
       </div>
     </section>

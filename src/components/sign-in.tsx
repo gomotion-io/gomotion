@@ -108,10 +108,7 @@ export const SignIn = () => {
             <Link href="/register">
               <div className="text-muted-foreground text-end text-sm font-semibold">
                 Don&#39;t have an account ?
-                <span className="text-primary underline">
-                  {" "}
-                  Request access here
-                </span>
+                <span className="text-primary underline"> Register here </span>
               </div>
             </Link>
 

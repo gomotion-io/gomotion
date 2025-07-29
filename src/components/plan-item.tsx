@@ -7,7 +7,6 @@ import {
   CardContent,
   CardFooter,
   CardHeader,
-  CardTitle,
 } from "@/components/ui/card";
 import { cn, formatCredits } from "@/lib/utils";
 import { ArrowRight, Check } from "lucide-react";
@@ -30,20 +29,12 @@ export const PlanItem: FC<PlanItemProps> = ({ profile, product }) => {
   return (
     <Card
       className={clsx(
-        "flex flex-col rounded-3xl shadow-none bg-neutral-50 w-full",
+        "flex flex-col rounded-3xl shadow-none bg-white w-64",
         product.highlight && "border-neutral-200 scale-110 my-4 sm:my-0",
       )}
     >
       <CardHeader>
-        <CardTitle>{product.name}</CardTitle>
-        <p
-          className={cn(
-            "text-muted-foreground",
-            product.highlight && "text-sm",
-          )}
-        >
-          {product.description}
-        </p>
+        <div className="text-xl font-semibold">{product.name}</div>
       </CardHeader>
       <CardContent className="flex-grow">
         <div className="text-3xl font-bold">
@@ -62,7 +53,7 @@ export const PlanItem: FC<PlanItemProps> = ({ profile, product }) => {
           {product.name !== "Enterprise" && (
             <li className="flex items-center">
               <Check className="mr-2 h-4 w-4" />
-              <span className={product.highlight ? "text-sm" : "text-[14px]"}>
+              <span className={product.highlight ? "text-lg" : "text-lg"}>
                 {formatCredits(product.limit * CREDIT_FACTOR)} per month
               </span>
             </li>
@@ -71,7 +62,7 @@ export const PlanItem: FC<PlanItemProps> = ({ profile, product }) => {
           {((product.features as []) || [])?.map((feature, index) => (
             <li key={index} className="flex items-center">
               {feature && <Check className="mr-2 h-4 w-4" />}
-              <span className={product.highlight ? "text-sm" : "text-[14px]"}>
+              <span className={product.highlight ? "text-lg" : "text-lg"}>
                 {feature}
               </span>
             </li>
@@ -91,7 +82,12 @@ export const PlanItem: FC<PlanItemProps> = ({ profile, product }) => {
           </Button>
         ) : (
           <Button
-            className="w-full gap-2 flex items-center rounded-full"
+            className={cn(
+              "w-full gap-2 flex items-center rounded-full h-12 bg-stone-100 text-black",
+              product.highlight &&
+                "text-emerald-900 bg-emerald-100 hover:bg-emerald-200",
+            )}
+            variant="ghost"
             disabled={loading}
             onClick={() => checkout(product, profile)}
           >

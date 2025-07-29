@@ -63,7 +63,7 @@ export const Register = () => {
           <div className="text-2xl font-medium mb-3">
             {mailSent
               ? "Thank you for joining Gomotion !"
-              : "Get access to Gomotion"}
+              : "Create an account"}
           </div>
         </div>
 
@@ -122,6 +122,7 @@ export const Register = () => {
                       <Input
                         placeholder="Password"
                         {...field}
+                        type="password"
                         className="shadow-none px-4 h-12 focus:ring-offset-0 focus:outline-none focus:ring-0"
                       />
                     </FormControl>
@@ -158,7 +159,7 @@ export const Register = () => {
                 className="w-full mt-1 gap-4 h-12"
                 disabled={loading}
               >
-                Request access
+                Get started
                 {loading && <Spinner />}
               </Button>
 

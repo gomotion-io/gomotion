@@ -56,7 +56,7 @@ export default function StoryPage() {
         <div className="pt-8">
           <a href="/sign-in">
             <button className="text-emerald-900 hover:bg-emerald-200 transition-colors duration-300 bg-emerald-100 font-medium text-lg w-full sm:w-60 lg:w-80 h-14 sm:h-16 rounded-full">
-              Request access
+              Get started
             </button>
           </a>
         </div>

@@ -3,6 +3,7 @@
 import MotionFooter from "@/components/home-page/motion-footer";
 import { PromptInput } from "@/components/prompt-input";
 import { Button } from "@/components/ui/button";
+import { VideoDialog } from "@/components/video-dialog";
 import { useGSAP } from "@gsap/react";
 import { ArrowUpIcon } from "@heroicons/react/16/solid";
 import { gsap } from "gsap";
@@ -163,61 +164,106 @@ export const HomePage = () => {
           </h3>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-6 md:grid-rows-2 auto-rows-fr gap-4 my-10 md:my-20">
-          <div className="rounded-3xl overflow-hidden bg-neutral-100 col-auto row-auto md:col-span-2 md:row-span-2 h-40 sm:h-48 md:h-60 p-2">
-            <video
+        <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-6 md:grid-rows-2 auto-rows-fr gap-4 mt-10 md:mt-20">
+          <div className="cursor-pointer rounded-3xl overflow-hidden bg-neutral-100 col-auto row-auto md:col-span-2 md:row-span-2 h-40 sm:h-48 md:h-60 p-2">
+            <VideoDialog
               src="https://legendary.b-cdn.net/site/showcase-video/astra.mov"
-              preload="metadata"
-              playsInline
-              autoPlay
-              muted
-              loop
-              className="w-full h-full object-cover pointer-events-none rounded-lg"
-            />
+              title="Astra Animation"
+              description="A cinematic 3D particle explosion revealing the logo for ASTRA"
+            >
+              <video
+                src="https://legendary.b-cdn.net/site/showcase-video/astra.mov"
+                preload="metadata"
+                playsInline
+                autoPlay
+                muted
+                loop
+                className="w-full h-full object-cover rounded-lg"
+              />
+            </VideoDialog>
           </div>
-          <div className="rounded-3xl overflow-hidden bg-neutral-100 col-auto row-auto md:col-span-2 md:row-span-2 h-40 sm:h-48 md:h-60 p-2">
-            <video
+          <div className="cursor-pointer rounded-3xl overflow-hidden bg-neutral-100 col-auto row-auto md:col-span-2 md:row-span-2 h-40 sm:h-48 md:h-60 p-2">
+            <VideoDialog
               src="https://legendary.b-cdn.net/site/text_stomp.mp4"
-              preload="metadata"
-              playsInline
-              autoPlay
-              muted
-              loop
-              className="w-full h-full object-cover pointer-events-none rounded-lg"
-            />
+              title="Text Stomp"
+              description="A vibrant, highly dynamic kinetic typography of 'gomotion the new after effect'"
+            >
+              <video
+                src="https://legendary.b-cdn.net/site/text_stomp.mp4"
+                preload="metadata"
+                playsInline
+                autoPlay
+                muted
+                loop
+                className="w-full h-full object-cover rounded-lg"
+              />
+            </VideoDialog>
           </div>
-          <div className="rounded-3xl overflow-hidden bg-neutral-100 col-auto row-auto md:col-span-2 md:row-span-2 h-40 sm:h-48 md:h-60 p-2">
-            <video
+          <div className="cursor-pointer rounded-3xl overflow-hidden bg-neutral-100 col-auto row-auto md:col-span-2 md:row-span-2 h-40 sm:h-48 md:h-60 p-2">
+            <VideoDialog
               src="https://legendary.b-cdn.net/site/showcase-video/fireship_intro.mp4"
-              preload="metadata"
-              playsInline
-              autoPlay
-              muted
-              loop
-              className="w-full h-full object-cover pointer-events-none rounded-lg"
-            />
+              title="Fireship Intro"
+              description="A fireship-style intro to the brand Fireship, featuring a futuristic voiceover saying '100 second of code"
+            >
+              <video
+                src="https://legendary.b-cdn.net/site/showcase-video/fireship_intro.mp4"
+                preload="metadata"
+                playsInline
+                autoPlay
+                muted
+                loop
+                className="w-full h-full object-cover rounded-lg"
+              />
+            </VideoDialog>
           </div>
+        </div>
+
+        <div className="py-2 px-1 flex font-medium pr-2 text-muted-foreground justify-end text-sm mb-10 md:mb-20 mt-2">
+          <div>Created with Gomotion</div>
         </div>
       </section>
 
       {/* carousel */}
-      <section className="reveal bg-neutral-100 py-16 md:py-24 flex flex-col md:flex-row gap-10 md:gap-0 rounded-3xl">
+      <section className="reveal bg-neutral-100 py-16 md:py-24 flex flex-col md:flex-row gap-10 md:gap-16 px-5 md:px-10 rounded-3xl">
         <div className="w-full md:w-1/2 flex items-center justify-center">
-          1
+          <div className="flex flex-col items-center justify-center">
+            <VideoDialog
+              src="https://legendary.b-cdn.net/site/showcase-video/gomotion-prompt.mp4"
+              title="Gomotion typing"
+              description="Create video about the capabilities of Gomotion, it should have prompt typing part"
+            >
+              <video
+                src="https://legendary.b-cdn.net/site/showcase-video/gomotion-prompt.mp4"
+                preload="metadata"
+                playsInline
+                autoPlay
+                muted
+                loop
+                className="w-full h-full object-cover rounded-lg"
+              />
+            </VideoDialog>
+
+            <div className="py-2 px-1 flex font-medium pr-2 text-muted-foreground  text-sm mt-2">
+              <div>Created with Gomotion</div>
+            </div>
+          </div>
         </div>
+
         <div className="w-full md:w-1/2 flex flex-col gap-5 px-4 md:px-0 mt-5">
           <div className="flex items-center">
             <div className="text-emerald-900 bg-emerald-100 px-5 h-10 rounded-full flex items-center justify-center">
-              Master Shape Dynamics
+              Complete Visual Storytelling
             </div>
           </div>
+
           <h2 className="text-5xl font-neue-montreal font-bold max-w-xl leading-[1.2em] sm:pr-5">
-            Move shapes in complex animations.
+            Create end-to-end animations with voice-over
           </h2>
+
           <h3 className="text-2xl font-neue-montreal font-medium max-w-xl leading-[1.2em] sm:pr-5">
-            Create advanced shape animations in seconds. From geometric morphs
-            to fluid motion, GoMotion handles the complexity so you can focus on
-            creativity. Great for explainers, data viz, and artistic visuals
+            Turn your script into full animated stories with synced voice-overs.
+            Ideal for educators, founders, and creatives who need polished
+            content fast—without the manual editing.
           </h3>
         </div>
       </section>
@@ -227,47 +273,59 @@ export const HomePage = () => {
         <div className="flex flex-col gap-5 pt-24">
           <div className="flex items-center">
             <div className="text-amber-900 bg-amber-100  px-5 h-10 rounded-full flex items-center justify-center">
-              Complete Visual Storytelling
+              Master Shape Dynamics
             </div>
           </div>
+
           <h2 className="text-5xl font-neue-montreal font-bold max-w-xl leading-[1.2em]">
-            Create end-to-end animations with voice-over
+            Move shapes in complex animations
           </h2>
           <h3 className="text-2xl font-neue-montreal font-medium max-w-xl leading-[1.2em]">
-            Turn your script into full animated stories with synced voice-overs.
-            Ideal for educators, founders, and creatives who need polished
-            content fast—without the manual editing.
+            Create advanced shape animations in seconds. From geometric morphs
+            to fluid motion, GoMotion handles the complexity so you can focus on
+            creativity. Great for explainers, data viz, and artistic visuals
           </h3>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-6 md:grid-rows-4 auto-rows-fr gap-4 h-[32rem] sm:h-[40rem] my-10 md:my-20">
-          <div className="col-span-2 md:col-span-4 row-span-1 md:row-span-2 rounded-3xl p-2 bg-neutral-100">
-            <video
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-6 md:grid-rows-4 auto-rows-fr gap-4 h-[32rem] sm:h-[40rem] mt-10 md:mt-20">
+          <div className="cursor-pointer col-span-2 md:col-span-4 row-span-1 md:row-span-2 rounded-3xl p-2 bg-neutral-100">
+            <VideoDialog
               src="https://legendary.b-cdn.net/site/showcase-video/eclipse.mp4"
-              preload="metadata"
-              playsInline
-              autoPlay
-              muted
-              loop
-              className="w-full h-full object-cover pointer-events-none rounded-lg"
-            />
+              title="Eclipse"
+              description="The word 'Eclipse' in a retro-futuristic style with letter glitching effects."
+            >
+              <video
+                src="https://legendary.b-cdn.net/site/showcase-video/eclipse.mp4"
+                preload="metadata"
+                playsInline
+                autoPlay
+                muted
+                loop
+                className="w-full h-full object-cover rounded-lg"
+              />
+            </VideoDialog>
           </div>
-          <div className="col-span-2 row-span-1 md:col-span-2 md:row-span-4 md:col-start-5 rounded-3xl p-2 bg-neutral-100">
-            2
-          </div>
-          <div className="col-span-2 row-span-1 md:col-span-2 md:row-span-2 md:row-start-3 rounded-3xl p-2 bg-neutral-100">
-            3
-          </div>
-          <div className="col-span-2 row-span-1 md:col-span-2 md:row-span-2 md:col-start-3 md:row-start-3 rounded-3xl p-2 bg-neutral-100">
-            <video
+          <div className="col-span-2 row-span-1 md:col-span-2 md:row-span-4 md:col-start-5 rounded-3xl p-2 bg-neutral-100"></div>
+          <div className="col-span-2 row-span-1 md:col-span-2 md:row-span-2 md:row-start-3 rounded-3xl p-2 bg-neutral-100"></div>
+          <div className="cursor-pointer col-span-2 row-span-1 md:col-span-2 md:row-span-2 md:col-start-3 md:row-start-3 rounded-3xl p-2 bg-neutral-100">
+            <VideoDialog
               src="https://legendary.b-cdn.net/site/showcase-video/cryptic.mp4"
-              preload="metadata"
-              playsInline
-              autoPlay
-              muted
-              loop
-              className="w-full h-full object-cover pointer-events-none rounded-lg"
-            />
+              title="Cryptic"
+              description="Generate a 10‑second cyberpunk logo sting on a black background."
+            >
+              <video
+                src="https://legendary.b-cdn.net/site/showcase-video/cryptic.mp4"
+                preload="metadata"
+                playsInline
+                autoPlay
+                muted
+                loop
+                className="w-full h-full object-cover rounded-lg"
+              />
+            </VideoDialog>
           </div>
+        </div>
+        <div className="py-2 px-1 flex font-medium pr-2 text-muted-foreground justify-end text-sm mb-10 md:mb-20 mt-2">
+          <div>Created with Gomotion</div>
         </div>
       </section>
 
@@ -283,7 +341,7 @@ export const HomePage = () => {
 
           <Link href="/sign-in">
             <button className="text-emerald-900 hover:bg-emerald-200 transition-colors px-10 duration-300 bg-emerald-100 font-medium text-lg w-full sm:w-60 lg:w-80 h-14 sm:h-16 rounded-full">
-              Request access
+              Get started
             </button>
           </Link>
         </div>

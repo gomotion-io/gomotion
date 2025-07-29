@@ -54,7 +54,7 @@ export const Header: FunctionComponent<HeaderProps> = ({ user }) => {
         ref={headerRef}
       >
         <Link href="/">
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 hover:opacity-70">
             <div>
               <Image
                 src="/images/gomotion.svg"
@@ -64,6 +64,7 @@ export const Header: FunctionComponent<HeaderProps> = ({ user }) => {
                 unoptimized
               />
             </div>
+            <div className="text-xl font-neue-montreal font-bold">Gomotion</div>
           </div>
         </Link>
 
@@ -76,7 +77,6 @@ export const Header: FunctionComponent<HeaderProps> = ({ user }) => {
                   Pricing
                 </div>
               </Link>
-
               <Link href="/explore">
                 <Button size="sm">
                   Go to app <ArrowRight />{" "}
@@ -98,6 +98,11 @@ export const Header: FunctionComponent<HeaderProps> = ({ user }) => {
                   Join community
                 </div>
               </Link>
+              <Link href="/pricing">
+                <div className="text-primary text-sm underline-offset-4 hover:underline font-semibold">
+                  Pricing
+                </div>
+              </Link>
               <Link
                 href="/sign-in"
                 className="hover:underline underline-offset-4"
@@ -108,7 +113,7 @@ export const Header: FunctionComponent<HeaderProps> = ({ user }) => {
               </Link>
               <Link href="/register">
                 <Button className="font-medium py-2 px-5 text-sm rounded-full">
-                  Request access
+                  Get started
                 </Button>
               </Link>
             </>
@@ -195,7 +200,7 @@ export const Header: FunctionComponent<HeaderProps> = ({ user }) => {
                     size="lg"
                     className="font-medium py-2 px-5 text-sm rounded-full"
                   >
-                    Request access
+                    Get started
                   </Button>
                 </Link>
               </>
