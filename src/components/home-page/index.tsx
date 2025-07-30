@@ -338,6 +338,7 @@ export const HomePage = () => {
               />
             </VideoDialog>
           </div>
+
           <div className="cursor-pointer col-span-2 row-span-1 md:col-span-2 md:row-span-2 md:col-start-3 md:row-start-3 rounded-3xl p-2 bg-neutral-100">
             <VideoDialog
               src="https://legendary.b-cdn.net/site/showcase-video/cryptic.mp4"
