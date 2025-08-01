@@ -1,9 +1,9 @@
-import { NextRequest } from "next/server";
-import { validateUser } from "@/app/api/utils/validate-user";
 import { validateCredit } from "@/app/api/utils/validate-credits";
+import { validateUser } from "@/app/api/utils/validate-user";
+import { Json } from "@/supabase/generated/database.types";
 import { createCount } from "@/supabase/server-functions/counts";
 import { createVideo } from "@/supabase/server-functions/videos";
-import { Json } from "@/supabase/generated/database.types";
+import { NextRequest } from "next/server";
 
 interface GenerateAnimationRequest {
   prompt: string;
@@ -13,7 +13,7 @@ interface GenerateAnimationRequest {
 
 export async function POST(request: NextRequest) {
   try {
-    const { prompt, voiceId, aspectRatio }: GenerateAnimationRequest =
+    const { prompt, aspectRatio }: GenerateAnimationRequest =
       await request.json();
 
     // Step 1: Validate user authentication
@@ -34,11 +34,10 @@ export async function POST(request: NextRequest) {
           inputData: {
             instruction: prompt,
             metadata: `width: ${width}, height: ${height}`,
-            voiceId,
           },
           runtimeContext: {},
         }),
-      },
+      }
     );
 
     const data = await response.json();
@@ -57,7 +56,7 @@ export async function POST(request: NextRequest) {
     console.error("Generate video error:", error);
     return Response.json(
       { error: `Failed to generate response: ${(error as Error).message}` },
-      { status: 500 },
+      { status: 500 }
     );
   }
 }

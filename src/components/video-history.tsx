@@ -45,7 +45,7 @@ export function VideoHistory() {
             <div className="text-sm w-52 truncate text-start font-medium">
               {(video?.composition as unknown as MastraOutput)?.result?.title}
             </div>
-            <div className="text-xs text-start w-52 truncate text-stone-100/50 font-medium">
+            <div className="text-xs text-start w-52 truncate text-muted-foreground font-medium">
               {format(new Date(video.created_at), "d MMMM HH:mm")}
             </div>
           </button>
