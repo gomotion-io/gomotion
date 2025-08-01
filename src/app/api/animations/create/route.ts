@@ -1,9 +1,10 @@
-import { NextRequest } from "next/server";
-import { validateUser } from "@/app/api/utils/validate-user";
 import { validateCredit } from "@/app/api/utils/validate-credits";
+import { validateUser } from "@/app/api/utils/validate-user";
+import { Json } from "@/supabase/generated/database.types";
 import { createCount } from "@/supabase/server-functions/counts";
 import { createVideo } from "@/supabase/server-functions/videos";
-import { Json } from "@/supabase/generated/database.types";
+import { NextRequest } from "next/server";
+import { example } from "./example";
 
 interface GenerateAnimationRequest {
   prompt: string;
@@ -13,7 +14,7 @@ interface GenerateAnimationRequest {
 
 export async function POST(request: NextRequest) {
   try {
-    const { prompt, voiceId, aspectRatio }: GenerateAnimationRequest =
+    const { prompt, aspectRatio }: GenerateAnimationRequest =
       await request.json();
 
     // Step 1: Validate user authentication
@@ -25,23 +26,24 @@ export async function POST(request: NextRequest) {
     // Step 3: Generate video via mastra api
     const [width, height] = aspectRatio.split(":").map(Number);
 
-    const response = await fetch(
-      `${process.env.EXPRESS_URL}/generate/animation`,
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          inputData: {
-            instruction: prompt,
-            metadata: `width: ${width}, height: ${height}`,
-            voiceId,
-          },
-          runtimeContext: {},
-        }),
-      },
-    );
+    // const response = await fetch(
+    //   `${process.env.EXPRESS_URL}/generate/animation`,
+    //   {
+    //     method: "POST",
+    //     headers: { "Content-Type": "application/json" },
+    //     body: JSON.stringify({
+    //       inputData: {
+    //         instruction: prompt,
+    //         metadata: `width: ${width}, height: ${height}`,
+    //       },
+    //       runtimeContext: {},
+    //     }),
+    //   }
+    // );
 
-    const data = await response.json();
+    // const data = await response.json();
+
+    const data = example;
 
     // Step 4: Record usage
     await createCount(profile.id);
@@ -57,7 +59,7 @@ export async function POST(request: NextRequest) {
     console.error("Generate video error:", error);
     return Response.json(
       { error: `Failed to generate response: ${(error as Error).message}` },
-      { status: 500 },
+      { status: 500 }
     );
   }
 }
