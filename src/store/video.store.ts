@@ -54,11 +54,7 @@ export const useVideoStore = create<VideoState>((set) => ({
   },
 
   create: async ({ prompt }) => {
-    const { aspectRatio, currentVoice } = useParamStore.getState();
-
-    if (!currentVoice) {
-      throw new Error("currentVoice was not provided");
-    }
+    const { aspectRatio } = useParamStore.getState();
 
     try {
       set({ generating: true, currentVideo: null });
@@ -70,7 +66,6 @@ export const useVideoStore = create<VideoState>((set) => ({
         },
         body: JSON.stringify({
           prompt,
-          voiceId: currentVoice.voice_id,
           aspectRatio,
         }),
       });
@@ -95,11 +90,7 @@ export const useVideoStore = create<VideoState>((set) => ({
   },
 
   update: async ({ id, prompt, previousVideo }) => {
-    const { aspectRatio, currentVoice } = useParamStore.getState();
-
-    if (!currentVoice) {
-      throw new Error("currentVoice was not provided");
-    }
+    const { aspectRatio } = useParamStore.getState();
 
     if (
       !prompt &&
@@ -119,7 +110,6 @@ export const useVideoStore = create<VideoState>((set) => ({
         body: JSON.stringify({
           videoId: id,
           prompt,
-          voiceId: currentVoice.voice_id,
           aspectRatio,
           previousVideo,
         }),
@@ -179,7 +169,6 @@ export const useVideoStore = create<VideoState>((set) => ({
     }
   },
 
-  // Reset the viewer to a fresh state (used by "Create new" button)
   reset: () =>
     set({
       currentVideo: null,
