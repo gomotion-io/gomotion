@@ -54,7 +54,7 @@ export const useVideoStore = create<VideoState>((set) => ({
   },
 
   create: async ({ prompt }) => {
-    const { aspectRatio } = useParamStore.getState();
+    const { aspectRatio, model } = useParamStore.getState();
 
     try {
       set({ generating: true, currentVideo: null });
@@ -67,6 +67,7 @@ export const useVideoStore = create<VideoState>((set) => ({
         body: JSON.stringify({
           prompt,
           aspectRatio,
+          model,
         }),
       });
 
@@ -90,7 +91,7 @@ export const useVideoStore = create<VideoState>((set) => ({
   },
 
   update: async ({ id, prompt, previousVideo }) => {
-    const { aspectRatio } = useParamStore.getState();
+    const { aspectRatio, model } = useParamStore.getState();
 
     if (
       !prompt &&
@@ -112,6 +113,7 @@ export const useVideoStore = create<VideoState>((set) => ({
           prompt,
           aspectRatio,
           previousVideo,
+          model,
         }),
       });
 

@@ -3,6 +3,7 @@
 import { RatioSelection } from "@/components/ratio-selection";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
+import { ModelSelection } from "@/components/model-selection";
 
 import { cn } from "@/lib/utils";
 import { useParamStore } from "@/store/params.store";
@@ -81,6 +82,7 @@ export const PromptInput: FC<PromptInputProps> = ({
       />
       <div className="absolute bottom-0 z-50 right-0 p-2 w-fit flex flex-row justify-end gap-2 items-center">
         <RatioSelection />
+        <ModelSelection />
 
         {landingButton ? (
           landingButton
