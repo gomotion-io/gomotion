@@ -38,8 +38,18 @@ const createComponent = async (code: string) => {
     .replace(/import\s+[^;]*from\s+["']react-google-font-loader["'];?\n?/g, "");
 
   // Prepend global references so the code can access React, Remotion, and GSAP
+  // Also add support for nimport { useCurrentFrame, useVideoConfig } from "remotion"
   const wrappedCode =
-    `const React = window.React;\nconst { useState, useEffect, useRef, useMemo, useCallback } = window.React;\nconst Remotion = window.Remotion;\nconst R = window.Remotion;\nconst gsap = window.gsap;\nconst { CustomEase, DrawSVGPlugin, MorphSVGPlugin, Physics2DPlugin, ScrambleTextPlugin, SplitText } = window.GSAPPlugins;\nconst GoogleFontLoader = window.GoogleFontLoader;\n` +
+    `const React = window.React;\n` +
+    `const { useState, useEffect, useRef, useMemo, useCallback } = window.React;\n` +
+    `const Remotion = window.Remotion;\n` +
+    `const R = window.Remotion;\n` +
+    `const gsap = window.gsap;\n` +
+    `const { CustomEase, DrawSVGPlugin, MorphSVGPlugin, Physics2DPlugin, ScrambleTextPlugin, SplitText } = window.GSAPPlugins;\n` +
+    `const GoogleFontLoader = window.GoogleFontLoader;\n` +
+    // Add support for useCurrentFrame and useVideoConfig as named imports from "remotion"
+    `const useCurrentFrame = window.Remotion.useCurrentFrame;\n` +
+    `const useVideoConfig = window.Remotion.useVideoConfig;\n` +
     strippedImports;
 
   console.debug("[useComponent] Transformed component code:", wrappedCode);
