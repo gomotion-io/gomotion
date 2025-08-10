@@ -4,7 +4,6 @@ import { Json } from "@/supabase/generated/database.types";
 import { createCount } from "@/supabase/server-functions/counts";
 import { createVideo } from "@/supabase/server-functions/videos";
 import { NextRequest } from "next/server";
-import { example } from "./example";
 
 interface GenerateAnimationRequest {
   prompt: string;
@@ -26,20 +25,20 @@ export async function POST(request: NextRequest) {
     // Step 3: Generate video via mastra api
     const [width, height] = aspectRatio.split(":").map(Number);
 
-    // const response = await fetch(
-    //   `${process.env.EXPRESS_URL}/generate/animation`,
-    //   {
-    //     method: "POST",
-    //     headers: { "Content-Type": "application/json" },
-    //     body: JSON.stringify({
-    //       inputData: {
-    //         instruction: prompt,
-    //         metadata: `width: ${width}, height: ${height}`,
-    //       },
-    //       runtimeContext: {},
-    //     }),
-    //   }
-    // );
+    const response = await fetch(
+      `${process.env.EXPRESS_URL}/generate/animation`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          inputData: {
+            instruction: prompt,
+            metadata: `width: ${width}, height: ${height}`,
+          },
+          runtimeContext: {},
+        }),
+      }
+    );
 
     // const data = await response.json();
 

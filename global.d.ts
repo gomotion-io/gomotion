@@ -20,6 +20,7 @@ declare global {
       ScrambleTextPlugin: any;
       SplitText: any;
     };
+    GoogleFontLoader: typeof import("react-google-font-loader");
   }
 }
 

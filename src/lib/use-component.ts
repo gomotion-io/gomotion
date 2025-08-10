@@ -1,6 +1,7 @@
 import { initialize, transform } from "esbuild-wasm";
 import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom";
+import GoogleFontLoader from "react-google-font-loader";
 import * as R from "remotion";
 import { GSAPWithPlugins, registerGSAPPlugins } from "./gsap-plugins";
 
@@ -9,7 +10,7 @@ let esbuildInitialized: Promise<void> | null = null;
 const createComponent = async (code: string) => {
   if (!esbuildInitialized) {
     esbuildInitialized = initialize({
-      wasmURL: "https://unpkg.com/esbuild-wasm@0.25.6/esbuild.wasm",
+      wasmURL: "https://unpkg.com/esbuild-wasm@0.25.8/esbuild.wasm",
       worker: true,
     });
   }
@@ -32,11 +33,13 @@ const createComponent = async (code: string) => {
     // Strip any Remotion import (including sub-paths)
     .replace(/import\s+[^;]*from\s+["']remotion[^"']*["'];?\n?/g, "")
     // Strip GSAP and plugin imports
-    .replace(/import\s+[^;]*from\s+["']gsap[^"']*["'];?\n?/g, "");
+    .replace(/import\s+[^;]*from\s+["']gsap[^"']*["'];?\n?/g, "")
+    // Strip Google Font Loader import
+    .replace(/import\s+[^;]*from\s+["']react-google-font-loader["'];?\n?/g, "");
 
   // Prepend global references so the code can access React, Remotion, and GSAP
   const wrappedCode =
-    `const React = window.React;\nconst { useState, useEffect, useRef, useMemo, useCallback } = window.React;\nconst Remotion = window.Remotion;\nconst R = window.Remotion;\nconst gsap = window.gsap;\nconst { CustomEase, DrawSVGPlugin, MorphSVGPlugin, Physics2DPlugin, ScrambleTextPlugin, SplitText } = window.GSAPPlugins;\n` +
+    `const React = window.React;\nconst { useState, useEffect, useRef, useMemo, useCallback } = window.React;\nconst Remotion = window.Remotion;\nconst R = window.Remotion;\nconst gsap = window.gsap;\nconst { CustomEase, DrawSVGPlugin, MorphSVGPlugin, Physics2DPlugin, ScrambleTextPlugin, SplitText } = window.GSAPPlugins;\nconst GoogleFontLoader = window.GoogleFontLoader;\n` +
     strippedImports;
 
   console.debug("[useComponent] Transformed component code:", wrappedCode);
@@ -66,6 +69,8 @@ export const useComponent = (content: string) => {
       ScrambleTextPlugin: GSAPWithPlugins.ScrambleTextPlugin,
       SplitText: GSAPWithPlugins.SplitText,
     };
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (window as any).GoogleFontLoader = GoogleFontLoader;
   }, []);
 
   useEffect(() => {
