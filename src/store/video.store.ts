@@ -18,7 +18,7 @@ interface VideoState {
     prompt: string;
     previousVideo: Partial<Video>;
   }) => Promise<RefinedVideo | null>;
-  remove: (id: string) => void;
+  remove: (id: string) => Promise<void>;
   load: (id: string) => Promise<RefinedVideo | null>;
   reset: () => void;
 }
@@ -54,7 +54,7 @@ export const useVideoStore = create<VideoState>((set) => ({
   },
 
   create: async ({ prompt }) => {
-    const { aspectRatio } = useParamStore.getState();
+    const { aspectRatio, model } = useParamStore.getState();
 
     try {
       set({ generating: true, currentVideo: null });
@@ -67,6 +67,7 @@ export const useVideoStore = create<VideoState>((set) => ({
         body: JSON.stringify({
           prompt,
           aspectRatio,
+          model,
         }),
       });
 
@@ -90,7 +91,7 @@ export const useVideoStore = create<VideoState>((set) => ({
   },
 
   update: async ({ id, prompt, previousVideo }) => {
-    const { aspectRatio } = useParamStore.getState();
+    const { aspectRatio, model } = useParamStore.getState();
 
     if (
       !prompt &&
@@ -112,6 +113,7 @@ export const useVideoStore = create<VideoState>((set) => ({
           prompt,
           aspectRatio,
           previousVideo,
+          model,
         }),
       });
 
@@ -137,8 +139,26 @@ export const useVideoStore = create<VideoState>((set) => ({
     }
   },
 
-  remove: (id) =>
-    set((state) => ({ videos: state.videos.filter((v) => v.id !== id) })),
+  remove: async (id) => {
+    try {
+      const res = await fetch("/api/animations/delete", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ id }),
+      });
+
+      if (!res.ok) {
+        throw new Error(await res.text());
+      }
+
+      set((state) => ({ videos: state.videos.filter((v) => v.id !== id) }));
+    } catch (error) {
+      console.error("Delete error:", error);
+      throw error;
+    }
+  },
 
   load: async (id) => {
     set({ loading: true, currentVideo: null });

@@ -26,3 +26,6 @@ export const formatCredits = (credits: number | null): string => {
   const formatted = Number(valueInThousands.toFixed(1)).toString();
   return `${formatted}K`;
 };
+
+export const toUppercase = (str: string) =>
+  str.charAt(0).toUpperCase() + str.slice(1);

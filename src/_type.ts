@@ -16,5 +16,10 @@ export type MastraOutput = {
     };
     title: string;
     component: string;
+    parts: {
+      endFrame: number;
+      startFrame: number;
+      title: string;
+    }[];
   };
 };

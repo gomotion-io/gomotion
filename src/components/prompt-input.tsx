@@ -1,5 +1,6 @@
 "use client";
 
+import { ModelSelection } from "@/components/model-selection";
 import { RatioSelection } from "@/components/ratio-selection";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -25,7 +26,7 @@ export const PromptInput: FC<PromptInputProps> = ({
 
   const generating = useVideoStore((state) => state.generating);
   const createVideo = useVideoStore((state) => state.create);
-  const updateVideo = useVideoStore((state) => state.update);
+  // const updateVideo = useVideoStore((state) => state.update);
   const currentVideo = useVideoStore((state) => state.currentVideo);
   const setPrompt = useParamStore((state) => state.setPrompt);
   const prompt = useParamStore((state) => state.prompt);
@@ -33,20 +34,20 @@ export const PromptInput: FC<PromptInputProps> = ({
   const canGenerate = useMemo(() => prompt.trim().length > 0, [prompt]);
 
   const handleSubmit = useCallback(
-    async (video: RefinedVideo | null) => {
-      if (video) {
-        // update the current video
-        await updateVideo({ id: video.id, prompt, previousVideo: video });
-        return;
-      }
-
+    async (_: RefinedVideo | null) => {
+      // if (video) {
+      //   // update the current video
+      //   await updateVideo({ id: video.id, prompt, previousVideo: video });
+      //   return;
+      // }
       // else create a new video
+
       const data = await createVideo({ prompt });
       if (data?.id) {
         router.push(`/explore/${data.id}`);
       }
     },
-    [createVideo, prompt, router, updateVideo]
+    [createVideo, prompt, router]
   );
 
   return (
@@ -54,9 +55,9 @@ export const PromptInput: FC<PromptInputProps> = ({
       <Textarea
         ref={textareaRef}
         placeholder={
-          currentVideo
-            ? "Describe the change you want to make..."
-            : "Describe your animation..."
+          // currentVideo
+          //   ? "Describe the change you want to make..." :
+          "Describe your animation..."
         }
         value={prompt}
         onChange={(e) => setPrompt(e.target.value)}
@@ -81,6 +82,7 @@ export const PromptInput: FC<PromptInputProps> = ({
       />
       <div className="absolute bottom-0 z-50 right-0 p-2 w-fit flex flex-row justify-end gap-2 items-center">
         <RatioSelection />
+        <ModelSelection />
 
         {landingButton ? (
           landingButton
@@ -94,11 +96,11 @@ export const PromptInput: FC<PromptInputProps> = ({
             className="rounded-full"
             onClick={() => handleSubmit(currentVideo)}
           >
-            {currentVideo ? (
+            {/* {currentVideo ? (
               <div className="mx-2">Remix</div>
-            ) : (
-              <ArrowUpIcon className="w-5 h-5" />
-            )}
+            ) : ( */}
+            <ArrowUpIcon className="w-5 h-5" />
+            {/* )} */}
           </Button>
         )}
       </div>

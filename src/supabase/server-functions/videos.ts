@@ -75,3 +75,20 @@ export const getVideo = async ({ id }: GetVideo) => {
 
   return data;
 };
+
+type DeleteVideo = {
+  id: string;
+  profileId: string;
+};
+
+export const deleteVideo = async ({ id, profileId }: DeleteVideo) => {
+  const supabase = await createAdminClient();
+
+  const { error } = await supabase
+    .from("videos")
+    .delete()
+    .eq("id", id)
+    .eq("profile_id", profileId);
+
+  if (error) throw error;
+};

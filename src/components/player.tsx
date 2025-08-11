@@ -1,9 +1,9 @@
 "use client";
 
 import { MastraOutput } from "@/_type";
-import React, { FC } from "react";
-import { Player } from "@remotion/player";
 import { useComponent } from "@/lib/use-component";
+import { Player } from "@remotion/player";
+import { FC } from "react";
 
 type RemotionPlayerProps = {
   composition: MastraOutput;
@@ -15,11 +15,11 @@ export const RemotionPlayer: FC<RemotionPlayerProps> = ({ composition }) => {
   const { component } = useComponent(data.component);
 
   if (!component) {
-    return <div className="w-full flex-1 border border-dashed" />;
+    return <div className="w-full flex-1" />;
   }
 
   return (
-    <div className="w-full flex-1 border border-dashed">
+    <div className="w-full flex-1">
       <Player
         controls
         alwaysShowControls
