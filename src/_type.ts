@@ -15,7 +15,7 @@ export type MastraOutput = {
       durationInFrames: number;
     };
     title: string;
-    component: string;
+    files: Record<string, string>;
     parts: {
       endFrame: number;
       startFrame: number;

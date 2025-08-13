@@ -1,9 +1,9 @@
 "use client";
 
 import { MastraOutput } from "@/_type";
-import { useComponent } from "@/lib/use-component";
+import { bundleCode } from "@/lib/bundle-code";
 import { Player } from "@remotion/player";
-import { FC } from "react";
+import { ComponentType, FC, useEffect, useState } from "react";
 
 type RemotionPlayerProps = {
   composition: MastraOutput;
@@ -11,27 +11,39 @@ type RemotionPlayerProps = {
 };
 
 export const RemotionPlayer: FC<RemotionPlayerProps> = ({ composition }) => {
-  const data = composition.result;
-  const { component } = useComponent(data.component);
+  const [dynamicMain, setDynamicMain] = useState<ComponentType>();
 
-  if (!component) {
-    return <div className="w-full flex-1" />;
-  }
+  useEffect(() => {
+    (async () => {
+      try {
+        const component = await bundleCode({
+          files: composition.result.files,
+        });
+        setDynamicMain(() => component);
+      } catch (error) {
+        console.error("Error bundling code", error);
+      }
+    })();
+  }, [composition]);
 
   return (
     <div className="w-full flex-1">
-      <Player
-        controls
-        alwaysShowControls
-        component={component}
-        durationInFrames={Math.round(data.meta.durationInFrames)}
-        compositionHeight={data.meta.height}
-        compositionWidth={data.meta.width}
-        fps={data.meta.fps}
-        style={{ width: "100%", height: "100%" }}
-        browserMediaControlsBehavior={{ mode: "register-media-session" }}
-        spaceKeyToPlayOrPause
-      />
+      {dynamicMain && (
+        <Player
+          controls
+          alwaysShowControls
+          component={dynamicMain}
+          durationInFrames={Math.round(
+            composition.result.meta.durationInFrames
+          )}
+          compositionHeight={composition.result.meta.height}
+          compositionWidth={composition.result.meta.width}
+          fps={composition.result.meta.fps}
+          style={{ width: "100%", height: "100%" }}
+          browserMediaControlsBehavior={{ mode: "register-media-session" }}
+          spaceKeyToPlayOrPause
+        />
+      )}
     </div>
   );
 };
