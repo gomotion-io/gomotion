@@ -3,6 +3,8 @@
 import { Menu } from "@/components/menu";
 import { Button } from "@/components/ui/button";
 import { CircularProgress } from "@/components/ui/circular-progress";
+import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
 import { VideoHistory } from "@/components/video-history";
 import { useParamStore } from "@/store/params.store";
 import { useRenderStore } from "@/store/render.store";
@@ -36,50 +38,60 @@ export const Profile = () => {
   };
 
   return (
-    <div className="flex items-center gap-3 h-24">
-      <div className="flex  items-center gap-3">
-        {profile?.subscription_status === "inactive" && (
-          <Button size="sm" onClick={() => router.push("/pricing")}>
-            Upgrade
-          </Button>
-        )}
-        <Button size="sm" onClick={handleCreateNew}>
-          Create new <PlusIcon />
-        </Button>
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={renderVideo}
-          className=" hidden sm:block"
-          disabled={
-            !video ||
-            !video.composition ||
-            progress.status === "rendering" ||
-            progress.status === "invoking"
-          }
-        >
-          {progress.status === "invoking" ? (
-            <div className="flex items-center">
-              <span>Preparing...</span>
-            </div>
-          ) : progress.status === "rendering" ? (
-            <div className="flex items-center gap-2">
-              <CircularProgress
-                progress={
-                  "progress" in progress
-                    ? Math.round(progress.progress * 100)
-                    : 0
-                }
-              />
-              <span>Exporting...</span>
-            </div>
-          ) : (
-            "Export video"
+    <div className="flex flex-col gap-5 h-32 w-full items-center justify-center pt-5">
+      <div className="flex items-center justify-center gap-3">
+        <div className="flex items-center gap-3">
+          {profile?.subscription_status === "inactive" && (
+            <Button size="sm" onClick={() => router.push("/pricing")}>
+              Upgrade
+            </Button>
           )}
-        </Button>
-        <VideoHistory />
+
+          <Button onClick={handleCreateNew}>
+            Create new <PlusIcon />
+          </Button>
+
+          <Button
+            variant="outline"
+            onClick={renderVideo}
+            className=" hidden sm:block"
+            disabled={
+              !video ||
+              !video.composition ||
+              progress.status === "rendering" ||
+              progress.status === "invoking"
+            }
+          >
+            {progress.status === "invoking" ? (
+              <div className="flex items-center">
+                <span>Preparing...</span>
+              </div>
+            ) : progress.status === "rendering" ? (
+              <div className="flex items-center gap-2">
+                <CircularProgress
+                  progress={
+                    "progress" in progress
+                      ? Math.round(progress.progress * 100)
+                      : 0
+                  }
+                />
+                <span>Exporting...</span>
+              </div>
+            ) : (
+              "Export video"
+            )}
+          </Button>
+        </div>
+        <div className="flex items-center gap-3">
+          <VideoHistory />
+          <Menu logout={logout} user={user} />
+        </div>
       </div>
-      <Menu logout={logout} user={user} />
+
+      <div className="flex items-center space-x-2">
+        <Switch id="ads-mode" />
+        <Label htmlFor="ads-mode">Ads mode</Label>
+      </div>
     </div>
   );
 };

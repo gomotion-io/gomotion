@@ -21,6 +21,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { ChevronDownIcon } from "@heroicons/react/16/solid";
 import { useState } from "react";
 
 export function VideoHistory() {
@@ -47,8 +48,8 @@ export function VideoHistory() {
     <>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button variant="outline" size="sm">
-            History
+          <Button variant="outline">
+            History <ChevronDownIcon className="w-4 h-4" />
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent
