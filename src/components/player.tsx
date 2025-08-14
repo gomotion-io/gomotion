@@ -11,7 +11,6 @@ type RemotionPlayerProps = {
 };
 
 export const RemotionPlayer: FC<RemotionPlayerProps> = ({ composition }) => {
-  console.log(composition);
   const [dynamicMain, setDynamicMain] = useState<ComponentType>();
 
   useEffect(() => {
@@ -26,6 +25,8 @@ export const RemotionPlayer: FC<RemotionPlayerProps> = ({ composition }) => {
       }
     })();
   }, [composition]);
+
+  console.log(dynamicMain);
 
   return (
     <div className="w-full flex-1">
@@ -43,6 +44,7 @@ export const RemotionPlayer: FC<RemotionPlayerProps> = ({ composition }) => {
           style={{ width: "100%", height: "100%" }}
           browserMediaControlsBehavior={{ mode: "register-media-session" }}
           spaceKeyToPlayOrPause
+          acknowledgeRemotionLicense
         />
       )}
     </div>
