@@ -149,7 +149,7 @@ export const HomePage = () => {
       <section className="reveal">
         <div className="flex flex-col gap-5 pt-24">
           <div className="flex items-center">
-            <div className="text-fuchsia-900 bg-fuchsia-100  px-5 h-10 rounded-full flex items-center justify-center">
+            <div className="text-fuchsia-900 bg-fuchsia-100 px-5 h-10 rounded-full flex items-center justify-center">
               Transform Words Into Motion
             </div>
           </div>

@@ -104,6 +104,9 @@ importers:
       '@remotion/zod-types':
         specifier: 4.0.332
         version: 4.0.332(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(zod@3.25.76)
+      '@supabase/auth-js':
+        specifier: ^2.71.1
+        version: 2.71.1
       '@supabase/ssr':
         specifier: ^0.6.1
         version: 0.6.1(@supabase/supabase-js@2.55.0)

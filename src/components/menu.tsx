@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -7,11 +7,12 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
-import { User } from "@supabase/auth-js";
-import { useCountStore } from "@/store/count.store";
 import { formatCredits } from "@/lib/utils";
+import { useCountStore } from "@/store/count.store";
+import { ChevronDownIcon } from "@heroicons/react/16/solid";
+import { User } from "@supabase/auth-js";
+import Link from "next/link";
+import { FC } from "react";
 
 type MenuProps = {
   user: User | null;
@@ -24,8 +25,9 @@ export const Menu: FC<MenuProps> = ({ user, logout }) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button size="icon" className="rounded-full" variant="outline">
-          {user?.email?.charAt(0).toUpperCase()}
+        <Button className="rounded-full" variant="outline">
+          {user?.email?.charAt(0).toUpperCase()}{" "}
+          <ChevronDownIcon className="w-4 h-4" />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="min-w-60" align="end">
