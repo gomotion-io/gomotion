@@ -26,10 +26,10 @@ export const bundleCode = async ({ files }: BundleCodeProps) => {
     const regex = /from\s+['"](.+?)['"]/g;
     let match;
     while ((match = regex.exec(code))) {
-      let path = match[1];
-      if (path.startsWith(".")) {
-        path = path.replace("./", "").replace(/\.[jt]sx$/, "");
-        imports.push(path);
+      const path = match[1];
+      if (path.startsWith(".") || path.includes("/")) {
+        const normalized = path.replace(/^\.\//, "").replace(/\.[jt]sx$/, "");
+        imports.push(normalized);
       }
     }
     return imports;
@@ -78,8 +78,8 @@ export const bundleCode = async ({ files }: BundleCodeProps) => {
     const module = { exports: {} };
     const customRequire = (path: string) => {
       if (externalModules[path]) return externalModules[path];
-      if (path.startsWith(".")) {
-        const normalized = path.replace("./", "").replace(/\.[jt]sx$/, "");
+      const normalized = path.replace(/^\.\//, "").replace(/\.[jt]sx$/, "");
+      if (moduleExports[normalized]) {
         return moduleExports[normalized];
       }
       throw new Error(`Unknown module ${path}`);
