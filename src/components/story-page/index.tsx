@@ -4,7 +4,7 @@ import Image from "next/image";
 
 export default function StoryPage() {
   return (
-    <div className="max-w-7xl mx-auto border-x border-dashed pt-5 px-5 lg:px-12">
+    <div className="max-w-[85rem] mx-auto pt-5 px-5 lg:px-44">
       {/* Badge & Hero */}
       <section className="reveal flex flex-col gap-8 pt-40 max-w-3xl">
         <span className="self-start text-fuchsia-900 bg-fuchsia-100 px-5 h-10 rounded-full flex items-center justify-center text-sm font-medium tracking-wider uppercase">
@@ -34,7 +34,7 @@ export default function StoryPage() {
               src="/images/team-philippe.jpg"
             />{" "}
           </div>
-          <div className="rounded-md rounded w-32 h-44 overflow-hidden">
+          <div className="rounded-md w-32 h-44 overflow-hidden">
             <Image
               width={1080}
               height={720}

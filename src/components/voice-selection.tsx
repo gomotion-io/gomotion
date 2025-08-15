@@ -29,7 +29,7 @@ export const VoiceSelection = () => {
 
   const displayLabel = useMemo(
     () => voices.find((v) => v.voice_id === currentVoice?.voice_id)?.name,
-    [currentVoice?.voice_id, voices],
+    [currentVoice?.voice_id, voices]
   );
 
   useEffect(() => {
@@ -44,17 +44,14 @@ export const VoiceSelection = () => {
     <Tooltip>
       <DropdownMenu>
         <TooltipTrigger asChild>
-          <DropdownMenuTrigger
-            className="backdrop-blur-3xl bg-transparent"
-            asChild
-          >
+          <DropdownMenuTrigger asChild>
             <Button className="rounded-full p-1.5" variant="outline">
               <div className="truncate w-32">{displayLabel}</div>
               <ChevronDownIcon className="w-5 h-5" />
             </Button>
           </DropdownMenuTrigger>
         </TooltipTrigger>
-        <DropdownMenuContent className="w-60 backdrop-blur-3xl bg-transparent">
+        <DropdownMenuContent className="w-60">
           <DropdownMenuRadioGroup
             value={currentVoice?.voice_id}
             onValueChange={(value) => {

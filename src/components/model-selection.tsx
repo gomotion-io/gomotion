@@ -24,17 +24,14 @@ export const ModelSelection = () => {
     <Tooltip>
       <DropdownMenu>
         <TooltipTrigger asChild>
-          <DropdownMenuTrigger
-            className="backdrop-blur-3xl bg-transparent"
-            asChild
-          >
+          <DropdownMenuTrigger asChild>
             <Button className="rounded-full p-1.5" variant="outline">
               <div className="truncate w-auto text-left">{model}</div>
               <ChevronDownIcon className="w-5 h-5" />
             </Button>
           </DropdownMenuTrigger>
         </TooltipTrigger>
-        <DropdownMenuContent className="w-56 backdrop-blur-3xl bg-transparent">
+        <DropdownMenuContent className="w-56">
           <DropdownMenuRadioGroup
             value={model}
             onValueChange={(value) => setModel(value as ModelRouter)}
