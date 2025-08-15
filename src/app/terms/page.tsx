@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 
 export default function TermsPage() {
   return (
-    <div className="max-w-7xl mx-auto border-x border-dashed pt-5 px-5 lg:px-12 pb-32 ">
+    <div className="max-w-[85rem] mx-auto pt-5 px-5 lg:px-12 pb-32 ">
       {/* Hero */}
       <section className="reveal flex flex-col gap-8 pt-40 max-w-3xl">
         <span className="self-start text-fuchsia-900 bg-fuchsia-100 px-5 h-10 rounded-full flex items-center justify-center text-sm font-medium tracking-wider uppercase">
