@@ -1,14 +1,15 @@
 import { AuthProvider } from "@/components/auth-provider";
+import { Footer } from "@/components/footer";
 import { LayoutProvider } from "@/components/layout-provider";
+import { HeaderWrapper } from "@/components/ssr/header-wrapper";
 import { getEnvUrl } from "@/lib/utils";
 import { getProfile } from "@/supabase/server-functions/profile";
 import { getUser } from "@/supabase/server-functions/users";
 import { Analytics } from "@vercel/analytics/next";
 import type { Metadata } from "next";
-import { ReactNode } from "react";
 import localFont from "next/font/local";
+import { ReactNode } from "react";
 import "./globals.css";
-import { HeaderWrapper } from "@/components/ssr/header-wrapper";
 
 const neueMontreal = localFont({
   src: [
@@ -105,12 +106,13 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${neueMontreal.variable} font-sans font-medium antialiased relative`}
+        className={`${neueMontreal.variable} font-sans font-medium antialiased relative bg-neutral-50`}
       >
         <HeaderWrapper />
         <AuthProvider initialUser={user} initialProfile={profile}>
           <LayoutProvider>{children}</LayoutProvider>
         </AuthProvider>
+        <Footer />
         <Analytics />
       </body>
     </html>

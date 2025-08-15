@@ -17,7 +17,7 @@ const Pricing = async () => {
   );
 
   return (
-    <div className="mx-auto flex flex-col gap-5 justify-center items-center px-2 pt-[5rem] bg-neutral-50 min-h-screen">
+    <div className="mx-auto flex flex-col gap-5 justify-center items-center px-2 pt-[5rem] min-h-screen">
       <h2 className="text-5xl mt-10 font-neue-montreal text-center font-bold max-w-3xl leading-[1.2em]">
         Pricing
       </h2>
@@ -26,7 +26,7 @@ const Pricing = async () => {
         files in 4k, remove the watermark, create unlimited video and more.
       </h3>
 
-      <div className="mx-auto lg:max-w-7xl flex-wrap flex md:flex-row flex-col items-center justify-center gap-6 px-5 py-8">
+      <div className="mx-auto lg:max-w-[85rem] flex-wrap flex md:flex-row flex-col items-center justify-center gap-6 px-5 py-8">
         {sortedProducts.map((product, index) => (
           <PlanItem key={index} product={product} profile={profile} />
         ))}

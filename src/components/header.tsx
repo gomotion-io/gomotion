@@ -46,10 +46,10 @@ export const Header: FunctionComponent<HeaderProps> = ({ user }) => {
   }
 
   return (
-    <div className="absolute z-50 top-0 w-full h-20 flex items-center border-b border-dashed">
+    <div className="absolute z-50 top-0 w-full h-20 flex items-center">
       {/* Desktop / base header */}
       <div
-        className="flex items-center justify-between max-w-7xl w-full h-full mx-auto px-5 lg:px-12"
+        className="flex items-center justify-between max-w-[85rem] w-full h-full mx-auto px-5 lg:px-12"
         ref={headerRef}
       >
         <Link href="/">
