@@ -19,6 +19,8 @@ export const Profile = () => {
   const video = useVideoStore((state) => state.currentVideo);
   const renderVideo = useRenderStore((state) => state.renderVideo);
   const progress = useRenderStore((state) => state.state);
+  const narrativeMode = useParamStore((state) => state.narrativeMode);
+  const setNarrativeMode = useParamStore((state) => state.setNarrativeMode);
 
   // stores actions
   const resetVideo = useVideoStore((state) => state.reset);
@@ -89,8 +91,21 @@ export const Profile = () => {
       </div>
 
       <div className="flex items-center space-x-2">
-        <Switch id="ads-mode" />
-        <Label htmlFor="ads-mode">Ads mode</Label>
+        <Switch
+          id="narrative-mode"
+          checked={narrativeMode}
+          onCheckedChange={setNarrativeMode}
+        />
+        <Label
+          htmlFor="narrative-mode"
+          className={
+            narrativeMode
+              ? "text-emerald-900 [text-shadow:0_0_10px_rgb(34_197_94)]"
+              : ""
+          }
+        >
+          Narrative mode
+        </Label>
       </div>
     </div>
   );

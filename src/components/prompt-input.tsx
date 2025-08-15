@@ -11,6 +11,7 @@ import { RefinedVideo, useVideoStore } from "@/store/video.store";
 import { ArrowUpIcon, StopIcon } from "@heroicons/react/16/solid";
 import { useRouter } from "next/navigation";
 import { FC, ReactNode, useCallback, useMemo, useRef } from "react";
+import { VoiceSelection } from "./voice-selection";
 
 type PromptInputProps = {
   className?: string;
@@ -26,20 +27,21 @@ export const PromptInput: FC<PromptInputProps> = ({
 
   const generating = useVideoStore((state) => state.generating);
   const createVideo = useVideoStore((state) => state.create);
-  // const updateVideo = useVideoStore((state) => state.update);
+  const updateVideo = useVideoStore((state) => state.update);
   const currentVideo = useVideoStore((state) => state.currentVideo);
   const setPrompt = useParamStore((state) => state.setPrompt);
   const prompt = useParamStore((state) => state.prompt);
+  const narrativeMode = useParamStore((state) => state.narrativeMode);
 
   const canGenerate = useMemo(() => prompt.trim().length > 0, [prompt]);
 
   const handleSubmit = useCallback(
-    async (_: RefinedVideo | null) => {
-      // if (video) {
-      //   // update the current video
-      //   await updateVideo({ id: video.id, prompt, previousVideo: video });
-      //   return;
-      // }
+    async (video: RefinedVideo | null) => {
+      if (video) {
+        // update the current video
+        await updateVideo({ id: video.id, prompt, previousVideo: video });
+        return;
+      }
       // else create a new video
 
       const data = await createVideo({ prompt });
@@ -47,7 +49,7 @@ export const PromptInput: FC<PromptInputProps> = ({
         router.push(`/explore/${data.id}`);
       }
     },
-    [createVideo, prompt, router]
+    [createVideo, prompt, router, updateVideo],
   );
 
   return (
@@ -55,15 +57,15 @@ export const PromptInput: FC<PromptInputProps> = ({
       <Textarea
         ref={textareaRef}
         placeholder={
-          // currentVideo
-          //   ? "Describe the change you want to make..." :
-          "Describe your animation..."
+          currentVideo
+            ? "Describe the change you want to make..."
+            : "Describe your animation..."
         }
         value={prompt}
         onChange={(e) => setPrompt(e.target.value)}
         className={cn(
           "min-h-[105px] bg-white text-sm max-h-[calc(75dvh)] overflow-hidden resize-none rounded-3xl font-medium backdrop-blur-2xl pl-5 pt-4 pb-10",
-          className
+          className,
         )}
         rows={2}
         autoFocus
@@ -81,6 +83,8 @@ export const PromptInput: FC<PromptInputProps> = ({
         }}
       />
       <div className="absolute bottom-0 z-50 right-0 p-2 w-fit flex flex-row justify-end gap-2 items-center">
+        {narrativeMode && <VoiceSelection />}
+
         <RatioSelection />
         <ModelSelection />
 
@@ -96,11 +100,11 @@ export const PromptInput: FC<PromptInputProps> = ({
             className="rounded-full"
             onClick={() => handleSubmit(currentVideo)}
           >
-            {/* {currentVideo ? (
+            {currentVideo ? (
               <div className="mx-2">Remix</div>
-            ) : ( */}
-            <ArrowUpIcon className="w-5 h-5" />
-            {/* )} */}
+            ) : (
+              <ArrowUpIcon className="w-5 h-5" />
+            )}
           </Button>
         )}
       </div>

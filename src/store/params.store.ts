@@ -27,8 +27,10 @@ export type ParamsState = {
   currentVoice: Voice | null;
   playingVoiceId: string | null;
   audio: HTMLAudioElement | null;
+  narrativeMode: boolean;
   toggleVoicePreview: (voice: Voice) => void;
   setPrompt: (prompt: string) => void;
+  setNarrativeMode: (narrativeMode: boolean) => void;
   setAspectRatio: (aspectRatio: AspectRatio) => void;
   setModel: (model: ModelRouter) => void;
   getVoices: () => Promise<void>;
@@ -43,9 +45,12 @@ export const useParamStore = create<ParamsState>((set) => ({
   currentVoice: null,
   playingVoiceId: null,
   audio: null,
+  narrativeMode: false,
   setPrompt: (prompt) => set({ prompt }),
+  setNarrativeMode: (narrativeMode: boolean) => set({ narrativeMode }),
   setAspectRatio: (aspectRatio: AspectRatio) => set({ aspectRatio }),
   setModel: (model: ModelRouter) => set({ model }),
+
   getVoices: async () => {
     const res = await fetch("/api/voices");
     const data = await res.json();

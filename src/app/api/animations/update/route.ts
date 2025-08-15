@@ -47,6 +47,7 @@ export async function POST(request: NextRequest) {
             instruction: prompt,
             metadata: `width: ${width}, height: ${height}`,
             model,
+            previousVideo,
           },
           runtimeContext: {},
         }),

@@ -8,14 +8,14 @@ import { NextRequest } from "next/server";
 
 interface GenerateAnimationRequest {
   prompt: string;
-  voiceId: string;
   aspectRatio: string;
   model: ModelRouter;
+  voiceId?: string;
 }
 
 export async function POST(request: NextRequest) {
   try {
-    const { prompt, aspectRatio, model }: GenerateAnimationRequest =
+    const { prompt, aspectRatio, model, voiceId }: GenerateAnimationRequest =
       await request.json();
 
     // Step 1: Validate user authentication
@@ -36,6 +36,7 @@ export async function POST(request: NextRequest) {
           inputData: {
             instruction: prompt,
             metadata: `width: ${width}, height: ${height}`,
+            voiceId,
             model,
           },
           runtimeContext: {},

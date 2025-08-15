@@ -26,8 +26,6 @@ export const RemotionPlayer: FC<RemotionPlayerProps> = ({ composition }) => {
     })();
   }, [composition]);
 
-  console.log(dynamicMain);
-
   return (
     <div className="w-full flex-1">
       {dynamicMain && (
