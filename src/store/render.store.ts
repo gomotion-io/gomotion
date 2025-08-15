@@ -76,7 +76,7 @@ export const useRenderStore = create<RenderStoreState>((set) => ({
     const composition = currentVideo.composition as unknown as MastraOutput;
 
     const runId: string = composition.runId;
-    const fileContent: string = composition.result?.component ?? "";
+    const fileTree: Record<string, string> = composition.result?.files ?? {};
     const meta = {
       inputProps: {
         width: composition.result?.meta?.width ?? 1920,
@@ -94,7 +94,7 @@ export const useRenderStore = create<RenderStoreState>((set) => ({
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ runId, fileContent, meta }),
+        body: JSON.stringify({ runId, fileTree, meta }),
       });
 
       const { renderId, bucketName } = await render_res.json();

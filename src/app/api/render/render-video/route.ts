@@ -3,7 +3,7 @@ import { validateUser } from "@/app/api/utils/validate-user";
 
 interface RenderVideoRequest {
   runId: string;
-  fileContent: string;
+  fileTree: Record<string, string>;
   meta: {
     inputProps: {
       width: number;
@@ -16,7 +16,7 @@ interface RenderVideoRequest {
 
 export async function POST(request: NextRequest) {
   try {
-    const { runId, fileContent, meta }: RenderVideoRequest =
+    const { runId, fileTree, meta }: RenderVideoRequest =
       await request.json();
 
     // Step 1: Validate user authentication
@@ -26,7 +26,7 @@ export async function POST(request: NextRequest) {
     const response = await fetch(`${process.env.EXPRESS_URL}/render`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ runId, fileContent, meta }),
+      body: JSON.stringify({ runId, fileTree, meta }),
     });
 
     const data = await response.json();
