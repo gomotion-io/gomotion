@@ -82,7 +82,7 @@ export const HomePage = () => {
                 src="/images/register.jpg"
               />
             </span>{" "}
-            motion graphics Generation for creators and marketers.
+            motion graphics generation for creators and marketers.
           </p>
         </div>
         <div className="pt-10 w-full md:w-8/12 rounded-3xl">
@@ -126,7 +126,12 @@ export const HomePage = () => {
               />
               <div className="flex justify-end">
                 {selection.narrative ? (
-                  <Badge variant="secondary">Narrative mode</Badge>
+                  <Badge
+                    variant="secondary"
+                    className="text-emerald-900 bg-emerald-100"
+                  >
+                    Narrative mode
+                  </Badge>
                 ) : (
                   <Badge variant="secondary">Default mode</Badge>
                 )}
@@ -149,7 +154,7 @@ const motionDesignSelections: {
     title: "Kynetic Button",
     description: `Design a magnetic Call to Action where the button gently follows the cursor within ~80px, lifts with
 depth, text parallax, then springs back on mouseleave.`,
-    url: "https://legendary.b-cdn.net/site-assets/kynetic-button.mov",
+    url: "https://legendary.b-cdn.net/site-assets/kynetic-btn.mp4",
     narrative: false,
   },
   {

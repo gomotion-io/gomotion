@@ -8,13 +8,13 @@ import {
   DropdownMenuRadioItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { AspectRatio, useParamStore } from "@/store/params.store";
-import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { AspectRatio, useParamStore } from "@/store/params.store";
+import { ChevronDownIcon } from "@heroicons/react/20/solid";
 
 export const RatioSelection = () => {
   const aspectRatio = useParamStore((state) => state.aspectRatio);
@@ -28,17 +28,14 @@ export const RatioSelection = () => {
     <Tooltip>
       <DropdownMenu>
         <TooltipTrigger asChild>
-          <DropdownMenuTrigger
-            className="backdrop-blur-3xl bg-transparent"
-            asChild
-          >
+          <DropdownMenuTrigger asChild>
             <Button className="rounded-full p-1.5" variant="outline">
               {displayLabel}
               <ChevronDownIcon className="w-5 h-5" />
             </Button>
           </DropdownMenuTrigger>
         </TooltipTrigger>
-        <DropdownMenuContent className="w-24 backdrop-blur-3xl bg-transparent">
+        <DropdownMenuContent className="w-24">
           <DropdownMenuRadioGroup
             value={aspectRatio}
             onValueChange={(value) => {
