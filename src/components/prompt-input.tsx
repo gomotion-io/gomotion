@@ -1,12 +1,12 @@
 "use client";
 
-import { ModelSelection } from "@/components/model-selection";
+import { ContextSelection } from "@/components/context-selection";
 import { RatioSelection } from "@/components/ratio-selection";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 
 import { cn } from "@/lib/utils";
-import { useParamStore } from "@/store/params.store";
+import { Context, useParamStore } from "@/store/params.store";
 import { RefinedVideo, useVideoStore } from "@/store/video.store";
 import { ArrowUpIcon, StopIcon } from "@heroicons/react/16/solid";
 import { useRouter } from "next/navigation";
@@ -31,7 +31,7 @@ export const PromptInput: FC<PromptInputProps> = ({
   const currentVideo = useVideoStore((state) => state.currentVideo);
   const setPrompt = useParamStore((state) => state.setPrompt);
   const prompt = useParamStore((state) => state.prompt);
-  const narrativeMode = useParamStore((state) => state.narrativeMode);
+  const context = useParamStore((state) => state.context);
 
   const canGenerate = useMemo(() => prompt.trim().length > 0, [prompt]);
 
@@ -49,7 +49,7 @@ export const PromptInput: FC<PromptInputProps> = ({
         router.push(`/explore/${data.id}`);
       }
     },
-    [createVideo, prompt, router, updateVideo],
+    [createVideo, prompt, router, updateVideo]
   );
 
   return (
@@ -65,7 +65,7 @@ export const PromptInput: FC<PromptInputProps> = ({
         onChange={(e) => setPrompt(e.target.value)}
         className={cn(
           "min-h-[105px] bg-white text-sm max-h-[calc(75dvh)] overflow-hidden resize-none rounded-3xl font-medium backdrop-blur-2xl pl-5 pt-4 pb-10",
-          className,
+          className
         )}
         rows={2}
         autoFocus
@@ -83,10 +83,10 @@ export const PromptInput: FC<PromptInputProps> = ({
         }}
       />
       <div className="absolute bottom-0 z-50 right-0 p-2 w-fit flex flex-row justify-end gap-2 items-center">
-        {narrativeMode && <VoiceSelection />}
+        {context === Context.Narrative && <VoiceSelection />}
 
         <RatioSelection />
-        <ModelSelection />
+        <ContextSelection />
 
         {landingButton ? (
           landingButton

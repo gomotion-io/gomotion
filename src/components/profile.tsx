@@ -3,8 +3,6 @@
 import { Menu } from "@/components/menu";
 import { Button } from "@/components/ui/button";
 import { CircularProgress } from "@/components/ui/circular-progress";
-import { Label } from "@/components/ui/label";
-import { Switch } from "@/components/ui/switch";
 import { VideoHistory } from "@/components/video-history";
 import { useParamStore } from "@/store/params.store";
 import { useRenderStore } from "@/store/render.store";
@@ -19,8 +17,6 @@ export const Profile = () => {
   const video = useVideoStore((state) => state.currentVideo);
   const renderVideo = useRenderStore((state) => state.renderVideo);
   const progress = useRenderStore((state) => state.state);
-  const narrativeMode = useParamStore((state) => state.narrativeMode);
-  const setNarrativeMode = useParamStore((state) => state.setNarrativeMode);
 
   // stores actions
   const resetVideo = useVideoStore((state) => state.reset);
@@ -40,7 +36,7 @@ export const Profile = () => {
   };
 
   return (
-    <div className="flex flex-col gap-5 h-32 w-full items-center justify-center pt-5">
+    <div className="flex flex-col gap-5 h-24 w-full items-center justify-center">
       <div className="flex items-center justify-center gap-3">
         <div className="flex items-center gap-3">
           {profile?.subscription_status === "inactive" && (
@@ -88,24 +84,6 @@ export const Profile = () => {
           <VideoHistory />
           <Menu logout={logout} user={user} />
         </div>
-      </div>
-
-      <div className="flex items-center space-x-2">
-        <Switch
-          id="narrative-mode"
-          checked={narrativeMode}
-          onCheckedChange={setNarrativeMode}
-        />
-        <Label
-          htmlFor="narrative-mode"
-          className={
-            narrativeMode
-              ? "text-emerald-900 [text-shadow:0_0_10px_rgb(34_197_94)]"
-              : ""
-          }
-        >
-          Narrative mode
-        </Label>
       </div>
     </div>
   );

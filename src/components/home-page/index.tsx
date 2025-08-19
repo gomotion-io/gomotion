@@ -34,7 +34,7 @@ export const HomePage = () => {
               end: "top 60%",
               toggleActions: "play none none reverse",
             },
-          }
+          },
         );
       });
 
@@ -52,7 +52,7 @@ export const HomePage = () => {
               start: "top 90%",
               toggleActions: "play none none reverse",
             },
-          }
+          },
         );
       });
     }, containerRef);
@@ -111,7 +111,7 @@ export const HomePage = () => {
           <VideoDialog
             key={index}
             src={selection.url}
-            title={selection.title}
+            title={selection.url}
             description={selection.description}
           >
             <div className="flex flex-col gap-4">
@@ -122,7 +122,7 @@ export const HomePage = () => {
                 autoPlay
                 muted
                 loop
-                className="w-full min-h-[12rem] object-cover rounded-sm"
+                className="w-full h-[12rem] object-cover rounded-sm"
               />
               <div className="flex justify-end">
                 {selection.narrative ? (
@@ -145,80 +145,67 @@ export const HomePage = () => {
 };
 
 const motionDesignSelections: {
-  title: string;
   description: string;
   url: string;
   narrative: boolean;
 }[] = [
   {
-    title: "Kynetic Button",
     description: `Design a magnetic Call to Action where the button gently follows the cursor within ~80px, lifts with
 depth, text parallax, then springs back on mouseleave.`,
-    url: "https://legendary.b-cdn.net/site-assets/kynetic-btn.mp4",
+    url: "https://uftbovflyenqlyxvpybv.supabase.co/storage/v1/object/public/website-assets/kynetic-button.mov",
     narrative: false,
   },
   {
-    title: "Text Reveal Blur",
+    description: `Create a text reveal effect for "Discover the future" where each letter reveals one by one with a blur effect.`,
+    url: "https://uftbovflyenqlyxvpybv.supabase.co/storage/v1/object/public/website-assets/text-reveal-blur.mp4",
+    narrative: false,
+  },
+  {
+    description: `Create a text reveal effect for "Discover the future" where each letter reveals one by one with a blur effect.`,
+    url: "https://uftbovflyenqlyxvpybv.supabase.co/storage/v1/object/public/website-assets/gomotion-prompt.mp4",
+    narrative: false,
+  },
+  {
+    description: `A fireship-style intro to the brand Fireship, featuring a futuristic voiceover saying '100 second of code`,
+    url: "https://uftbovflyenqlyxvpybv.supabase.co/storage/v1/object/public/website-assets/fireship_intro.mp4",
+    narrative: false,
+  },
+  {
+    description: `Create a text reveal effect for "Discover the future" where each letter reveals one by one with a blur effect.`,
+    url: "https://uftbovflyenqlyxvpybv.supabase.co/storage/v1/object/public/website-assets/eclipse.mp4",
+    narrative: false,
+  },
+  {
+    description: `A cinematic 3D particle explosion revealing the logo for ASTRA`,
+    url: "https://uftbovflyenqlyxvpybv.supabase.co/storage/v1/object/public/website-assets/astra.mov",
+    narrative: false,
+  },
+  {
+    description: `A vibrant, highly dynamic kinetic typography of *gomotion the new after effect*`,
+    url: "https://uftbovflyenqlyxvpybv.supabase.co/storage/v1/object/public/website-assets/text_stomp.mp4",
+    narrative: false,
+  },
+  {
     description: `Create a text reveal effect for "Discover the future" where each letter reveals one by one with a blur effect.`,
     url: "https://legendary.b-cdn.net/site-assets/text-reveal-blur.mp4",
     narrative: false,
   },
   {
-    title: "Text Reveal Blur",
-    description: `Create a text reveal effect for "Discover the future" where each letter reveals one by one with a blur effect.`,
-    url: "https://legendary.b-cdn.net/site-assets/text-reveal-blur.mp4",
-    narrative: false,
-  },
-  {
-    title: "Text Reveal Blur",
-    description: `Create a text reveal effect for "Discover the future" where each letter reveals one by one with a blur effect.`,
-    url: "https://legendary.b-cdn.net/site-assets/text-reveal-blur.mp4",
-    narrative: false,
-  },
-  {
-    title: "Text Reveal Blur",
-    description: `Create a text reveal effect for "Discover the future" where each letter reveals one by one with a blur effect.`,
-    url: "https://legendary.b-cdn.net/site-assets/text-reveal-blur.mp4",
-    narrative: false,
-  },
-  {
-    title: "Text Reveal Blur",
-    description: `Create a text reveal effect for "Discover the future" where each letter reveals one by one with a blur effect.`,
-    url: "https://legendary.b-cdn.net/site-assets/text-reveal-blur.mp4",
-    narrative: false,
-  },
-  {
-    title: "Text Reveal Blur",
-    description: `Create a text reveal effect for "Discover the future" where each letter reveals one by one with a blur effect.`,
-    url: "https://legendary.b-cdn.net/site-assets/text-reveal-blur.mp4",
-    narrative: false,
-  },
-  {
-    title: "Text Reveal Blur",
-    description: `Create a text reveal effect for "Discover the future" where each letter reveals one by one with a blur effect.`,
-    url: "https://legendary.b-cdn.net/site-assets/text-reveal-blur.mp4",
-    narrative: false,
-  },
-  {
-    title: "Motion Design",
     description: "Create stunning motion graphics for your projects.",
     url: "https://legendary.b-cdn.net/site-assets/text-reveal-blur.mp4",
     narrative: true,
   },
   {
-    title: "Motion Design",
     description: "Create stunning motion graphics for your projects.",
     url: "https://legendary.b-cdn.net/site-assets/text-reveal-blur.mp4",
     narrative: true,
   },
   {
-    title: "Motion Design",
     description: "Create stunning motion graphics for your projects.",
     url: "https://legendary.b-cdn.net/site-assets/text-reveal-blur.mp4",
     narrative: true,
   },
   {
-    title: "Motion Design",
     description: "Create stunning motion graphics for your projects.",
     url: "https://legendary.b-cdn.net/site-assets/text-reveal-blur.mp4",
     narrative: true,

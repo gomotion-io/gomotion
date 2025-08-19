@@ -1,16 +1,16 @@
 import { create } from "zustand";
 
-export enum ModelRouter {
-  GROK_4 = "grok-4",
-  CLAUDE_4_1 = "claude-4.1",
-  CLAUDE_3_5_SONNET = "claude-3.5-sonnet",
-}
-
 export enum AspectRatio {
   "16:9" = "1920:1080",
   "9:16" = "1080:1920",
   "1:1" = "1080:1080",
   "4:3" = "1440:1080",
+}
+
+export enum Context {
+  Classic = "classic",
+  Creative = "creative",
+  Narrative = "narrative",
 }
 
 export type Voice = {
@@ -22,17 +22,15 @@ export type Voice = {
 export type ParamsState = {
   prompt: string;
   aspectRatio: AspectRatio;
-  model: ModelRouter;
+  context: Context;
   voices: Voice[];
   currentVoice: Voice | null;
   playingVoiceId: string | null;
   audio: HTMLAudioElement | null;
-  narrativeMode: boolean;
   toggleVoicePreview: (voice: Voice) => void;
   setPrompt: (prompt: string) => void;
-  setNarrativeMode: (narrativeMode: boolean) => void;
   setAspectRatio: (aspectRatio: AspectRatio) => void;
-  setModel: (model: ModelRouter) => void;
+  setContext: (context: Context) => void;
   getVoices: () => Promise<void>;
   setCurrentVoice: (currentVoice: Voice) => void;
 };
@@ -40,17 +38,14 @@ export type ParamsState = {
 export const useParamStore = create<ParamsState>((set) => ({
   prompt: "",
   aspectRatio: AspectRatio["16:9"],
-  model: ModelRouter.GROK_4,
+  context: Context.Classic,
   voices: [],
   currentVoice: null,
   playingVoiceId: null,
   audio: null,
-  narrativeMode: false,
   setPrompt: (prompt) => set({ prompt }),
-  setNarrativeMode: (narrativeMode: boolean) => set({ narrativeMode }),
   setAspectRatio: (aspectRatio: AspectRatio) => set({ aspectRatio }),
-  setModel: (model: ModelRouter) => set({ model }),
-
+  setContext: (context: Context) => set({ context }),
   getVoices: async () => {
     const res = await fetch("/api/voices");
     const data = await res.json();
