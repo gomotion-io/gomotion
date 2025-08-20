@@ -1,8 +1,8 @@
+import { linkProductToUser } from "@/supabase/server-functions/products";
 import { createHmac, timingSafeEqual } from "crypto";
+import { revalidatePath } from "next/cache";
 import getRawBody from "raw-body";
 import { Readable } from "stream";
-import { revalidatePath } from "next/cache";
-import { linkProductToUser } from "@/supabase/server-functions/products";
 
 function isSignatureValid(rawBody: Buffer, signatureHeader: string) {
   const SIGNATURE_SECRET = process.env.LEMONSQUEEZY_SIGNATURE_SECRET;
@@ -12,8 +12,14 @@ function isSignatureValid(rawBody: Buffer, signatureHeader: string) {
   }
 
   const hmac = createHmac("sha256", SIGNATURE_SECRET);
-  const digest = Buffer.from(hmac.update(rawBody).digest("hex"), "utf8");
-  const signature = Buffer.from(signatureHeader, "utf8");
+  const digest = Buffer.from(
+    hmac.update(rawBody as unknown as string).digest("hex"),
+    "utf8"
+  ) as unknown as Uint8Array;
+  const signature = Buffer.from(
+    signatureHeader,
+    "utf8"
+  ) as unknown as Uint8Array;
 
   return timingSafeEqual(digest, signature);
 }
@@ -27,12 +33,12 @@ export async function POST(req: Request) {
       JSON.stringify({
         message: "Signature header not found",
       }),
-      { status: 401 },
+      { status: 401 }
     );
   }
 
   const rawBody = await getRawBody(
-    Readable.from(Buffer.from(await req.text())),
+    Readable.from(Buffer.from(await req.text()))
   );
 
   if (!isSignatureValid(rawBody, sig)) {
@@ -40,7 +46,7 @@ export async function POST(req: Request) {
       JSON.stringify({
         message: "Unauthorized",
       }),
-      { status: 401 },
+      { status: 401 }
     );
   }
 
@@ -63,7 +69,7 @@ export async function POST(req: Request) {
           JSON.stringify({
             message: "order_created event successfully handle",
           }),
-          { status: 200 },
+          { status: 200 }
         );
 
       default:
@@ -71,7 +77,7 @@ export async function POST(req: Request) {
           JSON.stringify({
             message: "No targeted event",
           }),
-          { status: 500 },
+          { status: 500 }
         );
     }
   } catch (err) {
@@ -79,7 +85,7 @@ export async function POST(req: Request) {
       JSON.stringify({
         message: (err as Error).message,
       }),
-      { status: 500 },
+      { status: 500 }
     );
   }
 }

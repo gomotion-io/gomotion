@@ -1,6 +1,5 @@
 import { validateCredit } from "@/app/api/utils/validate-credits";
 import { validateUser } from "@/app/api/utils/validate-user";
-import { ModelRouter } from "@/store/params.store";
 import { Json } from "@/supabase/generated/database.types";
 import { createCount } from "@/supabase/server-functions/counts";
 import { createVideo } from "@/supabase/server-functions/videos";
@@ -9,13 +8,13 @@ import { NextRequest } from "next/server";
 interface GenerateAnimationRequest {
   prompt: string;
   aspectRatio: string;
-  model: ModelRouter;
+  context: string;
   voiceId?: string;
 }
 
 export async function POST(request: NextRequest) {
   try {
-    const { prompt, aspectRatio, model, voiceId }: GenerateAnimationRequest =
+    const { prompt, aspectRatio, context, voiceId }: GenerateAnimationRequest =
       await request.json();
 
     // Step 1: Validate user authentication
@@ -37,7 +36,7 @@ export async function POST(request: NextRequest) {
             instruction: prompt,
             metadata: `width: ${width}, height: ${height}`,
             voiceId,
-            model,
+            context,
           },
           runtimeContext: {},
         }),

@@ -7,6 +7,7 @@ import {
   DialogFooter,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { cn } from "@/lib/utils";
 import { ReactNode } from "react";
 
 interface VideoDialogProps {
@@ -14,6 +15,7 @@ interface VideoDialogProps {
   title: string;
   description: string;
   children: ReactNode;
+  className?: string;
 }
 
 export const VideoDialog = ({
@@ -21,10 +23,20 @@ export const VideoDialog = ({
   title,
   description,
   children,
+  className,
 }: VideoDialogProps) => {
   return (
     <Dialog>
-      <DialogTrigger asChild>{children}</DialogTrigger>
+      <DialogTrigger asChild>
+        <div
+          className={cn(
+            "cursor-pointer rounded-xl overflow-hidden h-[14rem] border",
+            className
+          )}
+        >
+          {children}
+        </div>
+      </DialogTrigger>
       <DialogContent className="w-full max-w-3xl p-2 bg-neutral-50">
         <div className="w-full">
           <video
