@@ -1,4 +1,5 @@
 "use client";
+
 import { Spinner } from "@/components/spinner";
 import { Button } from "@/components/ui/button";
 import {
@@ -19,21 +20,19 @@ import * as z from "zod";
 
 const FormSchema = z.object({
   email: z.string().email(),
-  password: z.string(),
 });
 
 export type FormData = z.infer<typeof FormSchema>;
 
-export const SignIn = () => {
+export const ForgotPassword = () => {
   const loading = useAuthStore((state) => state.loading);
   const error = useAuthStore((state) => state.error);
-  const signIn = useAuthStore((state) => state.signIn);
+  const forgotPassword = useAuthStore((state) => state.forgotPassword);
 
   const form = useForm<FormData>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
       email: "",
-      password: "",
     },
   });
 
@@ -51,12 +50,14 @@ export const SignIn = () => {
               unoptimized
             />
           </Link>
-          <div className="text-2xl mb-3">Login</div>
+          <div className="text-2xl mb-3 max-w-sm text-center">
+            Enter your email to reset your password
+          </div>
         </div>
 
         <Form {...form}>
           <form
-            onSubmit={form.handleSubmit(signIn)}
+            onSubmit={form.handleSubmit(forgotPassword)}
             className="space-y-4 max-w-sm w-full"
           >
             <FormField
@@ -77,49 +78,14 @@ export const SignIn = () => {
               )}
             />
 
-            <FormField
-              control={form.control}
-              name="password"
-              render={({ field }) => (
-                <FormItem>
-                  <Label htmlFor="email">Password</Label>
-                  <FormControl>
-                    <Input
-                      placeholder="Password"
-                      {...field}
-                      type="password"
-                      className="shadow-none px-4 h-12 focus:ring-offset-0 focus:outline-none focus:ring-0"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
             <Button
               type="submit"
               className="w-full mt-1 gap-4 h-12"
               disabled={loading}
             >
-              Login
+              Submit
               {loading && <Spinner />}
             </Button>
-
-            <Link href="/register">
-              <div className="text-muted-foreground text-end text-sm mb-2">
-                No account ?{" "}
-                <span className="text-primary underline">Register here </span>
-              </div>
-            </Link>
-
-            <Link href="/forgot-password">
-              <div className="text-muted-foreground text-end text-sm">
-                Forgot password ?{" "}
-                <span className="text-primary underline">
-                  Reset password here
-                </span>
-              </div>
-            </Link>
 
             {error && <div className="text-sm text-red-500 mt-4">{error}</div>}
           </form>
