@@ -75,6 +75,11 @@ export const bundleCode = async ({ files }: BundleCodeProps) => {
       const resolved = resolvePath(filePath, dep);
       if (graph.hasNode(resolved)) {
         graph.addDependency(name, resolved);
+      } else {
+        const base = resolved.split("/").pop();
+        if (base && graph.hasNode(base)) {
+          graph.addDependency(name, base);
+        }
       }
     }
   }
@@ -92,10 +97,18 @@ export const bundleCode = async ({ files }: BundleCodeProps) => {
     }
 
     const code = files[filePath];
+    let loader: esbuild.Loader = "tsx";
+    if (filePath.endsWith(".ts")) {
+      loader = "ts";
+    } else if (filePath.endsWith(".js")) {
+      loader = "js";
+    } else if (filePath.endsWith(".jsx")) {
+      loader = "jsx";
+    }
     const result = await esbuild.build({
       stdin: {
         contents: code,
-        loader: "tsx",
+        loader,
         resolveDir: "/",
       },
       write: false,
@@ -112,10 +125,16 @@ export const bundleCode = async ({ files }: BundleCodeProps) => {
     const customRequire = (path: string) => {
       if (externalModules[path]) return externalModules[path];
       const resolved = resolvePath(filePath, path);
-      if (moduleExports[resolved]) {
-        return moduleExports[resolved];
+      let target = resolved;
+      if (!moduleExports[target]) {
+        const base = target.split("/").pop();
+        if (base && moduleExports[base]) {
+          target = base;
+        } else {
+          throw new Error(`Unknown module ${path} (resolved to ${resolved})`);
+        }
       }
-      throw new Error(`Unknown module ${path} (resolved to ${resolved})`);
+      return moduleExports[target];
     };
 
     new Function("require", "module", "exports", transpiled)(
@@ -127,5 +146,10 @@ export const bundleCode = async ({ files }: BundleCodeProps) => {
     moduleExports[name] = module.exports;
   }
 
-  return (moduleExports["Main"] as { Main: ComponentType }).Main;
+  let entryName = "Main";
+  if (!moduleExports[entryName]) {
+    entryName =
+      Object.keys(moduleExports).find((n) => n.endsWith("Main")) || "Main";
+  }
+  return (moduleExports[entryName] as { Main: ComponentType }).Main;
 };

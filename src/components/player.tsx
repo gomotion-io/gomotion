@@ -13,6 +13,8 @@ type RemotionPlayerProps = {
 export const RemotionPlayer: FC<RemotionPlayerProps> = ({ composition }) => {
   const [dynamicMain, setDynamicMain] = useState<ComponentType>();
 
+  console.log(composition.result);
+
   useEffect(() => {
     (async () => {
       try {
