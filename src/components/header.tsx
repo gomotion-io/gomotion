@@ -21,7 +21,8 @@ export const Header: FunctionComponent<HeaderProps> = ({ user }) => {
   const shouldHide =
     pathname.startsWith("/sign-in") ||
     pathname.startsWith("/explore") ||
-    pathname.startsWith("/register");
+    pathname.startsWith("/register") ||
+    pathname.startsWith("/forgot-password");
 
   const headerRef = useRef<HTMLDivElement>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);

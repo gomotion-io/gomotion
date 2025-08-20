@@ -20,6 +20,8 @@ type AuthState = {
     email: string;
     password: string;
   }) => Promise<void>;
+  forgotPassword: ({ email }: { email: string }) => Promise<void>;
+  updatePassword: ({ password }: { password: string }) => Promise<void>;
 };
 
 export const useAuthStore = create<AuthState>((set) => ({
@@ -66,6 +68,34 @@ export const useAuthStore = create<AuthState>((set) => ({
     console.log(data, error);
     if (data.user) {
       window.location.href = "/explore";
+      return;
+    }
+
+    set({ loading: false });
+  },
+  forgotPassword: async ({ email }) => {
+    set({ loading: true, error: null });
+    const supabase = createClient();
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: `${getEnvUrl()}?settings=true`,
+    });
+
+    if (error) {
+      set({ error: error.message, loading: false });
+      return;
+    }
+
+    set({ mailSent: true, loading: false });
+  },
+  updatePassword: async ({ password }) => {
+    set({ loading: true, error: null });
+    const supabase = createClient();
+    const { error } = await supabase.auth.updateUser({
+      password,
+    });
+
+    if (error) {
+      set({ error: error.message, loading: false });
       return;
     }
 

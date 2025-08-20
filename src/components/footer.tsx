@@ -65,7 +65,8 @@ export const Footer = () => {
   const shouldHide =
     pathname.startsWith("/sign-in") ||
     pathname.startsWith("/explore") ||
-    pathname.startsWith("/register");
+    pathname.startsWith("/register") ||
+    pathname.startsWith("/forgot-password");
 
   if (shouldHide) {
     return null;
