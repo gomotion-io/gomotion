@@ -1,6 +1,6 @@
 import { create } from "zustand";
 
-export type SettingsTab = "Password" | "Logout";
+export type SettingsTab = "password" | "logout";
 
 type UiStore = {
   isSettingsDialogOpen: boolean;
@@ -11,7 +11,7 @@ type UiStore = {
 
 export const useUiStore = create<UiStore>((set) => ({
   isSettingsDialogOpen: false,
-  activeTab: "Password",
+  activeTab: "password",
   setIsSettingsDialogOpen: (isOpen) => set({ isSettingsDialogOpen: isOpen }),
   setActiveTab: (tab) => set({ activeTab: tab }),
 }));

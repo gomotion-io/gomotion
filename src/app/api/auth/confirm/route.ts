@@ -2,16 +2,16 @@ import { type EmailOtpType } from "@supabase/supabase-js";
 import { type NextRequest } from "next/server";
 
 import { createClient } from "@/supabase/server";
-import { redirect } from "next/navigation";
-import { getProfile } from "@/supabase/server-functions/profile";
 import { linkProductToUser } from "@/supabase/server-functions/products";
+import { getProfile } from "@/supabase/server-functions/profile";
 import { getUser } from "@/supabase/server-functions/users";
+import { redirect } from "next/navigation";
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const token_hash = searchParams.get("token_hash");
   const type = searchParams.get("type") as EmailOtpType | null;
-  const next = searchParams.get("next") ?? "/explore";
+  let next = searchParams.get("next") ?? "/explore";
 
   if (token_hash && type) {
     const supabase = await createClient();
@@ -22,21 +22,27 @@ export async function GET(request: NextRequest) {
     });
 
     if (!error) {
-      const user = await getUser();
+      if (type === "signup") {
+        const user = await getUser();
 
-      if (!user?.id) {
-        throw new Error("User not found");
+        if (!user?.id) {
+          throw new Error("User not found");
+        }
+
+        const profile = await getProfile(user.id);
+
+        if (!profile) {
+          throw new Error("Profile not found");
+        }
+
+        if (!profile?.products?.variant_id) {
+          // link the user the free plan
+          await linkProductToUser(user.id, "free");
+        }
       }
 
-      const profile = await getProfile(user.id);
-
-      if (!profile) {
-        throw new Error("Profile not found");
-      }
-
-      if (!profile?.products?.variant_id) {
-        // link the user the free plan
-        await linkProductToUser(user.id, "free");
+      if (type === "recovery") {
+        next = "/explore?settings=true";
       }
 
       // redirect user to specified redirect URL or root of app

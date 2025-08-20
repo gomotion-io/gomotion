@@ -68,18 +68,18 @@ export const Register = () => {
         </div>
 
         {mailSent ? (
-          <div className="flex flex-col items-center gap-1 text-center min-h-80">
-            <p className="text-muted-foreground mb-10">
+          <div className="flex items-center flex-col gap-1 text-center min-h-80">
+            <p className="text-xl mb-4 max-w-xs">
               We have sent you an email to confirm your account.
             </p>
-
             <Button
               type="button"
-              className="w-full mt-4 gap-4 h-12"
+              variant="outline"
+              className=""
               onClick={() => {
                 window.open(
                   "https://mail.google.com/mail/u/0/#inbox",
-                  "_blank",
+                  "_blank"
                 );
               }}
             >
@@ -90,7 +90,7 @@ export const Register = () => {
           <Form {...form}>
             <form
               onSubmit={form.handleSubmit(({ email, password }) =>
-                register({ email, password }),
+                register({ email, password })
               )}
               className="space-y-4 max-w-sm w-full"
             >
@@ -164,7 +164,7 @@ export const Register = () => {
               </Button>
 
               <Link href="/sign-in">
-                <div className="text-muted-foreground text-end text-sm font-semibold">
+                <div className="text-muted-foreground text-end text-sm">
                   Already have an account ?{" "}
                   <span className="text-primary underline"> Login here</span>
                 </div>

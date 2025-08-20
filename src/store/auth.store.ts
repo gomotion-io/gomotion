@@ -53,7 +53,7 @@ export const useAuthStore = create<AuthState>((set) => ({
     set({ loading: false });
   },
   signIn: async ({ email, password }) => {
-    set({ loading: true, error: null });
+    set({ loading: true, error: null, mailSent: false });
     const supabase = createClient();
     const { data, error } = await supabase.auth.signInWithPassword({
       email,
@@ -88,7 +88,7 @@ export const useAuthStore = create<AuthState>((set) => ({
     set({ mailSent: true, loading: false });
   },
   updatePassword: async ({ password }) => {
-    set({ loading: true, error: null });
+    set({ loading: true, error: null, mailSent: false });
     const supabase = createClient();
     const { error } = await supabase.auth.updateUser({
       password,

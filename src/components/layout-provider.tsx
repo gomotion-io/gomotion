@@ -1,8 +1,9 @@
 "use client";
 
-import { FC, ReactNode, useEffect } from "react";
-import { ReactLenis } from "lenis/react";
 import { initMixpanel } from "@/lib/mixpanelClient";
+import { ReactLenis } from "lenis/react";
+import { FC, ReactNode, useEffect } from "react";
+import { Toaster } from "sonner";
 
 export const LayoutProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const scrollSettings = {
@@ -17,8 +18,11 @@ export const LayoutProvider: FC<{ children: ReactNode }> = ({ children }) => {
   }, []);
 
   return (
-    <ReactLenis root options={scrollSettings}>
-      {children}
-    </ReactLenis>
+    <>
+      <ReactLenis root options={scrollSettings}>
+        {children}
+      </ReactLenis>
+      <Toaster />
+    </>
   );
 };

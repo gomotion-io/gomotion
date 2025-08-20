@@ -28,6 +28,7 @@ export const ForgotPassword = () => {
   const loading = useAuthStore((state) => state.loading);
   const error = useAuthStore((state) => state.error);
   const forgotPassword = useAuthStore((state) => state.forgotPassword);
+  const mailSent = useAuthStore((state) => state.mailSent);
 
   const form = useForm<FormData>({
     resolver: zodResolver(FormSchema),
@@ -50,46 +51,71 @@ export const ForgotPassword = () => {
               unoptimized
             />
           </Link>
-          <div className="text-2xl mb-3 max-w-sm text-center">
-            Enter your email to reset your password
-          </div>
+          {!mailSent && (
+            <div className="text-2xl mb-3 max-w-sm text-center">
+              Enter your email to reset your password
+            </div>
+          )}
         </div>
 
-        <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(forgotPassword)}
-            className="space-y-4 max-w-sm w-full"
-          >
-            <FormField
-              control={form.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <Label htmlFor="email">Email</Label>
-                  <FormControl>
-                    <Input
-                      placeholder="Email"
-                      {...field}
-                      className="shadow-none px-4 h-12 focus:ring-offset-0 focus:outline-none focus:ring-0"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
+        {mailSent ? (
+          <div className="flex items-center flex-col gap-1 text-center min-h-80">
+            <p className="text-xl mb-4 max-w-xs">
+              We have sent you an email to reset your password.
+            </p>
             <Button
-              type="submit"
-              className="w-full mt-1 gap-4 h-12"
-              disabled={loading}
+              type="button"
+              variant="outline"
+              className=""
+              onClick={() => {
+                window.open(
+                  "https://mail.google.com/mail/u/0/#inbox",
+                  "_blank"
+                );
+              }}
             >
-              Submit
-              {loading && <Spinner />}
+              Open Gmail
             </Button>
+          </div>
+        ) : (
+          <Form {...form}>
+            <form
+              onSubmit={form.handleSubmit(forgotPassword)}
+              className="space-y-4 max-w-sm w-full"
+            >
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem>
+                    <Label htmlFor="email">Email</Label>
+                    <FormControl>
+                      <Input
+                        placeholder="Email"
+                        {...field}
+                        className="shadow-none px-4 h-12 focus:ring-offset-0 focus:outline-none focus:ring-0"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
-            {error && <div className="text-sm text-red-500 mt-4">{error}</div>}
-          </form>
-        </Form>
+              <Button
+                type="submit"
+                className="w-full mt-1 gap-4 h-12"
+                disabled={loading}
+              >
+                Submit
+                {loading && <Spinner />}
+              </Button>
+
+              {error && (
+                <div className="text-sm text-red-500 mt-4">{error}</div>
+              )}
+            </form>
+          </Form>
+        )}
       </div>
 
       {/* ---------- Right / Image section ---------- */}
