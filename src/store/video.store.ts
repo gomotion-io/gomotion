@@ -68,7 +68,8 @@ export const useVideoStore = create<VideoState>((set) => ({
           prompt,
           aspectRatio,
           context,
-          voiceId: context === Context.Narrative && currentVoice?.voice_id,
+          voiceId:
+            context === Context.Narrative ? currentVoice?.voice_id : undefined,
         }),
       });
 
@@ -115,7 +116,8 @@ export const useVideoStore = create<VideoState>((set) => ({
           aspectRatio,
           previousVideo,
           context,
-          voiceId: context === Context.Narrative && currentVoice?.voice_id,
+          voiceId:
+            context === Context.Narrative ? currentVoice?.voice_id : undefined,
         }),
       });
 

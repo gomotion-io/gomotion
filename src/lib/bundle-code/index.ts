@@ -104,6 +104,8 @@ export const bundleCode = async ({ files }: BundleCodeProps) => {
       loader = "js";
     } else if (filePath.endsWith(".jsx")) {
       loader = "jsx";
+    } else if (filePath.endsWith(".json")) {
+      loader = "json";
     }
     const result = await esbuild.build({
       stdin: {
@@ -151,5 +153,14 @@ export const bundleCode = async ({ files }: BundleCodeProps) => {
     entryName =
       Object.keys(moduleExports).find((n) => n.endsWith("Main")) || "Main";
   }
-  return (moduleExports[entryName] as { Main: ComponentType }).Main;
+  const exported = moduleExports[entryName] as
+    | { Main?: ComponentType }
+    | ComponentType;
+  if (typeof exported === "function") {
+    return exported;
+  }
+  if (exported.Main) {
+    return exported.Main;
+  }
+  throw new Error(`No Main component found in ${entryName}`);
 };

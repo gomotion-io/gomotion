@@ -35,8 +35,8 @@ export async function POST(request: NextRequest) {
           inputData: {
             instruction: prompt,
             metadata: `width: ${width}, height: ${height}`,
-            voiceId,
             context,
+            ...(voiceId && { voiceId }),
           },
           runtimeContext: {},
         }),

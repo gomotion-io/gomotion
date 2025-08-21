@@ -17,6 +17,7 @@ import * as MorphSVGPlugin from "gsap/MorphSVGPlugin";
 import * as Physics2DPlugin from "gsap/Physics2DPlugin";
 import * as ScrambleTextPlugin from "gsap/ScrambleTextPlugin";
 import * as SplitText from "gsap/SplitText";
+import * as TextPlugin from "gsap/TextPlugin";
 import React from "react";
 import * as JsxRuntime from "react/jsx-runtime";
 import * as Remotion from "remotion";
@@ -38,6 +39,7 @@ export const externalModules: Record<string, unknown> = {
   "gsap/MorphSVGPlugin": MorphSVGPlugin,
   "gsap/Physics2DPlugin": Physics2DPlugin,
   "gsap/SplitText": SplitText,
+  "gsap/TextPlugin": TextPlugin,
 
   // Three.js
   three: Three,

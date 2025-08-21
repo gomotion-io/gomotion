@@ -7,11 +7,11 @@ import { NextRequest } from "next/server";
 
 interface GenerateAnimationRequest {
   videoId: string;
-  voiceId: string;
   aspectRatio: string;
   previousVideo: string;
   prompt: string;
   context: string;
+  voiceId?: string;
 }
 
 export async function POST(request: NextRequest) {
@@ -22,6 +22,7 @@ export async function POST(request: NextRequest) {
       aspectRatio,
       previousVideo,
       context,
+      voiceId,
     }: GenerateAnimationRequest = await request.json();
 
     // Step 1: Validate user authentication
@@ -32,9 +33,6 @@ export async function POST(request: NextRequest) {
 
     // Step 3: Generate video via mastra api
     const [width, height] = aspectRatio.split(":").map(Number);
-
-    //TODO: SEND PAYLOAD TO THE BACKEND
-    console.log("previousVideo & videoId", previousVideo, videoId);
 
     const response = await fetch(
       `${process.env.EXPRESS_URL}/generate/animation`,
@@ -47,6 +45,7 @@ export async function POST(request: NextRequest) {
             metadata: `width: ${width}, height: ${height}`,
             context,
             previousVideo,
+            ...(voiceId && { voiceId }),
           },
           runtimeContext: {},
         }),

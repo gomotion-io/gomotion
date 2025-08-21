@@ -1,6 +1,6 @@
 import { create } from "zustand";
 
-export type SettingsTab = "password" | "logout";
+export type SettingsTab = "password" | "usage" | "logout";
 
 type UiStore = {
   isSettingsDialogOpen: boolean;

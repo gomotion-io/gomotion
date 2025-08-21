@@ -5,12 +5,16 @@ interface CircularProgressProps {
   size?: number;
   strokeWidth?: number;
   className?: string;
+  strokeColor?: string;
+  fillColor?: string;
 }
 
 export const CircularProgress: React.FC<CircularProgressProps> = ({
   progress,
   size = 16,
   strokeWidth = 2,
+  strokeColor = "currentColor",
+  fillColor = "transparent",
   className = "",
 }) => {
   const pct = Math.min(100, Math.max(0, progress));
@@ -31,7 +35,7 @@ export const CircularProgress: React.FC<CircularProgressProps> = ({
         cy={size / 2}
         r={radius}
         fill="transparent"
-        stroke="currentColor"
+        stroke={strokeColor}
         opacity={0.2}
         strokeWidth={strokeWidth}
       />
@@ -40,8 +44,8 @@ export const CircularProgress: React.FC<CircularProgressProps> = ({
         cx={size / 2}
         cy={size / 2}
         r={radius}
-        fill="transparent"
-        stroke="currentColor"
+        fill={fillColor}
+        stroke={strokeColor}
         strokeWidth={strokeWidth}
         strokeDasharray={circumference}
         strokeDashoffset={strokeDashoffset}

@@ -1,6 +1,6 @@
 "use client";
 
-import { Lock, LogOutIcon, LucideIcon } from "lucide-react";
+import { ChartArea, Lock, LogOutIcon, LucideIcon } from "lucide-react";
 
 import {
   Breadcrumb,
@@ -30,11 +30,13 @@ import { SettingsTab, useUiStore } from "@/store/ui.store";
 import { useUserStore } from "@/store/user.store";
 import { useRouter } from "next/navigation";
 import { Password } from "./password";
+import Usage from "./usage";
 
 const data: { nav: { name: SettingsTab; label: string; icon: LucideIcon }[] } =
   {
     nav: [
       { name: "password", label: "Change password", icon: Lock },
+      { name: "usage", label: "Usage", icon: ChartArea },
       { name: "logout", label: "Logout", icon: LogOutIcon },
     ],
   };
@@ -98,11 +100,13 @@ export function SettingsDialog() {
                 <Breadcrumb>
                   <BreadcrumbList>
                     <BreadcrumbItem className="hidden md:block">
-                      <BreadcrumbLink href="/settings">Settings</BreadcrumbLink>
+                      <BreadcrumbLink className="select-none">
+                        Settings
+                      </BreadcrumbLink>
                     </BreadcrumbItem>
                     <BreadcrumbSeparator className="hidden md:block" />
                     <BreadcrumbItem>
-                      <BreadcrumbPage>
+                      <BreadcrumbPage className="font-medium select-none">
                         {
                           data.nav.find((item) => item.name === activeTab)
                             ?.label
@@ -115,6 +119,7 @@ export function SettingsDialog() {
             </header>
             <div className="flex flex-1 flex-col gap-4 overflow-y-auto p-4 pt-0">
               {activeTab === "password" && <Password />}
+              {activeTab === "usage" && <Usage />}
             </div>
           </main>
         </SidebarProvider>

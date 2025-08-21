@@ -15,6 +15,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import * as z from "zod";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "../ui/card";
 
 const FormSchema = z
   .object({
@@ -58,48 +65,53 @@ export const Password = () => {
   };
 
   return (
-    <div className="flex h-screen w-full rounded-lg flex-col gap-4">
-      <p className="text-muted-foreground text-sm max-w-xs mb-5">
-        Update your password to keep your account secure.
-      </p>
+    <Card className="w-full bg-neutral-50 border-none">
+      <CardHeader className="space-y-1 mb-5">
+        <CardTitle>Update Password</CardTitle>
+        <CardDescription>
+          Update your password to keep your account secure.
+        </CardDescription>
+      </CardHeader>
 
-      <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(onSubmit)}
-          className="space-y-6 w-full max-w-sm"
-        >
-          <FormField
-            control={form.control}
-            name="password"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>New Password</FormLabel>
-                <FormControl>
-                  <Input type="password" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="confirmPassword"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Confirm New Password</FormLabel>
-                <FormControl>
-                  <Input type="password" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          {error && <p className="text-red-500">{error}</p>}
-          <Button type="submit" disabled={loading} className="w-full">
-            {loading ? "Updating..." : "Update Password"}
-          </Button>
-        </form>
-      </Form>
-    </div>
+      <CardContent>
+        <Form {...form}>
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="space-y-6 w-full max-w-sm"
+          >
+            <FormField
+              control={form.control}
+              name="password"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>New Password</FormLabel>
+                  <FormControl>
+                    <Input type="password" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="confirmPassword"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Confirm New Password</FormLabel>
+                  <FormControl>
+                    <Input type="password" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            {error && <p className="text-red-500 text-sm">{error}</p>}
+            <Button type="submit" disabled={loading} className="w-full">
+              {loading ? "Updating..." : "Update Password"}
+            </Button>
+          </form>
+        </Form>
+      </CardContent>
+    </Card>
   );
 };

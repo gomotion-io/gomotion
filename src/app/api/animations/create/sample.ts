@@ -20,3 +20,24 @@ export const sample = {
     },
   },
 };
+
+export const sample2 = {
+  runId: "sample2",
+  result: {
+    title: "Ethereal Particle Drift",
+    meta: {
+      width: 1920,
+      height: 1080,
+      fps: 60,
+      durationInFrames: 600,
+    },
+    files: {
+      "Main.tsx":
+        "import { AbsoluteFill } from 'remotion';\nimport ParticlesEffect from './components/ParticlesEffect';\n\nexport default function Main() {\n  return (\n    <AbsoluteFill>\n      <ParticlesEffect />\n    </AbsoluteFill>\n  );\n}",
+      "hooks/useGsapTimeline.ts":
+        "import gsap from 'gsap';\nimport { useEffect, useRef } from 'react';\nimport { useCurrentFrame, useVideoConfig } from 'remotion';\n\nexport const useGsapTimeline = <T extends HTMLElement>(\n  gsapTimelineFactory: () => gsap.core.Timeline,\n) => {\n  const animationScopeRef = useRef<T>(null);\n  const timelineRef = useRef<gsap.core.Timeline>(null);\n\n  const frame = useCurrentFrame();\n  const { fps } = useVideoConfig();\n\n  useEffect(() => {\n    const ctx = gsap.context(() => {\n      timelineRef.current = gsapTimelineFactory();\n      timelineRef.current.pause();\n    }, animationScopeRef);\n    return () => ctx.revert();\n  }, []);\n\n  useEffect(() => {\n    if (timelineRef.current) {\n      timelineRef.current.seek(frame / fps);\n    }\n  }, [frame, fps]);\n\n  return animationScopeRef;\n};",
+      "components/ParticlesEffect.tsx":
+        "import { useRef } from 'react';\nimport gsap from 'gsap';\nimport { useCurrentFrame, useVideoConfig } from 'remotion';\nimport useGsapTimeline from '../hooks/useGsapTimeline';\n\nconst PARTICLE_COUNT = 500;\n\nconst ParticlesEffect = () => {\n  const frame = useCurrentFrame();\n  const { width, height, fps } = useVideoConfig();\n  const particlesRef = useRef<HTMLDivElement[]>([]);\n\n  const timelineRef = useGsapTimeline(() => {\n    const tl = gsap.timeline({ paused: true });\n\n    for (let i = 0; i < PARTICLE_COUNT; i++) {\n      const particle = particlesRef.current[i];\n      if (!particle) continue;\n\n      const startX = Math.random() * width;\n      const startY = Math.random() * height;\n      const endX = startX + (Math.random() - 0.5) * 400;\n      const endY = startY + (Math.random() - 0.5) * 400;\n      const duration = Math.random() * 5 + 5;\n      const delay = Math.random() * 2;\n\n      tl.fromTo(\n        particle,\n        { x: startX, y: startY, opacity: 0, scale: 0 },\n        {\n          x: endX,\n          y: endY,\n          opacity: 1,\n          scale: Math.random() * 1 + 0.5,\n          duration,\n          ease: 'sine.inOut',\n          repeat: -1,\n          yoyo: true,\n          delay,\n        },\n        0\n      );\n\n      tl.to(\n        particle,\n        {\n          rotation: () => Math.random() * 360 - 180,\n          duration: duration / 2,\n          ease: 'power1.inOut',\n          repeat: -1,\n          yoyo: true,\n        },\n        delay\n      );\n    }\n\n    return tl;\n  });\n\n  const colors = ['#FFB3BA', '#FFDFBA', '#FFFFBA', '#BAFFC9', '#BAE1FF'];\n  const gradients = colors.map(color => `radial-gradient(circle, ${color} 0%, transparent 70%)`);\n\n  return (\n    <div ref={timelineRef} style={{ position: 'absolute', width: '100%', height: '100%', background: 'linear-gradient(135deg, #1E1E1E 0%, #000000 100%)', overflow: 'hidden' }}>\n      {Array.from({ length: PARTICLE_COUNT }).map((_, i) => (\n        <div\n          key={i}\n          ref={el => (particlesRef.current[i] = el)}\n          style={{\n            position: 'absolute',\n            width: `${Math.random() * 10 + 5}px`,\n            height: `${Math.random() * 10 + 5}px`,\n            borderRadius: '50%',\n            background: gradients[i % gradients.length],\n            filter: 'blur(2px)',\n            mixBlendMode: 'screen',\n          }}\n        />\n      ))}\n    </div>\n  );\n};\n\nexport default ParticlesEffect;",
+    },
+  },
+};
