@@ -1,3 +1,4 @@
+import { pollMastraRun } from "@/app/api/utils/poll-mastra";
 import { validateCredit } from "@/app/api/utils/validate-credits";
 import { validateUser } from "@/app/api/utils/validate-user";
 import { WORKFLOW_ID } from "@/constant";
@@ -85,6 +86,7 @@ async function generateComposition({
     throw new Error("MASTRA_AGENT_URL environment variable is not set");
   }
 
+  // Create a run
   const createRunResponse = await fetch(
     `${agentUrl}/workflows/${WORKFLOW_ID}/create-run`,
     {
@@ -105,8 +107,9 @@ async function generateComposition({
     throw new Error("Failed to obtain runId");
   }
 
+  // Start the run
   const response = await fetch(
-    `${agentUrl}/workflows/${WORKFLOW_ID}/start-async?runId=${runId}`,
+    `${agentUrl}/workflows/${WORKFLOW_ID}/start?runId=${runId}`,
     {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -122,16 +125,19 @@ async function generateComposition({
     }
   );
 
+  // Check if the start request was successful
   if (!response.ok) {
     const errorText = await response.text();
-    throw new Error(`Mastra API error: ${response.status} - ${errorText}`);
+    throw new Error(`Failed to start run: ${response.status} - ${errorText}`);
   }
 
-  const data = await response.json();
+  // Poll for run completion and get execution result
+  const executionResultData = await pollMastraRun(runId);
 
+  // Create composition from the result
   const composition = {
     runId,
-    result: data.result.output,
+    result: executionResultData.result.output,
   };
 
   return composition;
