@@ -15,7 +15,13 @@ export async function POST(request: NextRequest) {
     await validateUser();
 
     // Step 2: get the progress status of the render
-    const response = await fetch(`${process.env.EXPRESS_URL}/progress`, {
+    const EXPRESS_URL = process.env.EXPRESS_URL;
+
+    if (!EXPRESS_URL) {
+      throw new Error("Error: EXPRESS_URL environment variable is not set");
+    }
+
+    const response = await fetch(`${EXPRESS_URL}/progress`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ bucketName, renderId }),
