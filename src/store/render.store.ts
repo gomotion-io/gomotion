@@ -1,6 +1,6 @@
+import { MastraOutput } from "@/_type";
 import { useVideoStore } from "@/store/video.store";
 import { create } from "zustand";
-import { MastraOutput } from "@/_type";
 
 interface ProgressResponseProgress {
   type: "progress";
@@ -120,8 +120,6 @@ export const useRenderStore = create<RenderStoreState>((set) => ({
 
         const result = (await progress_res.json()) as ProgressResponse;
 
-        console.log(result); ////
-
         switch (result.type) {
           case "error": {
             set({
@@ -163,7 +161,7 @@ export const useRenderStore = create<RenderStoreState>((set) => ({
               } catch (downloadError) {
                 console.error(
                   "Failed to automatically download the video:",
-                  downloadError,
+                  downloadError
                 );
               }
             }

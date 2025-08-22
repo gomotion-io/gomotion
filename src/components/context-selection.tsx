@@ -26,11 +26,11 @@ const contexts = {
     description:
       "More creative but less accurate and with longer generation time",
   },
-  [Context.Narrative]: {
-    label: "Narrative",
-    description:
-      "For storytelling with voice-over and long-form content like ads, and trailers",
-  },
+  // [Context.Narrative]: {
+  //   label: "Narrative",
+  //   description:
+  //     "For storytelling with voice-over and long-form content like ads, and trailers",
+  // },
 };
 
 export const ContextSelection = () => {

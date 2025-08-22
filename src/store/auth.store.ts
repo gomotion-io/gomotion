@@ -65,7 +65,6 @@ export const useAuthStore = create<AuthState>((set) => ({
       return;
     }
 
-    console.log(data, error);
     if (data.user) {
       window.location.href = "/explore";
       return;

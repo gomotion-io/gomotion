@@ -10,7 +10,7 @@ export enum AspectRatio {
 export enum Context {
   Classic = "classic",
   Creative = "creative",
-  Narrative = "narrative",
+  // Narrative = "narrative",
 }
 
 export type Voice = {
