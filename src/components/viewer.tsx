@@ -6,6 +6,7 @@ import { useVideoStore } from "@/store/video.store";
 import { useParams } from "next/navigation";
 import { useEffect } from "react";
 import { Composition } from "./composition";
+import { FloatingSupportButton } from "./floating-support-button";
 
 export const Viewer = () => {
   const params = useParams() as { id?: string };
@@ -24,6 +25,7 @@ export const Viewer = () => {
         <Composition />
         <PromptInput />
       </div>
+      <FloatingSupportButton />
     </div>
   );
 };

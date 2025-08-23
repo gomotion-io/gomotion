@@ -19,18 +19,18 @@ import { ChevronDownIcon } from "@heroicons/react/20/solid";
 const contexts = {
   [Context.Classic]: {
     label: "Classic",
-    description: "High accuracy and short generation time",
+    description: "Low accuracy and short generation time",
   },
   [Context.Creative]: {
     label: "Creative",
     description:
-      "More creative but less accurate and with longer generation time",
+      "More creative with high accurate but with longer generation time",
   },
-  // [Context.Narrative]: {
-  //   label: "Narrative",
-  //   description:
-  //     "For storytelling with voice-over and long-form content like ads, and trailers",
-  // },
+  [Context.Narrative]: {
+    label: "Narrative",
+    description:
+      "For storytelling with voice-over and long-form content like ads, and trailers",
+  },
 };
 
 export const ContextSelection = () => {
@@ -42,7 +42,11 @@ export const ContextSelection = () => {
       <DropdownMenu>
         <TooltipTrigger asChild>
           <DropdownMenuTrigger asChild>
-            <Button className="rounded-full p-1.5" variant="outline">
+            <Button 
+              className="rounded-full p-1.5" 
+              variant="outline"
+              disabled={context === Context.Narrative}
+            >
               <div className="truncate w-auto text-left">
                 {contexts[context].label}
               </div>
@@ -57,9 +61,9 @@ export const ContextSelection = () => {
             className="gap-1 flex flex-col"
           >
             {Object.values(Context).map((c) => (
-              <DropdownMenuRadioItem key={c} value={c} className="font-medium">
+              <DropdownMenuRadioItem key={c} value={c} disabled={c === Context.Narrative} className="font-medium">
                 <div className="flex flex-col">
-                  <p className="text-sm font-medium">{contexts[c].label}</p>
+                  <p className="text-sm font-medium">{contexts[c].label} {c === Context.Narrative && " - Coming soon"} </p>
                   <p className="text-xs text-muted-foreground">
                     {contexts[c].description}
                   </p>
@@ -70,7 +74,7 @@ export const ContextSelection = () => {
         </DropdownMenuContent>
       </DropdownMenu>
       <TooltipContent>
-        <p>{contexts[context].description}</p>
+        <p> {contexts[context].description}</p>
       </TooltipContent>
     </Tooltip>
   );
