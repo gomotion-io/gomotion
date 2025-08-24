@@ -35,8 +35,8 @@ import Usage from "./usage";
 const data: { nav: { name: SettingsTab; label: string; icon: LucideIcon }[] } =
   {
     nav: [
-      { name: "password", label: "Change password", icon: Lock },
       { name: "usage", label: "Usage", icon: ChartArea },
+      { name: "password", label: "Change password", icon: Lock },
       { name: "logout", label: "Logout", icon: LogOutIcon },
     ],
   };
@@ -118,8 +118,8 @@ export function SettingsDialog() {
               </div>
             </header>
             <div className="flex flex-1 flex-col gap-4 overflow-y-auto p-4 pt-0">
-              {activeTab === "password" && <Password />}
               {activeTab === "usage" && <Usage />}
+              {activeTab === "password" && <Password />}
             </div>
           </main>
         </SidebarProvider>

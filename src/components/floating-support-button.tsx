@@ -5,15 +5,14 @@ import { ChatBubbleLeftRightIcon } from "@heroicons/react/20/solid";
 
 export const FloatingSupportButton = () => {
   return (
-    <div className="fixed bottom-6 right-6 z-50">
+    <div className="fixed top-[5rem] right-6 z-50">
       <Button
         asChild
         size="lg"
-        className="rounded-full shadow-lg hover:shadow-xl transition-all duration-200 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white"
+        className="bg-fuchsia-100 text-fuchsia-900 hover:bg-fuchsia-200 py-1 px-3 transition-colors duration-300 font-medium text-sm rounded-md"
       >
         <a
-          // href="https://gomotion.featurebase.app/"
-            href="https://gomotionio.canny.io/feature-requests"
+          href="https://gomotionio.canny.io/feature-requests"
           target="_blank"
           rel="noopener noreferrer"
           className="flex items-center gap-2 px-4 py-3"
