@@ -48,6 +48,8 @@ export async function POST(request: NextRequest) {
       voiceId,
     });
 
+    console.log("data", data);
+
     await createCount(profile.id);
 
     const result = await createVideo({
