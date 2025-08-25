@@ -37,8 +37,8 @@ export const PlanItem: FC<PlanItemProps> = ({ profile, product }) => {
         <div
           className={cn(
             "text-xl font-semibold",
-            product.highlight && "text-emerald-900",
-            product.name === "Pro" && "text-fuchsia-900"
+            product.highlight && "text-emerald-700",
+            product.name === "Pro" && "text-fuchsia-700"
           )}
         >
           {product.name}

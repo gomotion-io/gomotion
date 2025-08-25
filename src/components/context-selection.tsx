@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/tooltip";
 import { Context, useParamStore } from "@/store/params.store";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
+import { Badge } from "./ui/badge";
 
 const contexts = {
   [Context.Classic]: {
@@ -42,10 +43,10 @@ export const ContextSelection = () => {
       <DropdownMenu>
         <TooltipTrigger asChild>
           <DropdownMenuTrigger asChild>
-            <Button 
-              className="rounded-full p-1.5" 
+            <Button
+              className="rounded-full p-1.5"
               variant="outline"
-              disabled={context === Context.Narrative}
+              // disabled={context === Context.Narrative}
             >
               <div className="truncate w-auto text-left">
                 {contexts[context].label}
@@ -61,9 +62,21 @@ export const ContextSelection = () => {
             className="gap-1 flex flex-col"
           >
             {Object.values(Context).map((c) => (
-              <DropdownMenuRadioItem key={c} value={c} disabled={c === Context.Narrative} className="font-medium">
+              <DropdownMenuRadioItem
+                key={c}
+                value={c}
+                // disabled={c === Context.Narrative}
+                className="font-medium"
+              >
                 <div className="flex flex-col">
-                  <p className="text-sm font-medium">{contexts[c].label} {c === Context.Narrative && " - Coming soon"} </p>
+                  <p className="text-sm font-medium mb-1 gap-1">
+                    {contexts[c].label}{" "}
+                    {c === Context.Narrative && (
+                      <Badge className="h-4 text-xs text-emerald-900 bg-emerald-100 ">
+                        Beta
+                      </Badge>
+                    )}
+                  </p>
                   <p className="text-xs text-muted-foreground">
                     {contexts[c].description}
                   </p>

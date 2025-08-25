@@ -29,3 +29,5 @@ export const formatCredits = (credits: number | null): string => {
 
 export const toUppercase = (str: string) =>
   str.charAt(0).toUpperCase() + str.slice(1);
+
+const capitalize = (str: string) => str.charAt(0).toUpperCase() + str.slice(1);
