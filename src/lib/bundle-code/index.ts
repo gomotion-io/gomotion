@@ -59,18 +59,25 @@ const extractImports = (code: string): string[] => {
 export const bundleCode = async ({ files }: BundleCodeProps) => {
   await initializeEsbuild();
 
+  const filesToBundle = { ...files };
+  for (const filePath in filesToBundle) {
+    if (filesToBundle[filePath].includes("registerRoot(")) {
+      delete filesToBundle[filePath];
+    }
+  }
+
   const graph = new DepGraph<string>({ circular: false });
   const pathMap: Record<string, string> = {};
 
-  for (const filePath in files) {
+  for (const filePath in filesToBundle) {
     const name = normalizeName(filePath);
     graph.addNode(name);
     pathMap[name] = filePath;
   }
 
-  for (const filePath in files) {
+  for (const filePath in filesToBundle) {
     const name = normalizeName(filePath);
-    const deps = extractImports(files[filePath]);
+    const deps = extractImports(filesToBundle[filePath]);
     for (const dep of deps) {
       const resolved = resolvePath(filePath, dep);
       if (graph.hasNode(resolved)) {
@@ -96,7 +103,7 @@ export const bundleCode = async ({ files }: BundleCodeProps) => {
       continue;
     }
 
-    const code = files[filePath];
+    const code = filesToBundle[filePath];
     let loader: esbuild.Loader = "tsx";
     if (filePath.endsWith(".ts")) {
       loader = "ts";
@@ -148,7 +155,12 @@ export const bundleCode = async ({ files }: BundleCodeProps) => {
     moduleExports[name] = module.exports;
   }
 
-  let entryName = "Main";
+  let entryName = Object.keys(pathMap).find((n) =>
+    pathMap[n].endsWith("Main.tsx")
+  );
+  if (!entryName) {
+    entryName = "Main";
+  }
   if (!moduleExports[entryName]) {
     entryName =
       Object.keys(moduleExports).find((n) => n.endsWith("Main")) || "Main";
