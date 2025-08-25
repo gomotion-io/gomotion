@@ -1,4 +1,5 @@
 import { validateUser } from "@/app/api/utils/validate-user";
+import { getProfile } from "@/supabase/server-functions/profile";
 import { NextRequest } from "next/server";
 
 interface RenderVideoRequest {
@@ -19,7 +20,16 @@ export async function POST(request: NextRequest) {
     const { runId, fileTree, meta }: RenderVideoRequest = await request.json();
 
     // Step 1: Validate user authentication
-    await validateUser();
+    const user = await validateUser();
+
+    // Step 1.5: Validate subscription
+    const profile = await getProfile(user.id);
+    if (profile.subscription_status !== "active") {
+      return Response.json(
+        { error: "Paid subscription required to export video" },
+        { status: 403 }
+      );
+    }
 
     // Step 2: Render the video
     const EXPRESS_URL = process.env.EXPRESS_URL;

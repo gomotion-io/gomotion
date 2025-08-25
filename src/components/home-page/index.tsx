@@ -321,6 +321,36 @@ export const HomePage = () => {
               loop
               className="w-full h-full object-cover"
             />
+          </VideoDialog>{" "}
+          <VideoDialog
+            src="https://uftbovflyenqlyxvpybv.supabase.co/storage/v1/object/public/website-assets/countdown.mov"
+            title="Cryptic"
+            description="Create futuristic animation with a text 'Cryptic'"
+          >
+            <video
+              src="https://uftbovflyenqlyxvpybv.supabase.co/storage/v1/object/public/website-assets/countdown.mov"
+              preload="metadata"
+              playsInline
+              autoPlay
+              muted
+              loop
+              className="w-full h-full object-cover"
+            />
+          </VideoDialog>{" "}
+          <VideoDialog
+            src="https://uftbovflyenqlyxvpybv.supabase.co/storage/v1/object/public/website-assets/chart-animation.mp4"
+            title="Cryptic"
+            description="Create futuristic animation with a text 'Cryptic'"
+          >
+            <video
+              src="https://uftbovflyenqlyxvpybv.supabase.co/storage/v1/object/public/website-assets/chart-animation.mp4"
+              preload="metadata"
+              playsInline
+              autoPlay
+              muted
+              loop
+              className="w-full h-full object-cover"
+            />
           </VideoDialog>
         </div>
       </section>

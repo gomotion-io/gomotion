@@ -97,6 +97,11 @@ export const useRenderStore = create<RenderStoreState>((set) => ({
         body: JSON.stringify({ runId, fileTree, meta }),
       });
 
+      if (!render_res.ok) {
+        const errorData = await render_res.json();
+        throw new Error(errorData.error || "Failed to start rendering");
+      }
+
       const { renderId, bucketName } = await render_res.json();
 
       set({
