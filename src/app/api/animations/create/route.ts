@@ -11,12 +11,13 @@ interface GenerateAnimationRequest {
   prompt: string;
   aspectRatio: string;
   context: string;
+  model: string;
   voiceId?: string;
 }
 
 export async function POST(request: NextRequest) {
   const body = await request.json();
-  const { prompt, aspectRatio, context, voiceId } =
+  const { prompt, aspectRatio, context, voiceId, model } =
     body as GenerateAnimationRequest;
 
   if (!prompt || !aspectRatio || !context) {
@@ -45,6 +46,7 @@ export async function POST(request: NextRequest) {
       width,
       height,
       context,
+      model,
       voiceId,
     });
 
@@ -76,11 +78,13 @@ async function generateComposition({
   height,
   context,
   voiceId,
+  model,
 }: {
   prompt: string;
   width: number;
   height: number;
   context: string;
+  model: string;
   voiceId?: string;
 }) {
   const agentUrl = process.env.MASTRA_AGENT_URL;
@@ -120,6 +124,7 @@ async function generateComposition({
           instruction: prompt,
           metadata: `width: ${width}, height: ${height} , fps: 30`,
           contextModel: context,
+          model,
           ...(voiceId && { voiceId }),
         },
         runtimeContext: {},

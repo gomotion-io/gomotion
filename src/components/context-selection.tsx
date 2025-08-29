@@ -18,14 +18,14 @@ import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import { Badge } from "./ui/badge";
 
 const contexts = {
-  [Context.Classic]: {
-    label: "Classic",
-    description: "Low accuracy and short generation time",
-  },
   [Context.Creative]: {
     label: "Creative",
     description:
       "More creative with high accurate but with longer generation time",
+  },
+  [Context.Classic]: {
+    label: "Classic",
+    description: "Low accuracy and short generation time",
   },
   [Context.Narrative]: {
     label: "Narrative",
@@ -65,7 +65,7 @@ export const ContextSelection = () => {
               <DropdownMenuRadioItem
                 key={c}
                 value={c}
-                // disabled={c === Context.Narrative}
+                disabled={c === Context.Narrative}
                 className="font-medium"
               >
                 <div className="flex flex-col">

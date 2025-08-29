@@ -53,52 +53,48 @@ export const Profile = () => {
             <Button onClick={handleCreateNew}>
               Create new <PlusIcon />
             </Button>
-
-            <div className="relative">
-              <div className="absolute inset-0 rounded-[28px] bg-indigo-500 -z-50 opacity-60 group-hover:opacity-100 blur-2xl transition duration-500 will-change-transform"></div>
-
-              <Button
-                onClick={() => {
-                  if (profile?.subscription_status !== "active") {
-                    router.push("/pricing");
-                    return;
-                  }
-                  renderVideo();
-                }}
-                variant="outline"
-                className="hidden sm:block border-[2px]  border-indigo-500 z-10"
-                disabled={
-                  !video ||
-                  !video.composition ||
-                  progress.status === "rendering" ||
-                  progress.status === "invoking"
+            <Button
+              onClick={() => {
+                if (profile?.subscription_status !== "active") {
+                  router.push("/pricing");
+                  return;
                 }
-              >
-                {progress.status === "invoking" ? (
+                renderVideo();
+              }}
+              variant="brandOutline"
+              className="hidden sm:block z-10"
+              disabled={
+                !video ||
+                !video.composition ||
+                progress.status === "rendering" ||
+                progress.status === "invoking"
+              }
+            >
+              {progress.status === "invoking" ? (
+                <div className="h-full flex items-center justify-center gap-2 text-indigo-500">
+                  Preparing...
+                </div>
+              ) : progress.status === "rendering" ? (
+                <div className="flex items-center gap-2">
+                  <CircularProgress
+                    progress={
+                      "progress" in progress
+                        ? Math.round(progress.progress * 100)
+                        : 0
+                    }
+                  />
                   <div className="h-full flex items-center justify-center gap-2 text-indigo-500">
-                    Preparing...
+                    Exporting...
                   </div>
-                ) : progress.status === "rendering" ? (
-                  <div className="flex items-center gap-2">
-                    <CircularProgress
-                      progress={
-                        "progress" in progress
-                          ? Math.round(progress.progress * 100)
-                          : 0
-                      }
-                    />
-                    <div className="h-full flex items-center justify-center gap-2 text-indigo-500">
-                      Exporting...
-                    </div>
-                  </div>
-                ) : (
-                  <div className="h-full flex items-center justify-center gap-2 text-indigo-500">
-                    Export video <SparklesIcon className="w-4 h-4" />
-                  </div>
-                )}
-              </Button>
-            </div>
+                </div>
+              ) : (
+                <div className="h-full flex items-center justify-center gap-2 text-indigo-500">
+                  Export video <SparklesIcon className="w-4 h-4" />
+                </div>
+              )}
+            </Button>
           </div>
+
           <div className="flex items-center gap-3">
             <VideoHistory />
             <Button

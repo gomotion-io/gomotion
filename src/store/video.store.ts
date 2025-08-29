@@ -54,7 +54,8 @@ export const useVideoStore = create<VideoState>((set) => ({
   },
 
   create: async ({ prompt }) => {
-    const { aspectRatio, context, currentVoice } = useParamStore.getState();
+    const { aspectRatio, context, currentVoice, model } =
+      useParamStore.getState();
 
     try {
       set({ generating: true, currentVideo: null });
@@ -68,6 +69,7 @@ export const useVideoStore = create<VideoState>((set) => ({
           prompt,
           aspectRatio,
           context,
+          model: model.value,
           voiceId:
             context === Context.Narrative ? currentVoice?.voice_id : undefined,
         }),
@@ -93,7 +95,8 @@ export const useVideoStore = create<VideoState>((set) => ({
   },
 
   update: async ({ id, prompt, previousVideo }) => {
-    const { aspectRatio, context, currentVoice } = useParamStore.getState();
+    const { aspectRatio, context, currentVoice, model } =
+      useParamStore.getState();
 
     if (
       !prompt &&
@@ -116,6 +119,7 @@ export const useVideoStore = create<VideoState>((set) => ({
           aspectRatio,
           previousVideo,
           context,
+          model: model.value,
           voiceId:
             context === Context.Narrative ? currentVoice?.voice_id : undefined,
         }),
