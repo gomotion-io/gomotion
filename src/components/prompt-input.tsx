@@ -6,13 +6,13 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 
 import { cn } from "@/lib/utils";
-import { Context, useParamStore } from "@/store/params.store";
+import { useParamStore } from "@/store/params.store";
 import { RefinedVideo, useVideoStore } from "@/store/video.store";
 import { ArrowUpIcon, StopIcon } from "@heroicons/react/16/solid";
 import { useRouter } from "next/navigation";
 import { FC, ReactNode, useCallback, useMemo, useRef } from "react";
 import { ModelSelection } from "./model-selection";
-import { VoiceSelection } from "./voice-selection";
+// import { VoiceSelection } from "./voice-selection";
 
 type PromptInputProps = {
   className?: string;
@@ -32,7 +32,7 @@ export const PromptInput: FC<PromptInputProps> = ({
   const currentVideo = useVideoStore((state) => state.currentVideo);
   const setPrompt = useParamStore((state) => state.setPrompt);
   const prompt = useParamStore((state) => state.prompt);
-  const context = useParamStore((state) => state.context);
+  // const context = useParamStore((state) => state.context);
 
   const canGenerate = useMemo(() => prompt.trim().length > 0, [prompt]);
 
@@ -84,7 +84,7 @@ export const PromptInput: FC<PromptInputProps> = ({
         }}
       />
       <div className="absolute bottom-0 z-50 right-0 p-2 w-fit flex flex-row justify-end gap-2 items-center">
-        {context === Context.Narrative && <VoiceSelection />}
+        {/* {context === Context.Narrative && <VoiceSelection />} */}
 
         <ModelSelection />
         <RatioSelection />
@@ -93,13 +93,16 @@ export const PromptInput: FC<PromptInputProps> = ({
         {landingButton ? (
           landingButton
         ) : generating ? (
-          <Button className="rounded-full w-14" disabled>
+          <Button
+            className="rounded-full w-14 bg-indigo-200 font-medium text-indigo-900 hover:bg-indigo-300"
+            disabled
+          >
             <StopIcon className="w-5 h-5 animate-spin" />
           </Button>
         ) : (
           <Button
             disabled={!canGenerate}
-            className="rounded-full"
+            className="rounded-full bg-indigo-200 font-medium text-indigo-900 hover:bg-indigo-300"
             onClick={() => handleSubmit(currentVideo)}
           >
             {currentVideo ? (

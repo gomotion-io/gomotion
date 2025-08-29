@@ -30,7 +30,7 @@ export const VideoDialog = ({
       <DialogTrigger asChild>
         <div
           className={cn(
-            "cursor-pointer rounded-xl overflow-hidden h-[14rem] border",
+            "cursor-pointer rounded-xl overflow-hidden  h-full border",
             className
           )}
         >

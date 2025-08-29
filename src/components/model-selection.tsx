@@ -58,7 +58,7 @@ export const ModelSelection = () => {
               height={16}
             />
           )}
-          {displayLabel}
+          <div className="sm:block hidden">{displayLabel}</div>
           <ChevronDownIcon className="w-5 h-5" />
         </Button>
       </DropdownMenuTrigger>

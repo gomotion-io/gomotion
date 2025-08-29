@@ -22,7 +22,7 @@ export const useCheckoutStore = create<CheckoutState>((set) => ({
     }
 
     if (product.name === "Enterprise") {
-      window.location.href = "https://discord.gg/emD6h74Fh7";
+      window.location.href = "https://discord.gg/Wd4nCJhCgd";
       return;
     }
 
