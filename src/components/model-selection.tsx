@@ -14,14 +14,14 @@ import Image from "next/image";
 
 const models = [
   {
+    name: "Claude Sonnet 4",
+    value: "anthropic/claude-sonnet-4",
+    icon: "/models-icons/anthropic.svg",
+  },
+  {
     name: "GPT 5",
     value: "openai/gpt-5",
     icon: "/models-icons/openai.svg",
-  },
-  {
-    name: "Grok 4",
-    value: "x-ai/grok-4",
-    icon: "/models-icons/xai.svg",
   },
   {
     name: "Gemini 2.5 Pro",
@@ -29,14 +29,9 @@ const models = [
     icon: "/models-icons/google.svg",
   },
   {
-    name: "Claude Opus 4.1",
-    value: "anthropic/claude-opus-4.1",
-    icon: "/models-icons/anthropic.svg",
-  },
-  {
-    name: "Claude Sonnet 4",
-    value: "anthropic/claude-sonnet-4",
-    icon: "/models-icons/anthropic.svg",
+    name: "Grok 4",
+    value: "x-ai/grok-4",
+    icon: "/models-icons/xai.svg",
   },
 ];
 

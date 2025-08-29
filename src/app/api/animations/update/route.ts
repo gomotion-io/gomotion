@@ -13,13 +13,21 @@ interface GenerateAnimationRequest {
   previousVideo: string;
   prompt: string;
   context: string;
+  model: string;
   voiceId?: string;
 }
 
 export async function POST(request: NextRequest) {
   const body = await request.json();
-  const { videoId, prompt, aspectRatio, previousVideo, context, voiceId } =
-    body as GenerateAnimationRequest;
+  const {
+    videoId,
+    prompt,
+    aspectRatio,
+    previousVideo,
+    context,
+    voiceId,
+    model,
+  } = body as GenerateAnimationRequest;
 
   if (!videoId || !prompt || !aspectRatio || !previousVideo || !context) {
     return Response.json(
@@ -47,6 +55,7 @@ export async function POST(request: NextRequest) {
       width,
       height,
       context,
+      model,
       voiceId,
       previousCode: previousVideo,
     });
@@ -76,6 +85,7 @@ async function updateComposition({
   width,
   height,
   context,
+  model,
   voiceId,
   previousCode,
 }: {
@@ -83,6 +93,7 @@ async function updateComposition({
   width: number;
   height: number;
   context: string;
+  model: string;
   voiceId?: string;
   previousCode: string;
 }) {
@@ -124,6 +135,7 @@ async function updateComposition({
           metadata: `width: ${width}, height: ${height}, fps: 30`,
           contextModel: context,
           previousCode,
+          model,
           ...(voiceId && { voiceId }),
         },
         runtimeContext: {},

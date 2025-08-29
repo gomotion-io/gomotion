@@ -13,6 +13,12 @@ export enum Context {
   Narrative = "narrative",
 }
 
+type Model = {
+  name: string;
+  value: string;
+  icon: string;
+};
+
 export type Voice = {
   name: string;
   voice_id: string;
@@ -23,6 +29,7 @@ export type ParamsState = {
   prompt: string;
   aspectRatio: AspectRatio;
   context: Context;
+  model: Model;
   voices: Voice[];
   currentVoice: Voice | null;
   playingVoiceId: string | null;
@@ -33,6 +40,7 @@ export type ParamsState = {
   setContext: (context: Context) => void;
   getVoices: () => Promise<void>;
   setCurrentVoice: (currentVoice: Voice) => void;
+  setModel: (model: Model) => void;
 };
 
 export const useParamStore = create<ParamsState>((set) => ({
@@ -43,6 +51,12 @@ export const useParamStore = create<ParamsState>((set) => ({
   currentVoice: null,
   playingVoiceId: null,
   audio: null,
+  model: {
+    name: "Claude Sonnet 4",
+    value: "anthropic/claude-sonnet-4",
+    icon: "/models-icons/anthropic.svg",
+  },
+  setModel: (model: Model) => set({ model }),
   setPrompt: (prompt) => set({ prompt }),
   setAspectRatio: (aspectRatio: AspectRatio) => set({ aspectRatio }),
   setContext: (context: Context) => set({ context }),

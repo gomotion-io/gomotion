@@ -11,6 +11,7 @@ import { RefinedVideo, useVideoStore } from "@/store/video.store";
 import { ArrowUpIcon, StopIcon } from "@heroicons/react/16/solid";
 import { useRouter } from "next/navigation";
 import { FC, ReactNode, useCallback, useMemo, useRef } from "react";
+import { ModelSelection } from "./model-selection";
 import { VoiceSelection } from "./voice-selection";
 
 type PromptInputProps = {
@@ -85,6 +86,7 @@ export const PromptInput: FC<PromptInputProps> = ({
       <div className="absolute bottom-0 z-50 right-0 p-2 w-fit flex flex-row justify-end gap-2 items-center">
         {context === Context.Narrative && <VoiceSelection />}
 
+        <ModelSelection />
         <RatioSelection />
         <ContextSelection />
 
