@@ -8,8 +8,8 @@ export enum AspectRatio {
 }
 
 export enum Context {
-  Classic = "classic",
   Creative = "creative",
+  Classic = "classic",
   Narrative = "narrative",
 }
 
@@ -46,7 +46,7 @@ export type ParamsState = {
 export const useParamStore = create<ParamsState>((set) => ({
   prompt: "",
   aspectRatio: AspectRatio["16:9"],
-  context: Context.Classic,
+  context: Context.Creative,
   voices: [],
   currentVoice: null,
   playingVoiceId: null,
