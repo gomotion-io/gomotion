@@ -30,10 +30,10 @@ jobs:
         with:
           client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_AFF99E7577AC49C892BA8EA31F08DCA6 }}
           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_C5CD29FAED284C08846B0BC8E676824A }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_FB4DBCD52A37429FA432ACA549A95BC5 }}
+          subscription-id: ${{ secrets.ACR_SUBSCRIPTION_ID }}  
 
       - name: ACR login via Azure token (no secrets)
-        run: az acr login --name $ACR_NAME   # e.g. myregistry
+        run: az acr login --name $ACR_NAME 
         env:
           ACR_NAME: gomotionagent
 
