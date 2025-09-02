@@ -24,18 +24,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      # (optional) Azure login with OIDC - useful for az CLI, not required for docker login
-      - name: Azure login
-        uses: azure/login@v2
+      - name: Docker login (ACR)
+        uses: docker/login-action@v3
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_AFF99E7577AC49C892BA8EA31F08DCA6 }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_C5CD29FAED284C08846B0BC8E676824A }}
-          subscription-id: ${{ secrets.ACR_SUBSCRIPTION_ID }}  
-
-      - name: ACR login via Azure token (no secrets)
-        run: az acr login --name $ACR_NAME 
-        env:
-          ACR_NAME: gomotionagent
+          registry: ${{ env.ACR_LOGIN_SERVER }}
+          username: ${{ secrets.ACR_USERNAME }}
+          password: ${{ secrets.ACR_PASSWORD }}
 
       - name: Build & push image
         uses: docker/build-push-action@v5
