@@ -9,7 +9,7 @@
   "scripts": {
     "typecheck": "tsc --noEmit",
     "dev": "nodemon",
-    "build": "tsc",
+    "build": "tsup",
     "start": "node dist/index.js",
     "example": "npx ts-node src/example.ts"
   },
@@ -21,6 +21,7 @@
     "@types/three": "^0.179.0",
     "nodemon": "^3.1.10",
     "ts-node": "^10.9.2",
+    "tsup": "^8.5.0",
     "typescript": "^5.9.2"
   },
   "dependencies": {

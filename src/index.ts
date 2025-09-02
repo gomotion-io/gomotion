@@ -1,7 +1,10 @@
 // Import config first to set up AI provider
-import "./setupEnv";
+import dotenv from "dotenv";
+
 import "./g-zero/utils/config";
 import server from "./server";
+
+dotenv.config();
 
 const port = process.env.PORT || 3000;
 

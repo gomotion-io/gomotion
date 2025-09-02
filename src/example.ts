@@ -1,5 +1,7 @@
-import "./setupEnv";
+import dotenv from "dotenv";
 import { createAnimationWorkflow } from "./g-zero";
+
+dotenv.config();
 
 /**
  * Example usage of the animation workflow
