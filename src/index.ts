@@ -1,3 +1,5 @@
+// Import config first to set up AI provider
+import "./g-zero/utils/config";
 import server from "./server";
 
 const port = process.env.PORT || 3000;
