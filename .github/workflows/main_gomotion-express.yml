@@ -1,20 +1,19 @@
-name: Build and deploy app to Azure Web App - gomotion-agent
+name: Build & deploy container to Azure Web App (gomotion-express)
 
 on:
   push:
-    branches:
-      - master
-      - main
+    branches: [main]
   workflow_dispatch:
 
 env:
-  AZURE_WEBAPP_NAME: legend-agent
+  APP_NAME: gomotion-express
+  ACR_LOGIN_SERVER: gomotionagent.azurecr.io
+  AZURE_WEBAPP_NAME: gomotion-express
   RESOURCE_GROUP: gomotion
   ACR_NAME: gomotionagent             # e.g. myregistry
   IMAGE_NAME: gomotion-agent
   REGISTRY: gomotionagent.azurecr.io
   TAG: latest
-
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
@@ -25,34 +24,32 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      # Login to Azure with OIDC (same creds you already use)
-      - uses: azure/login@v2
+      # (optional) Azure login with OIDC - useful for az CLI, not required for docker login
+      - name: Azure login
+        uses: azure/login@v2
         with:
           client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_AFF99E7577AC49C892BA8EA31F08DCA6 }}
           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_C5CD29FAED284C08846B0BC8E676824A }}
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_FB4DBCD52A37429FA432ACA549A95BC5 }}
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
+      - name: ACR login via Azure token (no secrets)
+        run: az acr login --name $ACR_NAME   # e.g. myregistry
+        env:
+          ACR_NAME: gomotionagent
 
-      - name: ACR login (uses Azure CLI session)
-        run: az acr login --name $ACR_NAME
+      - name: Build & push image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: |
+            ${{ env.ACR_LOGIN_SERVER }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
+            ${{ env.ACR_LOGIN_SERVER }}/${{ env.IMAGE_NAME }}:latest
+          cache-from: type=registry,ref=${{ env.ACR_LOGIN_SERVER }}/${{ env.IMAGE_NAME }}:buildcache
+          cache-to: type=registry,ref=${{ env.ACR_LOGIN_SERVER }}/${{ env.IMAGE_NAME }}:buildcache,mode=max
 
-      - name: Build & push image (linux/amd64 for App Service)
-        run: |
-          docker buildx build \
-            --platform linux/amd64 \
-            -t $REGISTRY/$IMAGE_NAME:$TAG \
-            -t $REGISTRY/$IMAGE_NAME:latest \
-            --push .
-
-      # # (Optional) ensure WEBSITES_PORT is set
-      # - name: Ensure WEBSITES_PORT app setting
-      #   run: az webapp config appsettings set -g $RESOURCE_GROUP -n $AZURE_WEBAPP_NAME --settings WEBSITES_PORT=8080
-
-      # # Point the web app at the freshly pushed image
-      # - name: Deploy container image to Web App
+      # - name: Update Web App to new image
       #   uses: azure/webapps-deploy@v3
       #   with:
-      #     app-name: ${{ env.AZURE_WEBAPP_NAME }}
-      #     images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.TAG }}
+      #     app-name: ${{ env.APP_NAME }}
+      #     images: ${{ env.ACR_LOGIN_SERVER }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
