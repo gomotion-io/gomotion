@@ -1,4 +1,5 @@
 // Import config first to set up AI provider
+import "./setupEnv";
 import "./g-zero/utils/config";
 import server from "./server";
 

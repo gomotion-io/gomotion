@@ -1,3 +1,4 @@
+import "./setupEnv";
 import { createAnimationWorkflow } from "./g-zero";
 
 /**

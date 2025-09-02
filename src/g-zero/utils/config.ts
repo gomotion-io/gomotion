@@ -1,8 +1,7 @@
 import { createOpenRouter } from "@openrouter/ai-sdk-provider";
 
 const openrouter = createOpenRouter({
-  apiKey:
-    "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",
+  apiKey: process.env.OPENROUTER_API_KEY,
 });
 
 export const getModel = (model?: string) => {
