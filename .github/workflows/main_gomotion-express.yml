@@ -1,4 +1,4 @@
-name: Build and deploy Node.js app to Azure Web App - gomotion-agent
+name: Build and deploy app to Azure Web App - gomotion-agent
 
 on:
   push:
