@@ -1,70 +1,82 @@
-# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
-# More GitHub Actions for Azure: https://github.com/Azure/actions
-
 name: Build and deploy Node.js app to Azure Web App - gomotion-express
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
   workflow_dispatch:
+
+env:
+  APP_NAME: gomotion-express
+  DEPLOY_ZIP: deploy.zip
 
 jobs:
   build:
     runs-on: ubuntu-latest
     permissions:
-      contents: read #This is required for actions/checkout
+      contents: read
 
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up Node.js version
-        uses: actions/setup-node@v3
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
-          node-version: '22.x'
+          node-version: '22'
+          cache: 'pnpm'
 
-      - name: Install pnpm
+      - name: Setup pnpm
         uses: pnpm/action-setup@v4
         with:
-          version: 10 # use the version you need
+          version: 10
 
-
-      - name: npm install, build, and test
+      - name: Install deps & build (CI)
         run: |
-          pnpm install
+          pnpm install --frozen-lockfile
           pnpm run build
+          # produce production node_modules for runtime
+          pnpm prune --prod
 
-      - name: Upload artifact for deployment job
+      - name: Create deploy package
+        run: |
+          mkdir -p deploy
+          # include runtime files only
+          cp -r dist deploy/
+          cp package.json pnpm-lock.yaml deploy/ 2>/dev/null || true
+          cp -r public deploy/ 2>/dev/null || true
+          cp -r assets deploy/ 2>/dev/null || true
+          # include production node_modules produced by `pnpm prune --prod`
+          cp -r node_modules deploy/
+          cd deploy && zip -r ../$DEPLOY_ZIP . && cd -
+
+      - name: Upload artifact for deployment
         uses: actions/upload-artifact@v4
         with:
-          name: node-app
-          path: .
+          name: node-app-zip
+          path: ${{ env.DEPLOY_ZIP }}
 
   deploy:
     runs-on: ubuntu-latest
     needs: build
     permissions:
-      id-token: write #This is required for requesting the JWT
-      contents: read #This is required for actions/checkout
+      id-token: write
+      contents: read
 
     steps:
-      - name: Download artifact from build job
+      - name: Download build artifact
         uses: actions/download-artifact@v4
         with:
-          name: node-app
-      
-      - name: Login to Azure
+          name: node-app-zip
+
+      - name: Azure login (federated)
         uses: azure/login@v2
         with:
           client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_AFF99E7577AC49C892BA8EA31F08DCA6 }}
           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_C5CD29FAED284C08846B0BC8E676824A }}
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_FB4DBCD52A37429FA432ACA549A95BC5 }}
 
-      - name: 'Deploy to Azure Web App'
-        id: deploy-to-webapp
+      - name: Deploy ZIP to App Service
         uses: azure/webapps-deploy@v3
         with:
-          app-name: 'gomotion-express'
-          slot-name: 'Production'
-          package: .
-          
+          app-name: ${{ env.APP_NAME }}
+          slot-name: Production
+          package: ${{ env.DEPLOY_ZIP }}
