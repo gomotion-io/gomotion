@@ -7,7 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 
 import { cn } from "@/lib/utils";
 import { useParamStore } from "@/store/params.store";
-import { RefinedVideo, useVideoStore } from "@/store/video.store";
+import { useVideoStore } from "@/store/video.store";
 import { ArrowUpIcon, StopIcon } from "@heroicons/react/16/solid";
 import { useRouter } from "next/navigation";
 import { FC, ReactNode, useCallback, useMemo, useRef } from "react";
@@ -28,7 +28,7 @@ export const PromptInput: FC<PromptInputProps> = ({
 
   const generating = useVideoStore((state) => state.generating);
   const createVideo = useVideoStore((state) => state.create);
-  const updateVideo = useVideoStore((state) => state.update);
+  // const updateVideo = useVideoStore((state) => state.update);
   const currentVideo = useVideoStore((state) => state.currentVideo);
   const setPrompt = useParamStore((state) => state.setPrompt);
   const prompt = useParamStore((state) => state.prompt);
@@ -36,22 +36,19 @@ export const PromptInput: FC<PromptInputProps> = ({
 
   const canGenerate = useMemo(() => prompt.trim().length > 0, [prompt]);
 
-  const handleSubmit = useCallback(
-    async (video: RefinedVideo | null) => {
-      if (video) {
-        // update the current video
-        await updateVideo({ id: video.id, prompt, previousVideo: video });
-        return;
-      }
-      // else create a new video
+  const handleSubmit = useCallback(async () => {
+    // if (video) {
+    //   // update the current video
+    //   await updateVideo({ id: video.id, prompt, previousVideo: video });
+    //   return;
+    // }
+    // // else create a new video
 
-      const data = await createVideo({ prompt });
-      if (data?.id) {
-        router.push(`/explore/${data.id}`);
-      }
-    },
-    [createVideo, prompt, router, updateVideo]
-  );
+    const data = await createVideo({ prompt });
+    if (data?.id) {
+      router.push(`/explore/${data.id}`);
+    }
+  }, [createVideo, prompt, router]);
 
   return (
     <div className="relative w-full flex flex-col gap-4">
@@ -78,7 +75,8 @@ export const PromptInput: FC<PromptInputProps> = ({
           ) {
             if (canGenerate) {
               event.preventDefault();
-              handleSubmit(currentVideo).catch(console.error);
+              // handleSubmit(currentVideo).catch(console.error);
+              handleSubmit().catch(console.error);
             }
           }
         }}
@@ -103,13 +101,10 @@ export const PromptInput: FC<PromptInputProps> = ({
           <Button
             disabled={!canGenerate}
             className="rounded-full bg-indigo-200 font-medium text-indigo-900 hover:bg-indigo-300"
-            onClick={() => handleSubmit(currentVideo)}
+            // onClick={() => handleSubmit(currentVideo)}
+            onClick={() => handleSubmit()}
           >
-            {currentVideo ? (
-              <div className="mx-2">Remix</div>
-            ) : (
-              <ArrowUpIcon className="w-5 h-5" />
-            )}
+            <ArrowUpIcon className="w-5 h-5" />
           </Button>
         )}
       </div>
