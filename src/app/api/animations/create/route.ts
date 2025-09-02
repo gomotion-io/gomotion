@@ -1,7 +1,5 @@
-import { pollMastraRun } from "@/app/api/utils/poll-mastra";
 import { validateCredit } from "@/app/api/utils/validate-credits";
 import { validateUser } from "@/app/api/utils/validate-user";
-import { WORKFLOW_ID } from "@/constant";
 import { Json } from "@/supabase/generated/database.types";
 import { createCount } from "@/supabase/server-functions/counts";
 import { createVideo } from "@/supabase/server-functions/videos";
@@ -17,7 +15,7 @@ interface GenerateAnimationRequest {
 
 export async function POST(request: NextRequest) {
   const body = await request.json();
-  const { prompt, aspectRatio, context, voiceId, model } =
+  const { prompt, aspectRatio, context, model } =
     body as GenerateAnimationRequest;
 
   if (!prompt || !aspectRatio || !context) {
@@ -41,22 +39,37 @@ export async function POST(request: NextRequest) {
   try {
     const user = await validateUser();
     const { profile } = await validateCredit(user.id);
-    const data = await generateComposition({
-      prompt,
-      width,
-      height,
-      context,
-      model,
-      voiceId,
-    });
 
-    console.log("data", data);
+    const response = await fetch(
+      `${process.env.GOMOTION_AGENT_SERVER}/api/animations`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          instruction: prompt,
+          metadata: `width: ${width}, height: ${height} , fps: 30`,
+          contextModel: context,
+          model,
+        }),
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error("Failed to create composition");
+    }
+
+    const data = await response.json();
+
+    const composition = {
+      runId: data.runId,
+      result: data.data.output,
+    };
 
     await createCount(profile.id);
 
     const result = await createVideo({
       profileId: profile.id,
-      composition: data as unknown as Json,
+      composition: composition as unknown as Json,
     });
 
     return Response.json(result);
@@ -70,82 +83,4 @@ export async function POST(request: NextRequest) {
       { status: 500 }
     );
   }
-}
-
-async function generateComposition({
-  prompt,
-  width,
-  height,
-  context,
-  voiceId,
-  model,
-}: {
-  prompt: string;
-  width: number;
-  height: number;
-  context: string;
-  model: string;
-  voiceId?: string;
-}) {
-  const agentUrl = process.env.MASTRA_AGENT_URL;
-  if (!agentUrl) {
-    throw new Error("MASTRA_AGENT_URL environment variable is not set");
-  }
-
-  // Create a run
-  const createRunResponse = await fetch(
-    `${agentUrl}/workflows/${WORKFLOW_ID}/create-run`,
-    {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-    }
-  );
-
-  if (!createRunResponse.ok) {
-    const errorText = await createRunResponse.text();
-    throw new Error(
-      `Failed to create run: ${createRunResponse.status} - ${errorText}`
-    );
-  }
-
-  const { runId } = await createRunResponse.json();
-  if (!runId) {
-    throw new Error("Failed to obtain runId");
-  }
-
-  // Start the run
-  const response = await fetch(
-    `${agentUrl}/workflows/${WORKFLOW_ID}/start?runId=${runId}`,
-    {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        inputData: {
-          instruction: prompt,
-          metadata: `width: ${width}, height: ${height} , fps: 30`,
-          contextModel: context,
-          model,
-          ...(voiceId && { voiceId }),
-        },
-        runtimeContext: {},
-      }),
-    }
-  );
-
-  // Check if the start request was successful
-  if (!response.ok) {
-    const errorText = await response.text();
-    throw new Error(`Failed to start run: ${response.status} - ${errorText}`);
-  }
-
-  // Poll for run completion and get execution result
-  const executionResultData = await pollMastraRun(runId);
-
-  // Create composition from the result
-  const composition = {
-    runId,
-    result: executionResultData.result.output,
-  };
-
-  return composition;
 }

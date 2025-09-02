@@ -25,16 +25,17 @@ export const FloatingSupportButton = () => {
             the Gomotion team.
           </div>
         </CardHeader>
-        <CardContent className="flex justify-center">
+        <CardContent className="flex justify-center px-0">
           <Link
             href="https://discord.gg/Wd4nCJhCgd"
             target="_blank"
             rel="noopener noreferrer"
+            className="w-full"
           >
             <Button
               asChild
               size="lg"
-              className="bg-emerald-100 text-emerald-900 hover:bg-emerald-200 py-1 px-3 transition-colors duration-300 font-medium text-sm rounded-md"
+              className="w-full bg-emerald-100 text-emerald-900 hover:bg-emerald-200 py-1 px-3 transition-colors duration-300 font-medium text-sm rounded-md"
             >
               <div className="flex items-center gap-2 px-4 py-3">
                 <ChatBubbleLeftRightIcon className="w-5 h-5" />

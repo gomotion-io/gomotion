@@ -230,41 +230,56 @@ export const HomePage = () => {
           </h3>
         </div>
 
-        <div className={gridBase}>
+        <div
+          className={cn("grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5")}
+        >
+          <Tile
+            src="https://uftbovflyenqlyxvpybv.supabase.co/storage/v1/object/public/website-assets/countdown.mov"
+            title="Countdown"
+            description="Create a countdown animation with a text 'Countdown'"
+            className="sm:h-[18rem]"
+          />
+          <Tile
+            src="https://uftbovflyenqlyxvpybv.supabase.co/storage/v1/object/public/website-assets/nike-short.mp4"
+            title="Nike Short"
+            description="Create a nike short animation with a text 'Nike Short'"
+            className="sm:h-[18rem]"
+          />
+          <Tile
+            src="https://uftbovflyenqlyxvpybv.supabase.co/storage/v1/object/public/website-assets/bar-chart-ai-models.mp4"
+            title="Best AI Models"
+            description="Create a bar chart representing the best ai models in a white background"
+            className="sm:h-[18rem]"
+          />
           <Tile
             src="https://uftbovflyenqlyxvpybv.supabase.co/storage/v1/object/public/website-assets/cta-button.mov"
             title="CTA Button"
             description="Create a fancy cta button animation with a cursor clicking on it"
+            className="sm:h-[18rem]"
           />
           <Tile
             src="https://uftbovflyenqlyxvpybv.supabase.co/storage/v1/object/public/website-assets/data-science-evolution.mp4"
             title="Data Science Evolution"
             description="Create chart showing the evolution of data science"
+            className="sm:h-[18rem]"
           />
           <Tile
             src="https://uftbovflyenqlyxvpybv.supabase.co/storage/v1/object/public/website-assets/iphone-message.mp4"
             title="Iphone Message"
             description="Create a message animation on an iphone"
+            className="sm:h-[18rem]"
           />
           <Tile
             src="https://uftbovflyenqlyxvpybv.supabase.co/storage/v1/object/public/website-assets/kynetic-button.mov"
             title="Kynetic Button"
             description="Create a kynetic button animation"
+            className="sm:h-[18rem]"
           />
           <Tile
             src="https://uftbovflyenqlyxvpybv.supabase.co/storage/v1/object/public/website-assets/cryptic.mp4"
             title="Cryptic"
             description="Create futuristic animation with a text 'Cryptic'"
-          />
-          <Tile
-            src="https://uftbovflyenqlyxvpybv.supabase.co/storage/v1/object/public/website-assets/chart-model.mp4"
-            title="Best AI Models"
-            description="Create a chart representing the best ai models in the market."
-          />
-          <Tile
-            src="https://uftbovflyenqlyxvpybv.supabase.co/storage/v1/object/public/website-assets/countdown.mov"
-            title="Countdown"
-            description="Create a countdown animation with a text 'Countdown'"
+            className="sm:h-[18rem]"
           />
         </div>
       </section>
