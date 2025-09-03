@@ -8,8 +8,10 @@ import { getUser } from "@/supabase/server-functions/users";
 import { Analytics } from "@vercel/analytics/next";
 import type { Metadata } from "next";
 import localFont from "next/font/local";
-import { ReactNode } from "react";
+import { ReactNode, Suspense } from "react";
+
 import "./globals.css";
+import HotjarAnalytics from "@/components/external-analytics/Hotjar";
 
 const neueMontreal = localFont({
   src: [
@@ -95,6 +97,8 @@ export const metadata: Metadata = {
   },
 };
 
+
+
 export default async function RootLayout({
   children,
 }: Readonly<{
@@ -103,11 +107,19 @@ export default async function RootLayout({
   const user = await getUser();
   const profile = user ? await getProfile(user.id) : null;
 
+ 
+
+
+
   return (
     <html lang="en">
+      <Suspense>
+        <HotjarAnalytics />
+      </Suspense>
       <body
         className={`${neueMontreal.variable} font-sans font-medium antialiased relative bg-neutral-50`}
       >
+
         <HeaderWrapper />
         <AuthProvider initialUser={user} initialProfile={profile}>
           <LayoutProvider>{children}</LayoutProvider>
