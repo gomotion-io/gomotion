@@ -6,6 +6,7 @@ const CreateAnimationInputSchema = z.object({
   contextModel: z.enum(["classic", "creative", "narrative"]).default("classic"),
   model: z.string().default("anthropic/claude-sonnet-4"),
   voiceId: z.string().default("ZF6FPAbjXT4488VcRRnw"),
+  images: z.array(z.any()).optional(),
   previousCode: z.any().optional(),
   error: z.string().optional(),
   attempts: z.number().optional(),

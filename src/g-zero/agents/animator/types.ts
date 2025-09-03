@@ -7,6 +7,7 @@ export type AnimatorInput = {
   prompt: string;
   contextModel: Context;
   model: string;
+  images?: any[]; // Array of image files/data
   previousCode?: string;
 };
 

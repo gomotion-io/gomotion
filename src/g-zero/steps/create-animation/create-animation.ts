@@ -9,8 +9,10 @@ export const createAnimation = async (
 
   let prompt;
 
-  if (input.instruction && input.metadata) {
-    prompt = `${input.instruction}\n${input.metadata}`;
+  if (input.instruction || input.metadata) {
+    const instructionText = input.instruction || "";
+    const metadataText = input.metadata || "";
+    prompt = `${instructionText}\n${metadataText}`.trim();
   } else if (input.previousCode !== undefined && input.error !== undefined) {
     prompt = `Fix the previous output based on this compile error: ${
       input.error
@@ -23,9 +25,10 @@ export const createAnimation = async (
   }
 
   const animator = await animatorAgent({
-    prompt: input.instruction ?? "",
+    prompt,
     contextModel: input.contextModel,
     model: input.model,
+    images: input.images,
     previousCode: input.previousCode,
   });
 
