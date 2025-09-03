@@ -39,7 +39,11 @@ export const RemotionPlayer: FC<RemotionPlayerProps> = ({ composition }) => {
           compositionHeight={composition.result.meta.height}
           compositionWidth={composition.result.meta.width}
           fps={composition.result.meta.fps}
-          style={{ width: "100%", height: "100%" }}
+          style={{
+            width: "100%",
+            height: "100%",
+            backgroundColor: "black",
+          }}
           browserMediaControlsBehavior={{ mode: "register-media-session" }}
           spaceKeyToPlayOrPause
           acknowledgeRemotionLicense

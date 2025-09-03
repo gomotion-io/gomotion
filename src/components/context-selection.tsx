@@ -48,8 +48,11 @@ export const ContextSelection = () => {
               variant="outline"
               disabled={context === Context.Narrative}
             >
-              <div className="truncate w-auto text-left">
+              <div className="truncate w-auto text-left sm:block hidden">
                 {contexts[context].label}
+              </div>
+              <div className="sm:hidden block">
+                {contexts[context].label.slice(0, 2).toUpperCase()}
               </div>
               <ChevronDownIcon className="w-5 h-5" />
             </Button>

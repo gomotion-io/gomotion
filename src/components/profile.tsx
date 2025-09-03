@@ -28,11 +28,13 @@ export const Profile = () => {
   );
   const resetVideo = useVideoStore((state) => state.reset);
   const setPrompt = useParamStore((state) => state.setPrompt);
+  const setImages = useParamStore((state) => state.setImages);
 
   const handleCreateNew = () => {
-    // Clear current video and prompt then navigate to a clean explorer page
+    // Clear current video, prompt, and images then navigate to a clean explorer page
     resetVideo();
     setPrompt("");
+    setImages([]);
     router.push("/explore");
   };
 

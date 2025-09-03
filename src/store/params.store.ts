@@ -34,6 +34,8 @@ export type ParamsState = {
   currentVoice: Voice | null;
   playingVoiceId: string | null;
   audio: HTMLAudioElement | null;
+  images: File[];
+  uploadImageError: string | null;
   toggleVoicePreview: (voice: Voice) => void;
   setPrompt: (prompt: string) => void;
   setAspectRatio: (aspectRatio: AspectRatio) => void;
@@ -41,6 +43,10 @@ export type ParamsState = {
   getVoices: () => Promise<void>;
   setCurrentVoice: (currentVoice: Voice) => void;
   setModel: (model: Model) => void;
+  addImages: (files: File[]) => void;
+  removeImage: (index: number) => void;
+  setImages: (images: File[]) => void;
+  setUploadImageError: (error: string | null) => void;
 };
 
 export const useParamStore = create<ParamsState>((set) => ({
@@ -51,6 +57,8 @@ export const useParamStore = create<ParamsState>((set) => ({
   currentVoice: null,
   playingVoiceId: null,
   audio: null,
+  images: [],
+  uploadImageError: null,
   model: {
     name: "Claude Sonnet 4",
     value: "anthropic/claude-sonnet-4",
@@ -86,4 +94,14 @@ export const useParamStore = create<ParamsState>((set) => ({
         audio: newAudio,
       } as Partial<ParamsState>;
     }),
+  addImages: (files) =>
+    set((state) => ({
+      images: [...state.images, ...files].slice(0, 3), // Max 3 images
+    })),
+  removeImage: (index) =>
+    set((state) => ({
+      images: state.images.filter((_, i) => i !== index),
+    })),
+  setImages: (images) => set({ images }),
+  setUploadImageError: (error) => set({ uploadImageError: error }),
 }));
