@@ -11,6 +11,7 @@ import { useVideoStore } from "@/store/video.store";
 import { ArrowUpIcon, StopIcon } from "@heroicons/react/16/solid";
 import { useRouter } from "next/navigation";
 import { FC, ReactNode, useCallback, useMemo, useRef } from "react";
+import { ImagesUpload } from "./images-upload/uploader";
 import { ModelSelection } from "./model-selection";
 // import { VoiceSelection } from "./voice-selection";
 
@@ -75,38 +76,42 @@ export const PromptInput: FC<PromptInputProps> = ({
           ) {
             if (canGenerate) {
               event.preventDefault();
-              // handleSubmit(currentVideo).catch(console.error);
               handleSubmit().catch(console.error);
+              // handleSubmit(currentVideo).catch(console.error);
             }
           }
         }}
       />
-      <div className="absolute bottom-0 z-50 right-0 p-2 w-fit flex flex-row justify-end gap-2 items-center">
-        {/* {context === Context.Narrative && <VoiceSelection />} */}
 
-        <ModelSelection />
-        <RatioSelection />
-        <ContextSelection />
+      <div className="absolute w-full bottom-0 z-50 right-0 p-2 flex flex-row justify-between gap-2 items-center">
+        <ImagesUpload />
 
-        {landingButton ? (
-          landingButton
-        ) : generating ? (
-          <Button
-            className="rounded-full w-14 bg-indigo-200 font-medium text-indigo-900 hover:bg-indigo-300"
-            disabled
-          >
-            <StopIcon className="w-5 h-5 animate-spin" />
-          </Button>
-        ) : (
-          <Button
-            disabled={!canGenerate}
-            className="rounded-full bg-indigo-200 font-medium text-indigo-900 hover:bg-indigo-300"
-            // onClick={() => handleSubmit(currentVideo)}
-            onClick={() => handleSubmit()}
-          >
-            <ArrowUpIcon className="w-5 h-5" />
-          </Button>
-        )}
+        <div className="flex flex-row gap-2">
+          {/* {context === Context.Narrative && <VoiceSelection />} */}
+          <ModelSelection />
+          <RatioSelection />
+          <ContextSelection />
+
+          {landingButton ? (
+            landingButton
+          ) : generating ? (
+            <Button
+              className="rounded-full w-14 bg-indigo-200 font-medium text-indigo-900 hover:bg-indigo-300"
+              disabled
+            >
+              <StopIcon className="w-5 h-5 animate-spin" />
+            </Button>
+          ) : (
+            <Button
+              disabled={!canGenerate}
+              className="rounded-full bg-indigo-200 font-medium text-indigo-900 hover:bg-indigo-300"
+              // onClick={() => handleSubmit(currentVideo)}
+              onClick={() => handleSubmit()}
+            >
+              <ArrowUpIcon className="w-5 h-5" />
+            </Button>
+          )}
+        </div>
       </div>
     </div>
   );
