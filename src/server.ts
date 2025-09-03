@@ -1,6 +1,8 @@
 import express, { Request, Response } from "express";
 import { CreateAnimationInput } from "./g-zero/steps/create-animation/types";
 import { createAnimationWorkflow } from "./g-zero/workflow";
+import { renderRemotionVideo } from "./lib/remotion-renderer";
+import { renderProgress } from "./lib/lambda/progress";
 
 const app = express();
 
@@ -64,5 +66,22 @@ app.post("/api/animations", async (req: Request, res: Response) => {
     });
   }
 });
+
+app.post("/api/render", async (req: Request, res: Response) => {
+  const { runId, fileTree, meta = {} } = req.body;
+  const { bucketName, renderId } = await renderRemotionVideo({
+    runId,
+    fileTree,
+    meta,
+  });
+  res.json({ bucketName, renderId });
+});
+
+app.post("/progress", async (req: Request, res: Response) => {
+  const { renderId, bucketName } = req.body;
+  const result = await renderProgress({ renderId, bucketName });
+  res.json(result);
+});
+
 
 export default app;

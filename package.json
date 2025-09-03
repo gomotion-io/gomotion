@@ -32,7 +32,7 @@
     "@react-three/drei": "^10.6.1",
     "@react-three/fiber": "^9.3.0",
     "@remotion/animation-utils": "4.0.332",
-    "@remotion/bundler": "^4.0.332",
+    "@remotion/bundler": "4.0.332",
     "@remotion/captions": "4.0.332",
     "@remotion/fonts": "4.0.332",
     "@remotion/gif": "4.0.332",
