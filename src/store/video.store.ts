@@ -54,25 +54,29 @@ export const useVideoStore = create<VideoState>((set) => ({
   },
 
   create: async ({ prompt }) => {
-    const { aspectRatio, context, currentVoice, model } =
+    const { aspectRatio, context, currentVoice, model, images } =
       useParamStore.getState();
 
     try {
       set({ generating: true, currentVideo: null });
 
+      const formData = new FormData();
+      formData.append("prompt", prompt);
+      formData.append("aspectRatio", aspectRatio);
+      formData.append("context", context);
+      formData.append("model", model.value);
+
+      if (context === Context.Narrative && currentVoice?.voice_id) {
+        formData.append("voiceId", currentVoice.voice_id);
+      }
+
+      images.forEach((image) => {
+        formData.append(`images`, image);
+      });
+
       const res = await fetch("/api/animations/create", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          prompt,
-          aspectRatio,
-          context,
-          model: model.value,
-          voiceId:
-            context === Context.Narrative ? currentVoice?.voice_id : undefined,
-        }),
+        body: formData,
       });
 
       const data: Video = await res.json();
@@ -95,7 +99,7 @@ export const useVideoStore = create<VideoState>((set) => ({
   },
 
   update: async ({ id, prompt, previousVideo }) => {
-    const { aspectRatio, context, currentVoice, model } =
+    const { aspectRatio, context, currentVoice, model, images } =
       useParamStore.getState();
 
     if (
@@ -108,21 +112,31 @@ export const useVideoStore = create<VideoState>((set) => ({
     try {
       set({ generating: true });
 
+      const formData = new FormData();
+      formData.append("videoId", id);
+      formData.append("aspectRatio", aspectRatio);
+      formData.append("context", context);
+      formData.append("model", model.value);
+
+      if (prompt) {
+        formData.append("prompt", prompt);
+      }
+
+      if (previousVideo && Object.keys(previousVideo).length > 0) {
+        formData.append("previousVideo", JSON.stringify(previousVideo));
+      }
+
+      if (context === Context.Narrative && currentVoice?.voice_id) {
+        formData.append("voiceId", currentVoice.voice_id);
+      }
+
+      images.forEach((image) => {
+        formData.append(`images`, image);
+      });
+
       const res = await fetch("/api/animations/update", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          videoId: id,
-          prompt,
-          aspectRatio,
-          previousVideo,
-          context,
-          model: model.value,
-          voiceId:
-            context === Context.Narrative ? currentVoice?.voice_id : undefined,
-        }),
+        body: formData,
       });
 
       const data: Video = await res.json();

@@ -5,18 +5,14 @@ import { createCount } from "@/supabase/server-functions/counts";
 import { createVideo } from "@/supabase/server-functions/videos";
 import { NextRequest } from "next/server";
 
-interface GenerateAnimationRequest {
-  prompt: string;
-  aspectRatio: string;
-  context: string;
-  model: string;
-  voiceId?: string;
-}
-
 export async function POST(request: NextRequest) {
-  const body = await request.json();
-  const { prompt, aspectRatio, context, model } =
-    body as GenerateAnimationRequest;
+  const formData = await request.formData();
+
+  const prompt = formData.get("prompt") as string;
+  const aspectRatio = formData.get("aspectRatio") as string;
+  const context = formData.get("context") as string;
+  const model = formData.get("model") as string;
+  const voiceId = formData.get("voiceId") as string;
 
   if (!prompt || !aspectRatio || !context) {
     return Response.json(
@@ -40,17 +36,38 @@ export async function POST(request: NextRequest) {
     const user = await validateUser();
     const { profile } = await validateCredit(user.id);
 
+    // Create a new FormData to send to the Express backend
+    const backendFormData = new FormData();
+
+    // Add the required fields
+    backendFormData.append("instruction", prompt);
+    backendFormData.append(
+      "metadata",
+      `width: ${width}, height: ${height}, fps: 30`
+    );
+    backendFormData.append("contextModel", context);
+    backendFormData.append("model", model);
+
+    // Add voiceId if provided
+    if (voiceId) {
+      backendFormData.append("voiceId", voiceId);
+    }
+
+    // Forward images if provided
+
+    const images = formData.getAll("images");
+    if (images && images.length > 0) {
+      images.forEach((image) => {
+        backendFormData.append("images", image);
+      });
+    }
+
+    console.log("backendFormData", backendFormData);
     const response = await fetch(
       `${process.env.GOMOTION_AGENT_SERVER}/api/animations`,
       {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          instruction: prompt,
-          metadata: `width: ${width}, height: ${height} , fps: 30`,
-          contextModel: context,
-          model,
-        }),
+        body: backendFormData, // Send FormData directly
       }
     );
 
