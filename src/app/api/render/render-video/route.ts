@@ -32,13 +32,13 @@ export async function POST(request: NextRequest) {
     }
 
     // Step 2: Render the video
-    const EXPRESS_URL = process.env.EXPRESS_URL;
+    const GOMOTION_AGENT_SERVER = process.env.GOMOTION_AGENT_SERVER;
 
-    if (!EXPRESS_URL) {
-      throw new Error("Error: EXPRESS_URL environment variable is not set");
+    if (!GOMOTION_AGENT_SERVER) {
+      throw new Error("Error: GOMOTION_AGENT_SERVER environment variable is not set");
     }
 
-    const response = await fetch(`${EXPRESS_URL}/render`, {
+    const response = await fetch(`${GOMOTION_AGENT_SERVER}/api/render`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ runId, fileTree, meta }),

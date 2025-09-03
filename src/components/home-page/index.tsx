@@ -2,6 +2,7 @@
 
 import { PromptInput } from "@/components/prompt-input";
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 import { useGSAP } from "@gsap/react";
 import { ArrowUpIcon } from "@heroicons/react/16/solid";
 import { gsap } from "gsap";
@@ -9,6 +10,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Image from "next/image";
 import Link from "next/link";
 import { useRef } from "react";
+import { gridBase, Tile } from "../bento";
 import { VideoDialog } from "../video-dialog";
 
 export const HomePage = () => {
@@ -122,130 +124,96 @@ export const HomePage = () => {
             professional results without the hassle.
           </h3>
         </div>
-
-        <div className="grid grid-cols-3 gap-4 py-24">
-          <VideoDialog
+        <div className={cn(gridBase, "py-20")}>
+          <Tile
             src="https://uftbovflyenqlyxvpybv.supabase.co/storage/v1/object/public/website-assets/astra.mov"
             title="Astra Animation"
             description="A cinematic 3D particle explosion revealing the logo for ASTRA"
-          >
-            <video
-              src="https://uftbovflyenqlyxvpybv.supabase.co/storage/v1/object/public/website-assets/astra.mov"
-              preload="metadata"
-              playsInline
-              autoPlay
-              muted
-              loop
-              className="w-full h-full object-cover"
-            />
-          </VideoDialog>
-          <VideoDialog
+          />
+          <Tile
             src="https://uftbovflyenqlyxvpybv.supabase.co/storage/v1/object/public/website-assets/text_stomp.mp4"
             title="Text Stomp"
             description="A vibrant, highly dynamic kinetic typography of 'gomotion the new after effect'"
-          >
-            <video
-              src="https://uftbovflyenqlyxvpybv.supabase.co/storage/v1/object/public/website-assets/text_stomp.mp4"
-              preload="metadata"
-              playsInline
-              autoPlay
-              muted
-              loop
-              className="w-full h-full object-cover"
-            />
-          </VideoDialog>
-          <VideoDialog
+          />
+          <Tile
             src="https://uftbovflyenqlyxvpybv.supabase.co/storage/v1/object/public/website-assets/fireship_intro.mp4"
             title="Fireship Intro"
             description="A fireship-style intro to the brand Fireship, featuring a futuristic voiceover saying '100 second of code"
-          >
-            <video
-              src="https://uftbovflyenqlyxvpybv.supabase.co/storage/v1/object/public/website-assets/fireship_intro.mp4"
-              preload="metadata"
-              playsInline
-              autoPlay
-              muted
-              loop
-              className="w-full h-full object-cover"
-            />
-          </VideoDialog>
-          <VideoDialog
+          />
+          <Tile
             src="https://uftbovflyenqlyxvpybv.supabase.co/storage/v1/object/public/website-assets/random-text.mp4"
             title="Gomotion typing"
             description="Create an apple ads random text animation"
-          >
-            <video
-              src="https://uftbovflyenqlyxvpybv.supabase.co/storage/v1/object/public/website-assets/random-text.mp4"
-              preload="metadata"
-              playsInline
-              autoPlay
-              muted
-              loop
-              className="w-full h-full object-cover"
-            />
-          </VideoDialog>
-          <VideoDialog
-            src="https://uftbovflyenqlyxvpybv.supabase.co/storage/v1/object/public/website-assets/text-path.mp4"
-            title="Text Path"
-            description="Create a circular text path animation with a text 'Gomotion your motion designer'"
-          >
-            <video
-              src="https://uftbovflyenqlyxvpybv.supabase.co/storage/v1/object/public/website-assets/text-path.mp4"
-              preload="metadata"
-              playsInline
-              autoPlay
-              muted
-              loop
-              className="w-full h-full object-cover"
-            />
-          </VideoDialog>
+          />
+          <Tile
+            src="https://uftbovflyenqlyxvpybv.supabase.co/storage/v1/object/public/website-assets/symphony-of-motion.mp4"
+            title="Symphony of Motion"
+            description="Create a colorful kinetic typography animation with a text 'Symphony of Motion'"
+          />
         </div>
       </section>
 
-      <section className="reveal bg-neutral-100 py-16 md:py-32 flex flex-col md:flex-row gap-10 md:gap-16 px-5 md:px-10 rounded-3xl">
-        <div className="w-full md:w-1/2 flex items-center justify-center">
-          <div className="flex flex-col items-center justify-center">
-            <VideoDialog
-              src="https://uftbovflyenqlyxvpybv.supabase.co/storage/v1/object/public/website-assets/gomotion-prompt.mp4"
-              title="Gomotion typing"
-              description="Create video about the capabilities of Gomotion, it should have prompt typing part"
-              className="h-[18rem]"
-            >
-              <video
-                src="https://uftbovflyenqlyxvpybv.supabase.co/storage/v1/object/public/website-assets/gomotion-prompt.mp4"
-                preload="metadata"
-                playsInline
-                autoPlay
-                muted
-                loop
-                className="w-full h-full object-cover"
-              />
-            </VideoDialog>
-          </div>
+      <section className="reveal justify-center bg-neutral-100 py-20 flex flex-col gap-10 md:gap-16 px-5 md:px-14 rounded-3xl">
+        <h2 className="text-6xl text-center font-neue-montreal font-bold leading-[3.5rem]">
+          Discover the Narrative Mode
+        </h2>
+        <div className="w-full xl:h-[45rem] bg-neutral-50 pt-4 rounded-3xl border-emerald-500 border-4 overflow-hidden">
+          <video
+            src="https://uftbovflyenqlyxvpybv.supabase.co/storage/v1/object/public/website-assets/jdi-mobile.mp4"
+            preload="metadata"
+            playsInline
+            autoPlay
+            muted
+            loop
+            className="w-full h-full object-cove"
+          />
         </div>
 
-        <div className="w-full md:w-1/2 flex flex-col gap-5 px-4 md:px-0">
-          <div className="flex items-center">
-            <div className="text-emerald-900 bg-emerald-100 px-5 h-10 rounded-full flex items-center justify-center">
-              Complete Visual Storytelling
+        <div className="flex flex-col-reverse xl:flex-row gap-10 md:gap-16">
+          <div className="w-full xl:w-2/3 flex items-center justify-center">
+            <div className="flex flex-col items-center justify-center">
+              <VideoDialog
+                src="https://uftbovflyenqlyxvpybv.supabase.co/storage/v1/object/public/website-assets/jdi.mp4"
+                title="JDI"
+                description="Create a complete nike ad with a stunning sports style image"
+                className="sm:h-[24rem]"
+              >
+                <video
+                  src="https://uftbovflyenqlyxvpybv.supabase.co/storage/v1/object/public/website-assets/jdi.mp4"
+                  preload="metadata"
+                  playsInline
+                  autoPlay
+                  muted
+                  loop
+                  className="w-full h-full object-cover"
+                />
+              </VideoDialog>
             </div>
           </div>
 
-          <h2 className="text-5xl font-neue-montreal font-bold max-w-xl leading-[3.5rem] sm:pr-5">
-            Create end-to-end animations with voice-over
-          </h2>
+          <div className="w-full xl:w-1/3 flex flex-col items-center xl:items-start gap-5 sm:px-4 md:px-0">
+            <h2 className="text-5xl font-neue-montreal text-center xl:text-left font-bold max-w-xl leading-[3.5rem] sm:pr-5">
+              Create end-to-end ready to publish ads
+            </h2>
 
-          <h3 className="text-xl leading-relaxed font-medium max-w-xl sm:pr-5 text-muted-foreground">
-            Turn your script into full animated stories with synced voice-overs.
-            Ideal for educators, founders, and creatives who need polished
-            content fast—without the manual editing.
-          </h3>
+            <div className="flex items-center">
+              <div className="text-emerald-900 bg-emerald-100  px-5 h-10 rounded-full flex items-center justify-center">
+                Master Shape Dynamics
+              </div>
+            </div>
+
+            <h3 className="text-xl leading-relaxed font-medium max-w-xl sm:pr-5 text-muted-foreground text-center xl:text-left">
+              Using the gomotion narrative mode, you can turn your script into
+              full animated stories with synced images and videos.You can now
+              create an ads or a short video in minutes.
+            </h3>
+          </div>
         </div>
       </section>
 
       {/* list */}
-      <section className="reveal">
-        <div className="flex flex-col gap-5 pt-24">
+      <section className="reveal mb-20">
+        <div className="flex flex-col gap-5 pt-24 mb-20">
           <div className="flex items-center">
             <div className="text-amber-900 bg-amber-100  px-5 h-10 rounded-full flex items-center justify-center">
               Master Shape Dynamics
@@ -261,97 +229,58 @@ export const HomePage = () => {
             creativity. Great for explainers, data viz, and artistic visuals
           </h3>
         </div>
-        <div className="grid grid-cols-3 gap-4 py-24">
-          <VideoDialog
-            src="https://legendary.b-cdn.net/site/showcase-video/eclipse.mp4"
-            title="Eclipse"
-            description="The word 'Eclipse' in a retro-futuristic style with letter glitching effects."
-          >
-            <video
-              src="https://legendary.b-cdn.net/site/showcase-video/eclipse.mp4"
-              preload="metadata"
-              playsInline
-              autoPlay
-              muted
-              loop
-              className="w-full h-full object-cover"
-            />
-          </VideoDialog>
-          <VideoDialog
+
+        <div
+          className={cn("grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5")}
+        >
+          <Tile
+            src="https://uftbovflyenqlyxvpybv.supabase.co/storage/v1/object/public/website-assets/countdown.mov"
+            title="Countdown"
+            description="Create a countdown animation with a text 'Countdown'"
+            className="sm:h-[18rem]"
+          />
+          <Tile
+            src="https://uftbovflyenqlyxvpybv.supabase.co/storage/v1/object/public/website-assets/nike-short.mp4"
+            title="Nike Short"
+            description="Create a nike short animation with a text 'Nike Short'"
+            className="sm:h-[18rem]"
+          />
+          <Tile
+            src="https://uftbovflyenqlyxvpybv.supabase.co/storage/v1/object/public/website-assets/bar-chart-ai-models.mp4"
+            title="Best AI Models"
+            description="Create a bar chart representing the best ai models in a white background"
+            className="sm:h-[18rem]"
+          />
+          <Tile
+            src="https://uftbovflyenqlyxvpybv.supabase.co/storage/v1/object/public/website-assets/cta-button.mov"
+            title="CTA Button"
+            description="Create a fancy cta button animation with a cursor clicking on it"
+            className="sm:h-[18rem]"
+          />
+          <Tile
+            src="https://uftbovflyenqlyxvpybv.supabase.co/storage/v1/object/public/website-assets/data-science-evolution.mp4"
+            title="Data Science Evolution"
+            description="Create chart showing the evolution of data science"
+            className="sm:h-[18rem]"
+          />
+          <Tile
+            src="https://uftbovflyenqlyxvpybv.supabase.co/storage/v1/object/public/website-assets/iphone-message.mp4"
+            title="Iphone Message"
+            description="Create a message animation on an iphone"
+            className="sm:h-[18rem]"
+          />
+          <Tile
             src="https://uftbovflyenqlyxvpybv.supabase.co/storage/v1/object/public/website-assets/kynetic-button.mov"
             title="Kynetic Button"
             description="Create a kynetic button animation"
-          >
-            <video
-              src="https://uftbovflyenqlyxvpybv.supabase.co/storage/v1/object/public/website-assets/kynetic-button.mov"
-              preload="metadata"
-              playsInline
-              autoPlay
-              muted
-              loop
-              className="w-full h-full object-cover"
-            />
-          </VideoDialog>
-          <VideoDialog
-            src="https://legendary.b-cdn.net/site/morph.mp4"
-            title="Morph"
-            description="Create morphing rainbow explainer animation."
-          >
-            <video
-              src="https://legendary.b-cdn.net/site/morph.mp4"
-              preload="metadata"
-              playsInline
-              autoPlay
-              muted
-              loop
-              className="w-full h-full object-cover"
-            />
-          </VideoDialog>
-          <VideoDialog
+            className="sm:h-[18rem]"
+          />
+          <Tile
             src="https://uftbovflyenqlyxvpybv.supabase.co/storage/v1/object/public/website-assets/cryptic.mp4"
             title="Cryptic"
             description="Create futuristic animation with a text 'Cryptic'"
-          >
-            <video
-              src="https://uftbovflyenqlyxvpybv.supabase.co/storage/v1/object/public/website-assets/cryptic.mp4"
-              preload="metadata"
-              playsInline
-              autoPlay
-              muted
-              loop
-              className="w-full h-full object-cover"
-            />
-          </VideoDialog>{" "}
-          <VideoDialog
-            src="https://uftbovflyenqlyxvpybv.supabase.co/storage/v1/object/public/website-assets/countdown.mov"
-            title="Cryptic"
-            description="Create futuristic animation with a text 'Cryptic'"
-          >
-            <video
-              src="https://uftbovflyenqlyxvpybv.supabase.co/storage/v1/object/public/website-assets/countdown.mov"
-              preload="metadata"
-              playsInline
-              autoPlay
-              muted
-              loop
-              className="w-full h-full object-cover"
-            />
-          </VideoDialog>{" "}
-          <VideoDialog
-            src="https://uftbovflyenqlyxvpybv.supabase.co/storage/v1/object/public/website-assets/chart-animation.mp4"
-            title="Cryptic"
-            description="Create futuristic animation with a text 'Cryptic'"
-          >
-            <video
-              src="https://uftbovflyenqlyxvpybv.supabase.co/storage/v1/object/public/website-assets/chart-animation.mp4"
-              preload="metadata"
-              playsInline
-              autoPlay
-              muted
-              loop
-              className="w-full h-full object-cover"
-            />
-          </VideoDialog>
+            className="sm:h-[18rem]"
+          />
         </div>
       </section>
 

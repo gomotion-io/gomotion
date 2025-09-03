@@ -46,7 +46,7 @@ export const ContextSelection = () => {
             <Button
               className="rounded-full p-1.5"
               variant="outline"
-              // disabled={context === Context.Narrative}
+              disabled={context === Context.Narrative}
             >
               <div className="truncate w-auto text-left">
                 {contexts[context].label}

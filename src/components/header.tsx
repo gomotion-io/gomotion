@@ -78,11 +78,11 @@ export const Header: FunctionComponent<HeaderProps> = ({ user }) => {
                 </div>
               </Link>
               <Link
-                href="https://discord.gg/emD6h74Fh7"
+                href="https://discord.gg/Wd4nCJhCgd"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 <div className="text-primary text-sm underline-offset-4 hover:underline font-semibold">
-                  Join community
+                  Join our Discord
                 </div>
               </Link>
               <Link href="/pricing">
@@ -104,11 +104,11 @@ export const Header: FunctionComponent<HeaderProps> = ({ user }) => {
                 </div>
               </Link>
               <Link
-                href="https://discord.gg/emD6h74Fh7"
+                href="https://discord.gg/Wd4nCJhCgd"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 <div className="text-primary text-sm underline-offset-4 hover:underline font-semibold">
-                  Join community
+                  Join our Discord
                 </div>
               </Link>
               <Link href="/pricing">
@@ -188,11 +188,11 @@ export const Header: FunctionComponent<HeaderProps> = ({ user }) => {
               Our story
             </Link>
             <Link
-              href="https://discord.gg/emD6h74Fh7"
+              href="https://discord.gg/Wd4nCJhCgd"
               onClick={() => setMobileMenuOpen(false)}
               className="hover:underline underline-offset-4"
             >
-              Join community
+              Join our Discord
             </Link>
             {user ? (
               <Link
