@@ -7,11 +7,10 @@ import { Textarea } from "@/components/ui/textarea";
 
 import { cn } from "@/lib/utils";
 import { useParamStore } from "@/store/params.store";
-import { useVideoStore } from "@/store/video.store";
+import { RefinedVideo, useVideoStore } from "@/store/video.store";
 import { ArrowUpIcon, StopIcon } from "@heroicons/react/16/solid";
 import { useRouter } from "next/navigation";
 import { FC, ReactNode, useCallback, useMemo, useRef } from "react";
-import { ImagesUpload } from "./images-upload/uploader";
 import { ModelSelection } from "./model-selection";
 // import { VoiceSelection } from "./voice-selection";
 
@@ -29,7 +28,7 @@ export const PromptInput: FC<PromptInputProps> = ({
 
   const generating = useVideoStore((state) => state.generating);
   const createVideo = useVideoStore((state) => state.create);
-  // const updateVideo = useVideoStore((state) => state.update);
+  const updateVideo = useVideoStore((state) => state.update);
   const currentVideo = useVideoStore((state) => state.currentVideo);
   const setPrompt = useParamStore((state) => state.setPrompt);
   const prompt = useParamStore((state) => state.prompt);
@@ -37,19 +36,19 @@ export const PromptInput: FC<PromptInputProps> = ({
 
   const canGenerate = useMemo(() => prompt.trim().length > 0, [prompt]);
 
-  const handleSubmit = useCallback(async () => {
-    // if (video) {
-    //   // update the current video
-    //   await updateVideo({ id: video.id, prompt, previousVideo: video });
-    //   return;
-    // }
-    // // else create a new video
+  const handleSubmit = useCallback(async (video: RefinedVideo | null) => {
+    if (video) {
+      // update the current video
+      await updateVideo({ id: video.id, prompt, previousVideo: video });
+      return;
+    }
+    // else create a new video
 
     const data = await createVideo({ prompt });
     if (data?.id) {
       router.push(`/explore/${data.id}`);
     }
-  }, [createVideo, prompt, router]);
+  }, [createVideo, updateVideo, prompt, router]);
 
   return (
     <div className="relative w-full flex flex-col gap-4">
@@ -76,42 +75,38 @@ export const PromptInput: FC<PromptInputProps> = ({
           ) {
             if (canGenerate) {
               event.preventDefault();
-              handleSubmit().catch(console.error);
-              // handleSubmit(currentVideo).catch(console.error);
+              handleSubmit(currentVideo).catch(console.error);
+              // handleSubmit().catch(console.error);
             }
           }
         }}
       />
+      <div className="absolute bottom-0 z-50 right-0 p-2 w-fit flex flex-row justify-end gap-2 items-center">
+        {/* {context === Context.Narrative && <VoiceSelection />} */}
 
-      <div className="absolute w-full bottom-0 z-50 right-0 p-2 flex flex-row justify-between gap-2 items-center">
-        <ImagesUpload />
+        <ModelSelection />
+        <RatioSelection />
+        <ContextSelection />
 
-        <div className="flex flex-row gap-2">
-          {/* {context === Context.Narrative && <VoiceSelection />} */}
-          <ModelSelection />
-          <RatioSelection />
-          <ContextSelection />
-
-          {landingButton ? (
-            landingButton
-          ) : generating ? (
-            <Button
-              className="rounded-full w-14 bg-indigo-200 font-medium text-indigo-900 hover:bg-indigo-300"
-              disabled
-            >
-              <StopIcon className="w-5 h-5 animate-spin" />
-            </Button>
-          ) : (
-            <Button
-              disabled={!canGenerate}
-              className="rounded-full bg-indigo-200 font-medium text-indigo-900 hover:bg-indigo-300"
-              // onClick={() => handleSubmit(currentVideo)}
-              onClick={() => handleSubmit()}
-            >
-              <ArrowUpIcon className="w-5 h-5" />
-            </Button>
-          )}
-        </div>
+        {landingButton ? (
+          landingButton
+        ) : generating ? (
+          <Button
+            className="rounded-full w-14 bg-indigo-200 font-medium text-indigo-900 hover:bg-indigo-300"
+            disabled
+          >
+            <StopIcon className="w-5 h-5 animate-spin" />
+          </Button>
+        ) : (
+          <Button
+            disabled={!canGenerate}
+            className="rounded-full bg-indigo-200 font-medium text-indigo-900 hover:bg-indigo-300"
+            onClick={() => handleSubmit(currentVideo)}
+            // onClick={() => handleSubmit()}
+          >
+            <ArrowUpIcon className="w-5 h-5" />
+          </Button>
+        )}
       </div>
     </div>
   );
