@@ -19,6 +19,11 @@ const models = [
     icon: "/models-icons/anthropic.svg",
   },
   {
+    name: "Claude Opus 4.1",
+    value: "anthropic/claude-opus-4.1",
+    icon: "/models-icons/anthropic.svg",
+  },
+  {
     name: "GPT 5",
     value: "openai/gpt-5",
     icon: "/models-icons/openai.svg",

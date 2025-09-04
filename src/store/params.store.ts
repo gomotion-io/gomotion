@@ -45,8 +45,8 @@ export type ParamsState = {
   setModel: (model: Model) => void;
   addImages: (files: File[]) => void;
   removeImage: (index: number) => void;
-  setImages: (images: File[]) => void;
   setUploadImageError: (error: string | null) => void;
+  reset: () => void;
 };
 
 export const useParamStore = create<ParamsState>((set) => ({
@@ -102,6 +102,22 @@ export const useParamStore = create<ParamsState>((set) => ({
     set((state) => ({
       images: state.images.filter((_, i) => i !== index),
     })),
-  setImages: (images) => set({ images }),
   setUploadImageError: (error) => set({ uploadImageError: error }),
+  reset: () =>
+    set({
+      prompt: "",
+      aspectRatio: AspectRatio["16:9"],
+      context: Context.Creative,
+      voices: [],
+      currentVoice: null,
+      playingVoiceId: null,
+      audio: null,
+      images: [],
+      uploadImageError: null,
+      model: {
+        name: "Claude Sonnet 4",
+        value: "anthropic/claude-sonnet-4",
+        icon: "/models-icons/anthropic.svg",
+      },
+    }),
 }));

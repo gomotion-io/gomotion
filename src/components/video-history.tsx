@@ -8,6 +8,7 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useParamStore } from "@/store/params.store";
 import { useVideoStore } from "@/store/video.store";
 import { format } from "date-fns";
 import { Trash2 } from "lucide-react";
@@ -26,7 +27,8 @@ import { useState } from "react";
 
 export function VideoHistory() {
   const router = useRouter();
-  const { videos, loading, remove } = useVideoStore();
+  const { videos, loading, remove, reset: resetVideo } = useVideoStore();
+  const resetParams = useParamStore((state) => state.reset);
 
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [videoToDelete, setVideoToDelete] = useState<string | null>(null);
@@ -42,6 +44,14 @@ export function VideoHistory() {
     }
     setIsDialogOpen(false);
     setVideoToDelete(null);
+  };
+
+  const handleSelectVideo = (id: string) => {
+    return () => {
+      resetVideo();
+      resetParams();
+      router.push(`/explore/${id}`);
+    };
   };
 
   return (
@@ -71,7 +81,7 @@ export function VideoHistory() {
               className="flex items-center justify-between px-3 py-2 bg-accent/50 hover:bg-accent rounded-lg border"
             >
               <button
-                onClick={() => router.push(`/explore/${video.id}`)}
+                onClick={handleSelectVideo(video.id)}
                 className="flex flex-col gap-0.5 flex-1"
               >
                 <div className="text-sm truncate text-start font-medium w-40">
