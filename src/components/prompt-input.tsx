@@ -48,7 +48,7 @@ export const PromptInput: FC<PromptInputProps> = ({
     if (data?.id) {
       router.push(`/explore/${data.id}`);
     }
-  }, [createVideo, prompt, router]);
+  }, [createVideo, updateVideo, prompt, router]);
 
   return (
     <div className="relative w-full flex flex-col gap-4">
