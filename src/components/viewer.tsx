@@ -25,9 +25,11 @@ export const Viewer = () => {
       <div className="w-full max-w-4xl flex flex-col min-w-0 flex-1 items-center sm:px-5 pb-[11.5rem]">
         <Composition />
       </div>
-      <div className="fixed bottom-0 left-0 right-0 z-50 p-5 flex justify-center">
-        <div className="w-full max-w-4xl flex flex-col">
-          <ImagesUploadPreviews />
+      <div className="fixed bottom-0 left-0 right-0 z-50 pb-2 px-5 flex justify-center">
+        <div className="w-full max-w-4xl flex flex-col h-40 justify-between">
+          <div className="flex-1 flex items-center">
+            <ImagesUploadPreviews />
+          </div>
           <PromptInput />
         </div>
       </div>

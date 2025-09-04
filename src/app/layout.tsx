@@ -10,8 +10,8 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import { ReactNode, Suspense } from "react";
 
+import HotjarAnalytics from "@/components/hotjar-provider";
 import "./globals.css";
-import HotjarAnalytics from "@/components/external-analytics/Hotjar";
 
 const neueMontreal = localFont({
   src: [
@@ -97,8 +97,6 @@ export const metadata: Metadata = {
   },
 };
 
-
-
 export default async function RootLayout({
   children,
 }: Readonly<{
@@ -106,10 +104,6 @@ export default async function RootLayout({
 }>) {
   const user = await getUser();
   const profile = user ? await getProfile(user.id) : null;
-
- 
-
-
 
   return (
     <html lang="en">
@@ -119,7 +113,6 @@ export default async function RootLayout({
       <body
         className={`${neueMontreal.variable} font-sans font-medium antialiased relative bg-neutral-50`}
       >
-
         <HeaderWrapper />
         <AuthProvider initialUser={user} initialProfile={profile}>
           <LayoutProvider>{children}</LayoutProvider>

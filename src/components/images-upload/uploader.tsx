@@ -82,13 +82,9 @@ export const ImagesUpload = () => {
         className="absolute hidden cursor-pointer border"
       />
 
-      <Button
-        type="button"
-        size="icon"
-        variant="outline"
-        onClick={handleButtonClick}
-      >
+      <Button type="button" variant="outline" onClick={handleButtonClick}>
         <PaperClipIcon className="h-4 w-4" />
+        <span className="hidden sm:block">Add Images</span>
       </Button>
     </div>
   );
