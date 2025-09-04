@@ -92,17 +92,15 @@ export const PromptInput: FC<PromptInputProps> = ({
           {landingButton ? (
             landingButton
           ) : generating ? (
-            <Button
-              className="rounded-full w-14 bg-indigo-200 font-medium text-indigo-900 hover:bg-indigo-300"
-              disabled
-            >
+            <Button size="icon" disabled variant="brand">
               <StopIcon className="w-5 h-5 animate-spin" />
             </Button>
           ) : (
             <Button
+              variant="brand"
               disabled={!canGenerate}
-              className="rounded-full bg-indigo-200 font-medium text-indigo-900 hover:bg-indigo-300"
               onClick={() => handleSubmit(currentVideo)}
+              className="rounded-full"
             >
               <span className="hidden sm:block">
                 {currentVideo?.id && <span>Update</span>}

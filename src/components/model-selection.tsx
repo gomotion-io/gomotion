@@ -9,38 +9,46 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useParamStore } from "@/store/params.store";
+import { useUserStore } from "@/store/user.store";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import Image from "next/image";
+import { Badge } from "./ui/badge";
 
 const models = [
   {
     name: "Claude Sonnet 4",
     value: "anthropic/claude-sonnet-4",
     icon: "/models-icons/anthropic.svg",
+    premuim: false,
   },
   {
     name: "Claude Opus 4.1",
     value: "anthropic/claude-opus-4.1",
     icon: "/models-icons/anthropic.svg",
+    premuim: true,
   },
   {
     name: "GPT 5",
     value: "openai/gpt-5",
     icon: "/models-icons/openai.svg",
+    premuim: true,
   },
   {
     name: "Gemini 2.5 Pro",
     value: "google/gemini-2.5-pro",
     icon: "/models-icons/google.svg",
+    premuim: false,
   },
   {
     name: "Grok 4",
     value: "x-ai/grok-4",
     icon: "/models-icons/xai.svg",
+    premuim: false,
   },
 ];
 
 export const ModelSelection = () => {
+  const { profile } = useUserStore();
   const model = useParamStore((state) => state.model);
   const setModel = useParamStore((state) => state.setModel);
   const displayLabel =
@@ -68,7 +76,7 @@ export const ModelSelection = () => {
         </Button>
       </DropdownMenuTrigger>
 
-      <DropdownMenuContent className="w-52">
+      <DropdownMenuContent className="w-60">
         <DropdownMenuRadioGroup
           value={model.value}
           onValueChange={(value) => {
@@ -81,6 +89,9 @@ export const ModelSelection = () => {
               key={model.value}
               value={model.value}
               className="font-medium"
+              disabled={
+                model.premuim && profile?.subscription_status !== "active"
+              }
             >
               <Image
                 src={model.icon}
@@ -90,6 +101,11 @@ export const ModelSelection = () => {
                 height={16}
               />
               {model.name}
+              {model.premuim && (
+                <Badge className="h-4 text-xs text-emerald-900 bg-emerald-100">
+                  Pro
+                </Badge>
+              )}
             </DropdownMenuRadioItem>
           ))}
         </DropdownMenuRadioGroup>

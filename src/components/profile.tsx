@@ -49,9 +49,6 @@ export const Profile = () => {
       <div className="flex flex-col gap-5 h-24 w-full items-center justify-center">
         <div className="flex items-center justify-center gap-3">
           <div className="flex items-center gap-3">
-            <Button onClick={handleCreateNew}>
-              Create new <PlusIcon />
-            </Button>
             <Button
               onClick={() => {
                 if (profile?.subscription_status !== "active") {
@@ -95,6 +92,9 @@ export const Profile = () => {
           </div>
 
           <div className="flex items-center gap-3">
+            <Button onClick={handleCreateNew} variant="outline">
+              Create new <PlusIcon />
+            </Button>
             <VideoHistory />
             <Button
               variant="outline"
