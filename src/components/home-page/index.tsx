@@ -38,24 +38,6 @@ export const HomePage = () => {
           }
         );
       });
-
-      gsap.utils.toArray<HTMLElement>(".img-reveal").forEach((el) => {
-        gsap.fromTo(
-          el,
-          { width: 0, opacity: 0 },
-          {
-            width: "auto",
-            opacity: 1,
-            duration: 1,
-            ease: "power2.out",
-            scrollTrigger: {
-              trigger: el,
-              start: "top 90%",
-              toggleActions: "play none none reverse",
-            },
-          }
-        );
-      });
     }, containerRef);
 
     return () => ctx.revert();
@@ -74,7 +56,7 @@ export const HomePage = () => {
           </h1>
           <p className="text-2xl max-w-xl text-center text-muted-foreground leading-relaxed">
             AI-powered{" "}
-            <span className="align-middle rounded aspect-video w-[3rem] h-[4rem]  mb-2 inline-block overflow-hidden img-reveal">
+            <span className="align-middle rounded aspect-video w-[6rem] h-[4rem]  mb-2 inline-block overflow-hidden">
               <Image
                 width={100}
                 height={100}

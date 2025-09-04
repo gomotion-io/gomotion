@@ -100,11 +100,13 @@ export const PromptInput: FC<PromptInputProps> = ({
               variant="brand"
               disabled={!canGenerate}
               onClick={() => handleSubmit(currentVideo)}
-              className="rounded-full"
+              size={currentVideo?.id ? "default" : "icon"}
+              className={cn(currentVideo?.id && "rounded-full")}
             >
-              <span className="hidden sm:block">
-                {currentVideo?.id && <span>Update</span>}
-              </span>
+              {currentVideo?.id && (
+                <span className="hidden sm:block">Update</span>
+              )}
+
               <ArrowUpIcon className="w-5 h-5" />
             </Button>
           )}

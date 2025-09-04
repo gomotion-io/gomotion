@@ -26,11 +26,13 @@ export const Viewer = () => {
         <Composition />
       </div>
       <div className="fixed bottom-0 left-0 right-0 z-50 pb-2 px-5 flex justify-center">
-        <div className="w-full max-w-4xl flex flex-col h-40 justify-between">
-          <div className="flex-1 flex items-center">
-            <ImagesUploadPreviews />
+        <div className="w-full max-w-4xl">
+          <div className="flex flex-col-reverse">
+            <PromptInput />
+            <div className="flex items-center justify-center py-2">
+              <ImagesUploadPreviews />
+            </div>
           </div>
-          <PromptInput />
         </div>
       </div>
       <FloatingSupportButton />
