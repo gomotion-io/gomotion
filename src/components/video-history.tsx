@@ -153,7 +153,7 @@ export function VideoHistory() {
               </Button>
             )}
           </div>
-          <div className="flex flex-col gap-2 px-3">
+          <div className="flex flex-col gap-2 px-3 pb-3">
             {loading && (
               <div className="flex flex-col gap-1">
                 <Card className="animate-pulse bg-accent" />

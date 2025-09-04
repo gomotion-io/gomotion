@@ -13,7 +13,6 @@ import { SparklesIcon } from "@heroicons/react/20/solid";
 import { SettingsIcon } from "lucide-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
-import { SettingsDialog } from "./settings-dialog";
 
 export const Profile = () => {
   const searchParams = useSearchParams();
@@ -71,7 +70,7 @@ export const Profile = () => {
                   Preparing...
                 </div>
               ) : progress.status === "rendering" ? (
-                <div className="flex items-center gap-2">
+                <div className="flex justify-center items-center gap-2">
                   <CircularProgress
                     progress={
                       "progress" in progress
@@ -105,8 +104,6 @@ export const Profile = () => {
           </div>
         </div>
       </div>
-
-      <SettingsDialog />
     </>
   );
 };

@@ -6,6 +6,8 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
 import { useParamStore } from "@/store/params.store";
+import { useUiStore } from "@/store/ui.store";
+import { useUserStore } from "@/store/user.store";
 import { RefinedVideo, useVideoStore } from "@/store/video.store";
 import { ArrowUpIcon, StopIcon } from "@heroicons/react/16/solid";
 import { useRouter } from "next/navigation";
@@ -31,11 +33,48 @@ export const PromptInput: FC<PromptInputProps> = ({
   const currentVideo = useVideoStore((state) => state.currentVideo);
   const setPrompt = useParamStore((state) => state.setPrompt);
   const prompt = useParamStore((state) => state.prompt);
+  const user = useUserStore((state) => state.user);
+  const setShowInsufficientCreditsDialog = useUiStore(
+    (state) => state.setShowInsufficientCreditsDialog
+  );
 
   const canGenerate = useMemo(() => prompt.trim().length > 0, [prompt]);
 
+  const checkCredits = useCallback(async () => {
+    if (!user?.id) {
+      return false;
+    }
+
+    try {
+      const response = await fetch("/api/utils/validate-credits", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ userId: user.id }),
+      });
+
+      if (!response.ok) {
+        return false;
+      }
+
+      const data = await response.json();
+      return data.valid;
+    } catch (error) {
+      console.error("Credit validation error:", error);
+      return false;
+    }
+  }, [user?.id]);
+
   const handleSubmit = useCallback(
     async (video: RefinedVideo | null) => {
+      // Check credits first
+      const hasCredits = await checkCredits();
+      if (!hasCredits) {
+        setShowInsufficientCreditsDialog(true);
+        return;
+      }
+
       // update the current video
       if (video) {
         await updateVideo({ id: video.id, prompt, previousVideo: video });
@@ -48,7 +87,14 @@ export const PromptInput: FC<PromptInputProps> = ({
         router.push(`/explore/${data.id}`);
       }
     },
-    [createVideo, updateVideo, prompt, router]
+    [
+      checkCredits,
+      createVideo,
+      updateVideo,
+      prompt,
+      router,
+      setShowInsufficientCreditsDialog,
+    ]
   );
 
   return (
