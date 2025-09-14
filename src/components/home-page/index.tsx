@@ -7,7 +7,6 @@ import { useGSAP } from "@gsap/react";
 import { ArrowUpIcon } from "@heroicons/react/16/solid";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import Image from "next/image";
 import Link from "next/link";
 import { useRef } from "react";
 import { gridBase, Tile } from "../bento";
@@ -64,10 +63,10 @@ export const HomePage = () => {
   return (
     <div
       ref={containerRef}
-      className="max-w-[85rem] mx-auto pt-5 px-5 lg:px-12"
+      className="max-w-[85rem]  mx-auto pt-5 px-5 lg:px-12"
     >
       {/* hero */}
-      <section className="reveal gap-10 sm:gap-2 flex flex-col items-center pt-36 pb-32">
+      {/* <section className="reveal gap-10 sm:gap-2 flex flex-col items-center pt-36 pb-32">
         <div className="gap-10 flex flex-col items-center">
           <h1 className="text-center text-5xl sm:text-6xl lg:text-8xl max-w-3xl font-neue-montreal font-bold">
             The AI Motion Designer
@@ -104,7 +103,47 @@ export const HomePage = () => {
             />
           </div>
         </div>
+      </section> */}
+      <section className="relative flex min-h-screen items-center justify-center overflow-hidden">
+        <div className="mx-auto w-full max-w-[90rem] px-5 lg:px-12">
+          <div className="flex flex-col items-center text-center gap-6">
+            {/* Headline */}
+            <h1 className="text-4xl sm:text-5xl lg:text-7xl max-w-3xl font-neue-montreal font-bold tracking-tight">
+              The AI Motion Designer
+            </h1>
+
+            {/* Subhead */}
+            <p className="text-base sm:text-lg max-w-2xl text-muted-foreground/90">
+              AI-powered motion graphics generation for creators and marketers.
+            </p>
+
+            {/* Prompt form (keeps your buttons/features) */}
+            <div className="mt-12 w-full md:w-[720px]">
+              <div className="relative">
+                {/* subtle glow still here — optional, remove if you want totally flat */}
+                <div className="absolute inset-0 rounded-2xl blur-2xl opacity-60 -z-10 bg-neutral-200/40" />
+
+                <PromptInput
+                  className="min-h-[130px] rounded-2xl bg-white/90 backdrop-blur-sm border border-neutral-200 shadow-sm"
+                  landingButton={
+                    <Link href="/register">
+                      <Button
+                        variant="ghost"
+                        className="rounded-full bg-indigo-200 font-medium text-indigo-900 hover:bg-indigo-300"
+                      >
+                        <ArrowUpIcon className="w-5 h-5" />
+                      </Button>
+                    </Link>
+                  }
+                />
+              </div>
+            </div>
+          </div>
+        </div>
       </section>
+
+
+
 
       {/* bento */}
       <section className="reveal">
