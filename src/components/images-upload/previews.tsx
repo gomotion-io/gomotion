@@ -16,21 +16,21 @@ export const ImagesUploadPreviews = () => {
   );
 
   return (
-    <div className="flex gap-2 h-12 pl-5 items-center">
+    <div className="flex gap-2  pl-5 items-center">
       <div className="flex gap-2">
         {images.length > 0 && (
           <div className="flex gap-2">
             {images.map((image, index) => (
               <div
                 key={index}
-                className="relative group w-14 h-10 animate-in fade-in duration-500 ease-out"
+                className="relative group w-16 h-12 animate-in fade-in duration-500 ease-out"
                 style={{ animationDelay: `${index * 150}ms` }}
               >
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={URL.createObjectURL(image)}
                   alt={`Uploaded ${index + 1}`}
-                  className="w-14 h-9 object-cover rounded-sm transition-all duration-200 hover:scale-105 border-2 border-indigo-500"
+                  className="w-16 h-12 object-cover rounded-sm transition-all duration-200 hover:scale-105 border-2 border-indigo-500"
                 />
                 <Button
                   type="button"

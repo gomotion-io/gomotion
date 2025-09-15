@@ -75,7 +75,7 @@ export const ContextSelection = () => {
                   <p className="text-sm font-medium mb-1 gap-1">
                     {contexts[c].label}{" "}
                     {c === Context.Narrative && (
-                      <Badge className="h-4 text-xs text-emerald-900 bg-emerald-100 ">
+                      <Badge className="h-4 text-xs text-emerald-900 bg-emerald-100">
                         Beta
                       </Badge>
                     )}
