@@ -8,8 +8,6 @@
     "start": "next start",
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
-    "enrich-seo-csv": "node scripts/enrich-seo-csv.mjs",
-    "generate-programmatic-seo-csv": "node scripts/generate-programmatic-seo-csv.mjs",
     "supabase-gen": "npx supabase gen types typescript --project-id uftbovflyenqlyxvpybv --schema public > src/supabase/generated/database.types.ts"
   },
   "dependencies": {
