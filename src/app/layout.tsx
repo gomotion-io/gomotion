@@ -11,10 +11,8 @@ import localFont from "next/font/local";
 import { ReactNode, Suspense } from "react";
 
 import HotjarAnalytics from "@/components/hotjar-provider";
-import "./globals.css";
-import HotjarAnalytics from "@/components/external-analytics/Hotjar";
 import { DM_Sans } from "next/font/google";
-
+import "./globals.css";
 
 const neueMontreal = localFont({
   src: [
@@ -53,12 +51,11 @@ const neueMontreal = localFont({
   display: "swap",
 });
 
-
 const spaceGrotesk = DM_Sans({
   subsets: ["latin"],
   variable: "--font-space-grotesk",
   weight: ["300", "400", "500", "600", "700"],
-})
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL(getEnvUrl()),
