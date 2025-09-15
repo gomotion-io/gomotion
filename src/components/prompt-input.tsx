@@ -4,16 +4,16 @@ import { ContextSelection } from "@/components/context-selection";
 import { RatioSelection } from "@/components/ratio-selection";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-
 import { cn } from "@/lib/utils";
 import { useParamStore } from "@/store/params.store";
-import { useVideoStore } from "@/store/video.store";
+import { useUiStore } from "@/store/ui.store";
+import { useUserStore } from "@/store/user.store";
+import { RefinedVideo, useVideoStore } from "@/store/video.store";
 import { ArrowUpIcon, StopIcon } from "@heroicons/react/16/solid";
 import { useRouter } from "next/navigation";
 import { FC, ReactNode, useCallback, useMemo, useRef } from "react";
 import { ImagesUpload } from "./images-upload/uploader";
 import { ModelSelection } from "./model-selection";
-// import { VoiceSelection } from "./voice-selection";
 
 type PromptInputProps = {
   className?: string;
@@ -29,27 +29,73 @@ export const PromptInput: FC<PromptInputProps> = ({
 
   const generating = useVideoStore((state) => state.generating);
   const createVideo = useVideoStore((state) => state.create);
-  // const updateVideo = useVideoStore((state) => state.update);
+  const updateVideo = useVideoStore((state) => state.update);
   const currentVideo = useVideoStore((state) => state.currentVideo);
   const setPrompt = useParamStore((state) => state.setPrompt);
   const prompt = useParamStore((state) => state.prompt);
-  // const context = useParamStore((state) => state.context);
+  const user = useUserStore((state) => state.user);
+  const setShowInsufficientCreditsDialog = useUiStore(
+    (state) => state.setShowInsufficientCreditsDialog
+  );
 
   const canGenerate = useMemo(() => prompt.trim().length > 0, [prompt]);
 
-  const handleSubmit = useCallback(async () => {
-    // if (video) {
-    //   // update the current video
-    //   await updateVideo({ id: video.id, prompt, previousVideo: video });
-    //   return;
-    // }
-    // // else create a new video
-
-    const data = await createVideo({ prompt });
-    if (data?.id) {
-      router.push(`/explore/${data.id}`);
+  const checkCredits = useCallback(async () => {
+    if (!user?.id) {
+      return false;
     }
-  }, [createVideo, prompt, router]);
+
+    try {
+      const response = await fetch("/api/utils/validate-credits", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ userId: user.id }),
+      });
+
+      if (!response.ok) {
+        return false;
+      }
+
+      const data = await response.json();
+      return data.valid;
+    } catch (error) {
+      console.error("Credit validation error:", error);
+      return false;
+    }
+  }, [user?.id]);
+
+  const handleSubmit = useCallback(
+    async (video: RefinedVideo | null) => {
+      // Check credits first
+      const hasCredits = await checkCredits();
+      if (!hasCredits) {
+        setShowInsufficientCreditsDialog(true);
+        return;
+      }
+
+      // update the current video
+      if (video) {
+        await updateVideo({ id: video.id, prompt, previousVideo: video });
+        return;
+      }
+
+      // else create a new video
+      const data = await createVideo({ prompt });
+      if (data?.id) {
+        router.push(`/explore/${data.id}`);
+      }
+    },
+    [
+      checkCredits,
+      createVideo,
+      updateVideo,
+      prompt,
+      router,
+      setShowInsufficientCreditsDialog,
+    ]
+  );
 
   return (
     <div className="relative w-full flex flex-col gap-4">
@@ -76,18 +122,15 @@ export const PromptInput: FC<PromptInputProps> = ({
           ) {
             if (canGenerate) {
               event.preventDefault();
-              handleSubmit().catch(console.error);
-              // handleSubmit(currentVideo).catch(console.error);
+              handleSubmit(currentVideo).catch(console.error);
             }
           }
         }}
       />
-
-      <div className="absolute w-full bottom-0 z-50 right-0 p-2 flex flex-row justify-between gap-2 items-center">
+      <div className="absolute bottom-0 z-50 right-0 p-2 w-full flex flex-row justify-between gap-2 items-center">
         <ImagesUpload />
 
         <div className="flex flex-row gap-2">
-          {/* {context === Context.Narrative && <VoiceSelection />} */}
           <ModelSelection />
           <RatioSelection />
           <ContextSelection />
@@ -95,19 +138,21 @@ export const PromptInput: FC<PromptInputProps> = ({
           {landingButton ? (
             landingButton
           ) : generating ? (
-            <Button
-              className="rounded-full w-14 bg-indigo-200 font-medium text-indigo-900 hover:bg-indigo-300"
-              disabled
-            >
+            <Button size="icon" disabled variant="brand">
               <StopIcon className="w-5 h-5 animate-spin" />
             </Button>
           ) : (
             <Button
+              variant="brand"
               disabled={!canGenerate}
-              className="rounded-full bg-indigo-200 font-medium text-indigo-900 hover:bg-indigo-300"
-              // onClick={() => handleSubmit(currentVideo)}
-              onClick={() => handleSubmit()}
+              onClick={() => handleSubmit(currentVideo)}
+              size={currentVideo?.id ? "default" : "icon"}
+              className={cn(currentVideo?.id && "rounded-full")}
             >
+              {currentVideo?.id && (
+                <span className="hidden sm:block">Update</span>
+              )}
+
               <ArrowUpIcon className="w-5 h-5" />
             </Button>
           )}

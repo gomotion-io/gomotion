@@ -5,7 +5,7 @@ import { useParamStore } from "@/store/params.store";
 import { PaperClipIcon } from "@heroicons/react/16/solid";
 import { useRef } from "react";
 
-const MAX_FILE_SIZE = 1024 * 1024; // 1MB
+const MAX_FILE_SIZE = 1024 * 1024 * 2; // 2MB
 const MAX_FILES = 3;
 
 export const ImagesUpload = () => {
@@ -27,7 +27,7 @@ export const ImagesUpload = () => {
 
       // Check file size
       if (file.size > MAX_FILE_SIZE) {
-        errorMessage = "Each image must be less than 1MB";
+        errorMessage = "Each image must be less than 2MB";
         break;
       }
 
@@ -82,13 +82,9 @@ export const ImagesUpload = () => {
         className="absolute hidden cursor-pointer border"
       />
 
-      <Button
-        type="button"
-        size="icon"
-        variant="outline"
-        onClick={handleButtonClick}
-      >
+      <Button type="button" variant="outline" onClick={handleButtonClick}>
         <PaperClipIcon className="h-4 w-4" />
+        <span className="hidden sm:block">Add Images</span>
       </Button>
     </div>
   );
