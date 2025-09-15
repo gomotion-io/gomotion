@@ -12,6 +12,9 @@ import { ReactNode, Suspense } from "react";
 
 import HotjarAnalytics from "@/components/hotjar-provider";
 import "./globals.css";
+import HotjarAnalytics from "@/components/external-analytics/Hotjar";
+import { DM_Sans } from "next/font/google";
+
 
 const neueMontreal = localFont({
   src: [
@@ -49,6 +52,13 @@ const neueMontreal = localFont({
   variable: "--font-neue-montreal", // Define a CSS variable
   display: "swap",
 });
+
+
+const spaceGrotesk = DM_Sans({
+  subsets: ["latin"],
+  variable: "--font-space-grotesk",
+  weight: ["300", "400", "500", "600", "700"],
+})
 
 export const metadata: Metadata = {
   metadataBase: new URL(getEnvUrl()),
@@ -111,7 +121,7 @@ export default async function RootLayout({
         <HotjarAnalytics />
       </Suspense>
       <body
-        className={`${neueMontreal.variable} font-sans font-medium antialiased relative bg-neutral-50`}
+        className={`${spaceGrotesk.variable} ${neueMontreal.variable} font-sans font-medium antialiased relative bg-neutral-50`}
       >
         <HeaderWrapper />
         <AuthProvider initialUser={user} initialProfile={profile}>

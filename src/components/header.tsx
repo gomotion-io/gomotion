@@ -47,183 +47,117 @@ export const Header: FunctionComponent<HeaderProps> = ({ user }) => {
   }
 
   return (
-    <div className="absolute z-50 top-0 w-full h-20 flex items-center">
-      {/* Desktop / base header */}
-      <div
-        className="flex items-center justify-between max-w-[85rem] w-full h-full mx-auto px-5 lg:px-12"
-        ref={headerRef}
-      >
-        <Link href="/">
-          <div className="flex items-center gap-2 hover:opacity-70">
-            <div>
-              <Image
-                src="/images/gomotion.svg"
-                alt="gomotion"
-                width={20}
-                height={20}
-                unoptimized
-              />
-            </div>
-            <div className="text-xl font-neue-montreal font-bold">Gomotion</div>
-          </div>
-        </Link>
+  <div className="absolute z-50 top-0 w-full h-16 sm:h-20 flex items-center">
+  <div
+    className="flex items-center justify-between max-w-[85rem] w-full h-full mx-auto px-5 lg:px-12"
+    ref={headerRef}
+  >
+    <Link href="/" className="flex items-center gap-2 hover:opacity-80">
+      <Image
+        src="/images/gomotion.svg"
+        alt="gomotion"
+        width={20}
+        height={20}
+        unoptimized
+      />
+      <span className="text-lg sm:text-xl font-neue-montreal font-bold">Gomotion</span>
+    </Link>
 
-        {/* Desktop navigation */}
-        <div className="hidden sm:flex items-center gap-4">
-          {user ? (
-            <div className="flex items-center gap-4">
-              <Link href="/story">
-                <div className="text-primary text-sm underline-offset-4 hover:underline font-semibold">
-                  Our story
-                </div>
-              </Link>
-              <Link
-                href="https://discord.gg/Wd4nCJhCgd"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                <div className="text-primary text-sm underline-offset-4 hover:underline font-semibold">
-                  Join our Discord
-                </div>
-              </Link>
-              <Link href="/pricing">
-                <div className="text-primary text-sm underline-offset-4 hover:underline font-semibold">
-                  Pricing
-                </div>
-              </Link>
-              <Link href="/explore">
-                <Button size="sm">
-                  Go to app <ArrowRight />{" "}
-                </Button>
-              </Link>
-            </div>
-          ) : (
-            <>
-              <Link href="/story">
-                <div className="text-primary text-sm underline-offset-4 hover:underline font-semibold">
-                  Our story
-                </div>
-              </Link>
-              <Link
-                href="https://discord.gg/Wd4nCJhCgd"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                <div className="text-primary text-sm underline-offset-4 hover:underline font-semibold">
-                  Join our Discord
-                </div>
-              </Link>
-              <Link href="/pricing">
-                <div className="text-primary text-sm underline-offset-4 hover:underline font-semibold">
-                  Pricing
-                </div>
-              </Link>
-              <Link
-                href="/sign-in"
-                className="hover:underline underline-offset-4"
-              >
-                <div className="text-primary text-sm underline-offset-4 hover:underline font-semibold">
-                  Login
-                </div>
-              </Link>
-              <Link href="/register">
-                <Button className="font-medium py-2 px-5 text-sm rounded-full">
-                  Get started
-                </Button>
-              </Link>
-            </>
-          )}
+    {/* Desktop navigation (items unchanged, softer styling only) */}
+    <div className="hidden sm:flex items-center gap-6">
+      {user ? (
+        <div className="flex items-center gap-6">
+          <Link href="/story" className="text-sm font-semibold hover:underline underline-offset-4">
+            Our story
+          </Link>
+          <Link href="https://discord.gg/Wd4nCJhCgd" onClick={() => setMobileMenuOpen(false)}
+                className="text-sm font-semibold hover:underline underline-offset-4">
+            Join our Discord
+          </Link>
+          <Link href="/pricing" className="text-sm font-semibold hover:underline underline-offset-4">
+            Pricing
+          </Link>
+          <Link href="/explore">
+            <Button size="sm" className="rounded-full px-4 py-2 text-sm shadow-sm">
+              Go to app <ArrowRight className="ml-1 h-4 w-4" />
+            </Button>
+          </Link>
         </div>
-
-        {/* Mobile actions */}
-        <div className="flex items-center gap-4 sm:hidden">
-          {!user?.id ? (
-            <button
-              type="button"
-              onClick={() => setMobileMenuOpen(true)}
-              aria-label="Open menu"
-              className=""
-            >
-              <MenuIcon className="h-6 w-6" />
-            </button>
-          ) : (
-            <Link href="/explore">
-              <Button size="sm">
-                Go to app <ArrowRight />{" "}
-              </Button>
-            </Link>
-          )}
-        </div>
-      </div>
-
-      {/* Mobile menu overlay */}
-      {mobileMenuOpen && !user?.id && (
-        <div className="fixed inset-0 z-[60] bg-background/95 backdrop-blur-sm flex flex-col">
-          <div className="flex items-center justify-between px-5 h-20">
-            <Link href="/" onClick={() => setMobileMenuOpen(false)}>
-              <div>
-                <Image
-                  src="/images/gomotion.svg"
-                  alt="gomotion"
-                  width={20}
-                  height={20}
-                  unoptimized
-                />
-              </div>
-            </Link>
-            <button
-              type="button"
-              onClick={() => setMobileMenuOpen(false)}
-              aria-label="Close menu"
-              className=""
-            >
-              <X className="h-6 w-6" />
-            </button>
-          </div>
-
-          <nav className="mt-4 flex flex-col items-center gap-6 text-lg font-semibold">
-            <Link
-              href="/story"
-              onClick={() => setMobileMenuOpen(false)}
-              className="hover:underline underline-offset-4"
-            >
-              Our story
-            </Link>
-            <Link
-              href="https://discord.gg/Wd4nCJhCgd"
-              onClick={() => setMobileMenuOpen(false)}
-              className="hover:underline underline-offset-4"
-            >
-              Join our Discord
-            </Link>
-            {user ? (
-              <Link
-                href="/explore"
-                onClick={() => setMobileMenuOpen(false)}
-                className="hover:underline underline-offset-4"
-              >
-                Go to app
-              </Link>
-            ) : (
-              <>
-                <Link
-                  href="/sign-in"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="hover:underline underline-offset-4"
-                >
-                  Login
-                </Link>
-                <Link href="/register" onClick={() => setMobileMenuOpen(false)}>
-                  <Button
-                    size="lg"
-                    className="font-medium py-2 px-5 text-sm rounded-full"
-                  >
-                    Get started
-                  </Button>
-                </Link>
-              </>
-            )}
-          </nav>
-        </div>
+      ) : (
+        <>
+          <Link href="/story" className="text-sm font-semibold hover:underline underline-offset-4">
+            Our story
+          </Link>
+          <Link href="https://discord.gg/Wd4nCJhCgd" onClick={() => setMobileMenuOpen(false)}
+                className="text-sm font-semibold hover:underline underline-offset-4">
+            Join our Discord
+          </Link>
+          <Link href="/pricing" className="text-sm font-semibold hover:underline underline-offset-4">
+            Pricing
+          </Link>
+          <Link href="/sign-in" className="text-sm font-semibold hover:underline underline-offset-4">
+            Login
+          </Link>
+          <Link href="/register">
+            <Button className="rounded-full px-4 py-2 text-sm shadow-sm font-medium">
+              Get started
+            </Button>
+          </Link>
+        </>
       )}
     </div>
+
+    {/* Mobile actions (unchanged logic) */}
+    <div className="flex items-center gap-3 sm:hidden">
+      {!user?.id ? (
+        <button type="button" onClick={() => setMobileMenuOpen(true)} aria-label="Open menu">
+          <MenuIcon className="h-6 w-6" />
+        </button>
+      ) : (
+        <Link href="/explore">
+          <Button size="sm" className="rounded-full px-3 py-1.5 text-xs">
+            Go to app <ArrowRight className="ml-1 h-3 w-3" />
+          </Button>
+        </Link>
+      )}
+    </div>
+  </div>
+
+  {/* Mobile menu (unchanged features, just lighter spacing) */}
+  {mobileMenuOpen && !user?.id && (
+    <div className="fixed inset-0 z-[60] bg-background/95 backdrop-blur-sm flex flex-col">
+      <div className="flex items-center justify-between px-5 h-16 sm:h-20">
+        <Link href="/" onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-2">
+          <Image src="/images/gomotion.svg" alt="gomotion" width={20} height={20} unoptimized />
+          <span className="font-semibold">Gomotion</span>
+        </Link>
+        <button type="button" onClick={() => setMobileMenuOpen(false)} aria-label="Close menu">
+          <X className="h-6 w-6" />
+        </button>
+      </div>
+
+      <nav className="mt-4 flex flex-col items-center gap-6 text-lg font-semibold">
+        <Link href="/story" onClick={() => setMobileMenuOpen(false)} className="hover:underline underline-offset-4">
+          Our story
+        </Link>
+        <Link href="https://discord.gg/Wd4nCJhCgd" onClick={() => setMobileMenuOpen(false)}
+              className="hover:underline underline-offset-4">
+          Join our Discord
+        </Link>
+        <Link href="/pricing" onClick={() => setMobileMenuOpen(false)} className="hover:underline underline-offset-4">
+          Pricing
+        </Link>
+        <Link href="/sign-in" onClick={() => setMobileMenuOpen(false)} className="hover:underline underline-offset-4">
+          Login
+        </Link>
+        <Link href="/register" onClick={() => setMobileMenuOpen(false)}>
+          <Button size="lg" className="rounded-full">Get started</Button>
+        </Link>
+      </nav>
+    </div>
+  )}
+</div>
+
+
   );
 };
