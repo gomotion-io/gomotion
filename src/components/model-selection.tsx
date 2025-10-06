@@ -28,12 +28,6 @@ const models = [
     premuim: true,
   },
   {
-    name: "Claude Sonnet 4.5",
-    value: "anthropic/claude-sonnet-4.5",
-    icon: "/models-icons/anthropic.svg",
-    premuim: true,
-  },
-  {
     name: "GPT 5 Codex",
     value: "openai/gpt-5-codex",
     icon: "/models-icons/openai.svg",
