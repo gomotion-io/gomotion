@@ -12,9 +12,9 @@ const Pricing = async () => {
   const products = await getProducts();
 
   const order = ["Free", "Standard", "Pro", "Enterprise"];
-  const sortedProducts = products.sort(
-    (a, b) => order.indexOf(a.name) - order.indexOf(b.name)
-  );
+  const sortedProducts = products
+    .sort((a, b) => order.indexOf(a.name) - order.indexOf(b.name))
+    .filter((product) => product.name !== "Free");
 
   return (
     <div className="mx-auto flex flex-col gap-5 justify-center items-center px-2 pt-[5rem] min-h-screen">

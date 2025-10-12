@@ -123,7 +123,6 @@ export const HomePage = () => {
         </div>
       </section>
 
-
       {/* bento */}
 
       <section className="reveal">
@@ -330,7 +329,7 @@ export const HomePage = () => {
 
           <Link href="/sign-in">
             <button className="text-indigo-900 cursor-pointer flex items-center justify-center gap-2 font-semibold border-2 border-indigo-500 hover:bg-indigo-200 transition-colors px-10 duration-300 bg-indigo-100 text-lg w-full sm:w-60 lg:w-80 h-14 sm:h-16 rounded-xl">
-              Try Gomotion for free <span className="text-2xl"> 🤩</span>
+              Try Gomotion today <span className="text-2xl"> 🤩</span>
             </button>
           </Link>
         </div>
