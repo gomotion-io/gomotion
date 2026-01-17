@@ -5,6 +5,7 @@ import { PromptInput } from "@/components/prompt-input";
 import { useVideoStore } from "@/store/video.store";
 import { useParams } from "next/navigation";
 import { useEffect } from "react";
+import { ApiKeyOnboardingDialog } from "./api-key-onboarding-dialog";
 import { Composition } from "./composition";
 import { FloatingSupportButton } from "./floating-support-button";
 import { ImagesUploadPreviews } from "./images-upload/previews";
@@ -43,6 +44,7 @@ export const Viewer = () => {
 
       <SettingsDialog />
       <InsufficientCreditDialog />
+      <ApiKeyOnboardingDialog />
     </>
   );
 };

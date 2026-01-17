@@ -36,6 +36,14 @@ export async function POST(request: NextRequest) {
     const user = await validateUser();
     const { profile } = await validateCredit(user.id);
 
+    // Validate that user has an OpenRouter API key
+    if (!profile.open_router_api_key) {
+      return Response.json(
+        { error: "OpenRouter API key is required. Please add your API key in settings." },
+        { status: 400 }
+      );
+    }
+
     // Create a new FormData to send to the Express backend
     const backendFormData = new FormData();
 
@@ -47,6 +55,7 @@ export async function POST(request: NextRequest) {
     );
     backendFormData.append("contextModel", context);
     backendFormData.append("model", model);
+    backendFormData.append("apiKey", profile.open_router_api_key);
 
     // Add voiceId if provided
     if (voiceId) {

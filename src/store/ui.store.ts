@@ -1,6 +1,6 @@
 import { create } from "zustand";
 
-export type SettingsTab = "profile" | "usage" | "password" | "logout";
+export type SettingsTab = "profile" | "usage" | "password" | "api-key" | "logout";
 
 type UiStore = {
   isSettingsDialogOpen: boolean;
@@ -9,6 +9,8 @@ type UiStore = {
   setActiveTab: (tab: SettingsTab) => void;
   showInsufficientCreditsDialog: boolean;
   setShowInsufficientCreditsDialog: (show: boolean) => void;
+  showApiKeyOnboardingDialog: boolean;
+  setShowApiKeyOnboardingDialog: (show: boolean) => void;
 };
 
 export const useUiStore = create<UiStore>((set) => ({
@@ -19,4 +21,7 @@ export const useUiStore = create<UiStore>((set) => ({
   showInsufficientCreditsDialog: false,
   setShowInsufficientCreditsDialog: (show) =>
     set({ showInsufficientCreditsDialog: show }),
+  showApiKeyOnboardingDialog: false,
+  setShowApiKeyOnboardingDialog: (show) =>
+    set({ showApiKeyOnboardingDialog: show }),
 }));

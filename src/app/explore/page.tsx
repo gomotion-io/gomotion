@@ -1,6 +1,6 @@
+import { Viewer } from "@/components/viewer";
 import { createClient } from "@/supabase/server";
 import { redirect } from "next/navigation";
-import { Viewer } from "@/components/viewer";
 
 export default async function Home() {
   const supabase = await createClient();
