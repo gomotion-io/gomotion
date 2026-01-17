@@ -1,6 +1,5 @@
 import { validateUser } from "@/app/api/utils/validate-user";
 import { Json } from "@/supabase/generated/database.types";
-import { createCount } from "@/supabase/server-functions/counts";
 import { getProfile } from "@/supabase/server-functions/profile";
 import { createVideo } from "@/supabase/server-functions/videos";
 import { NextRequest } from "next/server";
@@ -97,8 +96,6 @@ export async function POST(request: NextRequest) {
       runId: data.runId,
       result: data.data.output,
     };
-
-    await createCount(profile.id);
 
     const result = await createVideo({
       profileId: profile.id,

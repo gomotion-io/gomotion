@@ -6,7 +6,6 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
 import { useParamStore } from "@/store/params.store";
-import { useUiStore } from "@/store/ui.store";
 import { RefinedVideo, useVideoStore } from "@/store/video.store";
 import { ArrowUpIcon, StopIcon } from "@heroicons/react/16/solid";
 import { useRouter } from "next/navigation";
@@ -32,9 +31,6 @@ export const PromptInput: FC<PromptInputProps> = ({
   const currentVideo = useVideoStore((state) => state.currentVideo);
   const setPrompt = useParamStore((state) => state.setPrompt);
   const prompt = useParamStore((state) => state.prompt);
-  const setShowInsufficientCreditsDialog = useUiStore(
-    (state) => state.setShowInsufficientCreditsDialog,
-  );
 
   const canGenerate = useMemo(() => prompt.trim().length > 0, [prompt]);
 
@@ -52,13 +48,7 @@ export const PromptInput: FC<PromptInputProps> = ({
         router.push(`/explore/${data.id}`);
       }
     },
-    [
-      createVideo,
-      updateVideo,
-      prompt,
-      router,
-      setShowInsufficientCreditsDialog,
-    ],
+    [createVideo, updateVideo, prompt, router],
   );
 
   return (

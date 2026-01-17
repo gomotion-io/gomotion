@@ -9,7 +9,6 @@ import { ApiKeyOnboardingDialog } from "./api-key-onboarding-dialog";
 import { Composition } from "./composition";
 import { FloatingSupportButton } from "./floating-support-button";
 import { ImagesUploadPreviews } from "./images-upload/previews";
-import { InsufficientCreditDialog } from "./insufficient-credit-dialog";
 import { SettingsDialog } from "./settings-dialog";
 
 export const Viewer = () => {
@@ -43,7 +42,6 @@ export const Viewer = () => {
       </div>
 
       <SettingsDialog />
-      <InsufficientCreditDialog />
       <ApiKeyOnboardingDialog />
     </>
   );
