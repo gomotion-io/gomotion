@@ -70,6 +70,9 @@ export const Header: FunctionComponent<HeaderProps> = ({ user }) => {
           <Link href="/story" className="text-sm font-semibold hover:underline underline-offset-4">
             Our story
           </Link>
+          <Link href="/how-to" className="text-sm font-semibold hover:underline underline-offset-4">
+            How to
+          </Link>
           <Link href="https://discord.gg/Wd4nCJhCgd" onClick={() => setMobileMenuOpen(false)}
                 className="text-sm font-semibold hover:underline underline-offset-4">
             Join our Discord
@@ -87,6 +90,9 @@ export const Header: FunctionComponent<HeaderProps> = ({ user }) => {
         <>
           <Link href="/story" className="text-sm font-semibold hover:underline underline-offset-4">
             Our story
+          </Link>
+          <Link href="/how-to" className="text-sm font-semibold hover:underline underline-offset-4">
+            How to
           </Link>
           <Link href="https://discord.gg/Wd4nCJhCgd" onClick={() => setMobileMenuOpen(false)}
                 className="text-sm font-semibold hover:underline underline-offset-4">
@@ -139,6 +145,9 @@ export const Header: FunctionComponent<HeaderProps> = ({ user }) => {
       <nav className="mt-4 flex flex-col items-center gap-6 text-lg font-semibold">
         <Link href="/story" onClick={() => setMobileMenuOpen(false)} className="hover:underline underline-offset-4">
           Our story
+        </Link>
+        <Link href="/how-to" onClick={() => setMobileMenuOpen(false)} className="hover:underline underline-offset-4">
+          How to
         </Link>
         <Link href="https://discord.gg/Wd4nCJhCgd" onClick={() => setMobileMenuOpen(false)}
               className="hover:underline underline-offset-4">
