@@ -16,32 +16,50 @@ import { Badge } from "./ui/badge";
 
 const models = [
   {
+    name: "Claude Opus 4.1",
+    value: "anthropic/claude-opus-4.1",
+    icon: "/models-icons/anthropic.svg",
+    premuim: false,
+  },
+  {
     name: "Claude Sonnet 4",
     value: "anthropic/claude-sonnet-4",
     icon: "/models-icons/anthropic.svg",
     premuim: false,
   },
   {
-    name: "Claude Opus 4.1",
-    value: "anthropic/claude-opus-4.1",
-    icon: "/models-icons/anthropic.svg",
-    premuim: true,
-  },
-  {
-    name: "GPT 5 Codex",
-    value: "openai/gpt-5-codex",
+    name: "GPT 5.2",
+    value: "openai/gpt-5.2",
     icon: "/models-icons/openai.svg",
-    premuim: true,
+    premuim: false,
   },
   {
-    name: "Gemini 2.5 Pro",
-    value: "google/gemini-2.5-pro",
+    name: "GPT 5.2 Codex",
+    value: "openai/gpt-5.2-codex",
+    icon: "/models-icons/openai.svg",
+    premuim: false,
+  },
+  {
+    name: "Gemini 3 Pro Preview",
+    value: "google/gemini-3-pro-preview",
     icon: "/models-icons/google.svg",
     premuim: false,
   },
   {
-    name: "Grok 4",
-    value: "x-ai/grok-4",
+    name: "Gemini 3 Flash Preview",
+    value: "google/gemini-3-flash-preview",
+    icon: "/models-icons/google.svg",
+    premuim: false,
+  },
+  {
+    name: "Grok 4.1 Fast",
+    value: "x-ai/grok-4.1-fast",
+    icon: "/models-icons/xai.svg",
+    premuim: false,
+  },
+  {
+    name: "Grok Code Fast",
+    value: "x-ai/grok-code-fast-1",
     icon: "/models-icons/xai.svg",
     premuim: false,
   },

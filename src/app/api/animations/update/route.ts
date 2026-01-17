@@ -1,7 +1,6 @@
-import { validateCredit } from "@/app/api/utils/validate-credits";
 import { validateUser } from "@/app/api/utils/validate-user";
 import { Json } from "@/supabase/generated/database.types";
-import { createCount } from "@/supabase/server-functions/counts";
+import { getProfile } from "@/supabase/server-functions/profile";
 import { updateVideo } from "@/supabase/server-functions/videos";
 import { NextRequest } from "next/server";
 
@@ -19,7 +18,7 @@ export async function POST(request: NextRequest) {
   if (!videoId || !aspectRatio || !context) {
     return Response.json(
       { error: "Missing or invalid required fields" },
-      { status: 400 }
+      { status: 400 },
     );
   }
 
@@ -27,7 +26,7 @@ export async function POST(request: NextRequest) {
   if (parts.length !== 2) {
     return Response.json(
       { error: "Invalid aspect ratio format" },
-      { status: 400 }
+      { status: 400 },
     );
   }
 
@@ -36,7 +35,11 @@ export async function POST(request: NextRequest) {
 
   try {
     const user = await validateUser();
-    const { profile } = await validateCredit(user.id);
+    const profile = await getProfile(user.id);
+
+    if (!profile) {
+      return Response.json({ error: "Profile not found" }, { status: 404 });
+    }
 
     // Create a new FormData to send to the Express backend
     const backendFormData = new FormData();
@@ -47,7 +50,7 @@ export async function POST(request: NextRequest) {
     }
     backendFormData.append(
       "metadata",
-      `width: ${width}, height: ${height}, fps: 30`
+      `width: ${width}, height: ${height}, fps: 30`,
     );
     backendFormData.append("contextModel", context);
     backendFormData.append("model", model);
@@ -76,7 +79,7 @@ export async function POST(request: NextRequest) {
       {
         method: "POST",
         body: backendFormData, // Send FormData directly
-      }
+      },
     );
 
     if (!response.ok) {
@@ -90,10 +93,7 @@ export async function POST(request: NextRequest) {
       result: data.data.output,
     };
 
-    // Step 4: Record usage
-    await createCount(profile.id);
-
-    // Step 5: Update video from db
+    // Step 4: Update video from db
     const result = await updateVideo({
       id: videoId,
       composition: composition as unknown as Json,
@@ -104,7 +104,7 @@ export async function POST(request: NextRequest) {
     console.error("Update animation error:", error);
     return Response.json(
       { error: `Failed to update animation: ${(error as Error).message}` },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
