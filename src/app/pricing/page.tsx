@@ -11,10 +11,10 @@ const Pricing = async () => {
   }
   const products = await getProducts();
 
-  const order = ["Free", "Standard", "Pro", "Enterprise"];
-  const sortedProducts = products
-    .sort((a, b) => order.indexOf(a.name) - order.indexOf(b.name))
-    .filter((product) => product.name !== "Free");
+  const order = ["Free", "Pro", "Enterprise"];
+  const sortedProducts = products.sort(
+    (a, b) => order.indexOf(a.name) - order.indexOf(b.name),
+  );
 
   return (
     <div className="mx-auto flex flex-col gap-5 justify-center items-center px-2 pt-[5rem] min-h-screen">
@@ -26,7 +26,7 @@ const Pricing = async () => {
         files in 4k, remove the watermark, create unlimited video and more.
       </h3>
 
-      <div className="mx-auto lg:max-w-[85rem] flex-wrap flex md:flex-row flex-col items-center justify-center gap-6 px-5 py-8">
+      <div className="max-w-5xl grid grid-cols-1 md:grid-cols-3 gap-6 px-5 py-8">
         {sortedProducts.map((product, index) => (
           <PlanItem key={index} product={product} profile={profile} />
         ))}

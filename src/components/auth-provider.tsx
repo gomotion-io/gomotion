@@ -1,11 +1,12 @@
 "use client";
 
 import { ProfileData } from "@/_type";
+import { useCountStore } from "@/store/count.store";
+import { useUiStore } from "@/store/ui.store";
 import { useUserStore } from "@/store/user.store";
+import { useVideoStore } from "@/store/video.store";
 import { User } from "@supabase/auth-js";
 import { FC, ReactNode, useEffect } from "react";
-import { useVideoStore } from "@/store/video.store";
-import { useCountStore } from "@/store/count.store";
 
 interface AuthProviderProps {
   initialUser: User | null;
@@ -21,6 +22,7 @@ export const AuthProvider: FC<AuthProviderProps> = ({
   const { initialise } = useUserStore();
   const { fetchVideos } = useVideoStore();
   const { fetchCounts } = useCountStore();
+  const { setShowApiKeyOnboardingDialog } = useUiStore();
 
   useEffect(() => {
     initialise(initialUser, initialProfile);
@@ -39,6 +41,13 @@ export const AuthProvider: FC<AuthProviderProps> = ({
       );
     }
   }, [fetchCounts, initialProfile]);
+
+  // Show onboarding dialog if user is authenticated but has no API key
+  useEffect(() => {
+    if (initialUser && initialProfile && !initialProfile.open_router_api_key) {
+      setShowApiKeyOnboardingDialog(true);
+    }
+  }, [initialUser, initialProfile, setShowApiKeyOnboardingDialog]);
 
   return <>{children}</>;
 };
