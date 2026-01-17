@@ -17,16 +17,6 @@ export const getEnvUrl = () => {
   return url;
 };
 
-export const formatCredits = (credits: number | null): string => {
-  if (!credits) return "0";
-  if (credits < 1000) return `${credits}`;
-
-  const valueInThousands = credits / 1000;
-  // Keep one decimal place but trim trailing ".0" when not needed
-  const formatted = Number(valueInThousands.toFixed(1)).toString();
-  return `${formatted}K`;
-};
-
 export const toUppercase = (str: string) =>
   str.charAt(0).toUpperCase() + str.slice(1);
 

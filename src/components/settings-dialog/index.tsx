@@ -1,7 +1,6 @@
 "use client";
 
 import {
-  ChartArea,
   Key,
   Lock,
   LogOutIcon,
@@ -39,13 +38,11 @@ import { useRouter } from "next/navigation";
 import { ApiKeySettings } from "./api-key";
 import { Password } from "./password";
 import ProfileSettings from "./profile";
-import Usage from "./usage";
 
 const data: { nav: { name: SettingsTab; label: string; icon: LucideIcon }[] } =
   {
     nav: [
       { name: "profile", label: "Profile", icon: UserRound },
-      { name: "usage", label: "Usage", icon: ChartArea },
       { name: "api-key", label: "API Key", icon: Key },
       { name: "password", label: "Change password", icon: Lock },
       { name: "logout", label: "Logout", icon: LogOutIcon },
@@ -130,7 +127,6 @@ export function SettingsDialog() {
             </header>
             <div className="flex flex-1 flex-col gap-4 overflow-y-auto p-4 pt-0">
               {activeTab === "profile" && <ProfileSettings />}
-              {activeTab === "usage" && <Usage />}
               {activeTab === "api-key" && <ApiKeySettings />}
               {activeTab === "password" && <Password />}
             </div>

@@ -9,20 +9,12 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { useCountStore } from "@/store/count.store";
 import { useUserStore } from "@/store/user.store";
 import Image from "next/image";
-import { useEffect, useMemo } from "react";
+import { useMemo } from "react";
 
 export default function ProfileSettings() {
   const { user, profile } = useUserStore();
-  const { fetchCounts } = useCountStore();
-
-  useEffect(() => {
-    if (profile?.id && profile?.products?.limit) {
-      fetchCounts(profile.id, profile.products.limit);
-    }
-  }, [profile, fetchCounts]);
 
   const planName = useMemo(() => {
     if (!profile?.products?.variant_id) return "Free";
