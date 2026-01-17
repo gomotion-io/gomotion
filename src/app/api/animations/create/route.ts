@@ -1,7 +1,7 @@
-import { validateCredit } from "@/app/api/utils/validate-credits";
 import { validateUser } from "@/app/api/utils/validate-user";
 import { Json } from "@/supabase/generated/database.types";
 import { createCount } from "@/supabase/server-functions/counts";
+import { getProfile } from "@/supabase/server-functions/profile";
 import { createVideo } from "@/supabase/server-functions/videos";
 import { NextRequest } from "next/server";
 
@@ -17,7 +17,7 @@ export async function POST(request: NextRequest) {
   if (!prompt || !aspectRatio || !context) {
     return Response.json(
       { error: "Missing or invalid required fields" },
-      { status: 400 }
+      { status: 400 },
     );
   }
 
@@ -25,7 +25,7 @@ export async function POST(request: NextRequest) {
   if (parts.length !== 2) {
     return Response.json(
       { error: "Invalid aspect ratio format" },
-      { status: 400 }
+      { status: 400 },
     );
   }
 
@@ -34,13 +34,20 @@ export async function POST(request: NextRequest) {
 
   try {
     const user = await validateUser();
-    const { profile } = await validateCredit(user.id);
+    const profile = await getProfile(user.id);
+
+    if (!profile) {
+      return Response.json({ error: "Profile not found" }, { status: 404 });
+    }
 
     // Validate that user has an OpenRouter API key
     if (!profile.open_router_api_key) {
       return Response.json(
-        { error: "OpenRouter API key is required. Please add your API key in settings." },
-        { status: 400 }
+        {
+          error:
+            "OpenRouter API key is required. Please add your API key in settings.",
+        },
+        { status: 400 },
       );
     }
 
@@ -51,7 +58,7 @@ export async function POST(request: NextRequest) {
     backendFormData.append("instruction", prompt);
     backendFormData.append(
       "metadata",
-      `width: ${width}, height: ${height}, fps: 30`
+      `width: ${width}, height: ${height}, fps: 30`,
     );
     backendFormData.append("contextModel", context);
     backendFormData.append("model", model);
@@ -77,7 +84,7 @@ export async function POST(request: NextRequest) {
       {
         method: "POST",
         body: backendFormData, // Send FormData directly
-      }
+      },
     );
 
     if (!response.ok) {
@@ -106,7 +113,7 @@ export async function POST(request: NextRequest) {
       {
         error: `Failed to creating animation: ${error instanceof Error ? error.message : "Unknown error"}`,
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
