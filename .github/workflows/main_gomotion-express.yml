@@ -1,0 +1,47 @@
+name: Build & deploy container to Azure Web App (gomotion-express)
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+env:
+  APP_NAME: gomotion-express
+  ACR_LOGIN_SERVER: gomotionagent.azurecr.io
+  AZURE_WEBAPP_NAME: gomotion-express
+  RESOURCE_GROUP: gomotion
+  ACR_NAME: gomotionagent             # e.g. myregistry
+  IMAGE_NAME: gomotion-agent
+  REGISTRY: gomotionagent.azurecr.io
+  TAG: latest
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Docker login (ACR)
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.ACR_LOGIN_SERVER }}
+          username: ${{ secrets.ACR_USERNAME }}
+          password: ${{ secrets.ACR_PASSWORD }}
+
+      - name: Build & push image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: |
+            ${{ env.ACR_LOGIN_SERVER }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
+            ${{ env.ACR_LOGIN_SERVER }}/${{ env.IMAGE_NAME }}:latest
+
+      # - name: Update Web App to new image
+      #   uses: azure/webapps-deploy@v3
+      #   with:
+      #     app-name: ${{ env.APP_NAME }}
+      #     images: ${{ env.ACR_LOGIN_SERVER }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
