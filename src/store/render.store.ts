@@ -1,4 +1,4 @@
-import { MastraOutput } from "@/_type";
+import { CompositionOutput } from "@/_type";
 import { bundleCode } from "@/lib/bundle-code";
 import { downloadBlob, renderVideo } from "@/lib/web-renderer";
 import { useVideoStore } from "@/store/video.store";
@@ -56,7 +56,8 @@ export const useRenderStore = create<RenderStoreState>((set, get) => ({
       return;
     }
 
-    const composition = currentVideo.composition as unknown as MastraOutput;
+    const composition =
+      currentVideo.composition as unknown as CompositionOutput;
 
     const fileTree: Record<string, string> = composition.result?.files ?? {};
     const meta = {
@@ -100,7 +101,8 @@ export const useRenderStore = create<RenderStoreState>((set, get) => ({
           const renderedProgress = progress.renderedFrames / totalFrames;
           const encodedProgress = progress.encodedFrames / totalFrames;
           // Weight: 40% rendering, 60% encoding
-          const overallProgress = renderedProgress * 0.4 + encodedProgress * 0.6;
+          const overallProgress =
+            renderedProgress * 0.4 + encodedProgress * 0.6;
 
           set({
             state: {

@@ -1,12 +1,12 @@
 "use client";
 
-import { MastraOutput } from "@/_type";
+import { CompositionOutput } from "@/_type";
 import { bundleCode } from "@/lib/bundle-code";
 import { Player } from "@remotion/player";
 import { ComponentType, FC, useEffect, useState } from "react";
 
 type RemotionPlayerProps = {
-  composition: MastraOutput;
+  composition: CompositionOutput;
   watermark: boolean;
 };
 
@@ -34,7 +34,7 @@ export const RemotionPlayer: FC<RemotionPlayerProps> = ({ composition }) => {
           alwaysShowControls
           component={dynamicMain}
           durationInFrames={Math.round(
-            composition.result.meta.durationInFrames
+            composition.result.meta.durationInFrames,
           )}
           compositionHeight={composition.result.meta.height}
           compositionWidth={composition.result.meta.width}
