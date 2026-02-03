@@ -16,7 +16,13 @@ import { Badge } from "./ui/badge";
 
 const models = [
   {
-    name: "Claude 4.5 Sonnet",
+    name: "Claude Sonnet 4",
+    value: "anthropic/claude-sonnet-4",
+    icon: "/models-icons/anthropic.svg",
+    premuim: false,
+  },
+  {
+    name: "Claude Sonnet 4.5",
     value: "anthropic/claude-sonnet-4.5",
     icon: "/models-icons/anthropic.svg",
     premuim: false,
