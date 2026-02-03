@@ -1,8 +1,12 @@
 import { validateUser } from "@/app/api/utils/validate-user";
+import { createAnimation, Context } from "@/lib/agent";
 import { Json } from "@/supabase/generated/database.types";
 import { getProfile } from "@/supabase/server-functions/profile";
 import { createVideo } from "@/supabase/server-functions/videos";
+import { nanoid } from "nanoid";
 import { NextRequest } from "next/server";
+
+export const maxDuration = 300; // 5 minutes max for AI generation
 
 export async function POST(request: NextRequest) {
   const formData = await request.formData();
@@ -11,7 +15,6 @@ export async function POST(request: NextRequest) {
   const aspectRatio = formData.get("aspectRatio") as string;
   const context = formData.get("context") as string;
   const model = formData.get("model") as string;
-  const voiceId = formData.get("voiceId") as string;
 
   if (!prompt || !aspectRatio || !context) {
     return Response.json(
@@ -50,51 +53,46 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Create a new FormData to send to the Express backend
-    const backendFormData = new FormData();
+    // Process images if provided
+    const imageFiles = formData.getAll("images") as File[];
+    const images: string[] = [];
 
-    // Add the required fields
-    backendFormData.append("instruction", prompt);
-    backendFormData.append(
-      "metadata",
-      `width: ${width}, height: ${height}, fps: 30`,
-    );
-    backendFormData.append("contextModel", context);
-    backendFormData.append("model", model);
-    backendFormData.append("apiKey", profile.open_router_api_key);
-
-    // Add voiceId if provided
-    if (voiceId) {
-      backendFormData.append("voiceId", voiceId);
+    if (imageFiles && imageFiles.length > 0) {
+      for (const imageFile of imageFiles) {
+        if (imageFile instanceof File && imageFile.size > 0) {
+          const buffer = await imageFile.arrayBuffer();
+          const base64 = Buffer.from(buffer).toString("base64");
+          const mimeType = imageFile.type || "image/jpeg";
+          images.push(`data:${mimeType};base64,${base64}`);
+        }
+      }
     }
 
-    // Forward images if provided
+    // Use the local agent to create animation
+    const animationResult = await createAnimation({
+      instruction: prompt,
+      metadata: `width: ${width}, height: ${height}, fps: 30`,
+      contextModel: context as Context,
+      model: model || "anthropic/claude-sonnet-4",
+      apiKey: profile.open_router_api_key,
+      images: images.length > 0 ? images : undefined,
+    });
 
-    const images = formData.getAll("images");
-    if (images && images.length > 0) {
-      images.forEach((image) => {
-        backendFormData.append("images", image);
-      });
+    if (!animationResult.success || !animationResult.output) {
+      return Response.json(
+        {
+          error: animationResult.error || "Failed to generate animation",
+        },
+        { status: 500 },
+      );
     }
 
-    console.log("backendFormData", backendFormData);
-    const response = await fetch(
-      `${process.env.GOMOTION_AGENT_SERVER}/api/animations`,
-      {
-        method: "POST",
-        body: backendFormData, // Send FormData directly
-      },
-    );
-
-    if (!response.ok) {
-      throw new Error("Failed to create composition");
-    }
-
-    const data = await response.json();
+    // Generate a unique run ID
+    const runId = nanoid();
 
     const composition = {
-      runId: data.runId,
-      result: data.data.output,
+      runId,
+      result: animationResult.output,
     };
 
     const result = await createVideo({
@@ -108,7 +106,7 @@ export async function POST(request: NextRequest) {
 
     return Response.json(
       {
-        error: `Failed to creating animation: ${error instanceof Error ? error.message : "Unknown error"}`,
+        error: `Failed to create animation: ${error instanceof Error ? error.message : "Unknown error"}`,
       },
       { status: 500 },
     );

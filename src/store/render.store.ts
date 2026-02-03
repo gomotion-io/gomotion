@@ -1,27 +1,9 @@
 import { MastraOutput } from "@/_type";
+import { bundleCode } from "@/lib/bundle-code";
+import { downloadBlob, renderVideo } from "@/lib/web-renderer";
 import { useVideoStore } from "@/store/video.store";
+import React from "react";
 import { create } from "zustand";
-
-interface ProgressResponseProgress {
-  type: "progress";
-  progress: number;
-}
-
-interface ProgressResponseDone {
-  type: "done";
-  url: string;
-  size: number;
-}
-
-interface ProgressResponseError {
-  type: "error";
-  message: string;
-}
-
-type ProgressResponse =
-  | ProgressResponseProgress
-  | ProgressResponseDone
-  | ProgressResponseError;
 
 export type State =
   | {
@@ -31,13 +13,15 @@ export type State =
       status: "invoking";
     }
   | {
-      renderId: string;
-      bucketName: string;
+      status: "bundling";
+    }
+  | {
       progress: number;
+      renderedFrames: number;
+      totalFrames: number;
       status: "rendering";
     }
   | {
-      renderId: string | null;
       status: "error";
       error: Error;
     }
@@ -47,17 +31,17 @@ export type State =
       status: "done";
     };
 
-const wait = async (milliSeconds: number) =>
-  new Promise<void>((resolve) => setTimeout(resolve, milliSeconds));
-
 interface RenderStoreState {
   state: State;
+  abortController: AbortController | null;
   renderVideo: () => Promise<void>;
+  cancelRender: () => void;
   undo: () => void;
 }
 
-export const useRenderStore = create<RenderStoreState>((set) => ({
+export const useRenderStore = create<RenderStoreState>((set, get) => ({
   state: { status: "init" },
+  abortController: null,
 
   renderVideo: async () => {
     const currentVideo = useVideoStore.getState().currentVideo;
@@ -66,7 +50,6 @@ export const useRenderStore = create<RenderStoreState>((set) => ({
       set({
         state: {
           status: "error",
-          renderId: null,
           error: new Error("No video composition available for rendering."),
         },
       });
@@ -75,129 +58,108 @@ export const useRenderStore = create<RenderStoreState>((set) => ({
 
     const composition = currentVideo.composition as unknown as MastraOutput;
 
-    const runId: string = composition.runId;
     const fileTree: Record<string, string> = composition.result?.files ?? {};
     const meta = {
-      inputProps: {
-        width: composition.result?.meta?.width ?? 1920,
-        height: composition.result?.meta?.height ?? 1080,
-        fps: composition.result?.meta?.fps ?? 30,
-        durationInFrames: composition.result?.meta?.durationInFrames ?? 300,
-      },
+      width: composition.result?.meta?.width ?? 1920,
+      height: composition.result?.meta?.height ?? 1080,
+      fps: composition.result?.meta?.fps ?? 30,
+      durationInFrames: composition.result?.meta?.durationInFrames ?? 300,
     };
+    const title = composition.result?.title ?? "video";
 
-    set({ state: { status: "invoking" } });
+    // Create abort controller for cancellation
+    const abortController = new AbortController();
+    set({ abortController });
+
+    set({ state: { status: "bundling" } });
 
     try {
-      const render_res = await fetch("/api/render/render-video", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ runId, fileTree, meta }),
-      });
-
-      if (!render_res.ok) {
-        const errorData = await render_res.json();
-        throw new Error(errorData.error || "Failed to start rendering");
-      }
-
-      const { renderId, bucketName } = await render_res.json();
+      // Bundle the code to get the component
+      const component = await bundleCode({ files: fileTree });
 
       set({
         state: {
           status: "rendering",
           progress: 0,
-          renderId,
-          bucketName,
+          renderedFrames: 0,
+          totalFrames: meta.durationInFrames,
         },
       });
 
-      let pending = true;
-      while (pending) {
-        const progress_res = await fetch("/api/render/progress", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ bucketName, renderId }),
-        });
+      // Render the video using the web renderer
+      const result = await renderVideo({
+        component: component as React.ComponentType<Record<string, unknown>>,
+        durationInFrames: meta.durationInFrames,
+        fps: meta.fps,
+        width: meta.width,
+        height: meta.height,
+        compositionId: title.replace(/\s+/g, "-").toLowerCase(),
+        signal: abortController.signal,
+        onProgress: (progress) => {
+          const totalFrames = meta.durationInFrames;
+          const renderedProgress = progress.renderedFrames / totalFrames;
+          const encodedProgress = progress.encodedFrames / totalFrames;
+          // Weight: 40% rendering, 60% encoding
+          const overallProgress = renderedProgress * 0.4 + encodedProgress * 0.6;
 
-        const result = (await progress_res.json()) as ProgressResponse;
+          set({
+            state: {
+              status: "rendering",
+              progress: Math.min(overallProgress * 100, 99),
+              renderedFrames: progress.renderedFrames,
+              totalFrames,
+            },
+          });
+        },
+      });
 
-        switch (result.type) {
-          case "error": {
-            set({
-              state: {
-                status: "error",
-                renderId,
-                error: new Error(result.message),
-              },
-            });
-            pending = false;
-            break;
-          }
-          case "done": {
-            // trigger download before or after updating state
-            const { url, size } = result;
-            // Update Zustand state first
-            set({
-              state: {
-                status: "done",
-                size: size,
-                url: url,
-              },
-            });
+      // Update state to done
+      set({
+        state: {
+          status: "done",
+          url: result.url,
+          size: result.size,
+        },
+        abortController: null,
+      });
 
-            // In the browser, initiate a file download for the rendered video
-            if (
-              typeof window !== "undefined" &&
-              typeof document !== "undefined"
-            ) {
-              try {
-                const anchor = document.createElement("a");
-                anchor.href = url;
-                // Use the file name from the URL if available, otherwise fallback
-                anchor.download = url.split("/").pop() ?? "video.mp4";
-                anchor.style.display = "none";
-                document.body.appendChild(anchor);
-                anchor.click();
-                document.body.removeChild(anchor);
-              } catch (downloadError) {
-                console.error(
-                  "Failed to automatically download the video:",
-                  downloadError
-                );
-              }
-            }
-
-            pending = false;
-            break;
-          }
-          case "progress": {
-            set({
-              state: {
-                status: "rendering",
-                bucketName,
-                progress: result.progress,
-                renderId,
-              },
-            });
-            await wait(1000);
-            break;
-          }
-        }
-      }
+      // Trigger download
+      const filename = `${title.replace(/\s+/g, "_")}.mp4`;
+      downloadBlob(result.blob, filename);
     } catch (err) {
+      // Check if it was cancelled
+      if (err instanceof Error && err.name === "AbortError") {
+        set({
+          state: { status: "init" },
+          abortController: null,
+        });
+        return;
+      }
+
       set({
         state: {
           status: "error",
           error: err as Error,
-          renderId: null,
         },
+        abortController: null,
       });
     }
   },
 
-  undo: () => set({ state: { status: "init" } }),
+  cancelRender: () => {
+    const { abortController } = get();
+    if (abortController) {
+      abortController.abort();
+    }
+    set({
+      state: { status: "init" },
+      abortController: null,
+    });
+  },
+
+  undo: () =>
+    set({
+      state: { status: "init" },
+      abortController: null,
+    }),
 }));

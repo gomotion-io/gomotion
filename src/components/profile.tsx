@@ -62,19 +62,20 @@ export const Profile = () => {
                 !video ||
                 !video.composition ||
                 progress.status === "rendering" ||
-                progress.status === "invoking"
+                progress.status === "invoking" ||
+                progress.status === "bundling"
               }
             >
-              {progress.status === "invoking" ? (
+              {progress.status === "invoking" || progress.status === "bundling" ? (
                 <div className="h-full flex items-center justify-center gap-2 text-indigo-500">
-                  Preparing...
+                  {progress.status === "bundling" ? "Bundling..." : "Preparing..."}
                 </div>
               ) : progress.status === "rendering" ? (
                 <div className="flex justify-center items-center gap-2">
                   <CircularProgress
                     progress={
                       "progress" in progress
-                        ? Math.round(progress.progress * 100)
+                        ? Math.round(progress.progress)
                         : 0
                     }
                   />

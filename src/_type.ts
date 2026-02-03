@@ -16,7 +16,7 @@ export type MastraOutput = {
     };
     title: string;
     files: Record<string, string>;
-    parts: {
+    parts?: {
       endFrame: number;
       startFrame: number;
       title: string;
