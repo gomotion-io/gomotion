@@ -40,8 +40,26 @@ const models = [
     premuim: false,
   },
   {
+    name: "Claude Opus 4.5",
+    value: "anthropic/claude-opus-4.5",
+    icon: "/models-icons/anthropic.svg",
+    premuim: false,
+  },
+  {
     name: "Gemini 3 Pro Preview",
     value: "google/gemini-3-pro-preview",
+    icon: "/models-icons/google.svg",
+    premuim: false,
+  },
+  {
+    name: "GPT-5.1",
+    value: "openai/gpt-5.1",
+    icon: "/models-icons/openai.svg",
+    premuim: false,
+  },
+  {
+    name: "Gemini 3 Flash",
+    value: "google/gemini-3-flash",
     icon: "/models-icons/google.svg",
     premuim: false,
   },
@@ -58,9 +76,9 @@ const models = [
     premuim: false,
   },
   {
-    name: "Grok Code Fast",
-    value: "x-ai/grok-code-fast-1",
-    icon: "/models-icons/xai.svg",
+    name: "Claude 4.5 Sonnet",
+    value: "anthropic/claude-sonnet-4.5",
+    icon: "/models-icons/anthropic.svg",
     premuim: false,
   },
 ];
