@@ -16,14 +16,14 @@ import { Badge } from "./ui/badge";
 
 const models = [
   {
-    name: "Claude Opus 4.1",
-    value: "anthropic/claude-opus-4.1",
+    name: "Claude 4.5 Sonnet",
+    value: "anthropic/claude-sonnet-4.5",
     icon: "/models-icons/anthropic.svg",
     premuim: false,
   },
   {
-    name: "Claude Sonnet 4",
-    value: "anthropic/claude-sonnet-4",
+    name: "Claude Opus 4.5",
+    value: "anthropic/claude-opus-4.5",
     icon: "/models-icons/anthropic.svg",
     premuim: false,
   },
@@ -40,23 +40,12 @@ const models = [
     premuim: false,
   },
   {
-    name: "Claude Opus 4.5",
-    value: "anthropic/claude-opus-4.5",
-    icon: "/models-icons/anthropic.svg",
-    premuim: false,
-  },
-  {
     name: "Gemini 3 Pro Preview",
     value: "google/gemini-3-pro-preview",
     icon: "/models-icons/google.svg",
     premuim: false,
   },
-  {
-    name: "GPT-5.1",
-    value: "openai/gpt-5.1",
-    icon: "/models-icons/openai.svg",
-    premuim: false,
-  },
+
   {
     name: "Gemini 3 Flash",
     value: "google/gemini-3-flash",
@@ -70,15 +59,15 @@ const models = [
     premuim: false,
   },
   {
-    name: "Grok 4.1 Fast",
-    value: "x-ai/grok-4.1-fast",
-    icon: "/models-icons/xai.svg",
+    name: "Kimi K2.5",
+    value: "moonshotai/kimi-k2.5",
+    icon: "/models-icons/kimi.png",
     premuim: false,
   },
   {
-    name: "Claude 4.5 Sonnet",
-    value: "anthropic/claude-sonnet-4.5",
-    icon: "/models-icons/anthropic.svg",
+    name: "Grok 4.1 Fast",
+    value: "x-ai/grok-4.1-fast",
+    icon: "/models-icons/xai.svg",
     premuim: false,
   },
 ];
