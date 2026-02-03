@@ -1,9 +1,9 @@
-import { MastraOutput } from "@/_type";
+import { CompositionOutput } from "@/_type";
 import { Context, useParamStore } from "@/store/params.store";
 import { create } from "zustand";
 
 export type RefinedVideo = Omit<Video, "composition"> & {
-  composition: MastraOutput;
+  composition: CompositionOutput;
 };
 
 interface VideoState {

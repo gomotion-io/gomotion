@@ -5,7 +5,7 @@ export interface ProfileData extends Profile {
   } | null;
 }
 
-export type MastraOutput = {
+export type CompositionOutput = {
   runId: string;
   result: {
     meta: {
