@@ -7,11 +7,11 @@ WORKDIR /app
 # Install pnpm globally
 RUN npm install -g pnpm
 
-# Copy package.json and pnpm-lock.yaml to install dependencies
-COPY package.json pnpm-lock.yaml ./
+# Copy the project manifest and pnpm approval config before installing dependencies
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 
-# Approve required native dependency builds for pnpm and install dependencies
-RUN pnpm approve-builds --all && pnpm install --frozen-lockfile
+# Install dependencies using pnpm with the required native build approvals in place
+RUN pnpm install --frozen-lockfile
 
 # Set build-time environment variables for Next.js
 ARG NEXT_PUBLIC_SUPABASE_URL
