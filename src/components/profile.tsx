@@ -6,7 +6,6 @@ import { VideoHistory } from "@/components/video-history";
 import { useParamStore } from "@/store/params.store";
 import { useRenderStore } from "@/store/render.store";
 import { useUiStore } from "@/store/ui.store";
-import { useUserStore } from "@/store/user.store";
 import { useVideoStore } from "@/store/video.store";
 import { PlusIcon } from "@heroicons/react/16/solid";
 import { SparklesIcon } from "@heroicons/react/20/solid";
@@ -18,7 +17,6 @@ export const Profile = () => {
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const router = useRouter();
-  const { profile } = useUserStore();
   const video = useVideoStore((state) => state.currentVideo);
   const renderVideo = useRenderStore((state) => state.renderVideo);
   const progress = useRenderStore((state) => state.state);

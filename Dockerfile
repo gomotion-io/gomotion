@@ -10,8 +10,8 @@ RUN npm install -g pnpm
 # Copy package.json and pnpm-lock.yaml to install dependencies
 COPY package.json pnpm-lock.yaml ./
 
-# Install dependencies using pnpm
-RUN pnpm install --frozen-lockfile
+# Approve required native dependency builds for pnpm and install dependencies
+RUN pnpm approve-builds --all && pnpm install --frozen-lockfile
 
 # Set build-time environment variables for Next.js
 ARG NEXT_PUBLIC_SUPABASE_URL
