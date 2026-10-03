@@ -1,5 +1,5 @@
 import { CompositionOutput } from "@/_type";
-import { Context, useParamStore } from "@/store/params.store";
+import { useParamStore } from "@/store/params.store";
 import { create } from "zustand";
 
 export type RefinedVideo = Omit<Video, "composition"> & {
@@ -16,7 +16,6 @@ interface VideoState {
   update: (payload: {
     id: string;
     prompt: string;
-    previousVideo: Partial<Video>;
   }) => Promise<RefinedVideo | null>;
   remove: (id: string) => Promise<void>;
   load: (id: string) => Promise<RefinedVideo | null>;
@@ -54,8 +53,7 @@ export const useVideoStore = create<VideoState>((set) => ({
   },
 
   create: async ({ prompt }) => {
-    const { aspectRatio, context, currentVoice, model, images } =
-      useParamStore.getState();
+    const { aspectRatio, context, model, images } = useParamStore.getState();
 
     try {
       set({ generating: true, currentVideo: null });
@@ -65,10 +63,6 @@ export const useVideoStore = create<VideoState>((set) => ({
       formData.append("aspectRatio", aspectRatio);
       formData.append("context", context);
       formData.append("model", model.value);
-
-      if (context === Context.Narrative && currentVoice?.voice_id) {
-        formData.append("voiceId", currentVoice.voice_id);
-      }
 
       images.forEach((image) => {
         formData.append(`images`, image);
@@ -98,15 +92,11 @@ export const useVideoStore = create<VideoState>((set) => ({
     }
   },
 
-  update: async ({ id, prompt, previousVideo }) => {
-    const { aspectRatio, context, currentVoice, model, images } =
-      useParamStore.getState();
+  update: async ({ id, prompt }) => {
+    const { aspectRatio, context, model, images } = useParamStore.getState();
 
-    if (
-      !prompt &&
-      (!previousVideo || Object.keys(previousVideo).length === 0)
-    ) {
-      throw new Error("neither prompt nor video updates are provided");
+    if (!prompt) {
+      throw new Error("prompt is required to update a video");
     }
 
     try {
@@ -117,18 +107,7 @@ export const useVideoStore = create<VideoState>((set) => ({
       formData.append("aspectRatio", aspectRatio);
       formData.append("context", context);
       formData.append("model", model.value);
-
-      if (prompt) {
-        formData.append("prompt", prompt);
-      }
-
-      if (previousVideo && Object.keys(previousVideo).length > 0) {
-        formData.append("previousVideo", JSON.stringify(previousVideo));
-      }
-
-      if (context === Context.Narrative && currentVoice?.voice_id) {
-        formData.append("voiceId", currentVoice.voice_id);
-      }
+      formData.append("prompt", prompt);
 
       images.forEach((image) => {
         formData.append(`images`, image);

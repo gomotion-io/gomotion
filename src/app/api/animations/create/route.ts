@@ -1,3 +1,4 @@
+import { imagesToDataUrls } from "@/app/api/utils/images-to-data-urls";
 import { validateUser } from "@/app/api/utils/validate-user";
 import { createAnimation, Context } from "@/lib/agent";
 import { Json } from "@/supabase/generated/database.types";
@@ -54,19 +55,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Process images if provided
-    const imageFiles = formData.getAll("images") as File[];
-    const images: string[] = [];
-
-    if (imageFiles && imageFiles.length > 0) {
-      for (const imageFile of imageFiles) {
-        if (imageFile instanceof File && imageFile.size > 0) {
-          const buffer = await imageFile.arrayBuffer();
-          const base64 = Buffer.from(buffer).toString("base64");
-          const mimeType = imageFile.type || "image/jpeg";
-          images.push(`data:${mimeType};base64,${base64}`);
-        }
-      }
-    }
+    const images = await imagesToDataUrls(formData);
 
     // Use the local agent to create animation
     const animationResult = await createAnimation({
