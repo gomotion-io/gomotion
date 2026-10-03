@@ -9,6 +9,8 @@ type UiStore = {
   setActiveTab: (tab: SettingsTab) => void;
   showApiKeyOnboardingDialog: boolean;
   setShowApiKeyOnboardingDialog: (show: boolean) => void;
+  showInsufficientCreditsDialog: boolean;
+  setShowInsufficientCreditsDialog: (show: boolean) => void;
 };
 
 export const useUiStore = create<UiStore>((set) => ({
@@ -19,4 +21,7 @@ export const useUiStore = create<UiStore>((set) => ({
   showApiKeyOnboardingDialog: false,
   setShowApiKeyOnboardingDialog: (show) =>
     set({ showApiKeyOnboardingDialog: show }),
+  showInsufficientCreditsDialog: false,
+  setShowInsufficientCreditsDialog: (show) =>
+    set({ showInsufficientCreditsDialog: show }),
 }));

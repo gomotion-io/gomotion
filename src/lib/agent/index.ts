@@ -1,5 +1,6 @@
 export { createAnimation, createOpenRouterClient } from "./animator";
 export type {
+  AnimationErrorCode,
   AnimatorInput,
   AnimatorOutput,
   AnimationResult,

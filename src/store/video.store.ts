@@ -1,9 +1,25 @@
 import { CompositionOutput } from "@/_type";
+import type { AnimationErrorCode } from "@/lib/agent";
 import { useParamStore } from "@/store/params.store";
+import { useUiStore } from "@/store/ui.store";
 import { create } from "zustand";
 
 export type RefinedVideo = Omit<Video, "composition"> & {
   composition: CompositionOutput;
+};
+
+// Running out of OpenRouter credits is an expected state: show the top-up
+// dialog instead of failing. Any other error is thrown to the caller.
+const handleGenerationError = async (res: Response, action: string) => {
+  const { error, code }: { error?: string; code?: AnimationErrorCode } =
+    await res.json().catch(() => ({}));
+
+  if (code === "INSUFFICIENT_CREDITS") {
+    useUiStore.getState().setShowInsufficientCreditsDialog(true);
+    return;
+  }
+
+  throw new Error(error || `${action} failed (${res.status})`);
 };
 
 interface VideoState {
@@ -40,6 +56,10 @@ export const useVideoStore = create<VideoState>((set) => ({
         body: JSON.stringify({ profileId }),
       });
 
+      if (!res.ok) {
+        throw new Error(`Fetch videos failed (${res.status})`);
+      }
+
       const data: Video[] = await res.json();
 
       if (data) {
@@ -72,6 +92,11 @@ export const useVideoStore = create<VideoState>((set) => ({
         method: "POST",
         body: formData,
       });
+
+      if (!res.ok) {
+        await handleGenerationError(res, "Create");
+        return null;
+      }
 
       const data: Video = await res.json();
 
@@ -117,6 +142,11 @@ export const useVideoStore = create<VideoState>((set) => ({
         method: "POST",
         body: formData,
       });
+
+      if (!res.ok) {
+        await handleGenerationError(res, "Update");
+        return null;
+      }
 
       const data: Video = await res.json();
 

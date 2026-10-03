@@ -1,10 +1,17 @@
 import { createOpenRouter } from "@openrouter/ai-sdk-provider";
-import { generateObject } from "ai";
+import { APICallError, generateObject, RetryError } from "ai";
 import { getAnimatorPrompt } from "./prompts";
 import { AnimatorOutputSchema } from "./schema";
 import { AnimatorInput, AnimatorOutput, AnimationResult, Context } from "./types";
 
 const MAX_ATTEMPTS = 5;
+
+// OpenRouter answers 402 when the key's balance can't cover the request.
+// Retrying is pointless until the user tops up their credits.
+const isInsufficientCredits = (error: unknown) => {
+  const cause = RetryError.isInstance(error) ? error.lastError : error;
+  return APICallError.isInstance(cause) && cause.statusCode === 402;
+};
 
 export const createOpenRouterClient = (apiKey: string) => {
   return createOpenRouter({ apiKey });
@@ -154,6 +161,15 @@ Do not include any introductory text, explanations, or markdown.`;
       console.error(`[AGENT] Attempt ${attempts} failed:`, errorMessage);
 
       lastError = errorMessage;
+
+      if (isInsufficientCredits(error)) {
+        return {
+          success: false,
+          error: errorMessage,
+          errorCode: "INSUFFICIENT_CREDITS",
+          attempts,
+        };
+      }
 
       if (attempts >= MAX_ATTEMPTS) {
         return {

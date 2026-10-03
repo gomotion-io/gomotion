@@ -27,9 +27,12 @@ export interface AnimatorOutput {
   files: Record<string, string>;
 }
 
+export type AnimationErrorCode = "INSUFFICIENT_CREDITS";
+
 export interface AnimationResult {
   success: boolean;
   output?: AnimatorOutput;
   error?: string;
+  errorCode?: AnimationErrorCode;
   attempts: number;
 }

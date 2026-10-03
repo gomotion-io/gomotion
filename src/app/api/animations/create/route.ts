@@ -69,11 +69,14 @@ export async function POST(request: NextRequest) {
     });
 
     if (!animationResult.success || !animationResult.output) {
+      const outOfCredits = animationResult.errorCode === "INSUFFICIENT_CREDITS";
+
       return Response.json(
         {
           error: animationResult.error || "Failed to generate animation",
+          code: animationResult.errorCode,
         },
-        { status: 500 },
+        { status: outOfCredits ? 402 : 500 },
       );
     }
 
