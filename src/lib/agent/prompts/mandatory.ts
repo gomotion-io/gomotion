@@ -51,11 +51,11 @@ The JSON object MUST conform precisely to this schema:
       "fps": 60,
       "durationInFrames": "<Calculated total duration>"
     },
-    "files": {
-      "<FilePath1.tsx>": "<File 1 contents as a string>",
-      "<FilePath2.ts>": "<File 2 contents as a string>",
-      "<components/Component.tsx>": "<Component contents as a string>"
-    }
+    "files": [
+      { "path": "<FilePath1.tsx>", "content": "<File 1 contents as a string>" },
+      { "path": "<FilePath2.ts>", "content": "<File 2 contents as a string>" },
+      { "path": "<components/Component.tsx>", "content": "<Component contents as a string>" }
+    ]
 }
 \`\`\`
 

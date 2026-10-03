@@ -16,7 +16,7 @@ type GetPromptOutput = {
 export const getAnimatorPrompt = (input: GetPromptInput): GetPromptOutput => {
   if (input.previousCode) {
     return {
-      prompt: getRemixPrompt(JSON.stringify(input.previousCode)),
+      prompt: getRemixPrompt(input.previousCode),
     };
   }
 

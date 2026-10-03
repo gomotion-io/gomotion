@@ -1,7 +1,7 @@
 import { createOpenRouter } from "@openrouter/ai-sdk-provider";
 import { APICallError, generateObject, RetryError } from "ai";
 import { getAnimatorPrompt } from "./prompts";
-import { AnimatorOutputSchema } from "./schema";
+import { AnimatorOutputSchema, AnimatorSchemaOutput } from "./schema";
 import { AnimatorInput, AnimatorOutput, AnimationResult, Context } from "./types";
 
 const MAX_ATTEMPTS = 5;
@@ -16,6 +16,17 @@ const isInsufficientCredits = (error: unknown) => {
 export const createOpenRouterClient = (apiKey: string) => {
   return createOpenRouter({ apiKey });
 };
+
+// The model works with files as a list (see schema.ts), the app stores them as a record
+const toSchemaShape = (output: AnimatorOutput): AnimatorSchemaOutput => ({
+  ...output,
+  files: Object.entries(output.files).map(([path, content]) => ({ path, content })),
+});
+
+const fromSchemaShape = (output: AnimatorSchemaOutput): AnimatorOutput => ({
+  ...output,
+  files: Object.fromEntries(output.files.map((file) => [file.path, file.content])),
+});
 
 interface GenerateAnimationInput {
   prompt: string;
@@ -50,7 +61,9 @@ async function generateAnimation(
     model: openrouter(input.model),
     system: getAnimatorPrompt({
       contextModel: input.contextModel,
-      previousCode: input.previousCode ? JSON.stringify(input.previousCode) : undefined,
+      previousCode: input.previousCode
+        ? JSON.stringify(toSchemaShape(input.previousCode))
+        : undefined,
     }).prompt,
     schema: AnimatorOutputSchema,
     messages: [
@@ -62,7 +75,7 @@ async function generateAnimation(
     ],
   });
 
-  return result.object as AnimatorOutput;
+  return fromSchemaShape(result.object);
 }
 
 export async function createAnimation(
@@ -74,6 +87,10 @@ export async function createAnimation(
   let lastError: string | undefined;
   let attempts = 0;
 
+  const instructionText = input.instruction || "";
+  const metadataText = input.metadata || "";
+  const initialPrompt = `${instructionText}\n${metadataText}`.trim();
+
   while (attempts < MAX_ATTEMPTS) {
     attempts++;
     console.log(`[AGENT] Attempt ${attempts}/${MAX_ATTEMPTS}`);
@@ -83,18 +100,16 @@ export async function createAnimation(
       let prompt: string;
 
       if (lastOutput && lastError) {
-        // Retry with error feedback
+        // Retry with error feedback. The previous output is already passed
+        // to the system prompt as previousCode, so only the request is repeated.
         prompt = `Fix the previous output based on this error: ${lastError}
 
-Previous output: ${JSON.stringify(lastOutput)}
+Original request: ${initialPrompt}
 
 Remember: Output ONLY a valid JSON object conforming to the required schema.
 Do not include any introductory text, explanations, or markdown.`;
       } else {
-        // Initial prompt
-        const instructionText = input.instruction || "";
-        const metadataText = input.metadata || "";
-        prompt = `${instructionText}\n${metadataText}`.trim();
+        prompt = initialPrompt;
       }
 
       // Generate animation
