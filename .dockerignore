@@ -1,0 +1,5 @@
+# Installed and built inside the image, never copy them from the host
+node_modules
+.next
+
+.git

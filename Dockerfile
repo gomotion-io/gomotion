@@ -1,11 +1,11 @@
-# Use the official Node.js 18 Alpine image as the base
-FROM node:18-alpine
+# Use the official Node.js 24 (LTS) Alpine image as the base
+FROM node:24-alpine
 
 # Set the working directory inside the container
 WORKDIR /app
 
-# Install pnpm globally
-RUN npm install -g pnpm
+# Install pnpm globally, pinned to the version in package.json "packageManager"
+RUN npm install -g pnpm@12.8.1
 
 # Copy the project manifest and pnpm approval config before installing dependencies
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
