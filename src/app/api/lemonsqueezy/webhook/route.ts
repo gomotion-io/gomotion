@@ -8,7 +8,9 @@ function isSignatureValid(rawBody: Buffer, signatureHeader: string) {
   const SIGNATURE_SECRET = process.env.LEMONSQUEEZY_SIGNATURE_SECRET;
 
   if (!SIGNATURE_SECRET) {
-    throw new Error('Missing signing secret. Add "SIGNING_SECRET"');
+    throw new Error(
+      'Missing signing secret. Add "LEMONSQUEEZY_SIGNATURE_SECRET"'
+    );
   }
 
   const hmac = createHmac("sha256", SIGNATURE_SECRET);

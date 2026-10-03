@@ -59,9 +59,13 @@ export async function POST(request: NextRequest) {
     // Load the video to remix from the db, and make sure it belongs to the user
     const video = await getVideo({ id: videoId });
     const previousComposition =
-      video.composition as unknown as CompositionOutput | null;
+      video?.composition as unknown as CompositionOutput | null;
 
-    if (video.profile_id !== profile.id || !previousComposition?.result) {
+    if (
+      !video ||
+      video.profile_id !== profile.id ||
+      !previousComposition?.result
+    ) {
       return Response.json({ error: "Video not found" }, { status: 404 });
     }
 

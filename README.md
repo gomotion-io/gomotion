@@ -239,6 +239,8 @@ Export runs entirely in the browser, there is no server-side rendering.
 
 ## 🚀 Getting Started
 
+Requires Node.js 24 and pnpm 12.8.1 (pinned in `package.json` under `packageManager`, and in the `Dockerfile`). Use pnpm only, `pnpm-lock.yaml` is the single lockfile.
+
 ```bash
 # Install dependencies
 pnpm install
