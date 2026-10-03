@@ -41,7 +41,7 @@ src/lib/agent/
 ### How It Works
 
 1. **Input Processing**: User prompt + aspect ratio + context mode + optional images
-2. **Prompt Engineering**: Selects appropriate system prompt based on context (`classic`, `creative`, `narrative`)
+2. **Prompt Engineering**: Selects appropriate system prompt based on context (`classic`, `creative`, `narrative`), or the `remix` prompt when `previousCode` is provided
 3. **LLM Generation**: Uses OpenRouter API to generate structured JSON output via `ai` SDK
 4. **Validation Loop**: Up to 5 retry attempts with error feedback for self-correction
 5. **Output**: Complete multi-file Remotion project structure
@@ -80,23 +80,20 @@ interface AnimatorOutput {
 ## 📁 Project Structure
 
 ```
-gomotion-web/
+gomotion/
 ├── src/
 │   ├── app/                          # Next.js App Router
 │   │   ├── api/
 │   │   │   ├── animations/
 │   │   │   │   ├── create/           # Create new animation (calls agent)
-│   │   │   │   ├── update/           # Update existing animation
+│   │   │   │   ├── update/           # Update existing animation (calls agent in remix mode)
 │   │   │   │   ├── delete/           # Delete animation
 │   │   │   │   ├── fetch/            # Fetch single animation
 │   │   │   │   └── fetch-all/        # Fetch all user animations
 │   │   │   ├── auth/                 # Authentication endpoints
-│   │   │   ├── render/
-│   │   │   │   ├── render-video/     # Server-side video rendering
-│   │   │   │   └── progress/         # Render progress tracking
 │   │   │   ├── lemonsqueezy/         # Payment webhooks
-│   │   │   ├── voices/               # Voice synthesis API
-│   │   │   └── utils/                # API utilities
+│   │   │   ├── voices/               # ElevenLabs voices list
+│   │   │   └── utils/                # API utilities (auth check, image encoding)
 │   │   ├── explore/                  # Public gallery pages
 │   │   ├── story/                    # Video editor/workspace pages
 │   │   ├── pricing/                  # Pricing pages
@@ -120,7 +117,7 @@ gomotion-web/
 │   │   │   ├── index.ts              # esbuild-wasm bundler
 │   │   │   ├── externals-modules.ts  # Remotion/React external mapping
 │   │   │   └── fonts.ts              # Google Fonts loading
-│   │   ├── web-renderer/             # Remotion web rendering utilities
+│   │   ├── web-renderer/             # In-browser MP4 rendering (@remotion/web-renderer)
 │   │   ├── utils.ts                  # General utilities
 │   │   └── blog-data.ts              # Static blog content
 │   │
@@ -198,20 +195,40 @@ gomotion-web/
 12. Remotion Player renders preview in browser
 ```
 
-### Video Export Flow
+### Animation Update Flow
+
+When a video is open, submitting a new prompt modifies it instead of creating a new one.
 
 ```
-1. User clicks "Export" in UI
+1. User enters a change request in UI (prompt-input.tsx)
         ↓
-2. Frontend calls /api/render/render-video
+2. Frontend submits to /api/animations/update with the video id
         ↓
-3. Server uses Remotion Lambda or local renderer
+3. API validates user, retrieves OpenRouter API key and loads the video from Supabase
         ↓
-4. Progress updates via /api/render/progress
+4. createAnimation() called with the current composition as previousCode
         ↓
-5. Final MP4 uploaded to Supabase Storage
+5. Agent uses the remix prompt to apply minimal changes
         ↓
-6. Download URL returned to user
+6. Updated composition saved to Supabase videos table
+        ↓
+7. Return composition to frontend, preview re-renders
+```
+
+### Video Export Flow
+
+Export runs entirely in the browser, there is no server-side rendering.
+
+```
+1. User clicks "Export video" in UI
+        ↓
+2. bundleCode() transpiles the composition files (esbuild-wasm)
+        ↓
+3. renderVideo() renders and encodes frames (@remotion/web-renderer)
+        ↓
+4. Progress shown in UI (render.store.ts)
+        ↓
+5. MP4 downloaded directly by the browser
 ```
 
 ---
@@ -241,7 +258,9 @@ pnpm typecheck
 pnpm build
 ```
 
-### Required Environment Variables
+### Environment Variables
+
+All variables are listed in [`.env.example`](.env.example):
 
 ```env
 # Supabase
@@ -249,12 +268,22 @@ NEXT_PUBLIC_SUPABASE_URL=
 NEXT_PUBLIC_SUPABASE_ANON_KEY=
 SUPABASE_SERVICE_ROLE_KEY=
 
+# Public site URL, used for auth redirects
+NEXT_PUBLIC_SITE_URL=http://localhost:3000
+
 # LemonSqueezy (Payments)
-LEMONSQUEEZY_WEBHOOK_SECRET=
+LEMONSQUEEZY_API_KEY=
+LEMONSQUEEZY_STORE_ID=
+LEMONSQUEEZY_SIGNATURE_SECRET=
+
+# ElevenLabs (Voices)
+ELEVENLABS_API_KEY=
 
 # Analytics
 NEXT_PUBLIC_MIXPANEL_TOKEN=
 ```
+
+No OpenRouter key is needed in the environment: each user adds their own key in the app settings, and the agent runs with it.
 
 ---
 

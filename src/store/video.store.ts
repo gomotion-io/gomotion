@@ -16,7 +16,6 @@ interface VideoState {
   update: (payload: {
     id: string;
     prompt: string;
-    previousVideo: Partial<Video>;
   }) => Promise<RefinedVideo | null>;
   remove: (id: string) => Promise<void>;
   load: (id: string) => Promise<RefinedVideo | null>;
@@ -98,15 +97,12 @@ export const useVideoStore = create<VideoState>((set) => ({
     }
   },
 
-  update: async ({ id, prompt, previousVideo }) => {
+  update: async ({ id, prompt }) => {
     const { aspectRatio, context, currentVoice, model, images } =
       useParamStore.getState();
 
-    if (
-      !prompt &&
-      (!previousVideo || Object.keys(previousVideo).length === 0)
-    ) {
-      throw new Error("neither prompt nor video updates are provided");
+    if (!prompt) {
+      throw new Error("prompt is required to update a video");
     }
 
     try {
@@ -117,14 +113,7 @@ export const useVideoStore = create<VideoState>((set) => ({
       formData.append("aspectRatio", aspectRatio);
       formData.append("context", context);
       formData.append("model", model.value);
-
-      if (prompt) {
-        formData.append("prompt", prompt);
-      }
-
-      if (previousVideo && Object.keys(previousVideo).length > 0) {
-        formData.append("previousVideo", JSON.stringify(previousVideo));
-      }
+      formData.append("prompt", prompt);
 
       if (context === Context.Narrative && currentVoice?.voice_id) {
         formData.append("voiceId", currentVoice.voice_id);

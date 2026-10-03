@@ -10,9 +10,6 @@ export type State =
       status: "init";
     }
   | {
-      status: "invoking";
-    }
-  | {
       status: "bundling";
     }
   | {

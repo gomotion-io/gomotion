@@ -60,16 +60,12 @@ export const Profile = () => {
                 !video ||
                 !video.composition ||
                 progress.status === "rendering" ||
-                progress.status === "invoking" ||
                 progress.status === "bundling"
               }
             >
-              {progress.status === "invoking" ||
-              progress.status === "bundling" ? (
+              {progress.status === "bundling" ? (
                 <div className="h-full flex items-center justify-center gap-2 text-indigo-500">
-                  {progress.status === "bundling"
-                    ? "Bundling..."
-                    : "Preparing..."}
+                  Bundling...
                 </div>
               ) : progress.status === "rendering" ? (
                 <div className="flex justify-center items-center gap-2">

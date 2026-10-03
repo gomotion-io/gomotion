@@ -214,7 +214,7 @@ export const Header: FunctionComponent<HeaderProps> = ({ user }) => {
 
           <nav className="mt-4 flex flex-col items-center gap-6 text-lg font-semibold">
             <a
-              href="https://github.com/gomotion-io/gomotion-agent"
+              href="https://github.com/gomotion-io/gomotion"
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => setMobileMenuOpen(false)}

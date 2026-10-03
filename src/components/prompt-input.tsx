@@ -38,7 +38,7 @@ export const PromptInput: FC<PromptInputProps> = ({
     async (video: RefinedVideo | null) => {
       // update the current video
       if (video) {
-        await updateVideo({ id: video.id, prompt, previousVideo: video });
+        await updateVideo({ id: video.id, prompt });
         return;
       }
 

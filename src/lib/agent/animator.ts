@@ -97,7 +97,7 @@ Do not include any introductory text, explanations, or markdown.`;
         model: input.model,
         apiKey: input.apiKey,
         images: input.images,
-        previousCode: lastOutput,
+        previousCode: lastOutput ?? input.previousCode,
       });
 
       // Validate the output structure

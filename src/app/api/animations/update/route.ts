@@ -1,8 +1,14 @@
+import { CompositionOutput } from "@/_type";
+import { imagesToDataUrls } from "@/app/api/utils/images-to-data-urls";
 import { validateUser } from "@/app/api/utils/validate-user";
+import { createAnimation, Context } from "@/lib/agent";
 import { Json } from "@/supabase/generated/database.types";
 import { getProfile } from "@/supabase/server-functions/profile";
-import { updateVideo } from "@/supabase/server-functions/videos";
+import { getVideo, updateVideo } from "@/supabase/server-functions/videos";
+import { nanoid } from "nanoid";
 import { NextRequest } from "next/server";
+
+export const maxDuration = 300; // 5 minutes max for AI generation
 
 export async function POST(request: NextRequest) {
   const formData = await request.formData();
@@ -12,10 +18,8 @@ export async function POST(request: NextRequest) {
   const aspectRatio = formData.get("aspectRatio") as string;
   const context = formData.get("context") as string;
   const model = formData.get("model") as string;
-  const voiceId = formData.get("voiceId") as string;
-  const previousVideo = formData.get("previousVideo") as string;
 
-  if (!videoId || !aspectRatio || !context) {
+  if (!videoId || !prompt || !aspectRatio || !context) {
     return Response.json(
       { error: "Missing or invalid required fields" },
       { status: 400 },
@@ -41,59 +45,54 @@ export async function POST(request: NextRequest) {
       return Response.json({ error: "Profile not found" }, { status: 404 });
     }
 
-    // Create a new FormData to send to the Express backend
-    const backendFormData = new FormData();
-
-    // Add the required fields
-    if (prompt) {
-      backendFormData.append("instruction", prompt);
-    }
-    backendFormData.append(
-      "metadata",
-      `width: ${width}, height: ${height}, fps: 30`,
-    );
-    backendFormData.append("contextModel", context);
-    backendFormData.append("model", model);
-
-    // Add voiceId if provided
-    if (voiceId) {
-      backendFormData.append("voiceId", voiceId);
+    // Validate that user has an OpenRouter API key
+    if (!profile.open_router_api_key) {
+      return Response.json(
+        {
+          error:
+            "OpenRouter API key is required. Please add your API key in settings.",
+        },
+        { status: 400 },
+      );
     }
 
-    // Add previousVideo if provided
-    if (previousVideo) {
-      backendFormData.append("previousVideo", previousVideo);
+    // Load the video to remix from the db, and make sure it belongs to the user
+    const video = await getVideo({ id: videoId });
+    const previousComposition =
+      video.composition as unknown as CompositionOutput | null;
+
+    if (video.profile_id !== profile.id || !previousComposition?.result) {
+      return Response.json({ error: "Video not found" }, { status: 404 });
     }
 
-    // Forward images if provided
-    const images = formData.getAll("images");
-    if (images && images.length > 0) {
-      images.forEach((image) => {
-        backendFormData.append("images", image);
-      });
+    // Process images if provided
+    const images = await imagesToDataUrls(formData);
+
+    // Use the local agent in remix mode to update the animation
+    const animationResult = await createAnimation({
+      instruction: prompt,
+      metadata: `width: ${width}, height: ${height}, fps: 30`,
+      contextModel: context as Context,
+      model: model || "anthropic/claude-sonnet-4",
+      apiKey: profile.open_router_api_key,
+      images: images.length > 0 ? images : undefined,
+      previousCode: previousComposition.result,
+    });
+
+    if (!animationResult.success || !animationResult.output) {
+      return Response.json(
+        {
+          error: animationResult.error || "Failed to update animation",
+        },
+        { status: 500 },
+      );
     }
-
-    console.log("backendFormData", backendFormData);
-    const response = await fetch(
-      `${process.env.GOMOTION_AGENT_SERVER}/api/animations`,
-      {
-        method: "POST",
-        body: backendFormData, // Send FormData directly
-      },
-    );
-
-    if (!response.ok) {
-      throw new Error("Failed to update composition");
-    }
-
-    const data = await response.json();
 
     const composition = {
-      runId: data.runId,
-      result: data.data.output,
+      runId: nanoid(),
+      result: animationResult.output,
     };
 
-    // Step 4: Update video from db
     const result = await updateVideo({
       id: videoId,
       composition: composition as unknown as Json,
