@@ -43,6 +43,13 @@ const resolvePath = (currentFile: string, importPath: string) => {
   return res;
 };
 
+// An import can point to a folder ("../utils" -> "utils/index"), or have a
+// wrong relative path, in which case the file is matched by its name only.
+const findModule = (resolved: string, exists: (name: string) => boolean) => {
+  const candidates = [resolved, `${resolved}/index`, resolved.split("/").pop()];
+  return candidates.find((name) => name && exists(name));
+};
+
 const extractImports = (code: string): string[] => {
   const imports: string[] = [];
   const regex = /import\s*(?:[\w\*\{\}\s,]+from\s*)?['"](.+?)['"]/g;
@@ -79,14 +86,11 @@ export const bundleCode = async ({ files }: BundleCodeProps) => {
     const name = normalizeName(filePath);
     const deps = extractImports(filesToBundle[filePath]);
     for (const dep of deps) {
-      const resolved = resolvePath(filePath, dep);
-      if (graph.hasNode(resolved)) {
-        graph.addDependency(name, resolved);
-      } else {
-        const base = resolved.split("/").pop();
-        if (base && graph.hasNode(base)) {
-          graph.addDependency(name, base);
-        }
+      const target = findModule(resolvePath(filePath, dep), (n) =>
+        graph.hasNode(n)
+      );
+      if (target) {
+        graph.addDependency(name, target);
       }
     }
   }
@@ -134,14 +138,9 @@ export const bundleCode = async ({ files }: BundleCodeProps) => {
     const customRequire = (path: string) => {
       if (externalModules[path]) return externalModules[path];
       const resolved = resolvePath(filePath, path);
-      let target = resolved;
-      if (!moduleExports[target]) {
-        const base = target.split("/").pop();
-        if (base && moduleExports[base]) {
-          target = base;
-        } else {
-          throw new Error(`Unknown module ${path} (resolved to ${resolved})`);
-        }
+      const target = findModule(resolved, (n) => Boolean(moduleExports[n]));
+      if (!target) {
+        throw new Error(`Unknown module ${path} (resolved to ${resolved})`);
       }
       return moduleExports[target];
     };
