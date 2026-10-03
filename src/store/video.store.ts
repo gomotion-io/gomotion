@@ -1,5 +1,5 @@
 import { CompositionOutput } from "@/_type";
-import { Context, useParamStore } from "@/store/params.store";
+import { useParamStore } from "@/store/params.store";
 import { create } from "zustand";
 
 export type RefinedVideo = Omit<Video, "composition"> & {
@@ -53,8 +53,7 @@ export const useVideoStore = create<VideoState>((set) => ({
   },
 
   create: async ({ prompt }) => {
-    const { aspectRatio, context, currentVoice, model, images } =
-      useParamStore.getState();
+    const { aspectRatio, context, model, images } = useParamStore.getState();
 
     try {
       set({ generating: true, currentVideo: null });
@@ -64,10 +63,6 @@ export const useVideoStore = create<VideoState>((set) => ({
       formData.append("aspectRatio", aspectRatio);
       formData.append("context", context);
       formData.append("model", model.value);
-
-      if (context === Context.Narrative && currentVoice?.voice_id) {
-        formData.append("voiceId", currentVoice.voice_id);
-      }
 
       images.forEach((image) => {
         formData.append(`images`, image);
@@ -98,8 +93,7 @@ export const useVideoStore = create<VideoState>((set) => ({
   },
 
   update: async ({ id, prompt }) => {
-    const { aspectRatio, context, currentVoice, model, images } =
-      useParamStore.getState();
+    const { aspectRatio, context, model, images } = useParamStore.getState();
 
     if (!prompt) {
       throw new Error("prompt is required to update a video");
@@ -114,10 +108,6 @@ export const useVideoStore = create<VideoState>((set) => ({
       formData.append("context", context);
       formData.append("model", model.value);
       formData.append("prompt", prompt);
-
-      if (context === Context.Narrative && currentVoice?.voice_id) {
-        formData.append("voiceId", currentVoice.voice_id);
-      }
 
       images.forEach((image) => {
         formData.append(`images`, image);

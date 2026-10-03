@@ -92,7 +92,6 @@ gomotion/
 │   │   │   │   └── fetch-all/        # Fetch all user animations
 │   │   │   ├── auth/                 # Authentication endpoints
 │   │   │   ├── lemonsqueezy/         # Payment webhooks
-│   │   │   ├── voices/               # ElevenLabs voices list
 │   │   │   └── utils/                # API utilities (auth check, image encoding)
 │   │   ├── explore/                  # Public gallery pages
 │   │   ├── story/                    # Video editor/workspace pages
@@ -105,7 +104,6 @@ gomotion/
 │   │   ├── context-selection.tsx     # Agent mode selector
 │   │   ├── model-selection.tsx       # LLM model picker
 │   │   ├── ratio-selection.tsx       # Aspect ratio selector
-│   │   ├── voice-selection.tsx       # Voice synthesis picker
 │   │   ├── images-upload/            # Image reference upload
 │   │   ├── video-history.tsx         # User's video library
 │   │   ├── custom-player.tsx         # Remotion player wrapper
@@ -275,9 +273,6 @@ NEXT_PUBLIC_SITE_URL=http://localhost:3000
 LEMONSQUEEZY_API_KEY=
 LEMONSQUEEZY_STORE_ID=
 LEMONSQUEEZY_SIGNATURE_SECRET=
-
-# ElevenLabs (Voices)
-ELEVENLABS_API_KEY=
 
 # Analytics
 NEXT_PUBLIC_MIXPANEL_TOKEN=
