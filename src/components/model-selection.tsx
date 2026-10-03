@@ -8,83 +8,20 @@ import {
   DropdownMenuRadioItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { MODELS } from "@/lib/models";
 import { useParamStore } from "@/store/params.store";
 import { useUserStore } from "@/store/user.store";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import Image from "next/image";
 import { Badge } from "./ui/badge";
 
-const models = [
-  {
-    name: "Claude Sonnet 4",
-    value: "anthropic/claude-sonnet-4",
-    icon: "/models-icons/anthropic.svg",
-    premuim: false,
-  },
-  {
-    name: "Claude Sonnet 4.5",
-    value: "anthropic/claude-sonnet-4.5",
-    icon: "/models-icons/anthropic.svg",
-    premuim: false,
-  },
-  {
-    name: "Claude Opus 4.5",
-    value: "anthropic/claude-opus-4.5",
-    icon: "/models-icons/anthropic.svg",
-    premuim: false,
-  },
-  {
-    name: "GPT 5.2",
-    value: "openai/gpt-5.2",
-    icon: "/models-icons/openai.svg",
-    premuim: false,
-  },
-  {
-    name: "GPT 5.2 Codex",
-    value: "openai/gpt-5.2-codex",
-    icon: "/models-icons/openai.svg",
-    premuim: false,
-  },
-  {
-    name: "Gemini 3 Pro Preview",
-    value: "google/gemini-3-pro-preview",
-    icon: "/models-icons/google.svg",
-    premuim: false,
-  },
-
-  {
-    name: "Gemini 3 Flash",
-    value: "google/gemini-3-flash",
-    icon: "/models-icons/google.svg",
-    premuim: false,
-  },
-  {
-    name: "Gemini 3 Flash Preview",
-    value: "google/gemini-3-flash-preview",
-    icon: "/models-icons/google.svg",
-    premuim: false,
-  },
-  {
-    name: "Kimi K2.5",
-    value: "moonshotai/kimi-k2.5",
-    icon: "/models-icons/kimi.png",
-    premuim: false,
-  },
-  {
-    name: "Grok 4.1 Fast",
-    value: "x-ai/grok-4.1-fast",
-    icon: "/models-icons/xai.svg",
-    premuim: false,
-  },
-];
-
 export const ModelSelection = () => {
   const { profile } = useUserStore();
   const model = useParamStore((state) => state.model);
   const setModel = useParamStore((state) => state.setModel);
   const displayLabel =
-    models.find((m) => m.value === model.value)?.name || model.name;
-  const currentModel = models.find((m) => m.value === model.value);
+    MODELS.find((m) => m.value === model.value)?.name || model.name;
+  const currentModel = MODELS.find((m) => m.value === model.value);
 
   return (
     <DropdownMenu>
@@ -111,11 +48,11 @@ export const ModelSelection = () => {
         <DropdownMenuRadioGroup
           value={model.value}
           onValueChange={(value) => {
-            setModel(models.find((m) => m.value === value)!);
+            setModel(MODELS.find((m) => m.value === value)!);
           }}
           className="gap-1 flex flex-col"
         >
-          {models.map((model) => (
+          {MODELS.map((model) => (
             <DropdownMenuRadioItem
               key={model.value}
               value={model.value}

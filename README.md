@@ -115,6 +115,7 @@ gomotion/
 │   │   │   ├── index.ts              # esbuild-wasm bundler
 │   │   │   ├── externals-modules.ts  # Remotion/React external mapping
 │   │   │   └── fonts.ts              # Google Fonts loading
+│   │   ├── models.ts                 # LLM models offered in the picker (OpenRouter ids)
 │   │   ├── web-renderer/             # In-browser MP4 rendering (@remotion/web-renderer)
 │   │   ├── utils.ts                  # General utilities
 │   │   └── blog-data.ts              # Static blog content
