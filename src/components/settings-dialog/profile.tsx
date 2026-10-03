@@ -13,6 +13,11 @@ import { useUserStore } from "@/store/user.store";
 import Image from "next/image";
 import { useMemo } from "react";
 
+const providerLabels: Record<string, string> = {
+  google: "Google",
+  github: "GitHub",
+};
+
 export default function ProfileSettings() {
   const { user, profile } = useUserStore();
 
@@ -23,6 +28,14 @@ export default function ProfileSettings() {
     if (profile.subscription_status === "active") return "Subscribed";
     return "Unknown";
   }, [profile]);
+
+  const connectedProviders = useMemo(() => {
+    const providers: string[] = user?.app_metadata?.providers ?? [];
+    return providers
+      .map((provider) => providerLabels[provider])
+      .filter(Boolean)
+      .join(" · ");
+  }, [user]);
 
   return (
     <Card className="w-full bg-neutral-50 border-none">
@@ -55,6 +68,11 @@ export default function ProfileSettings() {
               {profile?.full_name || user?.email || "Unknown"}
             </div>
             <div className="text-sm text-neutral-500">{user?.email}</div>
+            {connectedProviders && (
+              <div className="text-xs text-neutral-500 mt-1">
+                Connected with {connectedProviders}
+              </div>
+            )}
           </div>
           <div className="flex items-center gap-2">
             <Badge variant="outline">{planName} Plan</Badge>

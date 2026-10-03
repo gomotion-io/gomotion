@@ -99,10 +99,6 @@ export default function HowToPage() {
             <CheckCircle2 className="w-6 h-6 text-emerald-500 flex-shrink-0" />
             <span>GitHub account</span>
           </li>
-          <li className="flex items-center gap-3">
-            <CheckCircle2 className="w-6 h-6 text-emerald-500 flex-shrink-0" />
-            <span>Email and password</span>
-          </li>
         </ul>
 
         {/* Placeholder for screenshot */}

@@ -1,103 +1,35 @@
-import { getEnvUrl } from "@/lib/utils";
 import { createClient } from "@/supabase/client";
 import { create } from "zustand/index";
 
+export type OAuthProvider = "google" | "github";
+
 type AuthState = {
-  loading: boolean;
+  pendingProvider: OAuthProvider | null;
   error: string | null;
-  mailSent: boolean;
-  register: ({
-    email,
-    password,
-  }: {
-    email: string;
-    password: string;
-  }) => Promise<void>;
-  signIn: ({
-    email,
-    password,
-  }: {
-    email: string;
-    password: string;
-  }) => Promise<void>;
-  forgotPassword: ({ email }: { email: string }) => Promise<void>;
-  updatePassword: ({ password }: { password: string }) => Promise<void>;
+  signInWithProvider: (provider: OAuthProvider) => Promise<void>;
+  reset: () => void;
 };
 
 export const useAuthStore = create<AuthState>((set) => ({
-  loading: false,
+  pendingProvider: null,
   error: null,
-  mailSent: false,
-  register: async ({ email, password }) => {
+  signInWithProvider: async (provider) => {
+    set({ pendingProvider: provider, error: null });
     const supabase = createClient();
-    set({ mailSent: false, loading: true, error: null });
 
-    const { data, error } = await supabase.auth.signUp({
-      email,
-      password,
+    // The callback must be on the current origin: the PKCE code verifier
+    // cookie is set on it before redirecting to the provider.
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider,
       options: {
-        emailRedirectTo: getEnvUrl(),
+        redirectTo: `${window.location.origin}/api/auth/callback?next=/explore`,
       },
     });
 
-    if (!error && data.user) {
-      set({ mailSent: true, loading: false });
-      return;
-    }
-
+    // On success the browser is redirected to the provider
     if (error) {
-      set({ error: error.message, loading: false });
-      return;
+      set({ error: error.message, pendingProvider: null });
     }
-
-    set({ loading: false });
   },
-  signIn: async ({ email, password }) => {
-    set({ loading: true, error: null, mailSent: false });
-    const supabase = createClient();
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
-
-    if (error) {
-      set({ error: error.message, loading: false });
-      return;
-    }
-
-    if (data.user) {
-      window.location.href = "/explore";
-      return;
-    }
-
-    set({ loading: false });
-  },
-  forgotPassword: async ({ email }) => {
-    set({ loading: true, error: null });
-    const supabase = createClient();
-    const { error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: `${getEnvUrl()}?settings=true`,
-    });
-
-    if (error) {
-      set({ error: error.message, loading: false });
-      return;
-    }
-
-    set({ mailSent: true, loading: false });
-  },
-  updatePassword: async ({ password }) => {
-    set({ loading: true, error: null, mailSent: false });
-    const supabase = createClient();
-    const { error } = await supabase.auth.updateUser({
-      password,
-    });
-
-    if (error) {
-      set({ error: error.message, loading: false });
-      return;
-    }
-
-    set({ loading: false });
-  },
+  reset: () => set({ pendingProvider: null, error: null }),
 }));

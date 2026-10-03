@@ -1,41 +1,54 @@
 "use client";
-import { Spinner } from "@/components/spinner";
 import { Button } from "@/components/ui/button";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { useAuthStore } from "@/store/auth.store";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { OAuthProvider, useAuthStore } from "@/store/auth.store";
+import { Github, Loader2 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useForm } from "react-hook-form";
-import * as z from "zod";
+import { ReactNode, useEffect } from "react";
 
-const FormSchema = z.object({
-  email: z.string().email(),
-  password: z.string(),
-});
+const providers: { id: OAuthProvider; label: string; icon: ReactNode }[] = [
+  {
+    id: "google",
+    label: "Continue with Google",
+    icon: (
+      <Image
+        src="/models-icons/google.svg"
+        alt=""
+        width={18}
+        height={18}
+        unoptimized
+      />
+    ),
+  },
+  {
+    id: "github",
+    label: "Continue with GitHub",
+    icon: <Github className="size-[18px]" />,
+  },
+];
 
-export type FormData = z.infer<typeof FormSchema>;
+type SignInProps = {
+  error?: string | null;
+};
 
-export const SignIn = () => {
-  const loading = useAuthStore((state) => state.loading);
+export const SignIn = ({ error: initialError }: SignInProps) => {
+  const pendingProvider = useAuthStore((state) => state.pendingProvider);
   const error = useAuthStore((state) => state.error);
-  const signIn = useAuthStore((state) => state.signIn);
+  const signInWithProvider = useAuthStore((state) => state.signInWithProvider);
+  const reset = useAuthStore((state) => state.reset);
 
-  const form = useForm<FormData>({
-    resolver: zodResolver(FormSchema),
-    defaultValues: {
-      email: "",
-      password: "",
-    },
-  });
+  // Re-enable the buttons when the page is restored from the back/forward
+  // cache after leaving for the provider.
+  useEffect(() => {
+    const handlePageShow = (event: PageTransitionEvent) => {
+      if (event.persisted) reset();
+    };
+
+    window.addEventListener("pageshow", handlePageShow);
+    return () => window.removeEventListener("pageshow", handlePageShow);
+  }, [reset]);
+
+  const displayedError = error ?? initialError;
 
   return (
     <div className="flex h-screen w-full px-5 sm:p-10 bg-stone-50">
@@ -51,79 +64,43 @@ export const SignIn = () => {
               unoptimized
             />
           </Link>
-          <div className="text-2xl mb-3">Login</div>
+          <div className="text-2xl font-medium mb-2">Welcome to Gomotion</div>
+          <p className="text-muted-foreground">Log in or create an account</p>
         </div>
 
-        <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(signIn)}
-            className="space-y-4 max-w-sm w-full"
-          >
-            <FormField
-              control={form.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <Label htmlFor="email">Email</Label>
-                  <FormControl>
-                    <Input
-                      placeholder="Email"
-                      {...field}
-                      className="shadow-none px-4 h-12 focus:ring-offset-0 focus:outline-none focus:ring-0"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="password"
-              render={({ field }) => (
-                <FormItem>
-                  <Label htmlFor="email">Password</Label>
-                  <FormControl>
-                    <Input
-                      placeholder="Password"
-                      {...field}
-                      type="password"
-                      className="shadow-none px-4 h-12 focus:ring-offset-0 focus:outline-none focus:ring-0"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
+        <div className="space-y-4 max-w-sm w-full">
+          {providers.map((provider) => (
             <Button
-              type="submit"
-              className="w-full mt-1 gap-4 h-12"
-              disabled={loading}
+              key={provider.id}
+              type="button"
+              variant="outline"
+              className="w-full h-12 gap-3"
+              disabled={pendingProvider !== null}
+              onClick={() => signInWithProvider(provider.id)}
             >
-              Login
-              {loading && <Spinner />}
+              {pendingProvider === provider.id ? (
+                <Loader2 className="size-[18px] animate-spin" />
+              ) : (
+                provider.icon
+              )}
+              {provider.label}
             </Button>
+          ))}
 
-            <Link href="/register">
-              <div className="text-muted-foreground text-end text-sm mb-2">
-                No account ?{" "}
-                <span className="text-primary underline">Register here </span>
-              </div>
+          <p className="text-muted-foreground text-center text-sm pt-2">
+            By continuing, you agree to our{" "}
+            <Link href="/terms" className="text-primary underline">
+              terms and conditions
             </Link>
+            .
+          </p>
 
-            <Link href="/forgot-password">
-              <div className="text-muted-foreground text-end text-sm">
-                Forgot password ?{" "}
-                <span className="text-primary underline">
-                  Reset password here
-                </span>
-              </div>
-            </Link>
-
-            {error && <div className="text-sm text-red-500 mt-4">{error}</div>}
-          </form>
-        </Form>
+          {displayedError && (
+            <div className="text-sm text-red-500 text-center">
+              {displayedError}
+            </div>
+          )}
+        </div>
       </div>
 
       {/* ---------- Right / Image section ---------- */}
