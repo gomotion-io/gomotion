@@ -1,3 +1,4 @@
+import { DEFAULT_MODEL } from "@/lib/models";
 import { z } from "zod";
 
 export type Context = "classic" | "creative" | "narrative";
@@ -6,7 +7,7 @@ export const AnimatorInputSchema = z.object({
   instruction: z.string(),
   metadata: z.string().optional().default("width: 1080, height: 1920, fps: 30"),
   contextModel: z.enum(["classic", "creative", "narrative"]).default("classic"),
-  model: z.string().default("anthropic/claude-sonnet-4"),
+  model: z.string().default(DEFAULT_MODEL.value),
   apiKey: z.string(),
   images: z.array(z.string()).optional(),
   previousCode: z.any().optional(),

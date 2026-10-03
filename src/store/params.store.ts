@@ -1,3 +1,4 @@
+import { DEFAULT_MODEL, Model } from "@/lib/models";
 import { create } from "zustand";
 
 export enum AspectRatio {
@@ -12,12 +13,6 @@ export enum Context {
   Classic = "classic",
   Narrative = "narrative",
 }
-
-type Model = {
-  name: string;
-  value: string;
-  icon: string;
-};
 
 export type ParamsState = {
   prompt: string;
@@ -42,11 +37,7 @@ export const useParamStore = create<ParamsState>((set) => ({
   context: Context.Creative,
   images: [],
   uploadImageError: null,
-  model: {
-    name: "Claude Sonnet 4",
-    value: "anthropic/claude-sonnet-4",
-    icon: "/models-icons/anthropic.svg",
-  },
+  model: DEFAULT_MODEL,
   setModel: (model: Model) => set({ model }),
   setPrompt: (prompt) => set({ prompt }),
   setAspectRatio: (aspectRatio: AspectRatio) => set({ aspectRatio }),
@@ -67,10 +58,6 @@ export const useParamStore = create<ParamsState>((set) => ({
       context: Context.Creative,
       images: [],
       uploadImageError: null,
-      model: {
-        name: "Claude Sonnet 4",
-        value: "anthropic/claude-sonnet-4",
-        icon: "/models-icons/anthropic.svg",
-      },
+      model: DEFAULT_MODEL,
     }),
 }));

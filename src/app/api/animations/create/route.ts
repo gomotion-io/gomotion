@@ -1,6 +1,7 @@
 import { imagesToDataUrls } from "@/app/api/utils/images-to-data-urls";
 import { validateUser } from "@/app/api/utils/validate-user";
 import { createAnimation, Context } from "@/lib/agent";
+import { DEFAULT_MODEL } from "@/lib/models";
 import { Json } from "@/supabase/generated/database.types";
 import { getProfile } from "@/supabase/server-functions/profile";
 import { createVideo } from "@/supabase/server-functions/videos";
@@ -62,7 +63,7 @@ export async function POST(request: NextRequest) {
       instruction: prompt,
       metadata: `width: ${width}, height: ${height}, fps: 30`,
       contextModel: context as Context,
-      model: model || "anthropic/claude-sonnet-4",
+      model: model || DEFAULT_MODEL.value,
       apiKey: profile.open_router_api_key,
       images: images.length > 0 ? images : undefined,
     });
