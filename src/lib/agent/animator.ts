@@ -100,6 +100,9 @@ Do not include any introductory text, explanations, or markdown.`;
         previousCode: lastOutput ?? input.previousCode,
       });
 
+      // Keep the output so a failed validation is fixed on the next attempt
+      lastOutput = output;
+
       // Validate the output structure
       if (!output.title || !output.meta || !output.files) {
         throw new Error("Invalid output structure: missing required fields");
@@ -151,10 +154,6 @@ Do not include any introductory text, explanations, or markdown.`;
       console.error(`[AGENT] Attempt ${attempts} failed:`, errorMessage);
 
       lastError = errorMessage;
-      if (lastOutput === undefined) {
-        // If we don't have a previous output yet, we can't do a fix attempt
-        // Just continue to the next iteration
-      }
 
       if (attempts >= MAX_ATTEMPTS) {
         return {

@@ -14,6 +14,10 @@ export async function POST(request: NextRequest) {
 
     const video = await getVideo({ id });
 
+    if (!video) {
+      return Response.json({ error: "Video not found" }, { status: 404 });
+    }
+
     return Response.json(video);
   } catch (error) {
     console.error("Fetch video error:", error);

@@ -69,7 +69,7 @@ export const getVideo = async ({ id }: GetVideo) => {
     .from("videos")
     .select("*")
     .eq("id", id)
-    .single();
+    .maybeSingle();
 
   if (error) throw error;
 
