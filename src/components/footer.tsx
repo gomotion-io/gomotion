@@ -53,7 +53,7 @@ export const Footer = () => {
   const signups = [
     {
       title: "Sign Up",
-      href: "/register",
+      href: "/sign-in",
     },
     {
       title: "Login",
@@ -64,9 +64,7 @@ export const Footer = () => {
   const pathname = usePathname();
   const shouldHide =
     pathname.startsWith("/sign-in") ||
-    pathname.startsWith("/explore") ||
-    pathname.startsWith("/register") ||
-    pathname.startsWith("/forgot-password");
+    pathname.startsWith("/explore");
 
   if (shouldHide) {
     return null;

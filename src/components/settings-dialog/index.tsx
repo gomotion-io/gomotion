@@ -2,7 +2,6 @@
 
 import {
   Key,
-  Lock,
   LogOutIcon,
   LucideIcon,
   UserRound,
@@ -36,7 +35,6 @@ import { SettingsTab, useUiStore } from "@/store/ui.store";
 import { useUserStore } from "@/store/user.store";
 import { useRouter } from "next/navigation";
 import { ApiKeySettings } from "./api-key";
-import { Password } from "./password";
 import ProfileSettings from "./profile";
 
 const data: { nav: { name: SettingsTab; label: string; icon: LucideIcon }[] } =
@@ -44,7 +42,6 @@ const data: { nav: { name: SettingsTab; label: string; icon: LucideIcon }[] } =
     nav: [
       { name: "profile", label: "Profile", icon: UserRound },
       { name: "api-key", label: "API Key", icon: Key },
-      { name: "password", label: "Change password", icon: Lock },
       { name: "logout", label: "Logout", icon: LogOutIcon },
     ],
   };
@@ -128,7 +125,6 @@ export function SettingsDialog() {
             <div className="flex flex-1 flex-col gap-4 overflow-y-auto p-4 pt-0">
               {activeTab === "profile" && <ProfileSettings />}
               {activeTab === "api-key" && <ApiKeySettings />}
-              {activeTab === "password" && <Password />}
             </div>
           </main>
         </SidebarProvider>

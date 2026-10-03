@@ -20,9 +20,7 @@ export const Header: FunctionComponent<HeaderProps> = ({ user }) => {
   const pathname = usePathname();
   const shouldHide =
     pathname.startsWith("/sign-in") ||
-    pathname.startsWith("/explore") ||
-    pathname.startsWith("/register") ||
-    pathname.startsWith("/forgot-password");
+    pathname.startsWith("/explore");
 
   const headerRef = useRef<HTMLDivElement>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -156,7 +154,7 @@ export const Header: FunctionComponent<HeaderProps> = ({ user }) => {
                   {starCount !== null ? starCount.toLocaleString() : "—"}
                 </span>
               </a>
-              <Link href="/register">
+              <Link href="/sign-in">
                 <Button className="rounded-full px-4 py-2 text-sm shadow-sm font-medium">
                   Get started
                 </Button>
@@ -261,7 +259,7 @@ export const Header: FunctionComponent<HeaderProps> = ({ user }) => {
             >
               Login
             </Link>
-            <Link href="/register" onClick={() => setMobileMenuOpen(false)}>
+            <Link href="/sign-in" onClick={() => setMobileMenuOpen(false)}>
               <Button size="lg" className="rounded-full">
                 Get started
               </Button>

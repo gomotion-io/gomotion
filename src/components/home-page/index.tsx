@@ -72,7 +72,7 @@ export const HomePage = () => {
             <PromptInput
               className="min-h-[130px]  bg-neutral-50/90 z-1 border-[4px] border-indigo-500"
               landingButton={
-                <Link href="/register">
+                <Link href="/sign-in">
                   <Button
                     variant="ghost"
                     className="rounded-full bg-indigo-200 font-medium text-indigo-900 hover:bg-indigo-300"
@@ -107,7 +107,7 @@ export const HomePage = () => {
                 <PromptInput
                   className="min-h-[130px] rounded-2xl bg-white/90 backdrop-blur-sm border border-neutral-200 shadow-sm"
                   landingButton={
-                    <Link href="/register">
+                    <Link href="/sign-in">
                       <Button
                         variant="ghost"
                         className="rounded-full bg-indigo-200 font-medium text-indigo-900 hover:bg-indigo-300"
