@@ -29,7 +29,7 @@ export const ModelSelection = () => {
         className="focus-visible:ring-0 focus-visible:border-border"
         asChild
       >
-        <Button className="rounded-full p-1.5" variant="outline">
+        <Button className="rounded-full p-1.5 gap-1 sm:gap-2" variant="outline">
           {currentModel && (
             <Image
               src={currentModel.icon}
@@ -40,7 +40,7 @@ export const ModelSelection = () => {
             />
           )}
           <div className="sm:block hidden">{displayLabel}</div>
-          <ChevronDownIcon className="w-5 h-5" />
+          <ChevronDownIcon className="size-4 sm:size-5 max-[359px]:hidden" />
         </Button>
       </DropdownMenuTrigger>
 

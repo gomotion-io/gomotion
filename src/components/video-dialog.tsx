@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
 import { ReactNode } from "react";
+import { VideoSources } from "./lazy-video";
 
 interface VideoDialogProps {
   src: string;
@@ -41,13 +42,14 @@ export const VideoDialog = ({
         <div className="w-full">
           <video
             id={title}
-            src={src}
             controls
             autoPlay
             playsInline
             muted
             className="w-full h-auto max-h-[70vh] rounded-md"
-          />
+          >
+            <VideoSources src={src} />
+          </video>
         </div>
         <DialogFooter className="mb-4 flex flex-col gap-2 sm:flex-row sm:justify-between sm:items-center">
           <DialogDescription className="flex flex-col gap-2">

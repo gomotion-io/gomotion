@@ -29,9 +29,9 @@ export const RatioSelection = () => {
       <DropdownMenu>
         <TooltipTrigger asChild>
           <DropdownMenuTrigger asChild>
-            <Button className="rounded-full p-1.5" variant="outline">
+            <Button className="rounded-full p-1.5 gap-1 sm:gap-2" variant="outline">
               {displayLabel}
-              <ChevronDownIcon className="w-5 h-5" />
+              <ChevronDownIcon className="size-4 sm:size-5 max-[359px]:hidden" />
             </Button>
           </DropdownMenuTrigger>
         </TooltipTrigger>

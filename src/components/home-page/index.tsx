@@ -87,7 +87,7 @@ export const HomePage = () => {
         </div>
       </section> */}
       <section className="relative flex min-h-screen items-center justify-center overflow-hidden">
-        <div className="mx-auto w-full max-w-[90rem] px-5 lg:px-12">
+        <div className="mx-auto w-full max-w-[90rem]">
           <div className="flex flex-col items-center text-center gap-6">
             {/* Headline */}
             <h1 className="text-4xl sm:text-5xl lg:text-7xl max-w-3xl font-neue-montreal font-bold tracking-tight">
@@ -145,32 +145,32 @@ export const HomePage = () => {
         </div>
         <div className={cn(gridBase, "py-20")}>
           <Tile
-            src="https://uftbovflyenqlyxvpybv.supabase.co/storage/v1/object/public/website-assets/astra.mov"
+            src="https://uftbovflyenqlyxvpybv.supabase.co/storage/v1/object/public/website-assets/v2/astra"
             title="Astra Animation"
             description="A cinematic 3D particle explosion revealing the logo for ASTRA"
           />
           <Tile
-            src="https://uftbovflyenqlyxvpybv.supabase.co/storage/v1/object/public/website-assets/text_stomp.mp4"
+            src="https://uftbovflyenqlyxvpybv.supabase.co/storage/v1/object/public/website-assets/v2/text_stomp"
             title="Text Stomp"
             description="A vibrant, highly dynamic kinetic typography of 'gomotion the new after effect'"
           />
           <Tile
-            src="https://uftbovflyenqlyxvpybv.supabase.co/storage/v1/object/public/website-assets/fireship_intro.mp4"
+            src="https://uftbovflyenqlyxvpybv.supabase.co/storage/v1/object/public/website-assets/v2/fireship_intro"
             title="Fireship Intro"
             description="A fireship-style intro to the brand Fireship, featuring a futuristic voiceover saying '100 second of code"
           />
           <Tile
-            src="https://uftbovflyenqlyxvpybv.supabase.co/storage/v1/object/public/website-assets/random-text.mp4"
+            src="https://uftbovflyenqlyxvpybv.supabase.co/storage/v1/object/public/website-assets/v2/random-text"
             title="Gomotion typing"
             description="Create an apple ads random text animation"
           />
           <Tile
-            src="https://uftbovflyenqlyxvpybv.supabase.co/storage/v1/object/public/website-assets/symphony-of-motion.mp4"
+            src="https://uftbovflyenqlyxvpybv.supabase.co/storage/v1/object/public/website-assets/v2/symphony-of-motion"
             title="Symphony of Motion"
             description="Create a colorful kinetic typography animation with a text 'Symphony of Motion'"
           />
           <Tile
-            src="https://uftbovflyenqlyxvpybv.supabase.co/storage/v1/object/public/website-assets/nike-short.mp4"
+            src="https://uftbovflyenqlyxvpybv.supabase.co/storage/v1/object/public/website-assets/v2/nike-short"
             title="Nike Short"
             description="Create a nike short animation with a text 'Nike Short'"
           />
@@ -183,7 +183,7 @@ export const HomePage = () => {
         </h2>
         <div className="w-full xl:h-[45rem] bg-neutral-50 pt-4 rounded-3xl border-emerald-500 border-4 overflow-hidden">
           <LazyVideo
-            src="https://uftbovflyenqlyxvpybv.supabase.co/storage/v1/object/public/website-assets/jdi-mobile.mp4"
+            src="https://uftbovflyenqlyxvpybv.supabase.co/storage/v1/object/public/website-assets/v2/jdi-mobile"
             className="w-full h-full"
           />
         </div>
@@ -192,7 +192,7 @@ export const HomePage = () => {
           <div className="w-full xl:w-2/3 flex items-center justify-center">
             <div className="flex flex-col items-center justify-center">
               <LazyVideo
-                src="https://uftbovflyenqlyxvpybv.supabase.co/storage/v1/object/public/website-assets/jdi.mp4"
+                src="https://uftbovflyenqlyxvpybv.supabase.co/storage/v1/object/public/website-assets/v2/jdi"
                 className="w-full h-full object-cover"
               />
             </div>
@@ -239,8 +239,8 @@ export const HomePage = () => {
         </div>
 
         <LazyVideo
-          src="https://uftbovflyenqlyxvpybv.supabase.co/storage/v1/object/public/website-assets/phone-reveal.mp4"
-          className="w-auto max-w-full h-[35rem] border-4 border-amber-500 rounded-3xl"
+          src="https://uftbovflyenqlyxvpybv.supabase.co/storage/v1/object/public/website-assets/v2/phone-reveal"
+          className="w-auto max-w-full h-[35rem] aspect-[1996/2160] border-4 border-amber-500 rounded-3xl"
         />
       </section>
 
@@ -263,8 +263,8 @@ export const HomePage = () => {
         </div>
 
         <LazyVideo
-          src="https://uftbovflyenqlyxvpybv.supabase.co/storage/v1/object/public/website-assets/brand-import.mp4"
-          className="w-auto max-w-full h-[35rem] border-4 border-indigo-500 rounded-3xl"
+          src="https://uftbovflyenqlyxvpybv.supabase.co/storage/v1/object/public/website-assets/v2/brand-import"
+          className="w-auto max-w-full h-[35rem] aspect-[1644/1080] border-4 border-indigo-500 rounded-3xl"
         />
       </section>
 
@@ -321,41 +321,41 @@ export const HomePage = () => {
 
 const shapesVideo = [
   {
-    src: "https://uftbovflyenqlyxvpybv.supabase.co/storage/v1/object/public/website-assets/bar-chart-ai-models.mp4",
+    src: "https://uftbovflyenqlyxvpybv.supabase.co/storage/v1/object/public/website-assets/v2/bar-chart-ai-models",
     title: "Best AI Models",
     description:
       "Create a bar chart representing the best ai models in a white background",
     className: "col-span-12 md:col-span-4 row-span-1",
   },
   {
-    src: "https://uftbovflyenqlyxvpybv.supabase.co/storage/v1/object/public/website-assets/chart.mp4",
+    src: "https://uftbovflyenqlyxvpybv.supabase.co/storage/v1/object/public/website-assets/v2/chart",
     title: "Chart",
     description: "Create a dynamic chart inspired from this image",
   },
   {
-    src: "https://uftbovflyenqlyxvpybv.supabase.co/storage/v1/object/public/website-assets/donut.mp4",
+    src: "https://uftbovflyenqlyxvpybv.supabase.co/storage/v1/object/public/website-assets/v2/donut",
     title: "Donut",
     description: "Create a donut chart animation fromt this image",
   },
   {
-    src: "https://uftbovflyenqlyxvpybv.supabase.co/storage/v1/object/public/website-assets/countdown.mov",
+    src: "https://uftbovflyenqlyxvpybv.supabase.co/storage/v1/object/public/website-assets/v2/countdown",
     title: "Countdown",
     description: "Create a countdown animation with a text 'Countdown'",
     className: "col-span-12 md:col-span-4 row-span-2",
   },
 
   {
-    src: "https://uftbovflyenqlyxvpybv.supabase.co/storage/v1/object/public/website-assets/iphone-message.mp4",
+    src: "https://uftbovflyenqlyxvpybv.supabase.co/storage/v1/object/public/website-assets/v2/iphone-message",
     title: "Iphone Message",
     description: "Create a message animation on an iphone",
   },
   {
-    src: "https://uftbovflyenqlyxvpybv.supabase.co/storage/v1/object/public/website-assets/kynetic-button.mov",
+    src: "https://uftbovflyenqlyxvpybv.supabase.co/storage/v1/object/public/website-assets/v2/kynetic-button",
     title: "Kynetic Button",
     description: "Create a kynetic button animation",
   },
   {
-    src: "https://uftbovflyenqlyxvpybv.supabase.co/storage/v1/object/public/website-assets/cryptic.mp4",
+    src: "https://uftbovflyenqlyxvpybv.supabase.co/storage/v1/object/public/website-assets/v2/cryptic",
     title: "Cryptic",
     description: "Create futuristic animation with a text 'Cryptic'",
   },

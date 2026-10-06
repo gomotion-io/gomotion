@@ -81,10 +81,10 @@ export const PromptInput: FC<PromptInputProps> = ({
           }
         }}
       />
-      <div className="absolute bottom-0 z-50 right-0 p-2 w-full flex flex-row justify-between gap-2 items-center">
+      <div className="absolute bottom-0 z-50 right-0 p-2 w-full flex flex-row justify-between gap-1 sm:gap-2 items-center">
         <ImagesUpload />
 
-        <div className="flex flex-row gap-2">
+        <div className="flex flex-row gap-1 sm:gap-2">
           <ModelSelection />
           <RatioSelection />
           <ContextSelection />

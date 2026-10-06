@@ -44,7 +44,7 @@ export const ContextSelection = () => {
         <TooltipTrigger asChild>
           <DropdownMenuTrigger asChild>
             <Button
-              className="rounded-full p-1.5"
+              className="rounded-full p-1.5 gap-1 sm:gap-2"
               variant="outline"
               disabled={context === Context.Narrative}
             >
@@ -54,7 +54,7 @@ export const ContextSelection = () => {
               <div className="sm:hidden block">
                 {contexts[context].label.slice(0, 2).toUpperCase()}
               </div>
-              <ChevronDownIcon className="w-5 h-5" />
+              <ChevronDownIcon className="size-4 sm:size-5 max-[359px]:hidden" />
             </Button>
           </DropdownMenuTrigger>
         </TooltipTrigger>

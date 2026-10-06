@@ -78,7 +78,7 @@ export const Header: FunctionComponent<HeaderProps> = ({ user }) => {
         </div>
 
         {/* Desktop navigation (items unchanged, softer styling only) */}
-        <div className="hidden sm:flex items-center gap-6">
+        <div className="hidden lg:flex items-center gap-6">
           {user ? (
             <div className="flex items-center gap-6">
               <Link
@@ -164,7 +164,7 @@ export const Header: FunctionComponent<HeaderProps> = ({ user }) => {
         </div>
 
         {/* Mobile actions (unchanged logic) */}
-        <div className="flex items-center gap-3 sm:hidden">
+        <div className="flex items-center gap-3 lg:hidden">
           {!user?.id ? (
             <button
               type="button"
