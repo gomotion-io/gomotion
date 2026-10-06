@@ -10,6 +10,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Link from "next/link";
 import { useRef } from "react";
 import { gridBase, Tile } from "../bento";
+import { LazyVideo } from "../lazy-video";
 
 export const HomePage = () => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -181,13 +182,8 @@ export const HomePage = () => {
           Discover the Narrative Mode
         </h2>
         <div className="w-full xl:h-[45rem] bg-neutral-50 pt-4 rounded-3xl border-emerald-500 border-4 overflow-hidden">
-          <video
+          <LazyVideo
             src="https://uftbovflyenqlyxvpybv.supabase.co/storage/v1/object/public/website-assets/jdi-mobile.mp4"
-            preload="metadata"
-            playsInline
-            autoPlay
-            muted
-            loop
             className="w-full h-full"
           />
         </div>
@@ -195,13 +191,8 @@ export const HomePage = () => {
         <div className="flex flex-col-reverse xl:flex-row gap-10 md:gap-16">
           <div className="w-full xl:w-2/3 flex items-center justify-center">
             <div className="flex flex-col items-center justify-center">
-              <video
+              <LazyVideo
                 src="https://uftbovflyenqlyxvpybv.supabase.co/storage/v1/object/public/website-assets/jdi.mp4"
-                preload="metadata"
-                playsInline
-                autoPlay
-                muted
-                loop
                 className="w-full h-full object-cover"
               />
             </div>
@@ -247,14 +238,9 @@ export const HomePage = () => {
           </h3>
         </div>
 
-        <video
+        <LazyVideo
           src="https://uftbovflyenqlyxvpybv.supabase.co/storage/v1/object/public/website-assets/phone-reveal.mp4"
-          preload="metadata"
-          playsInline
-          autoPlay
-          muted
-          loop
-          className="w-auto h-[35rem] border-4 border-amber-500 rounded-3xl"
+          className="w-auto max-w-full h-[35rem] border-4 border-amber-500 rounded-3xl"
         />
       </section>
 
@@ -276,14 +262,9 @@ export const HomePage = () => {
           </h3>
         </div>
 
-        <video
+        <LazyVideo
           src="https://uftbovflyenqlyxvpybv.supabase.co/storage/v1/object/public/website-assets/brand-import.mp4"
-          preload="metadata"
-          playsInline
-          autoPlay
-          muted
-          loop
-          className="w-auto h-[35rem] border-4 border-indigo-500 rounded-3xl"
+          className="w-auto max-w-full h-[35rem] border-4 border-indigo-500 rounded-3xl"
         />
       </section>
 

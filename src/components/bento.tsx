@@ -1,4 +1,5 @@
 import { cn } from "@/lib/utils";
+import { LazyVideo } from "./lazy-video";
 import { VideoDialog } from "./video-dialog";
 
 type TileProps = {
@@ -16,15 +17,7 @@ export const Tile: React.FC<TileProps> = ({
 }) => (
   <div className={cn(className, "w-auto")}>
     <VideoDialog src={src} title={title} description={description}>
-      <video
-        src={src}
-        preload="metadata"
-        playsInline
-        autoPlay
-        muted
-        loop
-        className="w-full h-full object-cover"
-      />
+      <LazyVideo src={src} className="w-full h-full object-cover" />
     </VideoDialog>
   </div>
 );
